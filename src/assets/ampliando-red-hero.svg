@@ -1,0 +1,150 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" font-family="'Space Mono', monospace" style="background:#0a0a0f">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,200,0.04)" stroke-width="1"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ffc8;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#00ffc8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#4d96ff;stop-opacity:0.6"/>
+    </linearGradient>
+    <linearGradient id="fadeLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a0a0f;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a0a0f;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="fadeRight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a0a0f;stop-opacity:0"/>
+      <stop offset="100%" style="stop-color:#0a0a0f;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="400" fill="#0a0a0f"/>
+  <rect width="1200" height="400" fill="url(#grid)"/>
+
+  <!-- Ambient glow center -->
+  <ellipse cx="600" cy="200" rx="400" ry="180" fill="rgba(0,255,200,0.03)"/>
+
+  <!-- ── LEFT NETWORK (Red #1 / Oficina A) ── -->
+  <!-- Cloud/Globe shape -->
+  <rect x="40" y="60" width="180" height="50" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="130" y="81" text-anchor="middle" fill="#4d96ff" font-size="10" letter-spacing="2">INTERNET</text>
+  <text x="130" y="97" text-anchor="middle" fill="#6b6b8a" font-size="9">82.62.51.70</text>
+
+  <!-- Router left -->
+  <rect x="60" y="148" width="140" height="44" rx="2" fill="#12121a" stroke="#00ffc8" stroke-width="1.5"/>
+  <rect x="60" y="148" width="3" height="44" fill="#00ffc8"/>
+  <text x="80" y="167" fill="#00ffc8" font-size="10" font-weight="bold">ROUTER</text>
+  <text x="80" y="181" fill="#6b6b8a" font-size="9">Port Forwarding</text>
+
+  <!-- Firewall left -->
+  <rect x="60" y="228" width="140" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="60" y="228" width="3" height="44" fill="#ff6b6b"/>
+  <text x="80" y="247" fill="#ff6b6b" font-size="10" font-weight="bold">FIREWALL</text>
+  <text x="80" y="261" fill="#6b6b8a" font-size="9">Stateful / Stateless</text>
+
+  <!-- Switch left -->
+  <rect x="60" y="308" width="140" height="44" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="60" y="308" width="3" height="44" fill="#c77dff"/>
+  <text x="80" y="327" fill="#c77dff" font-size="10" font-weight="bold">SWITCH L2/L3</text>
+  <text x="80" y="341" fill="#6b6b8a" font-size="9">VLANs / MAC</text>
+
+  <!-- Vertical connectors left -->
+  <line x1="130" y1="110" x2="130" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="130" y1="192" x2="130" y2="228" stroke="#00ffc8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="130" y1="272" x2="130" y2="308" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Devices left -->
+  <rect x="40" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="58" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">PC</text>
+  <rect x="86" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="104" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">SRV</text>
+  <rect x="132" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="150" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">PC</text>
+  <line x1="58" y1="368" x2="90" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+  <line x1="104" y1="368" x2="130" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+  <line x1="150" y1="368" x2="170" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+
+  <!-- ── CENTER — VPN TUNNEL ── -->
+  <!-- Tunnel pipe -->
+  <rect x="260" y="185" width="680" height="30" rx="15" fill="rgba(0,255,200,0.04)" stroke="rgba(0,255,200,0.2)" stroke-width="1" stroke-dasharray="8,5"/>
+
+  <!-- Animated dots along tunnel -->
+  <circle cx="320" cy="200" r="4" fill="#00ffc8" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="450" cy="200" r="3" fill="#00ffc8" opacity="0.5"/>
+  <circle cx="600" cy="200" r="5" fill="#00ffc8" opacity="1" filter="url(#glow-soft)"/>
+  <circle cx="750" cy="200" r="3" fill="#00ffc8" opacity="0.5"/>
+  <circle cx="880" cy="200" r="4" fill="#00ffc8" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- VPN label center -->
+  <rect x="510" y="148" width="180" height="44" rx="2" fill="#12121a" stroke="#00ffc8" stroke-width="2"/>
+  <rect x="510" y="148" width="3" height="44" fill="#00ffc8"/>
+  <text x="530" y="167" fill="#00ffc8" font-size="11" font-weight="bold" letter-spacing="2" filter="url(#glow)">VPN TUNNEL</text>
+  <text x="530" y="183" fill="#6b6b8a" font-size="9">PPP · PPTP · IPSec</text>
+
+  <!-- Lock icon center -->
+  <rect x="618" y="218" width="24" height="20" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <path d="M 623 218 Q 623 208 630 208 Q 637 208 637 218" fill="none" stroke="#ffd93d" stroke-width="1.5"/>
+  <circle cx="630" cy="226" r="2" fill="#ffd93d"/>
+  <text x="630" y="252" text-anchor="middle" fill="#ffd93d" font-size="9">CIFRADO</text>
+
+  <!-- Tunnel arrows -->
+  <polygon points="940,200 928,194 928,206" fill="#00ffc8" filter="url(#glow)"/>
+  <polygon points="260,200 272,194 272,206" fill="#00ffc8" filter="url(#glow)"/>
+
+  <!-- CENTER TAG -->
+  <text x="600" y="36" text-anchor="middle" fill="#6b6b8a" font-size="10" letter-spacing="4">// AMPLIANDO TU RED</text>
+  <text x="600" y="72" text-anchor="middle" fill="#e8e8f0" font-size="28" font-weight="bold" letter-spacing="-1">Port Forwarding · VPN · Firewall</text>
+  <text x="600" y="96" text-anchor="middle" fill="#6b6b8a" font-size="12" letter-spacing="1">Routers · Switches · VLANs</text>
+  <line x1="400" y1="108" x2="800" y2="108" stroke="url(#lineGrad)" stroke-width="1"/>
+
+  <!-- ── RIGHT NETWORK (Red #2 / Oficina B) ── -->
+  <rect x="980" y="60" width="180" height="50" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="1070" y="81" text-anchor="middle" fill="#4d96ff" font-size="10" letter-spacing="2">INTERNET</text>
+  <text x="1070" y="97" text-anchor="middle" fill="#6b6b8a" font-size="9">45.33.12.88</text>
+
+  <rect x="1000" y="148" width="140" height="44" rx="2" fill="#12121a" stroke="#00ffc8" stroke-width="1.5"/>
+  <rect x="1000" y="148" width="3" height="44" fill="#00ffc8"/>
+  <text x="1020" y="167" fill="#00ffc8" font-size="10" font-weight="bold">ROUTER</text>
+  <text x="1020" y="181" fill="#6b6b8a" font-size="9">Port Forwarding</text>
+
+  <rect x="1000" y="228" width="140" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="1000" y="228" width="3" height="44" fill="#ff6b6b"/>
+  <text x="1020" y="247" fill="#ff6b6b" font-size="10" font-weight="bold">FIREWALL</text>
+  <text x="1020" y="261" fill="#6b6b8a" font-size="9">Stateful / Stateless</text>
+
+  <rect x="1000" y="308" width="140" height="44" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="1000" y="308" width="3" height="44" fill="#c77dff"/>
+  <text x="1020" y="327" fill="#c77dff" font-size="10" font-weight="bold">SWITCH L2/L3</text>
+  <text x="1020" y="341" fill="#6b6b8a" font-size="9">VLANs / MAC</text>
+
+  <line x1="1070" y1="110" x2="1070" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="1070" y1="192" x2="1070" y2="228" stroke="#00ffc8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="1070" y1="272" x2="1070" y2="308" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <rect x="980" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="998" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">PC</text>
+  <rect x="1026" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="1044" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">SRV</text>
+  <rect x="1072" y="368" width="36" height="22" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <text x="1090" y="383" text-anchor="middle" fill="#6b6b8a" font-size="8">PC</text>
+  <line x1="998" y1="368" x2="1030" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+  <line x1="1044" y1="368" x2="1070" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+  <line x1="1090" y1="368" x2="1110" y2="352" stroke="#6b6b8a" stroke-width="1"/>
+
+  <!-- Fade edges -->
+  <rect width="30" height="400" fill="url(#fadeLeft)"/>
+  <rect x="1170" width="30" height="400" fill="url(#fadeRight)"/>
+
+  <!-- Network labels -->
+  <text x="130" y="400" text-anchor="middle" fill="#1e1e2e" font-size="10" letter-spacing="2">RED #1</text>
+  <text x="1070" y="400" text-anchor="middle" fill="#1e1e2e" font-size="10" letter-spacing="2">RED #2</text>
+</svg>
