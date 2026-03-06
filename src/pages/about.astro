@@ -232,17 +232,19 @@ import Footer from '../components/Footer.astro';
 
 	.platforms-grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: 1fr 1.3fr 1fr;
 		gap: 16px;
 	}
 
 	.platform-card {
 		background: #12121a;
 		border: 1px solid #1e1e2e;
-		padding: 24px;
+		padding: 15px;
 		display: flex;
 		gap: 16px;
 		transition: border-color 0.2s;
+		overflow: hidden;
+		word-break: break-word;
 	}
 
 	.platform-card:hover { border-color: #2a2a3a; }
