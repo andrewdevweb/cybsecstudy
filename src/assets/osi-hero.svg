@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#12121a"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,200,0.04)" stroke-width="1"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-strong">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Subtle radial glow center-left -->
+  <radialGradient id="centerGlow" cx="35%" cy="50%" r="50%">
+    <stop offset="0%" style="stop-color:rgba(0,255,200,0.06)"/>
+    <stop offset="100%" style="stop-color:rgba(0,0,0,0)"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#centerGlow)"/>
+
+  <!-- LEFT SIDE: Title -->
+  <text x="80" y="120" font-family="monospace" font-size="13" fill="#00ffc8" letter-spacing="4" opacity="0.8">// MODELO DE REFERENCIA</text>
+  
+  <text x="76" y="220" font-family="Arial Black, sans-serif" font-size="110" font-weight="900" fill="#e8e8f0" letter-spacing="-4" filter="url(#glow)">OSI</text>
+  
+  <text x="80" y="270" font-family="monospace" font-size="14" fill="#6b6b8a" letter-spacing="2">Open Systems Interconnection</text>
+
+  <!-- Divider line -->
+  <line x1="80" y1="300" x2="400" y2="300" stroke="#1e1e2e" stroke-width="1"/>
+  <line x1="80" y1="300" x2="200" y2="300" stroke="#00ffc8" stroke-width="1" opacity="0.6"/>
+
+  <text x="80" y="330" font-family="monospace" font-size="12" fill="#6b6b8a">7 capas · Encapsulación · Protocolos</text>
+
+  <!-- Data flow animated dots -->
+  <circle cx="80" cy="380" r="3" fill="#00ffc8" opacity="0.8"/>
+  <circle cx="100" cy="380" r="2" fill="#00ffc8" opacity="0.5"/>
+  <circle cx="116" cy="380" r="1.5" fill="#00ffc8" opacity="0.3"/>
+
+  <!-- Bits flowing -->
+  <text x="80" y="420" font-family="monospace" font-size="11" fill="#1e2e1e" letter-spacing="3">01001000 01100101 01101100</text>
+  <text x="80" y="438" font-family="monospace" font-size="11" fill="#1a2a1a" letter-spacing="3">01101100 01101111 00100000</text>
+
+  <!-- RIGHT SIDE: Layer stack -->
+  <!-- Layer 7 - Application #ff6b9d -->
+  <rect x="550" y="40" width="580" height="72" rx="0" fill="#12121a" stroke="#ff6b9d" stroke-width="1"/>
+  <rect x="550" y="40" width="6" height="72" fill="#ff6b9d"/>
+  <rect x="550" y="40" width="72" height="72" fill="#ff6b9d"/>
+  <text x="586" y="84" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">7</text>
+  <text x="648" y="70" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#ff6b9d">Capa de Aplicación</text>
+  <text x="648" y="92" font-family="monospace" font-size="11" fill="#6b6b8a">HTTP · HTTPS · FTP · DNS · SMTP</text>
+  <text x="1090" y="82" font-family="monospace" font-size="10" fill="#ff6b9d" text-anchor="middle" opacity="0.7">PDU: DATOS</text>
+
+  <!-- Layer 6 - Presentation #ff9f43 -->
+  <rect x="550" y="120" width="580" height="72" rx="0" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="550" y="120" width="6" height="72" fill="#ff9f43"/>
+  <rect x="550" y="120" width="72" height="72" fill="#ff9f43"/>
+  <text x="586" y="164" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">6</text>
+  <text x="648" y="150" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#ff9f43">Capa de Presentación</text>
+  <text x="648" y="172" font-family="monospace" font-size="11" fill="#6b6b8a">SSL · TLS · JPEG · Cifrado</text>
+  <text x="1090" y="162" font-family="monospace" font-size="10" fill="#ff9f43" text-anchor="middle" opacity="0.7">PDU: DATOS</text>
+
+  <!-- Layer 5 - Session #ffd93d -->
+  <rect x="550" y="200" width="580" height="72" rx="0" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="550" y="200" width="6" height="72" fill="#ffd93d"/>
+  <rect x="550" y="200" width="72" height="72" fill="#ffd93d"/>
+  <text x="586" y="244" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">5</text>
+  <text x="648" y="230" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#ffd93d">Capa de Sesión</text>
+  <text x="648" y="252" font-family="monospace" font-size="11" fill="#6b6b8a">NetBIOS · RPC · Sesiones</text>
+  <text x="1090" y="242" font-family="monospace" font-size="10" fill="#ffd93d" text-anchor="middle" opacity="0.7">PDU: DATOS</text>
+
+  <!-- Layer 4 - Transport #6bcb77 -->
+  <rect x="550" y="280" width="580" height="72" rx="0" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <rect x="550" y="280" width="6" height="72" fill="#6bcb77"/>
+  <rect x="550" y="280" width="72" height="72" fill="#6bcb77"/>
+  <text x="586" y="324" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">4</text>
+  <text x="648" y="310" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#6bcb77">Capa de Transporte</text>
+  <text x="648" y="332" font-family="monospace" font-size="11" fill="#6b6b8a">TCP · UDP · Puertos</text>
+  <text x="1090" y="322" font-family="monospace" font-size="10" fill="#6bcb77" text-anchor="middle" opacity="0.7">PDU: SEGMENTO</text>
+
+  <!-- Layer 3 - Network #4d96ff -->
+  <rect x="550" y="360" width="580" height="72" rx="0" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="550" y="360" width="6" height="72" fill="#4d96ff"/>
+  <rect x="550" y="360" width="72" height="72" fill="#4d96ff"/>
+  <text x="586" y="404" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">3</text>
+  <text x="648" y="390" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#4d96ff">Capa de Red</text>
+  <text x="648" y="412" font-family="monospace" font-size="11" fill="#6b6b8a">IP · IPv6 · Router · OSPF</text>
+  <text x="1090" y="402" font-family="monospace" font-size="10" fill="#4d96ff" text-anchor="middle" opacity="0.7">PDU: PAQUETE</text>
+
+  <!-- Layer 2 - Data Link #c77dff -->
+  <rect x="550" y="440" width="580" height="72" rx="0" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="550" y="440" width="6" height="72" fill="#c77dff"/>
+  <rect x="550" y="440" width="72" height="72" fill="#c77dff"/>
+  <text x="586" y="484" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">2</text>
+  <text x="648" y="470" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#c77dff">Capa de Enlace de Datos</text>
+  <text x="648" y="492" font-family="monospace" font-size="11" fill="#6b6b8a">Ethernet · MAC · Switch</text>
+  <text x="1090" y="482" font-family="monospace" font-size="10" fill="#c77dff" text-anchor="middle" opacity="0.7">PDU: TRAMA</text>
+
+  <!-- Layer 1 - Physical #ff6b6b -->
+  <rect x="550" y="520" width="580" height="72" rx="0" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="550" y="520" width="6" height="72" fill="#ff6b6b"/>
+  <rect x="550" y="520" width="72" height="72" fill="#ff6b6b"/>
+  <text x="586" y="564" font-family="monospace" font-weight="bold" font-size="26" fill="#000" text-anchor="middle">1</text>
+  <text x="648" y="550" font-family="Arial, sans-serif" font-weight="bold" font-size="15" fill="#ff6b6b">Capa Física</text>
+  <text x="648" y="572" font-family="monospace" font-size="11" fill="#6b6b8a">Cables · Bits · Señales · Hub</text>
+  <text x="1090" y="562" font-family="monospace" font-size="10" fill="#ff6b6b" text-anchor="middle" opacity="0.7">PDU: BIT</text>
+
+  <!-- Arrow down between layers on far left -->
+  <text x="530" y="200" font-family="monospace" font-size="12" fill="#00ffc8" opacity="0.4" text-anchor="middle">↓</text>
+  <text x="530" y="280" font-family="monospace" font-size="12" fill="#00ffc8" opacity="0.4" text-anchor="middle">↓</text>
+  <text x="530" y="360" font-family="monospace" font-size="12" fill="#00ffc8" opacity="0.4" text-anchor="middle">↓</text>
+  <text x="530" y="440" font-family="monospace" font-size="12" fill="#00ffc8" opacity="0.4" text-anchor="middle">↓</text>
+  <text x="530" y="520" font-family="monospace" font-size="12" fill="#00ffc8" opacity="0.4" text-anchor="middle">↓</text>
+
+  <!-- Bottom tag -->
+  <text x="80" y="600" font-family="monospace" font-size="11" fill="#2a2a3a" letter-spacing="2">ISO/IEC 7498-1 · 1984 · cybsecstudy.netlify.app</text>
+</svg>
