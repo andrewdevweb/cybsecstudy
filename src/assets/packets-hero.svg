@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#0f0f1a"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,200,0.03)" stroke-width="1"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Radial glow -->
+  <radialGradient id="gl1" cx="30%" cy="50%" r="40%">
+    <stop offset="0%" style="stop-color:rgba(77,150,255,0.07)"/>
+    <stop offset="100%" style="stop-color:rgba(0,0,0,0)"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#gl1)"/>
+
+  <!-- LEFT: Title -->
+  <text x="80" y="115" font-family="monospace" font-size="12" fill="#4d96ff" letter-spacing="4" opacity="0.9">// CAPA 3 &amp; CAPA 2</text>
+  <text x="76" y="230" font-family="Arial Black, sans-serif" font-size="80" font-weight="900" fill="#e8e8f0" letter-spacing="-2">PACKETS</text>
+  <text x="76" y="300" font-family="Arial Black, sans-serif" font-size="80" font-weight="900" fill="#4d96ff" letter-spacing="-2" filter="url(#glow)">&amp; FRAMES</text>
+  <line x1="80" y1="325" x2="420" y2="325" stroke="#1e1e2e" stroke-width="1"/>
+  <line x1="80" y1="325" x2="240" y2="325" stroke="#4d96ff" stroke-width="1" opacity="0.5"/>
+  <text x="80" y="355" font-family="monospace" font-size="12" fill="#6b6b8a">TCP · UDP · Three-Way Handshake · Puertos</text>
+
+  <!-- TCP vs UDP pills -->
+  <rect x="80" y="390" width="100" height="32" rx="2" fill="none" stroke="#6bcb77" stroke-width="1"/>
+  <text x="130" y="411" font-family="monospace" font-size="12" fill="#6bcb77" text-anchor="middle">TCP</text>
+
+  <rect x="196" y="390" width="100" height="32" rx="2" fill="none" stroke="#ff9f43" stroke-width="1"/>
+  <text x="246" y="411" font-family="monospace" font-size="12" fill="#ff9f43" text-anchor="middle">UDP</text>
+
+  <!-- Bits row -->
+  <text x="80" y="480" font-family="monospace" font-size="11" fill="#1a2a1a" letter-spacing="2">01001000 01100101 01101100 01101100</text>
+  <text x="80" y="498" font-family="monospace" font-size="11" fill="#161e16" letter-spacing="2">01101111 00100000 01010111 01101111</text>
+
+  <text x="80" y="590" font-family="monospace" font-size="11" fill="#2a2a3a" letter-spacing="2">cybsecstudy.netlify.app</text>
+
+  <!-- RIGHT: Three-way handshake diagram -->
+  <!-- Client column -->
+  <rect x="600" y="40" width="120" height="40" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="660" y="65" font-family="monospace" font-size="13" fill="#6bcb77" text-anchor="middle" font-weight="bold">CLIENTE</text>
+
+  <!-- Server column -->
+  <rect x="980" y="40" width="120" height="40" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="1040" y="65" font-family="monospace" font-size="13" fill="#4d96ff" text-anchor="middle" font-weight="bold">SERVIDOR</text>
+
+  <!-- Vertical lines -->
+  <line x1="660" y1="80" x2="660" y2="560" stroke="#1e1e2e" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="1040" y1="80" x2="1040" y2="560" stroke="#1e1e2e" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- SYN -->
+  <line x1="660" y1="130" x2="1040" y2="170" stroke="#6bcb77" stroke-width="1.5"/>
+  <polygon points="1040,170 1025,162 1028,175" fill="#6bcb77"/>
+  <rect x="700" y="108" width="100" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="750" y="123" font-family="monospace" font-size="11" fill="#6bcb77" text-anchor="middle">SYN (ISN=0)</text>
+
+  <!-- SYN/ACK -->
+  <line x1="1040" y1="220" x2="660" y2="260" stroke="#4d96ff" stroke-width="1.5"/>
+  <polygon points="660,260 675,252 672,265" fill="#4d96ff"/>
+  <rect x="700" y="228" width="140" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="770" y="243" font-family="monospace" font-size="11" fill="#4d96ff" text-anchor="middle">SYN/ACK (ISN=5000)</text>
+
+  <!-- ACK -->
+  <line x1="660" y1="310" x2="1040" y2="350" stroke="#6bcb77" stroke-width="1.5"/>
+  <polygon points="1040,350 1025,342 1028,355" fill="#6bcb77"/>
+  <rect x="700" y="288" width="100" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="750" y="303" font-family="monospace" font-size="11" fill="#6bcb77" text-anchor="middle">ACK (seq=1)</text>
+
+  <!-- DATA -->
+  <line x1="660" y1="400" x2="1040" y2="400" stroke="#ffd93d" stroke-width="2"/>
+  <polygon points="1040,400 1025,393 1025,407" fill="#ffd93d"/>
+  <rect x="700" y="378" width="100" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="750" y="393" font-family="monospace" font-size="11" fill="#ffd93d" text-anchor="middle">DATA</text>
+
+  <!-- FIN -->
+  <line x1="660" y1="460" x2="1040" y2="500" stroke="#ff6b6b" stroke-width="1.5"/>
+  <polygon points="1040,500 1025,492 1028,505" fill="#ff6b6b"/>
+  <rect x="700" y="438" width="60" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="730" y="453" font-family="monospace" font-size="11" fill="#ff6b6b" text-anchor="middle">FIN</text>
+
+  <!-- FIN/ACK -->
+  <line x1="1040" y1="530" x2="660" y2="530" stroke="#ff6b6b" stroke-width="1.5"/>
+  <polygon points="660,530 675,523 675,537" fill="#ff6b6b"/>
+  <rect x="700" y="508" width="80" height="22" rx="2" fill="#0a0a0f"/>
+  <text x="740" y="523" font-family="monospace" font-size="11" fill="#ff6b6b" text-anchor="middle">FIN/ACK</text>
+
+  <!-- Label -->
+  <text x="850" y="600" font-family="monospace" font-size="11" fill="#2a2a3a" text-anchor="middle" letter-spacing="2">THREE-WAY HANDSHAKE</text>
+</svg>
