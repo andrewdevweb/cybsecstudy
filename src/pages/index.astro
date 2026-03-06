@@ -23,6 +23,37 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				</div>
 			</section>
 
+			<!-- APUNTES -->
+			<section class="section">
+				<div class="section-label">// últimos apuntes</div>
+				<div class="posts-grid">
+					<a href="/blog/packets-frames" class="post-card">
+						<div class="post-image">
+							<img src="/src/assets/packets-hero.svg" alt="Packets & Frames" />
+						</div>
+						<div class="post-body">
+							<div class="post-date">06 mar 2025</div>
+							<div class="post-title">Packets & Frames — TCP, UDP y Puertos</div>
+							<div class="post-desc">Paquetes, tramas, TCP vs UDP, el Three-Way Handshake y los puertos más importantes.</div>
+						</div>
+					</a>
+					<a href="/blog/modelo-osi" class="post-card">
+						<div class="post-image">
+							<img src="/src/assets/osi-hero.svg" alt="Modelo OSI" />
+						</div>
+						<div class="post-body">
+							<div class="post-date">06 mar 2025</div>
+							<div class="post-title">Modelo OSI — Las 7 Capas</div>
+							<div class="post-desc">Guía completa del Modelo de Interconexión de Sistemas Abiertos: capas, protocolos y encapsulación.</div>
+						</div>
+					</a>
+				</div>
+				<div style="margin-top: 24px;">
+					<a href="/blog" class="btn-secondary">Ver todos los apuntes →</a>
+				</div>
+			</section>
+
+			<!-- GUÍAS -->
 			<section class="section">
 				<div class="section-label">// guías interactivas</div>
 				<div class="cards">
@@ -34,14 +65,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 							<div class="card-tag">Redes</div>
 						</div>
 					</a>
-					<div class="card card-soon">
+					<a href="/guias/packets-frames" class="card">
 						<div class="card-num">02</div>
 						<div class="card-body">
-							<div class="card-title">Modelo TCP/IP</div>
-							<div class="card-desc">Próximamente...</div>
+							<div class="card-title">Packets & Frames</div>
+							<div class="card-desc">TCP, UDP, Three-Way Handshake y puertos principales.</div>
 							<div class="card-tag">Redes</div>
 						</div>
-					</div>
+					</a>
 					<div class="card card-soon">
 						<div class="card-num">03</div>
 						<div class="card-body">
@@ -51,11 +82,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 						</div>
 					</div>
 				</div>
-			</section>
-
-			<section class="section">
-				<div class="section-label">// últimos apuntes</div>
-				<a href="/blog" class="btn-secondary">Ver todos los apuntes →</a>
 			</section>
 		</main>
 		<Footer />
@@ -141,6 +167,76 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		margin-bottom: 24px;
 	}
 
+	/* POSTS */
+	.posts-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 16px;
+	}
+
+	.post-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		text-decoration: none;
+		display: flex;
+		flex-direction: column;
+		transition: all 0.2s;
+		overflow: hidden;
+	}
+
+	.post-card:hover {
+		border-color: #00ff9f;
+		transform: translateY(-2px);
+	}
+
+	.post-image {
+		width: 100%;
+		height: 160px;
+		overflow: hidden;
+		border-bottom: 1px solid #1e1e2e;
+		background: #0a0a0f;
+	}
+
+	.post-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0;
+		border: none;
+		transition: transform 0.3s ease;
+	}
+
+	.post-card:hover .post-image img { transform: scale(1.03); }
+
+	.post-body {
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.post-date {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 10px;
+		letter-spacing: 1px;
+		color: #6b6b8a;
+		text-transform: uppercase;
+	}
+
+	.post-title {
+		font-size: 16px;
+		font-weight: 800;
+		color: #e8eaf0;
+		line-height: 1.3;
+	}
+
+	.post-desc {
+		font-size: 13px;
+		color: #6b6b8a;
+		line-height: 1.5;
+	}
+
+	/* GUÍAS */
 	.cards {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -203,5 +299,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		padding: 2px 8px;
 		display: inline-block;
 		margin-top: 8px;
+	}
+
+	@media (max-width: 640px) {
+		.posts-grid { grid-template-columns: 1fr; }
+		.cards { grid-template-columns: 1fr; }
 	}
 </style>
