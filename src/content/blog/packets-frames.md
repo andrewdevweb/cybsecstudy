@@ -1,5 +1,5 @@
 ---
-title: 'Packets & Frames — TCP, UDP y Puertos'
+title: 'Paquetes & Tramas — TCP, UDP y Puertos'
 description: 'Qué son los paquetes y tramas, cómo funcionan TCP y UDP, el three-way handshake y los puertos más importantes en ciberseguridad.'
 pubDate: 'Mar 06 2025'
 heroImage: '../../assets/packets-hero.svg'
