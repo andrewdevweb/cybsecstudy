@@ -1,0 +1,261 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<BaseHead title="Modelo OSI — CybSecStudy" description="Guía interactiva de las 7 capas del Modelo OSI con protocolos, responsabilidades y quiz." />
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<Header />
+	<main>
+		<div class="guide-header">
+			<div class="guide-tag">// Redes — Guía Interactiva</div>
+			<h1>Modelo <span class="accent">OSI</span></h1>
+			<p class="guide-desc">Open Systems Interconnection — El framework de 7 capas que define cómo los dispositivos se comunican en red. Haz clic en cada capa para expandirla.</p>
+		</div>
+
+		<div class="intro-card">
+			<p>El Modelo OSI proporciona un marco que dicta cómo todos los dispositivos en red <strong>enviarán, recibirán e interpretarán datos</strong>. Los datos que viajan por la red pasan por 7 capas, y en cada una se añade información — proceso conocido como <strong>encapsulación</strong>.</p>
+		</div>
+
+		<div class="section-label">// Las 7 Capas — clic para expandir</div>
+		<div class="layers-grid" id="layersGrid"></div>
+
+		<div class="section-label" style="margin-top:60px">// Encapsulación</div>
+		<p style="color:#6b6b8a;font-size:14px;margin-bottom:24px">Al enviar datos, cada capa añade su propia cabecera. Al recibir, cada capa elimina la suya.</p>
+		<div class="encap-visual" id="encapVisual"></div>
+
+		<div class="section-label" style="margin-top:60px">// Quiz</div>
+		<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+		<div class="quiz-card" id="quizCard">
+			<div class="quiz-question" id="quizQuestion"></div>
+			<div class="quiz-options" id="quizOptions"></div>
+			<div class="quiz-feedback" id="quizFeedback"></div>
+			<div class="quiz-nav">
+				<button class="btn" id="nextBtn" disabled>Siguiente →</button>
+				<span class="score" id="scoreLabel">0 / 0 correctas</span>
+			</div>
+		</div>
+	</main>
+	<Footer />
+</body>
+</html>
+
+<style>
+	.guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+	.guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+	h1 { font-size: clamp(36px, 6vw, 60px); letter-spacing: -2px; margin-bottom: 16px; }
+	.accent { color: #00ff9f; }
+	.guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+
+	.intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+	.intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
+	.intro-card strong { color: #00ff9f; }
+
+	.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+
+	.layers-grid { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+
+	.layer-card { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+	.layer-card:hover { transform: translateX(4px); border-color: var(--lc); }
+	.layer-card.active { border-color: var(--lc); }
+
+	.layer-num { width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; background: var(--lc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; color: #000; flex-shrink: 0; }
+	.layer-main { padding: 14px 20px; }
+	.layer-name { font-weight: 800; font-size: 16px; color: var(--lc); margin-bottom: 2px; }
+	.layer-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
+	.layer-badge { padding: 6px 14px; margin-right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; border: 1px solid var(--lc); color: var(--lc); opacity: 0.6; white-space: nowrap; }
+
+	.detail-panel { display: none; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; grid-column: 1/-1; }
+	.layer-card.active .detail-panel { display: block; }
+
+	.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+	.detail-block h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 8px; }
+	.detail-block p, .detail-block li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+	.detail-block ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+	.detail-block ul li::before { content: '▸ '; color: var(--lc); }
+	.protocol-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid #1e1e2e; color: var(--lc); display: inline-block; }
+	.chip { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; background: rgba(255,255,255,0.03); border: 1px solid #1e1e2e; color: var(--lc); }
+
+	.encap-visual { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; }
+	.encap-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+	.encap-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; width: 60px; color: #6b6b8a; flex-shrink: 0; text-align: right; }
+	.encap-data { display: flex; gap: 3px; flex-wrap: wrap; }
+	.encap-block { height: 32px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 0 10px; white-space: nowrap; }
+	.encap-block.data { background: rgba(255,255,255,0.04); color: #555; border: 1px dashed #333; }
+	.encap-block.header { color: #000; font-weight: 700; }
+	.arrow-down { text-align: center; color: #00ff9f; font-size: 16px; margin: 1px 0 1px 70px; }
+
+	.progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+	.progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+
+	.quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+	.quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+	.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+	.quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+	.quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+	.quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+	.quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+	.quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+	.quiz-feedback.show { display: block; }
+	.quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+	.quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+	.quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+	.btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+	.btn:hover { background: #00ff9f; color: #000; }
+	.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+	.btn:disabled:hover { background: transparent; color: #00ff9f; }
+	.score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+	@media (max-width: 640px) {
+		.detail-grid { grid-template-columns: 1fr; }
+		.layer-card { grid-template-columns: 48px 1fr; }
+		.layer-badge { display: none; }
+		.detail-panel { padding: 16px; }
+		.quiz-options { grid-template-columns: 1fr; }
+	}
+</style>
+
+<script>
+const layers = [
+  { num: 7, name: "Capa de Aplicación", en: "Application Layer", badge: "PDU: DATOS", color: "#ff6b9d", role: "Es la capa más cercana al usuario final. Proporciona interfaces de red para las aplicaciones del usuario, como navegadores web y clientes de email.", responsibilities: ["Interfaz entre aplicaciones y la red","Identificación de socios de comunicación","Sincronización de comunicación","Determinación de recursos disponibles"], protocols: ["HTTP","HTTPS","FTP","SMTP","DNS","POP3","IMAP","SSH"] },
+  { num: 6, name: "Capa de Presentación", en: "Presentation Layer", badge: "PDU: DATOS", color: "#ff9f43", role: "Traduce, cifra/descifra y comprime datos entre la capa de aplicación y las capas inferiores. Actúa como el 'traductor' de la red.", responsibilities: ["Traducción y formateo de datos","Cifrado y descifrado (SSL/TLS)","Compresión de datos","Serialización de datos"], protocols: ["SSL","TLS","JPEG","MPEG","GIF","ASCII","Unicode"] },
+  { num: 5, name: "Capa de Sesión", en: "Session Layer", badge: "PDU: DATOS", color: "#ffd93d", role: "Gestiona el establecimiento, mantenimiento y terminación de sesiones entre dispositivos.", responsibilities: ["Establecimiento de sesiones","Control de diálogo (simplex/dúplex)","Sincronización con puntos de control","Terminación de sesiones"], protocols: ["NetBIOS","RPC","PPTP","SAP","L2TP"] },
+  { num: 4, name: "Capa de Transporte", en: "Transport Layer", badge: "PDU: SEGMENTO", color: "#6bcb77", role: "Proporciona comunicación extremo a extremo, control de flujo y recuperación de errores.", responsibilities: ["Segmentación y reensamblaje","Control de flujo y congestión","Corrección de errores extremo a extremo","Multiplexación mediante puertos"], protocols: ["TCP","UDP","SCTP","DCCP"] },
+  { num: 3, name: "Capa de Red", en: "Network Layer", badge: "PDU: PAQUETE", color: "#4d96ff", role: "Gestiona el direccionamiento lógico (IP) y el enrutamiento de paquetes entre redes distintas. El router opera en esta capa.", responsibilities: ["Direccionamiento lógico (IP)","Enrutamiento de paquetes","Fragmentación y reensamblaje","Control de congestión"], protocols: ["IP","IPv6","ICMP","OSPF","BGP","RIP","ARP"] },
+  { num: 2, name: "Capa de Enlace de Datos", en: "Data Link Layer", badge: "PDU: TRAMA", color: "#c77dff", role: "Proporciona transferencia de datos confiable entre nodos directamente conectados. El switch opera aquí.", responsibilities: ["Direccionamiento físico (MAC)","Control de acceso al medio","Detección y corrección de errores","Sincronización de tramas"], protocols: ["Ethernet","Wi-Fi 802.11","PPP","MAC","HDLC"] },
+  { num: 1, name: "Capa Física", en: "Physical Layer", badge: "PDU: BIT", color: "#ff6b6b", role: "Define las características eléctricas y mecánicas de la transmisión de bits a través del medio físico.", responsibilities: ["Transmisión de bits (0s y 1s)","Definición de voltajes y señales","Especificaciones de cables y conectores","Sincronización de bits"], protocols: ["USB","Bluetooth","Ethernet físico","DSL","ISDN"] }
+];
+
+const grid = document.getElementById('layersGrid');
+layers.forEach(l => {
+  const card = document.createElement('div');
+  card.className = 'layer-card';
+  card.style.setProperty('--lc', l.color);
+  card.innerHTML = `
+    <div class="layer-num">${l.num}</div>
+    <div class="layer-main">
+      <div class="layer-name">${l.name}</div>
+      <div class="layer-sub">${l.en}</div>
+    </div>
+    <div class="layer-badge">${l.badge}</div>
+    <div class="detail-panel">
+      <div class="detail-grid">
+        <div class="detail-block"><h4>Función</h4><p>${l.role}</p></div>
+        <div class="detail-block"><h4>Responsabilidades</h4><ul>${l.responsibilities.map(r=>`<li>${r}</li>`).join('')}</ul></div>
+        <div class="detail-block" style="grid-column:1/-1"><h4>Protocolos</h4><div class="protocol-chips">${l.protocols.map(p=>`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;background:rgba(255,255,255,0.03);border:1px solid #1e1e2e;color:var(--lc);display:inline-block;margin:2px;">${p}</span>`).join('')}</div></div>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => {
+    const was = card.classList.contains('active');
+    document.querySelectorAll('.layer-card').forEach(c => c.classList.remove('active'));
+    if (!was) card.classList.add('active');
+  });
+  grid.appendChild(card);
+});
+
+// Encapsulation
+const ev = document.getElementById('encapVisual');
+const colors = [null,'#ff6b6b','#c77dff','#4d96ff','#6bcb77','#ffd93d','#ff9f43','#ff6b9d'];
+const headers = [null,'Señal','H2','H3','H4','H5','H6','H7'];
+[7,6,5,4,3,2,1].forEach((n, i) => {
+  const row = document.createElement('div');
+  row.className = 'encap-row';
+  let blocks = '';
+  for (let j = 0; j < i; j++) {
+    const ln = [7,6,5,4,3,2,1][j];
+    blocks += `<div class="encap-block header" style="background:${colors[ln]};min-width:28px">${headers[ln]}</div>`;
+  }
+  blocks += n === 1
+    ? `<div class="encap-block data" style="min-width:180px;border-color:#ff6b6b;color:#ff6b6b">01001000 01100101 01101100 01101100</div>`
+    : `<div class="encap-block data" style="min-width:${100+(7-i)*12}px">DATOS</div>`;
+  if (n === 2) blocks += `<div class="encap-block header" style="background:#c77dff;min-width:28px;opacity:0.6">FCS</div>`;
+  row.innerHTML = `<div class="encap-label">Capa ${n}</div><div class="encap-data">${blocks}</div>`;
+  ev.appendChild(row);
+  if (i < 6) { const a = document.createElement('div'); a.className = 'arrow-down'; a.textContent = '↓'; ev.appendChild(a); }
+});
+
+// Quiz
+const questions = [
+  { q: "¿En qué capa opera un router?", options: ["Capa 2 — Enlace","Capa 3 — Red","Capa 4 — Transporte","Capa 1 — Física"], correct: 1, exp: "Los routers operan en la Capa 3 porque trabajan con direcciones IP para enrutar paquetes entre redes." },
+  { q: "¿Qué protocolo de la Capa 4 garantiza entrega confiable?", options: ["UDP","IP","TCP","HTTP"], correct: 2, exp: "TCP garantiza entrega ordenada mediante acuses de recibo y retransmisiones." },
+  { q: "¿Cómo se llama el proceso de añadir cabeceras en cada capa?", options: ["Fragmentación","Encapsulación","Multiplexación","Enrutamiento"], correct: 1, exp: "La encapsulación es el proceso por el cual cada capa añade su propia cabecera a los datos." },
+  { q: "¿Qué PDU usa la Capa 2 (Enlace de Datos)?", options: ["Paquete","Segmento","Trama (Frame)","Bit"], correct: 2, exp: "La Capa 2 usa Tramas. Cada capa tiene su PDU: Capa 3 = Paquete, Capa 4 = Segmento, Capa 1 = Bit." },
+  { q: "¿Cuál es la función de la Capa 6 (Presentación)?", options: ["Enrutar paquetes","Cifrar y traducir datos","Establecer sesiones","Transmitir bits"], correct: 1, exp: "La Capa de Presentación se encarga del cifrado/descifrado, compresión y conversión de formatos." },
+  { q: "¿En qué capa se usan las direcciones MAC?", options: ["Capa 1 — Física","Capa 3 — Red","Capa 2 — Enlace de Datos","Capa 4 — Transporte"], correct: 2, exp: "Las direcciones MAC son usadas en la Capa 2 para identificar dispositivos en la misma red local." },
+  { q: "HTTP y HTTPS pertenecen a:", options: ["Capa 4 — Transporte","Capa 5 — Sesión","Capa 7 — Aplicación","Capa 3 — Red"], correct: 2, exp: "HTTP y HTTPS son protocolos de la Capa 7, la capa más cercana al usuario." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answer(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:20px 0">
+        <div style="font-size:40px;margin-bottom:12px">${score >= 6 ? '🏆' : score >= 4 ? '📚' : '💪'}</div>
+        <div style="font-size:24px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:20px;font-size:14px">${score === 7 ? '¡Perfecto! Dominas el Modelo OSI.' : score >= 5 ? 'Muy bien. Repasa las capas que fallaste.' : 'Sigue estudiando — revisa las capas de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar</button>
+      </div>
+    `;
+  }
+};
+
+renderQuestion();
+</script>

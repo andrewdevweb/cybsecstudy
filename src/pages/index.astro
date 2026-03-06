@@ -6,44 +6,202 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<section class="hero">
+				<div class="hero-tag">// aprendizaje público</div>
+				<h1>Apuntes de<br/><span class="accent">Ciberseguridad</span><br/>& Redes</h1>
+				<p class="hero-desc">Documentando todo lo que aprendo sobre redes, seguridad y sistemas. Guías interactivas, apuntes y cheatsheets.</p>
+				<div class="hero-links">
+					<a href="/blog" class="btn-primary">Ver apuntes →</a>
+					<a href="/guias" class="btn-secondary">Guías interactivas</a>
+				</div>
+			</section>
+
+			<section class="section">
+				<div class="section-label">// guías interactivas</div>
+				<div class="cards">
+					<a href="/guias/modelo-osi" class="card">
+						<div class="card-num">01</div>
+						<div class="card-body">
+							<div class="card-title">Modelo OSI</div>
+							<div class="card-desc">Las 7 capas explicadas con ejemplos, protocolos y quiz interactivo.</div>
+							<div class="card-tag">Redes</div>
+						</div>
+					</a>
+					<div class="card card-soon">
+						<div class="card-num">02</div>
+						<div class="card-body">
+							<div class="card-title">Modelo TCP/IP</div>
+							<div class="card-desc">Próximamente...</div>
+							<div class="card-tag">Redes</div>
+						</div>
+					</div>
+					<div class="card card-soon">
+						<div class="card-num">03</div>
+						<div class="card-body">
+							<div class="card-title">Subnetting</div>
+							<div class="card-desc">Próximamente...</div>
+							<div class="card-tag">Redes</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section">
+				<div class="section-label">// últimos apuntes</div>
+				<a href="/blog" class="btn-secondary">Ver todos los apuntes →</a>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.hero {
+		padding: 60px 0 80px;
+		border-bottom: 1px solid #1e1e2e;
+		margin-bottom: 60px;
+	}
+
+	.hero-tag {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 12px;
+		letter-spacing: 2px;
+		color: #00ff9f;
+		margin-bottom: 24px;
+	}
+
+	h1 {
+		font-size: clamp(36px, 7vw, 64px);
+		line-height: 1.05;
+		margin-bottom: 24px;
+		letter-spacing: -2px;
+	}
+
+	.accent { color: #00ff9f; }
+
+	.hero-desc {
+		color: #6b6b8a;
+		font-size: 16px;
+		max-width: 480px;
+		margin-bottom: 32px;
+		line-height: 1.7;
+	}
+
+	.hero-links {
+		display: flex;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.btn-primary {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 1px;
+		padding: 12px 24px;
+		background: #00ff9f;
+		color: #000;
+		text-decoration: none;
+		border: none;
+		font-weight: 700;
+		transition: opacity 0.2s;
+	}
+
+	.btn-primary:hover { opacity: 0.85; border-bottom: none; }
+
+	.btn-secondary {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 1px;
+		padding: 12px 24px;
+		background: transparent;
+		color: #00ff9f;
+		text-decoration: none;
+		border: 1px solid #00ff9f;
+		transition: all 0.2s;
+		display: inline-block;
+	}
+
+	.btn-secondary:hover { background: rgba(0,255,159,0.08); border-bottom-color: #00ff9f; }
+
+	.section { margin-bottom: 60px; }
+
+	.section-label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		letter-spacing: 3px;
+		color: #6b6b8a;
+		text-transform: uppercase;
+		margin-bottom: 24px;
+	}
+
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 12px;
+	}
+
+	.card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		padding: 24px;
+		text-decoration: none;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		transition: all 0.2s;
+		cursor: pointer;
+	}
+
+	.card:hover {
+		border-color: #00ff9f;
+		transform: translateY(-2px);
+	}
+
+	.card-soon {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	.card-soon:hover {
+		border-color: #1e1e2e;
+		transform: none;
+	}
+
+	.card-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		color: #00ff9f;
+		letter-spacing: 2px;
+	}
+
+	.card-title {
+		font-size: 17px;
+		font-weight: 800;
+		color: #e8eaf0;
+		margin-bottom: 6px;
+	}
+
+	.card-desc {
+		font-size: 13px;
+		color: #6b6b8a;
+		line-height: 1.5;
+	}
+
+	.card-tag {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 10px;
+		letter-spacing: 1px;
+		color: #00ff9f;
+		border: 1px solid #00ff9f;
+		padding: 2px 8px;
+		display: inline-block;
+		margin-top: 8px;
+	}
+</style>
