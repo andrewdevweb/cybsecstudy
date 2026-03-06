@@ -1,63 +1,449 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="es">
+<head>
+	<BaseHead title="Sobre mí — CybSecStudy" description="Estudiante del Máster en Ciberseguridad & IA en Evolve. Aprendiendo en público sobre redes, Blue Team y hacking ético." />
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+	<Header />
+	<main>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+		<div class="about-hero">
+			<img src="/about-hero.svg" alt="CybSecStudy — Sobre mí" />
+		</div>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+		<div class="section">
+			<div class="section-label">// Hola, soy CybSecStudy</div>
+			<div class="intro-grid">
+				<div class="intro-text">
+					<p>Estoy cursando el <strong>Máster en Ciberseguridad & IA en Evolve</strong> y este blog es mi cuaderno de notas público — cada apunte y guía es algo que acabo de aprender o que estoy intentando entender mejor.</p>
+					<p>Mi filosofía es simple: <strong>aprender haciendo y documentar el proceso</strong>. Si te sirve a ti también, mejor que mejor.</p>
+					<p>Me muevo entre el mundo de la <strong>ciberseguridad</strong> y la <strong>inteligencia artificial</strong>, dos campos que cada vez están más entrelazados y que juntos definen el futuro de la seguridad digital.</p>
+				</div>
+				<div class="stats-col">
+					<div class="stat-card">
+						<div class="stat-num">2</div>
+						<div class="stat-label">Guías interactivas</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-num">2</div>
+						<div class="stat-label">Apuntes publicados</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-num">∞</div>
+						<div class="stat-label">Por aprender</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+		<div class="section">
+			<div class="section-label">// Dónde entreno</div>
+			<div class="platforms-grid">
+				<div class="platform-card">
+					<div class="platform-icon">🟢</div>
+					<div class="platform-info">
+						<div class="platform-name" style="color:#6bcb77">TryHackMe</div>
+						<div class="platform-desc">Retos guiados de hacking ético, redes y defensa. Mi plataforma principal para aprender con estructura.</div>
+						<a href="https://tryhackme.com" target="_blank" class="platform-link">tryhackme.com →</a>
+					</div>
+				</div>
+				<div class="platform-card">
+					<div class="platform-icon">🟠</div>
+					<div class="platform-info">
+						<div class="platform-name" style="color:#ff9f43">HackTheBox</div>
+						<div class="platform-desc">Máquinas reales para pentesting. Más desafiante, más cercano a escenarios del mundo real.</div>
+						<a href="https://hackthebox.com" target="_blank" class="platform-link">hackthebox.com →</a>
+					</div>
+				</div>
+				<div class="platform-card">
+					<div class="platform-icon">🟣</div>
+					<div class="platform-info">
+						<div class="platform-name" style="color:#c77dff">Evolve</div>
+						<div class="platform-desc">Máster en Ciberseguridad & IA. Formación universitaria especializada que combina seguridad ofensiva, defensiva e inteligencia artificial.</div>
+						<a href="https://evolve.es" target="_blank" class="platform-link">evolve.es →</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+		<div class="section">
+			<div class="section-label">// Áreas de interés</div>
+			<div class="areas-grid">
+				<div class="area-card" style="--ac:#4d96ff">
+					<div class="area-header">
+						<span class="area-icon">🌐</span>
+						<span class="area-name">Redes y Protocolos</span>
+					</div>
+					<p class="area-desc">TCP/IP, OSI, subnetting, routing. La base de todo. Sin entender cómo viajan los datos, no puedes defender ni atacar nada.</p>
+				</div>
+				<div class="area-card" style="--ac:#6bcb77">
+					<div class="area-header">
+						<span class="area-icon">🛡️</span>
+						<span class="area-name">Blue Team / Defensa</span>
+					</div>
+					<p class="area-desc">SIEM, análisis de logs, detección de intrusiones. Me interesa tanto atacar como defender — entender ambos lados hace mejores profesionales.</p>
+				</div>
+				<div class="area-card" style="--ac:#ff9f43">
+					<div class="area-header">
+						<span class="area-icon">⚔️</span>
+						<span class="area-name">Hacking Ético</span>
+					</div>
+					<p class="area-desc">Pentesting, enumeración, explotación controlada. Aprendiendo a pensar como un atacante para construir mejores defensas.</p>
+				</div>
+				<div class="area-card" style="--ac:#c77dff">
+					<div class="area-header">
+						<span class="area-icon">🤖</span>
+						<span class="area-name">Ciberseguridad & IA</span>
+					</div>
+					<p class="area-desc">La inteligencia artificial está cambiando el panorama de la seguridad. Amenazas nuevas, defensas nuevas. Un campo apasionante en plena evolución.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="section-label">// Por qué aprender en público</div>
+			<div class="quote-card">
+				<div class="quote-mark">"</div>
+				<blockquote>
+					Documentar lo que aprendo me obliga a entenderlo de verdad. Si puedo explicarlo con claridad, es que realmente lo sé. Si no puedo, es que tengo que seguir estudiando.
+				</blockquote>
+				<div class="quote-author">— CybSecStudy</div>
+			</div>
+			<div class="philosophy-grid">
+				<div class="philo-item">
+					<div class="philo-icon" style="color:#00ff9f">01</div>
+					<div class="philo-text">
+						<strong>Aprendo algo nuevo</strong>
+						<span>Leo, practico, me equivoco</span>
+					</div>
+				</div>
+				<div class="philo-arrow">→</div>
+				<div class="philo-item">
+					<div class="philo-icon" style="color:#4d96ff">02</div>
+					<div class="philo-text">
+						<strong>Lo documento aquí</strong>
+						<span>Apuntes y guías interactivas</span>
+					</div>
+				</div>
+				<div class="philo-arrow">→</div>
+				<div class="philo-item">
+					<div class="philo-icon" style="color:#c77dff">03</div>
+					<div class="philo-text">
+						<strong>Lo comparto</strong>
+						<span>Por si le sirve a alguien más</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="cta-card">
+				<div class="cta-tag">// ¿Empezamos?</div>
+				<h2>Explora los apuntes y guías</h2>
+				<p>Todo el contenido es gratis y está pensado para aprender desde cero.</p>
+				<div class="cta-links">
+					<a href="/blog" class="btn-primary">Ver apuntes →</a>
+					<a href="/guias" class="btn-secondary">Guías interactivas</a>
+				</div>
+			</div>
+		</div>
+
+	</main>
+	<Footer />
+</body>
+</html>
+
+<style>
+	.about-hero {
+		width: 100%;
+		border-bottom: 1px solid #1e1e2e;
+		margin-bottom: 48px;
+		overflow: hidden;
+	}
+
+	.about-hero img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border: none;
+		border-radius: 0;
+	}
+
+	.section { margin-bottom: 64px; }
+
+	.section-label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		letter-spacing: 3px;
+		color: #6b6b8a;
+		text-transform: uppercase;
+		margin-bottom: 24px;
+	}
+
+	.intro-grid {
+		display: grid;
+		grid-template-columns: 1fr 200px;
+		gap: 40px;
+		align-items: start;
+	}
+
+	.intro-text p {
+		color: #b0b0c8;
+		font-size: 15px;
+		line-height: 1.8;
+		margin-bottom: 16px;
+	}
+
+	.intro-text p:last-child { margin-bottom: 0; }
+	.intro-text strong { color: #00ff9f; }
+
+	.stats-col {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.stat-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		padding: 16px;
+		text-align: center;
+	}
+
+	.stat-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 28px;
+		font-weight: 700;
+		color: #00ff9f;
+	}
+
+	.stat-label {
+		font-size: 11px;
+		color: #6b6b8a;
+		margin-top: 4px;
+	}
+
+	.platforms-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 16px;
+	}
+
+	.platform-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		padding: 24px;
+		display: flex;
+		gap: 16px;
+		transition: border-color 0.2s;
+	}
+
+	.platform-card:hover { border-color: #2a2a3a; }
+
+	.platform-icon { font-size: 24px; flex-shrink: 0; }
+
+	.platform-name {
+		font-size: 17px;
+		font-weight: 800;
+		margin-bottom: 8px;
+	}
+
+	.platform-desc {
+		font-size: 13px;
+		color: #6b6b8a;
+		line-height: 1.6;
+		margin-bottom: 12px;
+	}
+
+	.platform-link {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		color: #00ff9f;
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s;
+	}
+
+	.platform-link:hover { border-bottom-color: #00ff9f; }
+
+	.areas-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+	}
+
+	.area-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		border-left: 3px solid var(--ac);
+		padding: 20px;
+		transition: transform 0.2s;
+	}
+
+	.area-card:hover { transform: translateX(4px); }
+
+	.area-header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 10px;
+	}
+
+	.area-icon { font-size: 18px; }
+	.area-name { font-size: 15px; font-weight: 800; color: var(--ac); }
+
+	.area-desc {
+		font-size: 13px;
+		color: #6b6b8a;
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.quote-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		border-left: 3px solid #00ff9f;
+		padding: 28px 32px;
+		margin-bottom: 32px;
+		position: relative;
+	}
+
+	.quote-mark {
+		font-size: 60px;
+		color: #00ff9f;
+		opacity: 0.2;
+		font-family: Georgia, serif;
+		line-height: 1;
+		position: absolute;
+		top: 10px;
+		left: 20px;
+	}
+
+	blockquote {
+		font-size: 16px;
+		color: #e8eaf0;
+		line-height: 1.8;
+		margin: 0 0 12px 0;
+		font-style: italic;
+		padding-left: 20px;
+	}
+
+	.quote-author {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		color: #00ff9f;
+		padding-left: 20px;
+	}
+
+	.philosophy-grid {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	.philo-item {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		padding: 16px 20px;
+		display: flex;
+		gap: 14px;
+		align-items: center;
+		flex: 1;
+		min-width: 160px;
+	}
+
+	.philo-icon {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 20px;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+
+	.philo-text { display: flex; flex-direction: column; gap: 2px; }
+	.philo-text strong { font-size: 13px; color: #e8eaf0; }
+	.philo-text span { font-size: 11px; color: #6b6b8a; }
+	.philo-arrow { font-size: 20px; color: #2a2a3a; flex-shrink: 0; }
+
+	.cta-card {
+		background: #12121a;
+		border: 1px solid #1e1e2e;
+		padding: 40px;
+		text-align: center;
+	}
+
+	.cta-tag {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 11px;
+		letter-spacing: 3px;
+		color: #00ff9f;
+		margin-bottom: 16px;
+	}
+
+	.cta-card h2 {
+		font-size: 28px;
+		font-weight: 800;
+		margin-bottom: 12px;
+		color: #e8eaf0;
+	}
+
+	.cta-card p {
+		color: #6b6b8a;
+		font-size: 14px;
+		margin-bottom: 24px;
+	}
+
+	.cta-links {
+		display: flex;
+		gap: 12px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.btn-primary {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 1px;
+		padding: 12px 24px;
+		background: #00ff9f;
+		color: #000;
+		text-decoration: none;
+		font-weight: 700;
+		transition: opacity 0.2s;
+		border: none;
+	}
+
+	.btn-primary:hover { opacity: 0.85; border-bottom: none; }
+
+	.btn-secondary {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 13px;
+		letter-spacing: 1px;
+		padding: 12px 24px;
+		background: transparent;
+		color: #00ff9f;
+		text-decoration: none;
+		border: 1px solid #00ff9f;
+		transition: all 0.2s;
+	}
+
+	.btn-secondary:hover { background: rgba(0,255,159,0.08); border-bottom-color: #00ff9f; }
+
+	@media (max-width: 720px) {
+		.intro-grid { grid-template-columns: 1fr; }
+		.stats-col { flex-direction: row; }
+		.platforms-grid { grid-template-columns: 1fr; }
+		.areas-grid { grid-template-columns: 1fr; }
+		.philosophy-grid { flex-direction: column; }
+		.philo-arrow { transform: rotate(90deg); }
+		.philo-item { min-width: 100%; }
+		.cta-card { padding: 24px; }
+	}
+</style>
