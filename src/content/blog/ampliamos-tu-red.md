@@ -1,7 +1,7 @@
 ---
 title: 'Ampliando tu red — Port Forwarding, Firewalls, VPNs, Routers y Switches'
 description: 'Tecnologías esenciales para conectar redes a Internet: cómo funcionan el reenvío de puertos, los firewalls, las VPNs, los routers y los switches.'
-pubDate: 'Mar 06 2025'
+pubDate: 'Mar 06 2025 11:00:00'
 heroImage: '../../assets/ampliando-red-hero.svg'
 ---
 

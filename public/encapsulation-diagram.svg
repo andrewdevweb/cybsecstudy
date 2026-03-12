@@ -1,0 +1,114 @@
+<svg viewBox="0 0 700 580" xmlns="http://www.w3.org/2000/svg" font-family="'Space Mono', monospace">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="32" text-anchor="middle" fill="#6b6b8a" font-size="10" letter-spacing="4">// ENCAPSULACIÓN TCP/IP</text>
+
+  <!-- ── ROW 1: APLICACIÓN ── -->
+  <rect x="80" y="50" width="540" height="52" rx="2" fill="#12121a" stroke="#ff6b9d" stroke-width="1.5"/>
+  <rect x="80" y="50" width="4" height="52" fill="#ff6b9d"/>
+  <text x="108" y="72" fill="#ff6b9d" font-size="12" font-weight="bold" letter-spacing="1">APLICACIÓN</text>
+  <text x="108" y="89" fill="#6b6b8a" font-size="10">HTTP · FTP · DNS · SSH</text>
+  <rect x="380" y="60" width="220" height="32" rx="2" fill="rgba(255,107,157,0.08)" stroke="#ff6b9d" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="490" y="80" text-anchor="middle" fill="#ff6b9d" font-size="11" letter-spacing="1">DATOS</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="102" x2="350" y2="128" stroke="#1e1e2e" stroke-width="2"/>
+  <polygon points="350,132 344,120 356,120" fill="#00ffc8"/>
+  <text x="435" y="120" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1">datos de aplicación</text>
+
+  <!-- ── ROW 2: TRANSPORTE ── -->
+  <rect x="80" y="135" width="540" height="52" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="80" y="135" width="4" height="52" fill="#6bcb77"/>
+  <text x="108" y="157" fill="#6bcb77" font-size="12" font-weight="bold" letter-spacing="1">TCP / UDP</text>
+  <text x="108" y="174" fill="#6b6b8a" font-size="10">Capa 4 — Puertos · Control de flujo</text>
+  <rect x="340" y="145" width="90" height="32" rx="2" fill="rgba(107,203,119,0.15)" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="385" y="162" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="bold">TCP/UDP</text>
+  <text x="385" y="174" text-anchor="middle" fill="#6bcb77" font-size="8">puerto src/dst</text>
+  <rect x="434" y="145" width="166" height="32" rx="2" fill="rgba(255,107,157,0.06)" stroke="#ff6b9d" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="517" y="165" text-anchor="middle" fill="#ff6b9d" font-size="10">DATOS</text>
+  <line x1="610" y1="145" x2="618" y2="145" stroke="#6bcb77" stroke-width="1"/>
+  <line x1="618" y1="145" x2="618" y2="177" stroke="#6bcb77" stroke-width="1"/>
+  <line x1="610" y1="177" x2="618" y2="177" stroke="#6bcb77" stroke-width="1"/>
+  <text x="624" y="165" fill="#6bcb77" font-size="9">SEGMENTO</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="187" x2="350" y2="213" stroke="#1e1e2e" stroke-width="2"/>
+  <polygon points="350,217 344,205 356,205" fill="#00ffc8"/>
+  <text x="440" y="205" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1">+ puertos · cabecera</text>
+
+  <!-- ── ROW 3: RED (IP) ── -->
+  <rect x="80" y="220" width="540" height="52" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="80" y="220" width="4" height="52" fill="#4d96ff"/>
+  <text x="108" y="242" fill="#4d96ff" font-size="12" font-weight="bold" letter-spacing="1">IP</text>
+  <text x="108" y="259" fill="#6b6b8a" font-size="10">Capa 3 — Direccionamiento · Enrutamiento</text>
+  <rect x="300" y="230" width="100" height="32" rx="2" fill="rgba(77,150,255,0.15)" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="350" y="247" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="bold">IP HEADER</text>
+  <text x="350" y="259" text-anchor="middle" fill="#4d96ff" font-size="8">src/dst IP · TTL</text>
+  <rect x="404" y="230" width="80" height="32" rx="2" fill="rgba(107,203,119,0.06)" stroke="#6bcb77" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="444" y="250" text-anchor="middle" fill="#6bcb77" font-size="9">TCP/UDP</text>
+  <rect x="488" y="230" width="112" height="32" rx="2" fill="rgba(255,107,157,0.04)" stroke="#ff6b9d" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="544" y="250" text-anchor="middle" fill="#ff6b9d" font-size="9">DATOS</text>
+  <line x1="610" y1="230" x2="618" y2="230" stroke="#4d96ff" stroke-width="1"/>
+  <line x1="618" y1="230" x2="618" y2="262" stroke="#4d96ff" stroke-width="1"/>
+  <line x1="610" y1="262" x2="618" y2="262" stroke="#4d96ff" stroke-width="1"/>
+  <text x="624" y="250" fill="#4d96ff" font-size="9">PAQUETE</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="272" x2="350" y2="298" stroke="#1e1e2e" stroke-width="2"/>
+  <polygon points="350,302 344,290 356,290" fill="#00ffc8"/>
+  <text x="440" y="290" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1">+ IPs origen/destino · TTL</text>
+
+  <!-- ── ROW 4: ETHERNET ── -->
+  <rect x="80" y="305" width="540" height="52" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="80" y="305" width="4" height="52" fill="#c77dff"/>
+  <text x="108" y="327" fill="#c77dff" font-size="12" font-weight="bold" letter-spacing="1">ETHERNET</text>
+  <text x="108" y="344" fill="#6b6b8a" font-size="10">Capa 2 — Direcciones MAC · Tramas</text>
+  <rect x="248" y="315" width="80" height="32" rx="2" fill="rgba(199,125,255,0.15)" stroke="#c77dff" stroke-width="1.5"/>
+  <text x="288" y="332" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="bold">ETH HDR</text>
+  <text x="288" y="344" text-anchor="middle" fill="#c77dff" font-size="8">MAC src/dst</text>
+  <rect x="332" y="315" width="80" height="32" rx="2" fill="rgba(77,150,255,0.06)" stroke="#4d96ff" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="372" y="335" text-anchor="middle" fill="#4d96ff" font-size="9">IP HDR</text>
+  <rect x="416" y="315" width="64" height="32" rx="2" fill="rgba(107,203,119,0.04)" stroke="#6bcb77" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="448" y="335" text-anchor="middle" fill="#6bcb77" font-size="9">TCP</text>
+  <rect x="484" y="315" width="80" height="32" rx="2" fill="rgba(255,107,157,0.04)" stroke="#ff6b9d" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="524" y="335" text-anchor="middle" fill="#ff6b9d" font-size="9">DATOS</text>
+  <rect x="568" y="315" width="42" height="32" rx="2" fill="rgba(199,125,255,0.1)" stroke="#c77dff" stroke-width="1"/>
+  <text x="589" y="335" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="bold">FCS</text>
+  <line x1="80" y1="362" x2="72" y2="362" stroke="#c77dff" stroke-width="1"/>
+  <line x1="72" y1="315" x2="72" y2="362" stroke="#c77dff" stroke-width="1"/>
+  <line x1="80" y1="315" x2="72" y2="315" stroke="#c77dff" stroke-width="1"/>
+  <text x="30" y="342" text-anchor="middle" fill="#c77dff" font-size="9">TRAMA</text>
+
+  <!-- Arrow -->
+  <line x1="350" y1="357" x2="350" y2="383" stroke="#1e1e2e" stroke-width="2"/>
+  <polygon points="350,387 344,375 356,375" fill="#00ffc8"/>
+  <text x="440" y="375" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1">+ MACs origen/destino</text>
+
+  <!-- ── ROW 5: FÍSICO ── -->
+  <rect x="80" y="390" width="540" height="52" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="80" y="390" width="4" height="52" fill="#ff6b6b"/>
+  <text x="108" y="412" fill="#ff6b6b" font-size="12" font-weight="bold" letter-spacing="1">FÍSICO</text>
+  <text x="108" y="429" fill="#6b6b8a" font-size="10">Capa 1 — Señales eléctricas · Bits</text>
+  <rect x="300" y="400" width="300" height="32" rx="2" fill="rgba(255,107,107,0.08)" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="450" y="420" text-anchor="middle" fill="#ff6b6b" font-size="11" letter-spacing="2" filter="url(#glow)">0101 1010 0011 1100 0110</text>
+
+  <!-- Cable -->
+  <line x1="80" y1="470" x2="620" y2="470" stroke="#1e1e2e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 100 470 Q 115 458 130 470 Q 145 482 160 470 Q 175 458 190 470 Q 205 482 220 470 Q 235 458 250 470 Q 265 482 280 470 Q 295 458 310 470 Q 325 482 340 470 Q 355 458 370 470 Q 385 482 400 470 Q 415 458 430 470 Q 445 482 460 470 Q 475 458 490 470 Q 505 482 520 470 Q 535 458 550 470 Q 565 482 580 470 Q 595 458 610 470"
+    fill="none" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+  <text x="350" y="500" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="2">CABLE · FIBRA · ONDAS DE RADIO</text>
+
+  <!-- Side legend -->
+  <text x="50" y="76" text-anchor="middle" fill="#6b6b8a" font-size="8" letter-spacing="1">L7</text>
+  <text x="50" y="161" text-anchor="middle" fill="#6b6b8a" font-size="8" letter-spacing="1">L4</text>
+  <text x="50" y="246" text-anchor="middle" fill="#6b6b8a" font-size="8" letter-spacing="1">L3</text>
+  <text x="50" y="331" text-anchor="middle" fill="#6b6b8a" font-size="8" letter-spacing="1">L2</text>
+  <text x="50" y="416" text-anchor="middle" fill="#6b6b8a" font-size="8" letter-spacing="1">L1</text>
+  <line x1="50" y1="55" x2="50" y2="440" stroke="#1e1e2e" stroke-width="1" stroke-dasharray="3,4"/>
+</svg>

@@ -1,7 +1,7 @@
 ---
 title: 'Paquetes & Tramas — TCP, UDP y Puertos'
 description: 'Qué son los paquetes y tramas, cómo funcionan TCP y UDP, el three-way handshake y los puertos más importantes en ciberseguridad.'
-pubDate: 'Mar 06 2025'
+pubDate: 'Mar 06 2025 10:00:00'
 heroImage: '../../assets/packets-hero.svg'
 ---
 
@@ -188,14 +188,4 @@ Analogía: si la dirección IP es como la dirección de un edificio, el puerto e
 
 ## Resumen visual del flujo
 
-```
-APLICACIÓN
-    ↓ datos
-TCP/UDP  →  añade puertos + cabeceras de transporte
-    ↓ segmento
-IP       →  añade IPs de origen/destino + TTL
-    ↓ paquete
-Ethernet →  añade MACs de origen/destino
-    ↓ trama
-Físico   →  01010101... (bits por el cable)
-```
+<img src="/encapsulation-diagram.svg" alt="Encapsulación TCP/IP" style="width:100%" />

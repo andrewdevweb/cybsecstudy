@@ -1,7 +1,7 @@
 ---
 title: 'Modelo OSI — Las 7 Capas'
 description: 'Guía completa del Modelo de Interconexión de Sistemas Abiertos: capas, protocolos, encapsulación y dispositivos.'
-pubDate: 'Mar 06 2025'
+pubDate: 'Mar 06 2025 09:00:00'
 heroImage: '../../assets/osi-hero.svg'
 ---
 
