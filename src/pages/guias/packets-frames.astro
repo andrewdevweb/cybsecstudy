@@ -9,6 +9,94 @@ import Footer from '../../components/Footer.astro';
 <head>
 	<BaseHead title="Packets & Frames — CybSecStudy" description="Guía interactiva sobre paquetes, tramas, TCP, UDP, handshake y puertos." />
 	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+	<style>
+		.guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+		.guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
+		h1 { font-size: clamp(36px, 6vw, 60px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+		.accent { color: #4d96ff; }
+		.guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+
+		.intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
+		.intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
+		.intro-card strong { color: #4d96ff; }
+
+		.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+
+		/* CONCEPTS */
+		.concepts-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
+		.concept-card { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+		.concept-card:hover { transform: translateX(4px); border-color: var(--cc); }
+		.concept-card.active { border-color: var(--cc) !important; }
+		.concept-header { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; }
+		.concept-icon { width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: rgba(255,255,255,0.04); flex-shrink: 0; }
+		.concept-main { padding: 14px 20px; border-left: 3px solid var(--cc); }
+		.concept-name { font-weight: 800; font-size: 16px; color: var(--cc); margin-bottom: 2px; }
+		.concept-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
+		.concept-badge { padding: 6px 14px; margin-right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+
+		.concept-detail { display: none !important; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; }
+		.concept-card.active .concept-detail { display: block !important; }
+
+		.concept-detail p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; margin-bottom: 10px !important; }
+		.concept-detail li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; list-style: none; }
+		.concept-detail li::before { content: '▸ '; color: var(--cc); }
+		.concept-detail ul { padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+		.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+		.detail-block h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 8px; }
+		.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+		.chip { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid #1e1e2e; color: var(--cc); display: inline-block; }
+
+		/* HANDSHAKE */
+		.handshake { display: flex; flex-direction: column; background: #12121a; border: 1px solid #1e1e2e; padding: 24px; margin-bottom: 20px; }
+		.hs-row { display: grid; grid-template-columns: 140px 1fr 140px; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a1a28; }
+		.hs-row:last-child { border-bottom: none; }
+		.hs-actor { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 10px; text-align: center; }
+		.hs-actor.client { color: #6bcb77; border: 1px solid #6bcb77; }
+		.hs-actor.server { color: #4d96ff; border: 1px solid #4d96ff; }
+		.hs-middle { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+		.hs-arrow { display: flex; align-items: center; width: 100%; gap: 8px; }
+		.hs-arrow-line { flex: 1; height: 1px; }
+		.hs-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+		.hs-desc { font-size: 12px; color: #6b6b8a; text-align: center; max-width: 300px; }
+
+		/* PORTS */
+		.ports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; margin-bottom: 20px; }
+		.port-card { background: #12121a; border: 1px solid #1e1e2e; padding: 16px 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s; }
+		.port-card:hover { border-color: var(--pc); transform: translateX(4px); }
+		.port-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; color: var(--pc); min-width: 48px; }
+		.port-proto { font-weight: 800; font-size: 14px; color: var(--pc); margin-bottom: 2px; }
+		.port-desc { font-size: 12px; color: #6b6b8a; }
+
+		/* QUIZ */
+		.progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+		.progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
+		.quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+		.quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+		.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+		.quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+		.quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
+		.quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+		.quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+		.quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+		.quiz-feedback.show { display: block; }
+		.quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+		.quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+		.quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+		.btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+		.btn:hover { background: #4d96ff; color: #000; }
+		.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+		.btn:disabled:hover { background: transparent; color: #4d96ff; }
+		.score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+		@media (max-width: 640px) {
+			.detail-grid { grid-template-columns: 1fr; }
+			.concept-header { grid-template-columns: 48px 1fr; }
+			.concept-badge { display: none; }
+			.concept-detail { padding: 16px !important; }
+			.quiz-options { grid-template-columns: 1fr; }
+			.hs-row { grid-template-columns: 80px 1fr 80px; }
+		}
+	</style>
 </head>
 <body>
 	<Header />
@@ -24,15 +112,220 @@ import Footer from '../../components/Footer.astro';
 		</div>
 
 		<div class="section-label">// Conceptos clave — clic para expandir</div>
-		<div class="concepts-grid" id="conceptsGrid"></div>
+		<div class="concepts-grid">
+
+			<div class="concept-card" style="--cc:#4d96ff">
+				<div class="concept-header">
+					<div class="concept-icon">📦</div>
+					<div class="concept-main">
+						<div class="concept-name">Paquete (Packet)</div>
+						<div class="concept-sub">Capa 3 — Red</div>
+					</div>
+					<div class="concept-badge">IP</div>
+				</div>
+				<div class="concept-detail">
+					<div class="detail-grid">
+						<div class="detail-block">
+							<h4>Descripción</h4>
+							<p>Un paquete es la unidad de datos de la Capa 3. Contiene una cabecera IP con las direcciones de origen y destino, y la carga útil (los datos reales).</p>
+						</div>
+						<div class="detail-block">
+							<h4>Características</h4>
+							<ul>
+								<li>Dirección IP de origen y destino</li>
+								<li>TTL — evita bucles infinitos</li>
+								<li>Suma de comprobación para verificar integridad</li>
+								<li>Fragmentación si el paquete es demasiado grande</li>
+							</ul>
+						</div>
+						<div class="detail-block" style="grid-column:1/-1">
+							<h4>Relacionado con</h4>
+							<div class="chips">
+								<span class="chip">IP</span><span class="chip">IPv6</span><span class="chip">ICMP</span><span class="chip">Router</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="concept-card" style="--cc:#c77dff">
+				<div class="concept-header">
+					<div class="concept-icon">🖼️</div>
+					<div class="concept-main">
+						<div class="concept-name">Trama (Frame)</div>
+						<div class="concept-sub">Capa 2 — Enlace de Datos</div>
+					</div>
+					<div class="concept-badge">MAC</div>
+				</div>
+				<div class="concept-detail">
+					<div class="detail-grid">
+						<div class="detail-block">
+							<h4>Descripción</h4>
+							<p>Una trama encapsula el paquete añadiendo direcciones MAC de origen y destino. Es la unidad de datos que viaja entre dispositivos directamente conectados.</p>
+						</div>
+						<div class="detail-block">
+							<h4>Características</h4>
+							<ul>
+								<li>Dirección MAC de origen y destino</li>
+								<li>FCS — detección de errores</li>
+								<li>Encapsula el paquete de Capa 3</li>
+								<li>Opera entre dispositivos en la misma red local</li>
+							</ul>
+						</div>
+						<div class="detail-block" style="grid-column:1/-1">
+							<h4>Relacionado con</h4>
+							<div class="chips">
+								<span class="chip">Ethernet</span><span class="chip">Wi-Fi</span><span class="chip">Switch</span><span class="chip">MAC</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="concept-card" style="--cc:#6bcb77">
+				<div class="concept-header">
+					<div class="concept-icon">🔗</div>
+					<div class="concept-main">
+						<div class="concept-name">TCP</div>
+						<div class="concept-sub">Transmission Control Protocol</div>
+					</div>
+					<div class="concept-badge">ORIENTADO A CONEXIÓN</div>
+				</div>
+				<div class="concept-detail">
+					<div class="detail-grid">
+						<div class="detail-block">
+							<h4>Descripción</h4>
+							<p>TCP garantiza que todos los datos lleguen correctamente y en orden. Requiere establecer una conexión antes de enviar datos mediante el Three-Way Handshake.</p>
+						</div>
+						<div class="detail-block">
+							<h4>Características</h4>
+							<ul>
+								<li>Orientado a conexión — requiere handshake</li>
+								<li>Garantiza entrega y orden de los datos</li>
+								<li>Control de flujo y congestión</li>
+								<li>Más lento pero más fiable que UDP</li>
+							</ul>
+						</div>
+						<div class="detail-block" style="grid-column:1/-1">
+							<h4>Relacionado con</h4>
+							<div class="chips">
+								<span class="chip">HTTP</span><span class="chip">HTTPS</span><span class="chip">FTP</span><span class="chip">SSH</span><span class="chip">SMTP</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="concept-card" style="--cc:#ff9f43">
+				<div class="concept-header">
+					<div class="concept-icon">⚡</div>
+					<div class="concept-main">
+						<div class="concept-name">UDP</div>
+						<div class="concept-sub">User Datagram Protocol</div>
+					</div>
+					<div class="concept-badge">SIN CONEXIÓN</div>
+				</div>
+				<div class="concept-detail">
+					<div class="detail-grid">
+						<div class="detail-block">
+							<h4>Descripción</h4>
+							<p>UDP no establece conexión ni verifica que los datos lleguen. Es más rápido que TCP y se usa cuando la velocidad importa más que la fiabilidad.</p>
+						</div>
+						<div class="detail-block">
+							<h4>Características</h4>
+							<ul>
+								<li>Sin conexión — no hay handshake</li>
+								<li>No garantiza entrega ni orden</li>
+								<li>Más rápido y ligero que TCP</li>
+								<li>Ideal para streaming, VoIP y DNS</li>
+							</ul>
+						</div>
+						<div class="detail-block" style="grid-column:1/-1">
+							<h4>Relacionado con</h4>
+							<div class="chips">
+								<span class="chip">DNS</span><span class="chip">VoIP</span><span class="chip">Streaming</span><span class="chip">Videojuegos</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
 
 		<div class="section-label" style="margin-top:60px">// Three-Way Handshake</div>
 		<p style="color:#6b6b8a;font-size:14px;margin-bottom:24px">TCP establece una conexión antes de enviar datos. Este proceso se llama protocolo de enlace de tres vías.</p>
-		<div class="handshake" id="handshake"></div>
+		<div class="handshake">
+			<div class="hs-row">
+				<div class="hs-actor client">CLIENTE</div>
+				<div></div>
+				<div class="hs-actor server">SERVIDOR</div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor client" style="font-size:10px">envía</div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#6bcb77">SYN</div>
+					<div class="hs-arrow"><div style="font-size:14px;color:#6bcb77"></div><div class="hs-arrow-line" style="background:#6bcb77;opacity:0.6"></div><div style="font-size:14px;color:#6bcb77">▶</div></div>
+					<div class="hs-desc">Cliente inicia conexión con su número de secuencia inicial (ISN=0)</div>
+				</div>
+				<div class="hs-actor" style="border-color:transparent"></div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor" style="border-color:transparent"></div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#4d96ff">SYN/ACK</div>
+					<div class="hs-arrow" style="flex-direction:row-reverse"><div style="font-size:14px;color:#4d96ff"></div><div class="hs-arrow-line" style="background:#4d96ff;opacity:0.6"></div><div style="font-size:14px;color:#4d96ff">◀</div></div>
+					<div class="hs-desc">Servidor confirma y envía su propio ISN (5000)</div>
+				</div>
+				<div class="hs-actor server" style="font-size:10px">envía</div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor client" style="font-size:10px">envía</div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#6bcb77">ACK</div>
+					<div class="hs-arrow"><div style="font-size:14px;color:#6bcb77"></div><div class="hs-arrow-line" style="background:#6bcb77;opacity:0.6"></div><div style="font-size:14px;color:#6bcb77">▶</div></div>
+					<div class="hs-desc">Cliente confirma — conexión establecida</div>
+				</div>
+				<div class="hs-actor" style="border-color:transparent"></div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor client" style="font-size:10px">envía</div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#ffd93d">DATA</div>
+					<div class="hs-arrow"><div style="font-size:14px;color:#ffd93d"></div><div class="hs-arrow-line" style="background:#ffd93d;opacity:0.6"></div><div style="font-size:14px;color:#ffd93d">▶</div></div>
+					<div class="hs-desc">Transferencia de datos</div>
+				</div>
+				<div class="hs-actor" style="border-color:transparent"></div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor client" style="font-size:10px">envía</div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#ff6b6b">FIN</div>
+					<div class="hs-arrow"><div style="font-size:14px;color:#ff6b6b"></div><div class="hs-arrow-line" style="background:#ff6b6b;opacity:0.6"></div><div style="font-size:14px;color:#ff6b6b">▶</div></div>
+					<div class="hs-desc">Cliente solicita cerrar la conexión</div>
+				</div>
+				<div class="hs-actor" style="border-color:transparent"></div>
+			</div>
+			<div class="hs-row">
+				<div class="hs-actor" style="border-color:transparent"></div>
+				<div class="hs-middle">
+					<div class="hs-label" style="color:#ff6b6b">FIN/ACK</div>
+					<div class="hs-arrow" style="flex-direction:row-reverse"><div style="font-size:14px;color:#ff6b6b"></div><div class="hs-arrow-line" style="background:#ff6b6b;opacity:0.6"></div><div style="font-size:14px;color:#ff6b6b">◀</div></div>
+					<div class="hs-desc">Servidor confirma y cierra la conexión</div>
+				</div>
+				<div class="hs-actor server" style="font-size:10px">envía</div>
+			</div>
+		</div>
 
 		<div class="section-label" style="margin-top:60px">// Puertos principales</div>
 		<p style="color:#6b6b8a;font-size:14px;margin-bottom:20px">Los puertos van del 0 al 65535. Los puertos del 0 al 1023 son puertos bien conocidos.</p>
-		<div class="ports-grid" id="portsGrid"></div>
+		<div class="ports-grid">
+			<div class="port-card" style="--pc:#ff9f43"><div class="port-num">21</div><div><div class="port-proto">FTP</div><div class="port-desc">Transferencia de archivos</div></div></div>
+			<div class="port-card" style="--pc:#6bcb77"><div class="port-num">22</div><div><div class="port-proto">SSH</div><div class="port-desc">Acceso remoto seguro por terminal</div></div></div>
+			<div class="port-card" style="--pc:#4d96ff"><div class="port-num">80</div><div><div class="port-proto">HTTP</div><div class="port-desc">Navegación web sin cifrar</div></div></div>
+			<div class="port-card" style="--pc:#00ff9f"><div class="port-num">443</div><div><div class="port-proto">HTTPS</div><div class="port-desc">Navegación web cifrada (SSL/TLS)</div></div></div>
+			<div class="port-card" style="--pc:#c77dff"><div class="port-num">445</div><div><div class="port-proto">SMB</div><div class="port-desc">Compartir archivos e impresoras</div></div></div>
+			<div class="port-card" style="--pc:#ff6b9d"><div class="port-num">3389</div><div><div class="port-proto">RDP</div><div class="port-desc">Escritorio remoto visual</div></div></div>
+		</div>
 
 		<div class="section-label" style="margin-top:60px">// Quiz — 10 preguntas</div>
 		<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -50,296 +343,81 @@ import Footer from '../../components/Footer.astro';
 </body>
 </html>
 
-<style>
-	.guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
-	.guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
-	h1 { font-size: clamp(36px, 6vw, 60px); letter-spacing: -2px; margin-bottom: 16px; }
-	.accent { color: #4d96ff; }
-	.guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
-
-	.intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
-	.intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
-	.intro-card strong { color: #4d96ff; }
-
-	.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
-
-	/* CONCEPTS */
-	.concepts-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
-	.concept-card { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
-	.concept-card:hover { transform: translateX(4px); }
-	.concept-card.active { }
-	.concept-icon { width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-	.concept-main { padding: 14px 20px; }
-	.concept-name { font-weight: 800; font-size: 16px; margin-bottom: 2px; }
-	.concept-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
-	.concept-badge { padding: 6px 14px; margin-right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.6; white-space: nowrap; }
-
-	.concept-detail { display: none; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; grid-column: 1/-1; }
-	.concept-card.active .concept-detail { display: block; }
-
-	.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-	.detail-block h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 8px; }
-	.detail-block p, .detail-block li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
-	.detail-block ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-	.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-
-	/* HANDSHAKE */
-	.handshake { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; background: #12121a; border: 1px solid #1e1e2e; padding: 24px; }
-	.hs-row { display: grid; grid-template-columns: 140px 1fr 140px; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a1a28; }
-	.hs-row:last-child { border-bottom: none; }
-	.hs-actor { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 10px; text-align: center; }
-	.hs-actor.client { color: #6bcb77; border: 1px solid #6bcb77; }
-	.hs-actor.server { color: #4d96ff; border: 1px solid #4d96ff; }
-	.hs-actor.empty { border: 1px solid transparent; }
-	.hs-middle { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-	.hs-arrow { display: flex; align-items: center; width: 100%; gap: 8px; }
-	.hs-arrow-line { flex: 1; height: 1px; }
-	.hs-arrow-head { font-size: 14px; }
-	.hs-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
-	.hs-desc { font-size: 12px; color: #6b6b8a; text-align: center; max-width: 300px; }
-
-	/* PORTS */
-	.ports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; margin-bottom: 20px; }
-	.port-card { background: #12121a; border: 1px solid #1e1e2e; padding: 16px 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s; }
-	.port-card:hover { border-color: var(--pc); transform: translateX(4px); }
-	.port-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; color: var(--pc); min-width: 48px; }
-	.port-info { }
-	.port-proto { font-weight: 800; font-size: 14px; color: var(--pc); margin-bottom: 2px; }
-	.port-desc { font-size: 12px; color: #6b6b8a; }
-
-	/* QUIZ */
-	.progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
-	.progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
-	.quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
-	.quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
-	.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-	.quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
-	.quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
-	.quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
-	.quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
-	.quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
-	.quiz-feedback.show { display: block; }
-	.quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
-	.quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
-	.quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
-	.btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
-	.btn:hover { background: #4d96ff; color: #000; }
-	.btn:disabled { opacity: 0.3; cursor: not-allowed; }
-	.btn:disabled:hover { background: transparent; color: #4d96ff; }
-	.score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
-
-	@media (max-width: 640px) {
-		.detail-grid { grid-template-columns: 1fr; }
-		.concept-card { grid-template-columns: 48px 1fr; }
-		.concept-badge { display: none; }
-		.concept-detail { padding: 16px; }
-		.quiz-options { grid-template-columns: 1fr; }
-		.hs-row { grid-template-columns: 80px 1fr 80px; }
-	}
-</style>
-
 <script>
-const concepts = [
-  {
-    icon: "📦",
-    name: "Paquete (Packet)",
-    sub: "Capa 3 — Red",
-    badge: "IP",
-    color: "#4d96ff",
-    desc: "Un paquete es la unidad de datos de la Capa 3. Contiene una cabecera IP con las direcciones de origen y destino, y la carga útil (los datos reales).",
-    points: ["Dirección IP de origen y destino","TTL (Time To Live) — evita bucles infinitos","Suma de comprobación para verificar integridad","Fragmentación si el paquete es demasiado grande"],
-    chips: ["IP","IPv6","ICMP","Router"]
-  },
-  {
-    icon: "🖼️",
-    name: "Trama (Frame)",
-    sub: "Capa 2 — Enlace de Datos",
-    badge: "MAC",
-    color: "#c77dff",
-    desc: "Una trama encapsula el paquete añadiendo direcciones MAC de origen y destino. Es la unidad de datos que viaja entre dispositivos directamente conectados.",
-    points: ["Dirección MAC de origen y destino","FCS (Frame Check Sequence) — detección de errores","Encapsula el paquete de Capa 3","Opera entre dispositivos en la misma red local"],
-    chips: ["Ethernet","Wi-Fi","Switch","MAC"]
-  },
-  {
-    icon: "🔗",
-    name: "TCP",
-    sub: "Transmission Control Protocol",
-    badge: "ORIENTADO A CONEXIÓN",
-    color: "#6bcb77",
-    desc: "TCP garantiza que todos los datos lleguen correctamente y en orden. Requiere establecer una conexión antes de enviar datos mediante el Three-Way Handshake.",
-    points: ["Orientado a conexión — requiere handshake","Garantiza entrega y orden de los datos","Control de flujo y congestión","Más lento pero más fiable que UDP"],
-    chips: ["HTTP","HTTPS","FTP","SSH","SMTP"]
-  },
-  {
-    icon: "⚡",
-    name: "UDP",
-    sub: "User Datagram Protocol",
-    badge: "SIN CONEXIÓN",
-    color: "#ff9f43",
-    desc: "UDP no establece conexión ni verifica que los datos lleguen. Es más rápido que TCP y se usa cuando la velocidad importa más que la fiabilidad.",
-    points: ["Sin conexión — no hay handshake","No garantiza entrega ni orden","Más rápido y ligero que TCP","Ideal para streaming, VoIP y DNS"],
-    chips: ["DNS","VoIP","Streaming","Videojuegos"]
-  }
-];
+// @ts-nocheck
 
-const grid = document.getElementById('conceptsGrid');
-concepts.forEach(c => {
-  const card = document.createElement('div');
-  card.className = 'concept-card';
-  card.innerHTML = `
-    <div class="concept-icon" style="background:${c.color}22">${c.icon}</div>
-    <div class="concept-main" style="border-left:3px solid ${c.color};padding-left:16px">
-      <div class="concept-name" style="color:${c.color}">${c.name}</div>
-      <div class="concept-sub">${c.sub}</div>
-    </div>
-    <div class="concept-badge" style="border:1px solid ${c.color};color:${c.color}">${c.badge}</div>
-    <div class="concept-detail">
-      <div class="detail-grid">
-        <div class="detail-block"><h4>Descripción</h4><p>${c.desc}</p></div>
-        <div class="detail-block"><h4>Características</h4><ul>${c.points.map(p=>`<li style="color:#b0b0c8">▸ ${p}</li>`).join('')}</ul></div>
-        <div class="detail-block" style="grid-column:1/-1;margin-bottom:30px"><h4>Relacionado con</h4><div class="chips">${c.chips.map(ch=>`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;background:rgba(255,255,255,0.03);border:1px solid #1e1e2e;color:${c.color};display:inline-block">${ch}</span>`).join('')}</div></div>
-      </div>
-    </div>
-  `;
-  card.addEventListener('click', () => {
-    const was = card.classList.contains('active');
-    document.querySelectorAll('.concept-card').forEach(x => x.classList.remove('active'));
-    if (!was) card.classList.add('active');
-  });
-  grid.appendChild(card);
+document.querySelectorAll('.concept-card').forEach(el => {
+	el.addEventListener('click', () => {
+		const was = el.classList.contains('active');
+		document.querySelectorAll('.concept-card').forEach(x => x.classList.remove('active'));
+		if (!was) el.classList.add('active');
+	});
 });
 
-// Handshake
-const hsSteps = [
-  { from: 'client', label: 'SYN', color: '#6bcb77', dir: 'right', desc: 'Cliente inicia conexión con su número de secuencia inicial (ISN=0)' },
-  { from: 'server', label: 'SYN/ACK', color: '#4d96ff', dir: 'left', desc: 'Servidor confirma y envía su propio ISN (5000)' },
-  { from: 'client', label: 'ACK', color: '#6bcb77', dir: 'right', desc: 'Cliente confirma — conexión establecida' },
-  { from: 'client', label: 'DATA', color: '#ffd93d', dir: 'right', desc: 'Transferencia de datos' },
-  { from: 'client', label: 'FIN', color: '#ff6b6b', dir: 'right', desc: 'Cliente solicita cerrar la conexión' },
-  { from: 'server', label: 'FIN/ACK', color: '#ff6b6b', dir: 'left', desc: 'Servidor confirma y cierra la conexión' },
-];
-
-const hs = document.getElementById('handshake');
-// Header
-const header = document.createElement('div');
-header.className = 'hs-row';
-header.innerHTML = `
-  <div class="hs-actor client">CLIENTE</div>
-  <div></div>
-  <div class="hs-actor server">SERVIDOR</div>
-`;
-hs.appendChild(header);
-
-hsSteps.forEach(s => {
-  const row = document.createElement('div');
-  row.className = 'hs-row';
-  const isRight = s.dir === 'right';
-  row.innerHTML = `
-    <div class="hs-actor ${isRight ? 'client' : 'empty'}" style="${isRight ? '' : 'border-color:transparent'}">${isRight ? 'envía' : ''}</div>
-    <div class="hs-middle">
-      <div class="hs-label" style="color:${s.color}">${s.label}</div>
-      <div class="hs-arrow" style="${isRight ? '' : 'flex-direction:row-reverse'}">
-        <div class="hs-arrow-head" style="color:${s.color}">${isRight ? '' : '◀'}</div>
-        <div class="hs-arrow-line" style="background:${s.color};opacity:0.6"></div>
-        <div class="hs-arrow-head" style="color:${s.color}">${isRight ? '▶' : ''}</div>
-      </div>
-      <div class="hs-desc">${s.desc}</div>
-    </div>
-    <div class="hs-actor ${!isRight ? 'server' : 'empty'}" style="${!isRight ? '' : 'border-color:transparent'}">${!isRight ? 'envía' : ''}</div>
-  `;
-  hs.appendChild(row);
-});
-
-// Ports
-const ports = [
-  { num: 21, proto: 'FTP', desc: 'Transferencia de archivos', color: '#ff9f43' },
-  { num: 22, proto: 'SSH', desc: 'Acceso remoto seguro por terminal', color: '#6bcb77' },
-  { num: 80, proto: 'HTTP', desc: 'Navegación web sin cifrar', color: '#4d96ff' },
-  { num: 443, proto: 'HTTPS', desc: 'Navegación web cifrada (SSL/TLS)', color: '#00ff9f' },
-  { num: 445, proto: 'SMB', desc: 'Compartir archivos e impresoras', color: '#c77dff' },
-  { num: 3389, proto: 'RDP', desc: 'Escritorio remoto visual', color: '#ff6b9d' },
-];
-
-const pg = document.getElementById('portsGrid');
-ports.forEach(p => {
-  const card = document.createElement('div');
-  card.className = 'port-card';
-  card.style.setProperty('--pc', p.color);
-  card.innerHTML = `
-    <div class="port-num">${p.num}</div>
-    <div class="port-info">
-      <div class="port-proto">${p.proto}</div>
-      <div class="port-desc">${p.desc}</div>
-    </div>
-  `;
-  pg.appendChild(card);
-});
-
-// Quiz
 const questions = [
-  { q:"¿En qué capa del modelo OSI se encuentran los paquetes?", opts:["Capa 2 — Enlace de Datos","Capa 1 — Física","Capa 3 — Red","Capa 4 — Transporte"], correct:2, exp:"Los paquetes pertenecen a la Capa 3 (Red) y contienen direcciones IP." },
-  { q:"¿Qué unidad de datos encapsula al paquete añadiendo direcciones MAC?", opts:["Segmento","Trama (Frame)","Bit","Datagrama"], correct:1, exp:"La trama (Frame) de la Capa 2 encapsula el paquete y añade direcciones MAC de origen y destino." },
-  { q:"¿Qué significa TTL en una cabecera IP?", opts:["Total Transfer Limit","Time To Live","Transfer Token Layer","Transmission Type Level"], correct:1, exp:"TTL (Time To Live) es un temporizador de expiración que evita que los paquetes perdidos colapsen la red." },
-  { q:"¿Qué protocolo garantiza la entrega ordenada y confiable de datos?", opts:["UDP","IP","ICMP","TCP"], correct:3, exp:"TCP es orientado a conexión y garantiza que todos los datos lleguen en orden mediante acuses de recibo." },
-  { q:"¿Cuántos pasos tiene el Three-Way Handshake de TCP?", opts:["2","4","3","5"], correct:2, exp:"El Three-Way Handshake tiene 3 pasos: SYN → SYN/ACK → ACK." },
-  { q:"¿Qué mensaje TCP se usa para cerrar una conexión limpiamente?", opts:["RST","SYN","ACK","FIN"], correct:3, exp:"FIN se usa para cerrar la conexión de forma ordenada. RST la termina abruptamente por un error." },
-  { q:"¿En qué situación es preferible usar UDP sobre TCP?", opts:["Transferencia de archivos importantes","Streaming de vídeo en tiempo real","Navegación web segura","Envío de emails"], correct:1, exp:"UDP se usa cuando la velocidad importa más que la fiabilidad, como en streaming, VoIP o videojuegos." },
-  { q:"¿Qué puerto usa HTTPS?", opts:["80","8080","21","443"], correct:3, exp:"HTTPS usa el puerto 443. HTTP usa el puerto 80." },
-  { q:"¿Qué puerto usa SSH para acceso remoto seguro?", opts:["21","23","22","3389"], correct:2, exp:"SSH usa el puerto 22. RDP usa el 3389, FTP el 21 y Telnet el 23." },
-  { q:"¿Qué rango de puertos se consideran 'puertos bien conocidos'?", opts:["0 – 65535","1024 – 49151","0 – 1023","49152 – 65535"], correct:2, exp:"Los puertos del 0 al 1023 son puertos bien conocidos y están asignados a servicios estándar." },
+	{ q:"¿En qué capa del modelo OSI se encuentran los paquetes?", opts:["Capa 2 — Enlace de Datos","Capa 1 — Física","Capa 3 — Red","Capa 4 — Transporte"], correct:2, exp:"Los paquetes pertenecen a la Capa 3 (Red) y contienen direcciones IP." },
+	{ q:"¿Qué unidad de datos encapsula al paquete añadiendo direcciones MAC?", opts:["Segmento","Trama (Frame)","Bit","Datagrama"], correct:1, exp:"La trama (Frame) de la Capa 2 encapsula el paquete y añade direcciones MAC de origen y destino." },
+	{ q:"¿Qué significa TTL en una cabecera IP?", opts:["Total Transfer Limit","Time To Live","Transfer Token Layer","Transmission Type Level"], correct:1, exp:"TTL (Time To Live) es un temporizador de expiración que evita que los paquetes perdidos colapsen la red." },
+	{ q:"¿Qué protocolo garantiza la entrega ordenada y confiable de datos?", opts:["UDP","IP","ICMP","TCP"], correct:3, exp:"TCP es orientado a conexión y garantiza que todos los datos lleguen en orden mediante acuses de recibo." },
+	{ q:"¿Cuántos pasos tiene el Three-Way Handshake de TCP?", opts:["2","4","3","5"], correct:2, exp:"El Three-Way Handshake tiene 3 pasos: SYN → SYN/ACK → ACK." },
+	{ q:"¿Qué mensaje TCP se usa para cerrar una conexión limpiamente?", opts:["RST","SYN","ACK","FIN"], correct:3, exp:"FIN se usa para cerrar la conexión de forma ordenada. RST la termina abruptamente por un error." },
+	{ q:"¿En qué situación es preferible usar UDP sobre TCP?", opts:["Transferencia de archivos importantes","Streaming de vídeo en tiempo real","Navegación web segura","Envío de emails"], correct:1, exp:"UDP se usa cuando la velocidad importa más que la fiabilidad, como en streaming, VoIP o videojuegos." },
+	{ q:"¿Qué puerto usa HTTPS?", opts:["80","8080","21","443"], correct:3, exp:"HTTPS usa el puerto 443. HTTP usa el puerto 80." },
+	{ q:"¿Qué puerto usa SSH para acceso remoto seguro?", opts:["21","23","22","3389"], correct:2, exp:"SSH usa el puerto 22. RDP usa el 3389, FTP el 21 y Telnet el 23." },
+	{ q:"¿Qué rango de puertos se consideran 'puertos bien conocidos'?", opts:["0 – 65535","1024 – 49151","0 – 1023","49152 – 65535"], correct:2, exp:"Los puertos del 0 al 1023 son puertos bien conocidos y están asignados a servicios estándar." },
 ];
 
 let current = 0, score = 0, answered = false;
 
 function renderQ() {
-  const q = questions[current];
-  document.getElementById('quizQuestion').textContent = `${current+1}. ${q.q}`;
-  const opts = document.getElementById('quizOptions');
-  opts.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'quiz-option';
-    btn.textContent = opt;
-    btn.onclick = () => answerQ(i);
-    opts.appendChild(btn);
-  });
-  document.getElementById('quizFeedback').className = 'quiz-feedback';
-  document.getElementById('nextBtn').disabled = true;
-  document.getElementById('progressFill').style.width = `${(current/questions.length)*100}%`;
-  answered = false;
-  updateScore();
+	const q = questions[current];
+	document.getElementById('quizQuestion').textContent = `${current+1}. ${q.q}`;
+	const opts = document.getElementById('quizOptions');
+	opts.innerHTML = '';
+	q.opts.forEach((opt, i) => {
+		const btn = document.createElement('button');
+		btn.className = 'quiz-option';
+		btn.textContent = opt;
+		btn.onclick = () => answerQ(i);
+		opts.appendChild(btn);
+	});
+	document.getElementById('quizFeedback').className = 'quiz-feedback';
+	document.getElementById('nextBtn').disabled = true;
+	document.getElementById('progressFill').style.width = `${(current/questions.length)*100}%`;
+	answered = false;
+	updateScore();
 }
 
 function answerQ(i) {
-  if (answered) return;
-  answered = true;
-  const q = questions[current];
-  const btns = document.querySelectorAll('.quiz-option');
-  btns.forEach(b => b.disabled = true);
-  btns[q.correct].classList.add('correct');
-  const fb = document.getElementById('quizFeedback');
-  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
-  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
-  document.getElementById('nextBtn').disabled = false;
-  updateScore();
+	if (answered) return;
+	answered = true;
+	const q = questions[current];
+	const btns = document.querySelectorAll('.quiz-option');
+	btns.forEach(b => b.disabled = true);
+	btns[q.correct].classList.add('correct');
+	const fb = document.getElementById('quizFeedback');
+	if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+	else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+	document.getElementById('nextBtn').disabled = false;
+	updateScore();
 }
 
 function updateScore() { document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`; }
 
 document.getElementById('nextBtn').onclick = () => {
-  current++;
-  if (current < questions.length) { renderQ(); }
-  else {
-    document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('quizCard').innerHTML = `
-      <div style="text-align:center;padding:24px 0">
-        <div style="font-size:44px;margin-bottom:14px">${score>=9?'🏆':score>=7?'📚':'💪'}</div>
-        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/10</div>
-        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score===10?'¡Perfecto! Dominas Packets & Frames.':score>=7?'Muy bien. Repasa los conceptos que fallaste.':'Sigue estudiando — revisa las secciones de arriba.'}</div>
-        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
-      </div>
-    `;
-  }
+	current++;
+	if (current < questions.length) { renderQ(); }
+	else {
+		document.getElementById('progressFill').style.width = '100%';
+		document.getElementById('quizCard').innerHTML = `
+			<div style="text-align:center;padding:24px 0">
+				<div style="font-size:44px;margin-bottom:14px">${score>=9?'🏆':score>=7?'📚':'💪'}</div>
+				<div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/10</div>
+				<div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score===10?'¡Perfecto! Dominas Packets & Frames.':score>=7?'Muy bien. Repasa los conceptos que fallaste.':'Sigue estudiando — revisa las secciones de arriba.'}</div>
+				<button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+			</div>
+		`;
+	}
 };
 
 renderQ();

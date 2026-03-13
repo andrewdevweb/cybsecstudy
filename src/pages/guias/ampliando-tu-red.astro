@@ -1,0 +1,303 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Ampliando tu Red — CybSecStudy" description="Guía interactiva sobre Port Forwarding, Firewalls, VPNs, Routers y Switches con quiz de 10 preguntas." />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-hero { padding: 50px 0 40px; border-bottom: 1px solid #1e1e2e; margin-bottom: 40px; }
+    .g-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ffc8; border: 1px solid #00ffc8; padding: 4px 12px; margin-bottom: 20px; text-transform: uppercase; }
+    .guide-hero h1 { font-size: clamp(36px, 6vw, 64px) !important; font-weight: 800 !important; line-height: 1 !important; letter-spacing: -2px !important; margin-bottom: 16px !important; border: none !important; color: #e8e8f0 !important; padding: 0 !important; }
+    .guide-hero h1 span { color: #00ffc8; }
+    .guide-hero p { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; margin: 0; }
+
+    .g-intro { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ffc8; padding: 20px 24px; margin-bottom: 48px; }
+    .g-intro p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
+    .g-intro strong { color: #00ffc8; }
+
+    .g-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 20px; margin-top: 48px; }
+
+    .concepts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: border-color 0.25s, transform 0.25s; overflow: hidden; }
+    .concept:hover { transform: translateX(5px); }
+    .concept.active { border-color: var(--cc) !important; }
+
+    .concept-header { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; }
+    .concept-icon { width: 56px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-size: 22px; flex-shrink: 0; }
+    .concept-main { padding: 12px 18px; }
+    .concept-name { font-weight: 800; font-size: 16px; color: var(--cc); margin-bottom: 2px; }
+    .concept-sub { font-family: 'Space Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
+    .concept-badge { padding: 6px 14px; margin-right: 14px; font-family: 'Space Mono', monospace; font-size: 10px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+
+    .concept-body { display: none !important; padding: 20px 20px 20px 74px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+
+    .concept-body p { font-size: 14px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 12px !important; }
+    .concept-body strong { color: #e8e8f0 !important; }
+    .concept-body .hl { color: var(--cc); font-weight: 700; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .ctag { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 9px; border: 1px solid #2a2a3e; color: var(--cc); background: rgba(255,255,255,0.02); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 48px; font-family: 'Space Mono', monospace; font-size: 13px; display: block; overflow-x: auto; }
+    .compare-table th { background: #12121a; color: #00ffc8; padding: 12px 16px; text-align: left; border-bottom: 2px solid #00ffc8; font-size: 11px; letter-spacing: 2px; white-space: nowrap; }
+    .compare-table td { padding: 10px 16px; border-bottom: 1px solid #1e1e2e; color: #b0b0c8; vertical-align: top; }
+    .compare-table tr:hover td { background: rgba(0,255,200,0.03); }
+    .cyes { color: #6bcb77; }
+    .cno { color: #ff6b6b; }
+    .cmid { color: #ffd93d; }
+
+    .g-progress { height: 3px; background: #1e1e2e; margin-bottom: 28px; }
+    .g-progress-fill { height: 100%; background: #00ffc8; transition: width 0.4s ease; width: 0%; }
+    .g-quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 40px; }
+    .g-question { font-size: 16px !important; font-weight: 600; margin-bottom: 22px; line-height: 1.5; color: #e8e8f0; }
+    .g-options { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
+    .g-opt { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 13px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .g-opt:hover { border-color: #00ffc8; color: #00ffc8; }
+    .g-opt.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .g-opt.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .g-feedback { display: none; font-size: 14px; padding: 11px 15px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .g-feedback.show { display: block; }
+    .g-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .g-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .g-nav { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+    .g-btn { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 11px 22px; border: 1px solid #00ffc8; background: transparent; color: #00ffc8; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .g-btn:hover { background: #00ffc8; color: #000; }
+    .g-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .g-btn:disabled:hover { background: transparent; color: #00ffc8; }
+    .g-score { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+    @media (max-width: 640px) {
+      .concept-header { grid-template-columns: 48px 1fr; }
+      .concept-badge { display: none; }
+      .concept-body { padding: 16px !important; }
+      .g-options { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-hero">
+      <div class="g-tag">Redes — Guía Interactiva</div>
+      <h1>Ampliando <span>tu Red</span></h1>
+      <p>Port Forwarding, Firewalls, VPNs, Routers y Switches — las tecnologías que conectan redes privadas con el mundo exterior. Haz clic en cada concepto para expandirlo.</p>
+    </div>
+
+    <div class="g-intro">
+      <p>Por defecto, los dispositivos de una red local <strong>no son accesibles desde Internet</strong>. Estas tecnologías son las que hacen posible esa conexión — cada una con un rol distinto y complementario.</p>
+    </div>
+
+    <div class="g-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts">
+
+      <div class="concept" style="--cc:#ff6b9d">
+        <div class="concept-header">
+          <div class="concept-icon">🔀</div>
+          <div class="concept-main">
+            <div class="concept-name">Port Forwarding</div>
+            <div class="concept-sub">Reenvío de puertos</div>
+          </div>
+          <div class="concept-badge">Router</div>
+        </div>
+        <div class="concept-body">
+          <p>Por defecto, un servidor dentro de tu red (ej: <strong>192.168.1.10:80</strong>) es invisible desde Internet. Solo los dispositivos de tu red local pueden acceder a él — esto se llama <span class="hl">intranet</span>.</p>
+          <p>El <strong>port forwarding</strong> se configura en el router y redirige el tráfico externo a un dispositivo interno:<br><code style="background:#1e1e2e;padding:2px 8px;color:#ff6b9d;font-size:12px">Internet → 82.62.51.70:80 → Router → 192.168.1.10:80</code></p>
+          <p>⚠️ Port forwarding <strong>abre</strong> el puerto. El firewall decide <strong>si el tráfico puede pasar</strong>. Son conceptos distintos.</p>
+          <div class="tag-list"><span class="ctag">TCP/UDP</span><span class="ctag">Router</span><span class="ctag">IP pública</span><span class="ctag">Servidor web</span></div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-icon">🛡️</div>
+          <div class="concept-main">
+            <div class="concept-name">Firewall</div>
+            <div class="concept-sub">Filtrado de tráfico</div>
+          </div>
+          <div class="concept-badge">Seguridad</div>
+        </div>
+        <div class="concept-body">
+          <p>El firewall es el <strong>guardia de seguridad</strong> de la red. Controla qué tráfico puede entrar y salir según reglas definidas por el administrador.</p>
+          <p>Filtra según: <span class="hl">origen</span>, <span class="hl">destino</span>, <span class="hl">puerto</span> y <span class="hl">protocolo</span> (TCP/UDP).</p>
+          <p><strong>Stateful (con estado):</strong> analiza la conexión completa. Más inteligente pero consume más recursos. Bloquea dispositivos enteros si son maliciosos.</p>
+          <p><strong>Stateless (sin estado):</strong> aplica reglas fijas a cada paquete. Más ligero, ideal contra DDoS masivos, pero menos eficaz.</p>
+          <div class="tag-list"><span class="ctag">Stateful</span><span class="ctag">Stateless</span><span class="ctag">Snort</span><span class="ctag">pfSense</span></div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00ffc8">
+        <div class="concept-header">
+          <div class="concept-icon">🔐</div>
+          <div class="concept-main">
+            <div class="concept-name">VPN</div>
+            <div class="concept-sub">Red Privada Virtual</div>
+          </div>
+          <div class="concept-badge">Cifrado</div>
+        </div>
+        <div class="concept-body">
+          <p>Una VPN crea un <strong>túnel cifrado</strong> entre dispositivos en redes separadas, permitiéndoles comunicarse como si estuvieran en la misma red local.</p>
+          <p><strong>Beneficios:</strong> conectividad geográfica entre oficinas, privacidad del tráfico, anonimato frente al ISP.</p>
+          <p><strong>PPP:</strong> base de autenticación y cifrado, no enrutable por sí solo.<br>
+          <strong>PPTP:</strong> fácil de configurar pero cifrado débil.<br>
+          <strong>IPSec:</strong> cifrado fuerte, difícil de configurar pero muy seguro.</p>
+          <p>TryHackMe usa VPN para que practiques de forma segura sin exponer máquinas vulnerables a Internet.</p>
+          <div class="tag-list"><span class="ctag">PPP</span><span class="ctag">PPTP</span><span class="ctag">IPSec</span><span class="ctag">Túnel</span><span class="ctag">Cifrado</span></div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-icon">🌐</div>
+          <div class="concept-main">
+            <div class="concept-name">Router</div>
+            <div class="concept-sub">Enrutamiento entre redes</div>
+          </div>
+          <div class="concept-badge">Capa 3</div>
+        </div>
+        <div class="concept-body">
+          <p>El router <strong>conecta redes distintas</strong> y decide cómo pasar datos entre ellas. Opera en la <span class="hl">Capa 3 del modelo OSI</span> usando direcciones IP.</p>
+          <p>Cuando hay varias rutas posibles, elige la óptima según: camino más corto, más confiable o con el medio más rápido (cobre vs fibra).</p>
+          <p>Protocolos de enrutamiento como <strong>OSPF</strong> o <strong>BGP</strong> determinan automáticamente las rutas.</p>
+          <div class="tag-list"><span class="ctag">IP</span><span class="ctag">Capa 3</span><span class="ctag">OSPF</span><span class="ctag">BGP</span><span class="ctag">Enrutamiento</span></div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-icon">🔌</div>
+          <div class="concept-main">
+            <div class="concept-name">Switches</div>
+            <div class="concept-sub">L2, L3 y VLANs</div>
+          </div>
+          <div class="concept-badge">Capa 2-3</div>
+        </div>
+        <div class="concept-body">
+          <p>Un switch conecta <strong>múltiples dispositivos dentro de la misma red</strong>. No conecta redes distintas — eso es el router.</p>
+          <p><strong>Switch L2:</strong> opera en Capa 2, reenvía tramas usando <span class="hl">direcciones MAC</span>.<br>
+          <strong>Switch L3:</strong> más sofisticado — reenvía tramas por MAC Y enruta paquetes por IP.<br>
+          <strong>VLAN:</strong> divide virtualmente una red en segmentos separados aunque compartan el mismo switch.</p>
+          <div class="tag-list"><span class="ctag">MAC</span><span class="ctag">Capa 2</span><span class="ctag">Capa 3</span><span class="ctag">VLAN</span><span class="ctag">Trama</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="g-label">// Comparativa de tecnologías</div>
+    <img src="/compare-table.svg" alt="Comparativa de tecnologías de red" style="width:100%" />
+
+    <div class="g-label">// Quiz — 10 preguntas</div>
+    <div class="g-progress"><div class="g-progress-fill" id="gProgress"></div></div>
+    <div class="g-quiz-card" id="gQuizCard">
+      <div class="g-question" id="gQuestion"></div>
+      <div class="g-options" id="gOptions"></div>
+      <div class="g-feedback" id="gFeedback"></div>
+      <div class="g-nav">
+        <button class="g-btn" id="gNext" disabled>Siguiente →</button>
+        <span class="g-score" id="gScore">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+
+// EXPANDIR CONCEPTOS
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+// QUIZ
+const questions = [
+  { q: "¿Qué tecnología permite que un servidor web interno sea accesible desde Internet?", opts: ["VPN", "Firewall", "Port Forwarding", "VLAN"], correct: 2, exp: "El Port Forwarding configura el router para redirigir el tráfico externo a un dispositivo interno específico." },
+  { q: "Un firewall Stateful analiza...", opts: ["Solo el puerto de destino", "La conexión completa", "Solo paquetes individuales", "Solo el protocolo UDP"], correct: 1, exp: "El firewall Stateful analiza la conexión completa, no paquetes individuales. Permite decisiones más inteligentes pero consume más recursos." },
+  { q: "¿Cuál es la principal diferencia entre un router y un switch?", opts: ["El router es más rápido", "El switch conecta redes distintas", "El router conecta redes distintas, el switch conecta dispositivos dentro de una red", "Son lo mismo"], correct: 2, exp: "El router opera en Capa 3 y conecta redes distintas usando IPs. El switch opera en Capa 2 y conecta dispositivos dentro de la misma red." },
+  { q: "¿Qué protocolo VPN ofrece el cifrado más fuerte?", opts: ["PPTP", "PPP", "IPSec", "L2TP"], correct: 2, exp: "IPSec ofrece cifrado fuerte usando el framework IP existente. Es difícil de configurar pero el más seguro de los tres." },
+  { q: "Un switch de Capa 3 puede...", opts: ["Solo reenviar tramas por MAC", "Solo enrutar paquetes por IP", "Tanto reenviar tramas por MAC como enrutar paquetes por IP", "Conectar redes WAN"], correct: 2, exp: "El switch L3 combina las funciones de L2 (reenvío por MAC) y algunas de router (enrutamiento por IP)." },
+  { q: "¿Para qué sirve una VLAN?", opts: ["Aumentar la velocidad de la red", "Cifrar el tráfico entre dispositivos", "Dividir virtualmente una red en segmentos separados", "Conectar dos redes distintas"], correct: 2, exp: "Una VLAN segmenta virtualmente una red — dispositivos en VLANs distintas no pueden comunicarse entre sí aunque compartan el mismo switch." },
+  { q: "Un firewall Stateless...", opts: ["Analiza la conexión completa", "Aplica reglas fijas a cada paquete individual", "Cifra el tráfico", "Bloquea dispositivos enteros"], correct: 1, exp: "El firewall Stateless aplica reglas estáticas a cada paquete individualmente. Es más ligero pero menos inteligente que el Stateful." },
+  { q: "¿En qué capa OSI opera un router?", opts: ["Capa 1", "Capa 2", "Capa 3", "Capa 4"], correct: 2, exp: "El router opera en la Capa 3 (Red) del modelo OSI, usando direcciones IP para enrutar paquetes entre redes distintas." },
+  { q: "¿Qué ventaja principal ofrece una VPN?", opts: ["Mayor velocidad de conexión", "Túnel cifrado que protege el tráfico", "Expone servicios internos a Internet", "Segmenta la red en VLANs"], correct: 1, exp: "La VPN crea un túnel cifrado entre dispositivos — el tráfico viaja protegido y es invisible para intermediarios como el ISP." },
+  { q: "¿Port Forwarding y Firewall son lo mismo?", opts: ["Sí, ambos abren puertos", "No — el port forwarding abre puertos, el firewall decide si el tráfico puede pasar", "Sí, ambos filtran tráfico", "No — el firewall abre puertos, el port forwarding filtra"], correct: 1, exp: "Son conceptos distintos: el port forwarding abre puertos en el router. El firewall determina si el tráfico puede circular por esos puertos." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('gQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('gOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'g-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('gFeedback').className = 'g-feedback';
+  document.getElementById('gNext').disabled = true;
+  document.getElementById('gProgress').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.g-opt');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('gFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'g-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'g-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('gNext').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('gScore').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('gNext').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('gProgress').style.width = '100%';
+    document.getElementById('gQuizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8e8f0">Resultado: ${score}/10</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas esta sección.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa los conceptos de arriba.'}</div>
+        <button class="g-btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

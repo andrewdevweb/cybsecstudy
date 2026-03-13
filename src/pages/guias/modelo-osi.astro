@@ -9,6 +9,79 @@ import Footer from '../../components/Footer.astro';
 <head>
 	<BaseHead title="Modelo OSI — CybSecStudy" description="Guía interactiva de las 7 capas del Modelo OSI con protocolos, responsabilidades y quiz." />
 	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+	<style>
+		.guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+		.guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+		h1 { font-size: clamp(36px, 6vw, 60px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+		.accent { color: #00ff9f; }
+		.guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+
+		.intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+		.intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
+		.intro-card strong { color: #00ff9f; }
+
+		.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+
+		.layers-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 80px; }
+
+		.layer-card { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+		.layer-card:hover { transform: translateX(4px); border-color: var(--lc); }
+		.layer-card.active { border-color: var(--lc) !important; }
+
+		.layer-main { padding: 14px 20px; }
+		.layer-name { font-weight: 800; font-size: 16px; color: var(--lc); margin-bottom: 2px; }
+		.layer-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
+		.layer-badge { padding: 6px 14px; margin-right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; border: 1px solid var(--lc); color: var(--lc); opacity: 0.6; white-space: nowrap; }
+
+		.detail-panel { display: none !important; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; grid-column: 1/-1; }
+		.layer-card.active .detail-panel { display: block !important; }
+
+		.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+		.detail-block h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 8px; }
+		.detail-block p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+		.detail-block li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; list-style: none; }
+		.detail-block ul { padding: 0; display: flex; flex-direction: column; gap: 4px; }
+		.detail-block ul li::before { content: '▸ '; color: var(--lc); }
+		.protocol-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+		.encap-visual { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; }
+		.encap-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+		.encap-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; width: 60px; color: #6b6b8a; flex-shrink: 0; text-align: right; }
+		.encap-data { display: flex; gap: 3px; flex-wrap: wrap; }
+		.encap-block { height: 32px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 0 10px; white-space: nowrap; }
+		.encap-block.data { background: rgba(255,255,255,0.04); color: #555; border: 1px dashed #333; }
+		.encap-block.header { color: #000; font-weight: 700; }
+		.arrow-down { text-align: center; color: #00ff9f; font-size: 16px; margin: 1px 0 1px 70px; }
+
+		.progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+		.progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+
+		.quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+		.quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+		.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+		.quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+		.quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+		.quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+		.quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+		.quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+		.quiz-feedback.show { display: block; }
+		.quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+		.quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+		.quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+		.btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+		.btn:hover { background: #00ff9f; color: #000; }
+		.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+		.btn:disabled:hover { background: transparent; color: #00ff9f; }
+		.score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+		@media (max-width: 640px) {
+			.detail-grid { grid-template-columns: 1fr; }
+			.layer-card { grid-template-columns: 48px 1fr; }
+			.layer-badge { display: none; }
+			.detail-panel { padding: 16px !important; }
+			.quiz-options { grid-template-columns: 1fr; }
+		}
+	</style>
 </head>
 <body>
 	<Header />
@@ -28,7 +101,7 @@ import Footer from '../../components/Footer.astro';
 
 		<div class="section-label" style="margin-top:60px">// Encapsulación</div>
 		<p style="color:#6b6b8a;font-size:14px;margin-bottom:24px">Al enviar datos, cada capa añade su propia cabecera. Al recibir, cada capa elimina la suya.</p>
-		<div class="encap-visual" id="encapVisual"></div>
+		<img src="/encapsulacion-osi.svg" alt="Encapsulación OSI" style="width:100%" />
 
 		<div class="section-label" style="margin-top:60px">// Quiz</div>
 		<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -46,81 +119,8 @@ import Footer from '../../components/Footer.astro';
 </body>
 </html>
 
-<style>
-	.guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
-	.guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
-	h1 { font-size: clamp(36px, 6vw, 60px); letter-spacing: -2px; margin-bottom: 16px; }
-	.accent { color: #00ff9f; }
-	.guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
-
-	.intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
-	.intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
-	.intro-card strong { color: #00ff9f; }
-
-	.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
-
-	.layers-grid { display: flex; flex-direction: column; gap: 50px; margin-bottom: 80px; }
-
-	.layer-card { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
-	.layer-card:hover { transform: translateX(4px); border-color: var(--lc); }
-	.layer-card.active { border-color: var(--lc); }
-
-	.layer-num { width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; background: var(--lc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; color: #000; flex-shrink: 0; }
-	.layer-main { padding: 14px 20px; }
-	.layer-name { font-weight: 800; font-size: 16px; color: var(--lc); margin-bottom: 2px; }
-	.layer-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; letter-spacing: 1px; }
-	.layer-badge { padding: 6px 14px; margin-right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; border: 1px solid var(--lc); color: var(--lc); opacity: 0.6; white-space: nowrap; }
-
-	.detail-panel { display: none; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; grid-column: 1/-1; }
-	.layer-card.active .detail-panel { display: block; }
-
-	.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-	.detail-block h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 8px; }
-	.detail-block p, .detail-block li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
-	.detail-block ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-	.detail-block ul li::before { content: '▸ '; color: var(--lc); }
-	.protocol-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-
-	.encap-visual { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; }
-	.encap-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
-	.encap-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; width: 60px; color: #6b6b8a; flex-shrink: 0; text-align: right; }
-	.encap-data { display: flex; gap: 3px; flex-wrap: wrap; }
-	.encap-block { height: 32px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 0 10px; white-space: nowrap; }
-	.encap-block.data { background: rgba(255,255,255,0.04); color: #555; border: 1px dashed #333; }
-	.encap-block.header { color: #000; font-weight: 700; }
-	.arrow-down { text-align: center; color: #00ff9f; font-size: 16px; margin: 1px 0 1px 70px; }
-
-	.progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
-	.progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
-
-	.quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
-	.quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
-	.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-	.quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
-	.quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
-	.quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
-	.quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
-	.quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
-	.quiz-feedback.show { display: block; }
-	.quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
-	.quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
-	.quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
-	.btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
-	.btn:hover { background: #00ff9f; color: #000; }
-	.btn:disabled { opacity: 0.3; cursor: not-allowed; }
-	.btn:disabled:hover { background: transparent; color: #00ff9f; }
-	.score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
-
-	@media (max-width: 640px) {
-		.detail-grid { grid-template-columns: 1fr; }
-		.layer-card { grid-template-columns: 48px 1fr; }
-		.layer-badge { display: none; }
-		.detail-panel { padding: 16px; }
-		.quiz-options { grid-template-columns: 1fr; }
-	}
-</style>
-
 <script>
+// @ts-nocheck
 const layers = [
   { num:7, name:"Capa de Aplicación", badge:"PDU: DATOS", color:"#ff6b9d", role:"Es la capa más cercana al usuario final. Proporciona interfaces de red para las aplicaciones del usuario, como navegadores web y clientes de email.", resp:["Interfaz entre aplicaciones y la red","Identificación de socios de comunicación","Sincronización de comunicación","Determinación de recursos disponibles"], proto:["HTTP","HTTPS","FTP","SMTP","DNS","POP3","IMAP","SSH","Telnet"] },
   { num:6, name:"Capa de Presentación", badge:"PDU: DATOS", color:"#ff9f43", role:"Traduce, cifra/descifra y comprime datos entre la capa de aplicación y las capas inferiores. Actúa como el 'traductor' de la red.", resp:["Traducción y formateo de datos","Cifrado y descifrado (SSL/TLS)","Compresión de datos","Serialización de datos"], proto:["SSL","TLS","JPEG","MPEG","GIF","ASCII","Unicode"] },
@@ -158,7 +158,6 @@ layers.forEach(l => {
   grid.appendChild(card);
 });
 
-// Encapsulation
 const ev = document.getElementById('encapVisual');
 const colorMap = {7:'#ff6b9d',6:'#ff9f43',5:'#ffd93d',4:'#6bcb77',3:'#4d96ff',2:'#c77dff',1:'#ff6b6b'};
 const hdrMap = {7:'H7',6:'H6',5:'H5',4:'H4',3:'H3',2:'H2'};
@@ -179,7 +178,6 @@ const hdrMap = {7:'H7',6:'H6',5:'H5',4:'H4',3:'H3',2:'H2'};
   if (i < 6) { const a = document.createElement('div'); a.className = 'arrow-down'; a.textContent = '↓'; ev.appendChild(a); }
 });
 
-// Quiz
 const questions = [
   { q:"¿En qué capa del modelo OSI opera un router?", opts:["Capa 2 — Enlace de Datos","Capa 3 — Red","Capa 4 — Transporte","Capa 1 — Física"], correct:1, exp:"Los routers operan en la Capa 3 porque trabajan con direcciones IP para enrutar paquetes entre diferentes redes." },
   { q:"¿Qué protocolo de la Capa 4 garantiza entrega confiable y ordenada?", opts:["UDP","IP","TCP","HTTP"], correct:2, exp:"TCP garantiza la entrega ordenada mediante acuses de recibo, retransmisiones y control de flujo." },

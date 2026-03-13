@@ -203,3 +203,30 @@ li::marker {
 	white-space: nowrap;
 }
 
+
+/* GUÍAS INTERACTIVAS */
+.layer-card {
+  display: grid !important;
+  grid-template-columns: 52px 1fr auto !important;
+  background: #12121a !important;
+  border: 1px solid #1e1e2e !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+.layer-card:hover { border-color: var(--lc) !important; }
+.layer-card.active { border-color: var(--lc) !important; }
+.detail-panel { display: none !important; }
+.layer-card.active .detail-panel { display: block !important; }
+
+.concept, .concept-card {
+  background: #12121a !important;
+  border: 1px solid #1e1e2e !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+.concept.active { border-color: var(--cc) !important; }
+.concept-card.active { border-color: var(--cc) !important; }
+.concept-body { display: none !important; }
+.concept.active .concept-body { display: block !important; }
+.concept-detail { display: none !important; }
+.concept-card.active .concept-detail { display: block !important; }
