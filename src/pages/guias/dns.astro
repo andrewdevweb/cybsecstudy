@@ -1,0 +1,430 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="DNS — CybSecStudy" description="Guía interactiva sobre DNS: jerarquía de dominios, tipos de registros y resolución paso a paso." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(36px, 6vw, 60px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0; }
+    .intro-card strong, .intro-card code { color: #00ff9f; font-family: 'JetBrains Mono', monospace; font-size: 13px; background: none; border: none; padding: 0; }
+
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+
+    /* CONCEPTS */
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 16px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+
+    /* DNS RECORDS TABLE */
+    .records-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 48px; }
+    .record-card { background: #12121a; border: 1px solid #1e1e2e; padding: 16px 12px; cursor: pointer; transition: all 0.2s; }
+    .record-card:hover, .record-card.active { border-color: var(--rc); background: rgba(255,255,255,0.02); }
+    .record-type { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; color: var(--rc); margin-bottom: 6px; }
+    .record-short { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .record-detail { display: none; grid-column: 1/-1; background: #0d0d14; border: 1px solid #1e1e2e; padding: 20px; margin-top: 4px; }
+    .record-detail.show { display: block; }
+    .record-detail h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; margin-bottom: 10px; }
+    .record-detail p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .record-detail code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: #00ff9f; }
+    .example-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--rc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.8; margin-top: 10px; }
+
+    /* FLOW STEPS */
+    .flow-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .flow-step { display: flex; gap: 0; background: #12121a; border: 1px solid #1e1e2e; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+    .flow-step:hover { border-color: var(--fc); }
+    .flow-step.active { border-color: var(--fc) !important; }
+    .flow-num { width: 48px; min-height: 52px; background: var(--fc); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; color: #000; flex-shrink: 0; }
+    .flow-main { padding: 14px 20px; }
+    .flow-title { font-weight: 800; font-size: 15px; color: var(--fc); margin-bottom: 2px; }
+    .flow-sub { font-size: 12px; color: #6b6b8a; font-family: 'JetBrains Mono', monospace; }
+    .flow-body { display: none !important; padding: 16px 20px 16px 68px; border-top: 1px solid #1e1e2e; width: 100%; box-sizing: border-box; }
+    .flow-step.active .flow-body { display: block !important; }
+    .flow-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin: 0; }
+    .flow-body strong { color: #e8eaf0; }
+
+    /* QUIZ */
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+    @media (max-width: 640px) {
+      .records-grid { grid-template-columns: 1fr 1fr; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Redes — Guía Interactiva</div>
+      <h1><span class="accent">DNS</span></h1>
+      <p class="guide-desc">Domain Name System — El sistema que traduce nombres como <code style="color:#00ff9f;font-family:'JetBrains Mono',monospace;font-size:13px">tryhackme.com</code> a direcciones IP para que no tengas que memorizar números.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Cada dispositivo en Internet tiene una <strong>dirección IP única</strong>. Una IPv4 tiene el formato <code>104.26.10.229</code> — cuatro grupos del 0 al 255. El DNS actúa como la <strong>agenda telefónica de Internet</strong>: tú das el nombre, él devuelve el número.</p>
+    </div>
+
+    <!-- JERARQUÍA -->
+    <div class="section-label">// Jerarquía de dominios — clic para expandir</div>
+    <div class="concepts-list" id="conceptsList">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">TLD</div>
+          <div class="concept-title">Dominio de Nivel Superior</div>
+          <div class="concept-badge">parte más a la derecha</div>
+        </div>
+        <div class="concept-body">
+          <p>El TLD es lo que va al final: <code>.com</code>, <code>.org</code>, <code>.es</code>. Existen dos categorías:</p>
+          <ul>
+            <li><strong>gTLD (genérico):</strong> indica el propósito. <code>.com</code> comercial, <code>.org</code> organización, <code>.edu</code> educación, <code>.gov</code> gobierno. Hoy existen más de 2000: <code>.online</code>, <code>.club</code>, <code>.biz</code>...</li>
+            <li><strong>ccTLD (código de país):</strong> indica ubicación geográfica. <code>.ca</code> Canadá, <code>.co.uk</code> Reino Unido, <code>.es</code> España.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:10px;text-align:center">2ND</div>
+          <div class="concept-title">Dominio de Segundo Nivel</div>
+          <div class="concept-badge">el nombre registrado</div>
+        </div>
+        <div class="concept-body">
+          <p>En <code>tryhackme.com</code>, la parte <code>tryhackme</code> es el dominio de segundo nivel — el nombre que se registra y se paga.</p>
+          <ul>
+            <li>Máximo <strong>63 caracteres</strong> (sin contar el TLD)</li>
+            <li>Solo letras, dígitos del 0-9 y guiones</li>
+            <li>No puede empezar ni terminar con guión</li>
+            <li>No puede tener guiones consecutivos (<code>--</code>)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:10px">SUB</div>
+          <div class="concept-title">Subdominio</div>
+          <div class="concept-badge">parte izquierda</div>
+        </div>
+        <div class="concept-body">
+          <p>En <code>admin.tryhackme.com</code>, la parte <code>admin</code> es el subdominio. Puedes encadenar varios: <code>jupiter.servers.tryhackme.com</code>.</p>
+          <ul>
+            <li>Máximo <strong>63 caracteres</strong> por subdominio</li>
+            <li>Mismas restricciones de caracteres que el 2º nivel</li>
+            <li>Longitud total del nombre: máx. <strong>253 caracteres</strong></li>
+            <li>No hay límite en la cantidad de subdominios</li>
+          </ul>
+          <img src="/dns-hierarchy.svg" alt="Jerarquía de dominios DNS" style="width:100%;margin-top:16px" />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REGISTROS -->
+    <div class="section-label" style="margin-top:48px">// Tipos de registros DNS — clic para ver detalle</div>
+    <div class="records-grid" id="recordsGrid">
+
+      <div class="record-card" style="--rc:#4d96ff" data-id="A">
+        <div class="record-type">A</div>
+        <div class="record-short">Resuelve a IPv4</div>
+      </div>
+      <div class="record-card" style="--rc:#6bcb77" data-id="AAAA">
+        <div class="record-type">AAAA</div>
+        <div class="record-short">Resuelve a IPv6</div>
+      </div>
+      <div class="record-card" style="--rc:#ff9f43" data-id="CNAME">
+        <div class="record-type">CNAME</div>
+        <div class="record-short">Alias a otro dominio</div>
+      </div>
+      <div class="record-card" style="--rc:#ff6b9d" data-id="MX">
+        <div class="record-type">MX</div>
+        <div class="record-short">Servidores de correo</div>
+      </div>
+      <div class="record-card" style="--rc:#ffd93d" data-id="TXT">
+        <div class="record-type">TXT</div>
+        <div class="record-short">Texto libre / SPF</div>
+      </div>
+
+      <div class="record-detail" id="detail-A" style="--rc:#4d96ff">
+        <h4>// REGISTRO A</h4>
+        <p>Mapea un nombre de dominio a una <strong>dirección IPv4</strong>. Es el registro más básico — sin él el dominio no apunta a ningún servidor.</p>
+        <div class="example-block">tryhackme.com    A    104.26.10.229<br>tryhackme.com    A    104.26.11.229</div>
+      </div>
+      <div class="record-detail" id="detail-AAAA" style="--rc:#6bcb77">
+        <h4>// REGISTRO AAAA</h4>
+        <p>Igual que el registro A pero para <strong>direcciones IPv6</strong>. IPv6 usa 128 bits frente a los 32 de IPv4 — permite un número astronomicamente mayor de direcciones.</p>
+        <div class="example-block">tryhackme.com    AAAA    2606:4700:20::681a:be5</div>
+      </div>
+      <div class="record-detail" id="detail-CNAME" style="--rc:#ff9f43">
+        <h4>// REGISTRO CNAME</h4>
+        <p>Un <strong>alias</strong> que apunta a otro nombre de dominio en lugar de a una IP directamente. Útil cuando varios subdominios deben apuntar al mismo servidor.</p>
+        <div class="example-block">store.tryhackme.com    CNAME    shops.shopify.com<br><br># El cliente luego resuelve shops.shopify.com → IP</div>
+      </div>
+      <div class="record-detail" id="detail-MX" style="--rc:#ff6b9d">
+        <h4>// REGISTRO MX</h4>
+        <p>Indica qué servidor gestiona el <strong>correo electrónico</strong> del dominio. Incluye un valor de <strong>prioridad</strong> — menor número = mayor prioridad.</p>
+        <div class="example-block">tryhackme.com    MX    10    alt1.aspmx.l.google.com<br>tryhackme.com    MX    20    alt2.aspmx.l.google.com<br><br># Si alt1 falla, el correo va a alt2</div>
+      </div>
+      <div class="record-detail" id="detail-TXT" style="--rc:#ffd93d">
+        <h4>// REGISTRO TXT</h4>
+        <p>Campos de <strong>texto libre</strong>. Se usan principalmente para verificación de dominio, SPF (anti-spam) y DMARC (autenticación de correo).</p>
+        <div class="example-block">@ TXT "v=spf1 ip4:192.0.2.0/24 include:_spf.google.com ~all"<br>_dmarc TXT "v=DMARC1; p=reject; rua=mailto:dmarc@example.com"<br>@ TXT "MS=ms12345678"  # verificación de propiedad</div>
+      </div>
+
+    </div>
+
+    <!-- FLUJO DNS -->
+    <div class="section-label" style="margin-top:48px">// Cómo funciona una solicitud DNS — clic para expandir</div>
+    <img src="/dns-flow.svg" alt="Flujo resolución DNS" style="width:100%;margin-bottom:24px" />
+    <div class="flow-steps" id="flowSteps">
+
+      <div class="flow-step" style="--fc:#00ff9f">
+        <div class="flow-num">1</div>
+        <div style="flex:1">
+          <div class="flow-main">
+            <div class="flow-title">Caché local</div>
+            <div class="flow-sub">tu ordenador — primera comprobación</div>
+          </div>
+          <div class="flow-body">
+            <p>Cuando escribes un dominio, tu ordenador comprueba primero si ya lo resolvió recientemente. Si hay una entrada en caché y el <strong>TTL no ha expirado</strong>, usa esa respuesta directamente — sin hacer ninguna consulta externa.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step" style="--fc:#4d96ff">
+        <div class="flow-num">2</div>
+        <div style="flex:1">
+          <div class="flow-main">
+            <div class="flow-title">DNS Recursivo</div>
+            <div class="flow-sub">ISP / 8.8.8.8 / 1.1.1.1</div>
+          </div>
+          <div class="flow-body">
+            <p>Si no hay caché local, la consulta va al <strong>servidor DNS recursivo</strong> — normalmente el de tu ISP, aunque puedes usar <code>8.8.8.8</code> (Google) o <code>1.1.1.1</code> (Cloudflare). Este también tiene su propia caché. Si tiene la respuesta, la devuelve directamente. Si no, continúa la búsqueda.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step" style="--fc:#ff9f43">
+        <div class="flow-num">3</div>
+        <div style="flex:1">
+          <div class="flow-main">
+            <div class="flow-title">Servidores Raíz</div>
+            <div class="flow-sub">la columna vertebral del DNS — 13 en el mundo</div>
+          </div>
+          <div class="flow-body">
+            <p>Los servidores raíz son la cima de la jerarquía DNS. No saben la IP de <code>tryhackme.com</code>, pero saben <strong>a qué servidor TLD preguntar</strong>. Reconocen la extensión (<code>.com</code>, <code>.org</code>...) y redirigen al servidor TLD correspondiente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step" style="--fc:#ffd93d">
+        <div class="flow-num">4</div>
+        <div style="flex:1">
+          <div class="flow-main">
+            <div class="flow-title">Servidor TLD</div>
+            <div class="flow-sub">sabe dónde están los servidores autoritativos</div>
+          </div>
+          <div class="flow-body">
+            <p>El servidor TLD gestiona todos los dominios bajo su extensión. No tiene la IP final, pero sabe <strong>qué servidor autoritativo</strong> tiene los registros del dominio. Para <code>tryhackme.com</code> devuelve: <code>kip.ns.cloudflare.com</code> y <code>uma.ns.cloudflare.com</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step" style="--fc:#c77dff">
+        <div class="flow-num">5</div>
+        <div style="flex:1">
+          <div class="flow-main">
+            <div class="flow-title">Servidor Autoritativo</div>
+            <div class="flow-sub">la respuesta final — registros DNS reales</div>
+          </div>
+          <div class="flow-body">
+            <p>El servidor autoritativo es el <strong>responsable final</strong> de los registros DNS del dominio. Devuelve la respuesta (IP, MX, TXT...) al recursivo, que la cachea y la envía a tu ordenador. Suele haber varios servidores autoritativos por dominio como respaldo.</p>
+            <p style="margin-top:8px">Cada respuesta incluye un <strong>TTL</strong> (Time To Live) en segundos — durante ese tiempo, la respuesta se reutiliza desde caché sin volver a consultar.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+
+// CONCEPTS expand
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+// RECORDS expand
+const recordCards = document.querySelectorAll('.record-card');
+recordCards.forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.id;
+    const detail = document.getElementById('detail-' + id);
+    const wasActive = card.classList.contains('active');
+    // close all
+    recordCards.forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.record-detail').forEach(d => d.classList.remove('show'));
+    // toggle
+    if (!wasActive) {
+      card.classList.add('active');
+      if (detail) detail.classList.add('show');
+    }
+  });
+});
+
+// FLOW expand
+document.querySelectorAll('.flow-step').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.flow-step').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+// QUIZ
+const questions = [
+  { q: "¿Qué significa DNS?", opts: ["Domain Name System","Dynamic Network Service","Distributed Node Server","Data Name Syntax"], correct: 0, exp: "DNS significa Domain Name System — Sistema de Nombres de Dominio. Traduce nombres como 'tryhackme.com' a direcciones IP." },
+  { q: "¿Qué tipo de registro DNS resuelve a una dirección IPv4?", opts: ["AAAA","MX","A","CNAME"], correct: 2, exp: "El registro A mapea un nombre de dominio a una dirección IPv4 (ej: 104.26.10.229)." },
+  { q: "¿Cuál es la diferencia entre un registro A y AAAA?", opts: ["A es para correo, AAAA para web","A resuelve IPv4, AAAA resuelve IPv6","A es más rápido que AAAA","No hay diferencia"], correct: 1, exp: "El registro A resuelve IPv4 (32 bits) y AAAA resuelve IPv6 (128 bits)." },
+  { q: "¿Qué registro DNS se usa para gestionar el correo electrónico de un dominio?", opts: ["A","TXT","CNAME","MX"], correct: 3, exp: "El registro MX (Mail Exchange) indica qué servidores gestionan el correo del dominio e incluye un valor de prioridad." },
+  { q: "En 'admin.tryhackme.com', ¿qué parte es el subdominio?", opts: [".com","tryhackme","admin","tryhackme.com"], correct: 2, exp: "'admin' es el subdominio — la parte a la izquierda del dominio de segundo nivel, separada por un punto." },
+  { q: "¿Qué servidor DNS es el responsable final de almacenar los registros de un dominio?", opts: ["Servidor raíz","DNS recursivo","Servidor TLD","Servidor autoritativo"], correct: 3, exp: "El servidor autoritativo es el que tiene los registros DNS reales del dominio y donde se hacen las actualizaciones." },
+  { q: "¿Qué indica el valor TTL en un registro DNS?", opts: ["La velocidad de resolución","El tiempo que la respuesta puede estar en caché","El número de servidores autoritativos","El tipo de protocolo usado"], correct: 1, exp: "TTL (Time To Live) indica los segundos que la respuesta DNS puede reutilizarse desde caché sin volver a consultar." },
+  { q: "¿Qué registro DNS es un alias que apunta a otro nombre de dominio?", opts: ["A","MX","TXT","CNAME"], correct: 3, exp: "El registro CNAME (Canonical Name) es un alias que apunta a otro dominio en lugar de a una IP directamente." },
+  { q: "¿En qué orden se consultan los servidores en una resolución DNS completa?", opts: ["Raíz → TLD → Recursivo → Autoritativo","Recursivo → Raíz → TLD → Autoritativo","TLD → Raíz → Autoritativo → Recursivo","Autoritativo → TLD → Raíz → Recursivo"], correct: 1, exp: "El orden es: caché local → DNS Recursivo → Servidores Raíz → Servidor TLD → Servidor Autoritativo." },
+  { q: "¿Para qué se usan comúnmente los registros TXT?", opts: ["Resolver IPs de servidores de correo","Apuntar a subdominios","Verificar propiedad de dominio y configurar SPF/DMARC","Almacenar direcciones IPv6"], correct: 2, exp: "Los registros TXT se usan para verificar propiedad de dominio, configurar SPF (anti-spam) y DMARC (autenticación de correo)." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas el DNS.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa los conceptos de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

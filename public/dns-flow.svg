@@ -1,0 +1,71 @@
+<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+
+  <!-- Step boxes -->
+  <!-- 1: Tu ordenador -->
+  <rect x="10" y="60" width="100" height="56" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="60" y="82" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">TU PC</text>
+  <text x="60" y="96" text-anchor="middle" fill="#6b6b8a" font-size="8">caché local</text>
+  <text x="60" y="108" text-anchor="middle" fill="#6b6b8a" font-size="8">primero</text>
+  <text x="60" y="46" text-anchor="middle" fill="#00ff9f" font-size="18" font-weight="700">1</text>
+
+  <!-- arrow -->
+  <line x1="110" y1="88" x2="135" y2="88" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="122" y="82" text-anchor="middle" fill="#6b6b8a" font-size="7">query</text>
+
+  <!-- 2: DNS Recursivo -->
+  <rect x="135" y="60" width="110" height="56" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="190" y="79" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">DNS RECURSIVO</text>
+  <text x="190" y="93" text-anchor="middle" fill="#6b6b8a" font-size="8">ISP / 8.8.8.8</text>
+  <text x="190" y="107" text-anchor="middle" fill="#6b6b8a" font-size="8">1.1.1.1</text>
+  <text x="190" y="46" text-anchor="middle" fill="#4d96ff" font-size="18" font-weight="700">2</text>
+
+  <!-- arrow -->
+  <line x1="245" y1="88" x2="270" y2="88" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="257" y="82" text-anchor="middle" fill="#6b6b8a" font-size="7">si no hay caché</text>
+
+  <!-- 3: Root servers -->
+  <rect x="270" y="60" width="100" height="56" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="320" y="79" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">SERVIDORES</text>
+  <text x="320" y="93" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">RAÍZ</text>
+  <text x="320" y="107" text-anchor="middle" fill="#6b6b8a" font-size="8">13 en el mundo</text>
+  <text x="320" y="46" text-anchor="middle" fill="#ff9f43" font-size="18" font-weight="700">3</text>
+
+  <!-- arrow -->
+  <line x1="370" y1="88" x2="395" y2="88" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="382" y="82" text-anchor="middle" fill="#6b6b8a" font-size="7">→ TLD</text>
+
+  <!-- 4: TLD server -->
+  <rect x="395" y="60" width="100" height="56" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="445" y="79" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">SERVIDOR TLD</text>
+  <text x="445" y="93" text-anchor="middle" fill="#6b6b8a" font-size="8">.com / .org</text>
+  <text x="445" y="107" text-anchor="middle" fill="#6b6b8a" font-size="8">.es / .uk ...</text>
+  <text x="445" y="46" text-anchor="middle" fill="#ffd93d" font-size="18" font-weight="700">4</text>
+
+  <!-- arrow -->
+  <line x1="495" y1="88" x2="520" y2="88" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="507" y="82" text-anchor="middle" fill="#6b6b8a" font-size="7">→ NS</text>
+
+  <!-- 5: Autoritativo -->
+  <rect x="520" y="60" width="120" height="56" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="580" y="79" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="700">AUTORITATIVO</text>
+  <text x="580" y="93" text-anchor="middle" fill="#6b6b8a" font-size="8">ns.cloudflare.com</text>
+  <text x="580" y="107" text-anchor="middle" fill="#6b6b8a" font-size="8">registros reales</text>
+  <text x="580" y="46" text-anchor="middle" fill="#c77dff" font-size="18" font-weight="700">5</text>
+
+  <!-- return arrow (bottom) -->
+  <path d="M 580 116 Q 580 155 60 155 Q 60 136 60 136" fill="none" stroke="#00ff9f" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr2)"/>
+  <text x="320" y="170" text-anchor="middle" fill="#00ff9f" font-size="8">respuesta IP + TTL → cachear → entregar</text>
+
+  <!-- TTL badge -->
+  <rect x="270" y="178" width="100" height="16" fill="rgba(0,255,159,0.06)" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="320" y="189" text-anchor="middle" fill="#00ff9f" font-size="8">TTL: tiempo de vida en caché</text>
+
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#444"/>
+    </marker>
+    <marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#00ff9f"/>
+    </marker>
+  </defs>
+</svg>

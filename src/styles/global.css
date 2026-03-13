@@ -230,3 +230,10 @@ li::marker {
 .concept.active .concept-body { display: block !important; }
 .concept-detail { display: none !important; }
 .concept-card.active .concept-detail { display: block !important; }
+.flow-step { display: flex !important; background: #12121a !important; border: 1px solid #1e1e2e !important; cursor: pointer !important; overflow: hidden !important; }
+.flow-step.active { border-color: var(--fc) !important; }
+.flow-body { display: none !important; }
+.flow-step.active .flow-body { display: block !important; }
+.record-card { background: #12121a !important; border: 1px solid #1e1e2e !important; cursor: pointer !important; }
+.record-detail { display: none !important; }
+.record-detail.show { display: block !important; }
