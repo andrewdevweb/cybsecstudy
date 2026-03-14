@@ -2,6 +2,10 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const guidesCount = 4; // actualiza este número cuando añadas una guía
 ---
 
 <!doctype html>
@@ -28,11 +32,11 @@ import Footer from '../components/Footer.astro';
 				</div>
 				<div class="stats-col">
 					<div class="stat-card">
-						<div class="stat-num">2</div>
-						<div class="stat-label">Guías interactivas</div>
-					</div>
+						<div class="stat-num">{guidesCount}</div>
+							<div class="stat-label">Guías interactivas</div>
+						</div>
 					<div class="stat-card">
-						<div class="stat-num">2</div>
+						<div class="stat-num">{posts.length}</div>
 						<div class="stat-label">Apuntes publicados</div>
 					</div>
 					<div class="stat-card">

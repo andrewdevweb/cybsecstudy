@@ -12,6 +12,14 @@ const posts = (await getCollection('blog'))
 function formatDate(date : Date) {
   return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
 }
+
+const guides = [
+  { num: '01', href: '/guias/modelo-osi',       title: 'Modelo OSI',        desc: 'Las 7 capas explicadas con protocolos y quiz interactivo.',          tag: 'Redes', color: '#00ff9f' },
+  { num: '02', href: '/guias/packets-frames',   title: 'Packets & Frames',  desc: 'TCP, UDP, Three-Way Handshake y puertos principales.',               tag: 'Redes', color: '#4d96ff' },
+  { num: '03', href: '/guias/ampliando-tu-red', title: 'Ampliando tu Red',  desc: 'Port Forwarding, Firewalls, VPNs, Routers y Switches.',              tag: 'Redes', color: '#ff9f43' },
+  { num: '04', href: '/guias/dns',              title: 'DNS',               desc: 'Sistema de Nombres de Dominio — jerarquía, registros y resolución.', tag: 'Redes', color: '#c77dff' },
+];
+const recentGuides = guides.slice(-3).reverse();
 ---
 
 <!doctype html>
@@ -59,30 +67,19 @@ function formatDate(date : Date) {
 			<section class="section">
 				<div class="section-label">// guías interactivas</div>
 				<div class="cards">
-					<a href="/guias/modelo-osi" class="card">
-						<div class="card-num">01</div>
-						<div class="card-body">
-							<div class="card-title">Modelo OSI</div>
-							<div class="card-desc">Las 7 capas explicadas con ejemplos, protocolos y quiz interactivo.</div>
-							<div class="card-tag">Redes</div>
-						</div>
-					</a>
-					<a href="/guias/packets-frames" class="card">
-						<div class="card-num">02</div>
-						<div class="card-body">
-							<div class="card-title">Packets & Frames</div>
-							<div class="card-desc">TCP, UDP, Three-Way Handshake y puertos principales.</div>
-							<div class="card-tag">Redes</div>
-						</div>
-					</a>
-					<div class="card card-soon">
-						<div class="card-num">03</div>
-						<div class="card-body">
-							<div class="card-title">Subnetting</div>
-							<div class="card-desc">Próximamente...</div>
-							<div class="card-tag">Redes</div>
-						</div>
-					</div>
+					{recentGuides.map((g) => (
+						<a href={g.href} class="card" style={`--cc:${g.color}`}>
+							<div class="card-num" style={`color:${g.color}`}>{g.num}</div>
+							<div class="card-body">
+								<div class="card-title">{g.title}</div>
+								<div class="card-desc">{g.desc}</div>
+								<div class="card-tag" style={`color:${g.color};border-color:${g.color}`}>{g.tag}</div>
+							</div>
+						</a>
+					))}
+				</div>
+				<div style="margin-top: 24px;">
+					<a href="/guias" class="btn-secondary">Ver todas las guías →</a>
 				</div>
 			</section>
 		</main>
@@ -215,13 +212,10 @@ function formatDate(date : Date) {
 		transition: all 0.2s;
 		cursor: pointer;
 	}
-	.card:hover { border-color: #00ff9f; transform: translateY(-2px); }
-	.card-soon { opacity: 0.4; cursor: default; }
-	.card-soon:hover { border-color: #1e1e2e; transform: none; }
+	.card:hover { border-color: var(--cc); transform: translateY(-2px); }
 	.card-num {
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 11px;
-		color: #00ff9f;
 		letter-spacing: 2px;
 	}
 	.card-title { font-size: 17px; font-weight: 800; color: #e8eaf0; margin-bottom: 6px; }
@@ -230,8 +224,6 @@ function formatDate(date : Date) {
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 10px;
 		letter-spacing: 1px;
-		color: #00ff9f;
-		border: 1px solid #00ff9f;
 		padding: 2px 8px;
 		display: inline-block;
 		margin-top: 8px;
