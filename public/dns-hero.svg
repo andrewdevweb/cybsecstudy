@@ -1,0 +1,129 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+
+  <!-- background -->
+  <rect width="800" height="400" fill="#0a0a0f"/>
+
+  <!-- grid lines -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="400" fill="url(#grid)"/>
+
+  <!-- glow center -->
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="rgba(0,255,159,0.07)"/>
+    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+  </radialGradient>
+  <rect width="800" height="400" fill="url(#glow)"/>
+
+  <!-- LEFT: domain anatomy -->
+  <!-- subdominio -->
+  <rect x="40" y="155" width="90" height="36" fill="rgba(255,159,67,0.1)" stroke="#ff9f43" stroke-width="1"/>
+  <text x="85" y="168" text-anchor="middle" fill="#ff9f43" font-size="9" letter-spacing="1">SUBDOMINIO</text>
+  <text x="85" y="182" text-anchor="middle" fill="#ff9f43" font-size="13" font-weight="700">admin</text>
+
+  <text x="133" y="178" fill="#333" font-size="18">.</text>
+
+  <!-- 2nd level -->
+  <rect x="142" y="155" width="110" height="36" fill="rgba(77,150,255,0.1)" stroke="#4d96ff" stroke-width="1"/>
+  <text x="197" y="168" text-anchor="middle" fill="#4d96ff" font-size="9" letter-spacing="1">2º NIVEL</text>
+  <text x="197" y="182" text-anchor="middle" fill="#4d96ff" font-size="13" font-weight="700">tryhackme</text>
+
+  <text x="255" y="178" fill="#333" font-size="18">.</text>
+
+  <!-- TLD -->
+  <rect x="264" y="155" width="60" height="36" fill="rgba(0,255,159,0.1)" stroke="#00ff9f" stroke-width="1"/>
+  <text x="294" y="168" text-anchor="middle" fill="#00ff9f" font-size="9" letter-spacing="1">TLD</text>
+  <text x="294" y="182" text-anchor="middle" fill="#00ff9f" font-size="13" font-weight="700">.com</text>
+
+  <!-- arrow down to IP -->
+  <line x1="197" y1="195" x2="197" y2="225" stroke="#00ff9f" stroke-width="1" stroke-dasharray="3,3"/>
+  <polygon points="192,222 197,232 202,222" fill="#00ff9f"/>
+
+  <!-- IP result -->
+  <rect x="130" y="235" width="175" height="32" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="217" y="255" text-anchor="middle" fill="#00ff9f" font-size="13" font-weight="700">104.26.10.229</text>
+
+  <!-- label -->
+  <text x="197" y="140" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="2">NOMBRE DE DOMINIO</text>
+  <text x="217" y="285" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="2">DIRECCIÓN IPv4</text>
+
+  <!-- RIGHT: DNS flow vertical -->
+  <!-- nodes -->
+  <!-- PC -->
+  <rect x="490" y="60" width="100" height="36" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="540" y="78" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">TU PC</text>
+  <text x="540" y="90" text-anchor="middle" fill="#6b6b8a" font-size="8">caché local</text>
+
+  <!-- arrow -->
+  <line x1="540" y1="96" x2="540" y2="116" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#a1)"/>
+  <text x="555" y="110" fill="#6b6b8a" font-size="8">miss</text>
+
+  <!-- Recursivo -->
+  <rect x="490" y="118" width="100" height="36" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="540" y="136" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">RECURSIVO</text>
+  <text x="540" y="148" text-anchor="middle" fill="#6b6b8a" font-size="8">ISP / 8.8.8.8</text>
+
+  <line x1="540" y1="154" x2="540" y2="174" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- Raíz -->
+  <rect x="490" y="176" width="100" height="36" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="540" y="194" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">RAÍZ</text>
+  <text x="540" y="206" text-anchor="middle" fill="#6b6b8a" font-size="8">13 servidores</text>
+
+  <line x1="540" y1="212" x2="540" y2="232" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- TLD server -->
+  <rect x="490" y="234" width="100" height="36" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="540" y="252" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">TLD</text>
+  <text x="540" y="264" text-anchor="middle" fill="#6b6b8a" font-size="8">.com / .org</text>
+
+  <line x1="540" y1="270" x2="540" y2="290" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#a1)"/>
+
+  <!-- Autoritativo -->
+  <rect x="490" y="292" width="100" height="36" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="540" y="310" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">AUTORITATIVO</text>
+  <text x="540" y="322" text-anchor="middle" fill="#6b6b8a" font-size="8">registros reales</text>
+
+  <!-- return arrow -->
+  <path d="M 600 310 Q 660 310 660 78 Q 660 60 600 60" fill="none" stroke="#00ff9f" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#a2)"/>
+  <text x="668" y="200" fill="#00ff9f" font-size="8" transform="rotate(90,668,200)">IP + TTL</text>
+
+  <!-- center: title -->
+  <text x="400" y="100" text-anchor="middle" fill="#1e1e2e" font-size="72" font-weight="700">DNS</text>
+  <text x="400" y="92" text-anchor="middle" fill="#e8eaf0" font-size="64" font-weight="700">DNS</text>
+  <text x="400" y="120" text-anchor="middle" fill="#00ff9f" font-size="10" letter-spacing="4">DOMAIN NAME SYSTEM</text>
+
+  <!-- record types badges center bottom -->
+  <rect x="330" y="310" width="36" height="20" fill="rgba(77,150,255,0.1)" stroke="#4d96ff" stroke-width="1"/>
+  <text x="348" y="324" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">A</text>
+
+  <rect x="372" y="310" width="42" height="20" fill="rgba(107,203,119,0.1)" stroke="#6bcb77" stroke-width="1"/>
+  <text x="393" y="324" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">AAAA</text>
+
+  <rect x="420" y="310" width="50" height="20" fill="rgba(255,159,67,0.1)" stroke="#ff9f43" stroke-width="1"/>
+  <text x="445" y="324" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">CNAME</text>
+
+  <rect x="330" y="336" width="36" height="20" fill="rgba(255,107,157,0.1)" stroke="#ff6b9d" stroke-width="1"/>
+  <text x="348" y="350" text-anchor="middle" fill="#ff6b9d" font-size="10" font-weight="700">MX</text>
+
+  <rect x="372" y="336" width="36" height="20" fill="rgba(255,217,61,0.1)" stroke="#ffd93d" stroke-width="1"/>
+  <text x="390" y="350" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">TXT</text>
+
+  <rect x="414" y="336" width="56" height="20" fill="rgba(199,125,255,0.1)" stroke="#c77dff" stroke-width="1"/>
+  <text x="442" y="350" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">NS / SOA</text>
+
+  <text x="400" y="295" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="2">TIPOS DE REGISTRO</text>
+
+  <defs>
+    <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#333"/>
+    </marker>
+    <marker id="a2" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
+      <path d="M6,0 L6,6 L0,3 z" fill="#00ff9f"/>
+    </marker>
+  </defs>
+
+</svg>
