@@ -1,0 +1,138 @@
+<svg viewBox="0 0 600 580" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+
+  <!-- background -->
+  <rect width="600" height="580" fill="#0a0a0f"/>
+
+  <!-- vertical connector line -->
+  <line x1="300" y1="80" x2="300" y2="480" stroke="#1e1e2e" stroke-width="2"/>
+
+  <!-- ============ PASO 1: PC ============ -->
+  <!-- icon box -->
+  <rect x="220" y="30" width="160" height="80" rx="4" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <!-- monitor -->
+  <rect x="255" y="45" width="50" height="34" rx="2" fill="#0a0a0f" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="263" y="50" width="34" height="22" fill="#0a0a12"/>
+  <!-- screen lines -->
+  <line x1="266" y1="55" x2="294" y2="55" stroke="#00ff9f" stroke-width="1.5"/>
+  <line x1="266" y1="60" x2="288" y2="60" stroke="#00ff9f" stroke-width="1"/>
+  <line x1="266" y1="65" x2="291" y2="65" stroke="#00ff9f" stroke-width="1"/>
+  <!-- stand -->
+  <rect x="275" y="79" width="10" height="5" fill="#00ff9f" opacity="0.5"/>
+  <rect x="269" y="84" width="22" height="3" rx="1" fill="#00ff9f" opacity="0.5"/>
+  <!-- label -->
+  <text x="318" y="65" fill="#e8eaf0" font-size="12" font-weight="700">TU PC</text>
+  <text x="318" y="82" fill="#6b6b8a" font-size="9">caché local</text>
+  <!-- step badge -->
+  <rect x="285" y="114" width="30" height="20" rx="3" fill="#00ff9f"/>
+  <text x="300" y="128" text-anchor="middle" fill="#000" font-size="11" font-weight="700">1</text>
+
+  <!-- arrow down 1→2 -->
+  <line x1="300" y1="134" x2="300" y2="174" stroke="#00ff9f" stroke-width="2" marker-end="url(#green-arrow)"/>
+  <!-- arrow up 2→1 (return, offset) -->
+  <line x1="308" y1="174" x2="308" y2="134" stroke="#00ff9f" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#green-arrow-sm)"/>
+
+  <!-- ============ PASO 2: DNS RECURSIVO ============ -->
+  <rect x="220" y="178" width="160" height="80" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <!-- server icon -->
+  <rect x="245" y="192" width="44" height="50" rx="2" fill="#0d0d1a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="248" y="196" width="38" height="8" rx="1" fill="#4d96ff" opacity="0.3"/>
+  <circle cx="282" cy="200" r="2" fill="#4d96ff"/>
+  <rect x="248" y="208" width="38" height="8" rx="1" fill="#4d96ff" opacity="0.2"/>
+  <circle cx="282" cy="212" r="2" fill="#4d96ff" opacity="0.6"/>
+  <rect x="248" y="220" width="38" height="8" rx="1" fill="#4d96ff" opacity="0.15"/>
+  <circle cx="282" cy="224" r="2" fill="#4d96ff" opacity="0.4"/>
+  <!-- DNS label on server -->
+  <text x="263" y="238" text-anchor="middle" fill="#4d96ff" font-size="7" font-weight="700">DNS</text>
+  <!-- text -->
+  <text x="300" y="208" fill="#e8eaf0" font-size="11" font-weight="700">RECURSIVO</text>
+  <text x="300" y="222" fill="#6b6b8a" font-size="9">ISP / 8.8.8.8</text>
+  <text x="300" y="235" fill="#6b6b8a" font-size="9">1.1.1.1</text>
+  <!-- step badge -->
+  <rect x="285" y="261" width="30" height="20" rx="3" fill="#4d96ff"/>
+  <text x="300" y="275" text-anchor="middle" fill="#000" font-size="11" font-weight="700">2</text>
+
+  <!-- arrow down 2→3 -->
+  <line x1="300" y1="281" x2="300" y2="321" stroke="#4d96ff" stroke-width="2" marker-end="url(#blue-arrow)"/>
+
+  <!-- ============ PASO 3: ROOT DNS ============ -->
+  <rect x="220" y="325" width="160" height="80" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <!-- globe icon -->
+  <circle cx="263" cy="365" r="22" fill="#0d0d1a" stroke="#ff9f43" stroke-width="1.5"/>
+  <ellipse cx="263" cy="365" rx="10" ry="22" fill="none" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="241" y1="365" x2="285" y2="365" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="243" y1="352" x2="283" y2="352" stroke="#ff9f43" stroke-width="1" opacity="0.3"/>
+  <line x1="243" y1="378" x2="283" y2="378" stroke="#ff9f43" stroke-width="1" opacity="0.3"/>
+  <text x="263" y="369" text-anchor="middle" fill="#ff9f43" font-size="8" font-weight="700">DNS</text>
+  <!-- text -->
+  <text x="298" y="355" fill="#e8eaf0" font-size="11" font-weight="700">RAÍZ</text>
+  <text x="298" y="369" fill="#6b6b8a" font-size="9">Root DNS Server</text>
+  <text x="298" y="382" fill="#6b6b8a" font-size="9">13 en el mundo</text>
+  <!-- step badge -->
+  <rect x="285" y="408" width="30" height="20" rx="3" fill="#ff9f43"/>
+  <text x="300" y="422" text-anchor="middle" fill="#000" font-size="11" font-weight="700">3</text>
+
+  <!-- arrow down 3→4 -->
+  <line x1="300" y1="428" x2="300" y2="468" stroke="#ff9f43" stroke-width="2" marker-end="url(#orange-arrow)"/>
+
+  <!-- ============ PASO 4: AUTORITATIVO ============ -->
+  <rect x="220" y="472" width="160" height="80" rx="4" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <!-- server icon -->
+  <rect x="245" y="486" width="44" height="50" rx="2" fill="#0d0d1a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="248" y="490" width="38" height="8" rx="1" fill="#c77dff" opacity="0.3"/>
+  <circle cx="282" cy="494" r="2" fill="#c77dff"/>
+  <rect x="248" y="502" width="38" height="8" rx="1" fill="#c77dff" opacity="0.2"/>
+  <circle cx="282" cy="506" r="2" fill="#c77dff" opacity="0.6"/>
+  <rect x="248" y="514" width="38" height="8" rx="1" fill="#c77dff" opacity="0.15"/>
+  <!-- cloud icon on server -->
+  <text x="263" y="530" text-anchor="middle" fill="#c77dff" font-size="7" font-weight="700">DNS</text>
+  <!-- text -->
+  <text x="300" y="502" fill="#e8eaf0" font-size="11" font-weight="700">AUTORITATIVO</text>
+  <text x="300" y="516" fill="#6b6b8a" font-size="9">Authoritative</text>
+  <text x="300" y="529" fill="#6b6b8a" font-size="9">registros reales</text>
+  <!-- step badge -->
+  <rect x="285" y="555" width="30" height="20" rx="3" fill="#c77dff"/>
+  <text x="300" y="569" text-anchor="middle" fill="#000" font-size="11" font-weight="700">4</text>
+
+  <!-- ============ PASO 5: RETURN ARROW (left side big) ============ -->
+  <path d="M 220 512 Q 60 512 60 365 Q 60 218 220 70" fill="none" stroke="#00ff9f" stroke-width="2.5" marker-end="url(#green-arrow-lg)"/>
+  <!-- step 5 badge on the curve -->
+  <rect x="28" y="345" width="30" height="20" rx="3" fill="#00ff9f"/>
+  <text x="43" y="359" text-anchor="middle" fill="#000" font-size="11" font-weight="700">5</text>
+  <!-- label -->
+  <text x="52" y="385" text-anchor="middle" fill="#00ff9f" font-size="8">IP</text>
+  <text x="52" y="397" text-anchor="middle" fill="#00ff9f" font-size="8">+TTL</text>
+
+  <!-- right side labels -->
+  <rect x="390" y="188" width="180" height="22" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="480" y="203" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">Recursive DNS Server</text>
+
+  <rect x="390" y="335" width="160" height="22" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="470" y="350" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">Root DNS Server</text>
+
+  <rect x="390" y="482" width="140" height="22" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="460" y="497" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">Authoritative</text>
+
+  <!-- connector lines to labels -->
+  <line x1="380" y1="199" x2="390" y2="199" stroke="#4d96ff" stroke-width="1" opacity="0.5"/>
+  <line x1="380" y1="346" x2="390" y2="346" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="380" y1="493" x2="390" y2="493" stroke="#c77dff" stroke-width="1" opacity="0.5"/>
+
+  <defs>
+    <marker id="green-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/>
+    </marker>
+    <marker id="green-arrow-sm" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#00ff9f" opacity="0.7"/>
+    </marker>
+    <marker id="green-arrow-lg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/>
+    </marker>
+    <marker id="blue-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/>
+    </marker>
+    <marker id="orange-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#ff9f43"/>
+    </marker>
+  </defs>
+
+</svg>

@@ -1,0 +1,494 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="HTTP en Detalle — CybSecStudy" description="Guía interactiva sobre HTTP: URLs, métodos, códigos de estado, cabeceras y cookies." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(36px, 6vw, 60px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .intro-card code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #00ff9f; background: none; border: none; padding: 0; }
+
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+
+    /* CONCEPTS */
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; }
+    .code-block .kw { color: #4d96ff; }
+    .code-block .val { color: #b0b0c8; }
+    .code-block .ok { color: #00ff9f; font-weight: 700; }
+    .code-block .comment { color: #3a3a5a; }
+
+    /* STATUS GRID */
+    .status-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 48px; }
+    .status-range { background: #12121a; border: 1px solid #1e1e2e; padding: 16px 12px; cursor: pointer; transition: all 0.2s; }
+    .status-range:hover, .status-range.active { border-color: var(--sc); }
+    .status-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; color: var(--sc); margin-bottom: 4px; }
+    .status-name { font-size: 10px; color: #6b6b8a; line-height: 1.4; }
+    .status-detail { display: none; grid-column: 1/-1; background: #0d0d14; border: 1px solid #1e1e2e; padding: 20px; margin-top: 4px; }
+    .status-detail.show { display: block; }
+    .status-detail h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #6b6b8a; margin-bottom: 12px; }
+    .codes-list { display: flex; flex-direction: column; gap: 8px; }
+    .code-item { display: flex; align-items: flex-start; gap: 12px; }
+    .code-badge { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--sc); width: 38px; flex-shrink: 0; padding-top: 1px; }
+    .code-desc { font-size: 12px; color: #b0b0c8; line-height: 1.6; }
+    .code-desc span { color: #6b6b8a; font-size: 11px; }
+
+    /* QUIZ */
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+
+    @media (max-width: 640px) {
+      .status-grid { grid-template-columns: 1fr 1fr; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Web — Guía Interactiva</div>
+      <h1><span class="accent">HTTP</span> en Detalle</h1>
+      <p class="guide-desc">HyperText Transfer Protocol — el protocolo que hace posible la web. Aprende cómo se comunican cliente y servidor.</p>
+    </div>
+
+    <div class="intro-card">
+      <p><strong>HTTP</strong> es el conjunto de reglas para transferir datos en la web: HTML, imágenes, vídeos, APIs. Fue desarrollado por Tim Berners-Lee entre 1989 y 1991.</p>
+      <p><strong>HTTPS</strong> es la versión segura — el tráfico viaja cifrado con TLS/SSL, lo que impide interceptaciones y garantiza que hablas con el servidor correcto.</p>
+    </div>
+
+    <!-- URL -->
+    <div class="section-label">// Anatomía de una URL — clic para expandir</div>
+    <img src="/http-url.svg" alt="Anatomía de una URL" style="width:100%;margin-bottom:16px;border:none;border-radius:0" />
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">ESQ</div>
+          <div class="concept-title">Esquema</div>
+          <div class="concept-badge">http / https / ftp</div>
+        </div>
+        <div class="concept-body">
+          <p>Indica qué protocolo usar para acceder al recurso. Los más comunes son <code>http</code> y <code>https</code>, aunque también existe <code>ftp</code> para transferencia de archivos.</p>
+          <ul>
+            <li><strong>http://</strong> — sin cifrado, puerto 80 por defecto</li>
+            <li><strong>https://</strong> — cifrado TLS/SSL, puerto 443 por defecto</li>
+            <li><strong>ftp://</strong> — transferencia de archivos, puerto 21</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">HOST</div>
+          <div class="concept-title">Host y Puerto</div>
+          <div class="concept-badge">dominio o IP</div>
+        </div>
+        <div class="concept-body">
+          <p>El <strong>host</strong> es el dominio o dirección IP del servidor. El <strong>puerto</strong> indica por dónde conectarse — si no se especifica, se usa el del esquema.</p>
+          <ul>
+            <li>Puerto <strong>80</strong> → HTTP por defecto</li>
+            <li>Puerto <strong>443</strong> → HTTPS por defecto</li>
+            <li>Cualquier puerto entre <strong>1 y 65535</strong> es válido</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">RUTA</div>
+          <div class="concept-title">Ruta y Query String</div>
+          <div class="concept-badge">/path?param=valor</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>ruta</strong> indica el archivo o recurso dentro del servidor. El <strong>query string</strong> empieza con <code>?</code> y envía parámetros adicionales.</p>
+          <div class="code-block">
+            /blog<span class="kw">?</span>id=<span class="ok">1</span><span class="comment">  # artículo con id 1</span><br>
+            /search<span class="kw">?</span>q=<span class="ok">http</span><span class="kw">&</span>page=<span class="ok">2</span><span class="comment">  # múltiples parámetros</span>
+          </div>
+          <p style="margin-top:10px">El <strong>fragmento</strong> (<code>#section</code>) referencia una sección dentro de la página — nunca se envía al servidor, solo lo usa el navegador.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MÉTODOS -->
+    <div class="section-label" style="margin-top:48px">// Métodos HTTP — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">GET</div>
+          <div class="concept-title">GET — Obtener información</div>
+          <div class="concept-badge">solo lectura</div>
+        </div>
+        <div class="concept-body">
+          <p>Solicita un recurso del servidor. Es el método más usado — cada vez que cargas una web, tu navegador hace un GET. <strong>No modifica datos</strong>.</p>
+          <div class="code-block">
+            <span class="ok">GET</span> /index.html HTTP/1.1<br>
+            <span class="kw">Host:</span> <span class="val">tryhackme.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">POST</div>
+          <div class="concept-title">POST — Enviar datos</div>
+          <div class="concept-badge">crea registros</div>
+        </div>
+        <div class="concept-body">
+          <p>Envía datos al servidor para <strong>crear nuevos registros</strong>: formularios de login, registro de usuarios, publicar comentarios...</p>
+          <div class="code-block">
+            <span class="ok">POST</span> /login HTTP/1.1<br>
+            <span class="kw">Host:</span> <span class="val">tryhackme.com</span><br>
+            <span class="kw">Content-Type:</span> <span class="val">application/x-www-form-urlencoded</span><br>
+            <br>
+            username=admin&password=1234
+          </div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">PUT</div>
+          <div class="concept-title">PUT — Actualizar datos</div>
+          <div class="concept-badge">modifica existente</div>
+        </div>
+        <div class="concept-body">
+          <p>Envía datos para <strong>actualizar un recurso existente</strong> en el servidor. A diferencia de POST, PUT es idempotente — ejecutarlo varias veces produce el mismo resultado.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">DEL</div>
+          <div class="concept-title">DELETE — Eliminar datos</div>
+          <div class="concept-badge">borra recursos</div>
+        </div>
+        <div class="concept-body">
+          <p>Solicita al servidor que <strong>elimine un recurso</strong>. Requiere los permisos adecuados — sin autenticación, el servidor debería rechazarlo con un 401 o 403.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SOLICITUD Y RESPUESTA -->
+    <div class="section-label" style="margin-top:48px">// Solicitud y Respuesta</div>
+    <img src="/http-flow.svg" alt="Flujo HTTP request-response" style="width:100%;margin-bottom:24px;border:none;border-radius:0" />
+
+    <!-- CÓDIGOS DE ESTADO -->
+    <div class="section-label" style="margin-top:48px">// Códigos de estado — clic para ver detalle</div>
+    <img src="/http-status.svg" alt="Códigos de estado HTTP" style="width:100%;margin-bottom:16px;border:none;border-radius:0" />
+    <div class="status-grid" id="statusGrid">
+
+      <div class="status-range" style="--sc:#6b6b8a" data-id="1xx">
+        <div class="status-num">1xx</div>
+        <div class="status-name">Informativo</div>
+      </div>
+      <div class="status-range" style="--sc:#00ff9f" data-id="2xx">
+        <div class="status-num">2xx</div>
+        <div class="status-name">Éxito</div>
+      </div>
+      <div class="status-range" style="--sc:#4d96ff" data-id="3xx">
+        <div class="status-num">3xx</div>
+        <div class="status-name">Redirección</div>
+      </div>
+      <div class="status-range" style="--sc:#ffd93d" data-id="4xx">
+        <div class="status-num">4xx</div>
+        <div class="status-name">Error cliente</div>
+      </div>
+      <div class="status-range" style="--sc:#ff6b6b" data-id="5xx">
+        <div class="status-num">5xx</div>
+        <div class="status-name">Error servidor</div>
+      </div>
+
+      <div class="status-detail" id="detail-1xx" style="--sc:#6b6b8a">
+        <h4>// 1XX — INFORMATIVO</h4>
+        <div class="codes-list">
+          <div class="code-item"><div class="code-badge">100</div><div class="code-desc"><strong>Continue</strong> — <span>La solicitud está en proceso, continúa enviando datos.</span></div></div>
+          <div class="code-item"><div class="code-badge">101</div><div class="code-desc"><strong>Switching Protocols</strong> — <span>El servidor acepta cambiar de protocolo (ej: de HTTP a WebSocket).</span></div></div>
+        </div>
+      </div>
+      <div class="status-detail" id="detail-2xx" style="--sc:#00ff9f">
+        <h4>// 2XX — ÉXITO</h4>
+        <div class="codes-list">
+          <div class="code-item"><div class="code-badge">200</div><div class="code-desc"><strong>OK</strong> — <span>La solicitud se completó correctamente.</span></div></div>
+          <div class="code-item"><div class="code-badge">201</div><div class="code-desc"><strong>Created</strong> — <span>Se creó un nuevo recurso (nuevo usuario, nuevo post...).</span></div></div>
+          <div class="code-item"><div class="code-badge">204</div><div class="code-desc"><strong>No Content</strong> — <span>Éxito, pero sin cuerpo en la respuesta.</span></div></div>
+        </div>
+      </div>
+      <div class="status-detail" id="detail-3xx" style="--sc:#4d96ff">
+        <h4>// 3XX — REDIRECCIÓN</h4>
+        <div class="codes-list">
+          <div class="code-item"><div class="code-badge">301</div><div class="code-desc"><strong>Moved Permanently</strong> — <span>La página se movió para siempre. Los motores de búsqueda actualizan el enlace.</span></div></div>
+          <div class="code-item"><div class="code-badge">302</div><div class="code-desc"><strong>Found</strong> — <span>Redirección temporal — podría volver a cambiar.</span></div></div>
+          <div class="code-item"><div class="code-badge">304</div><div class="code-desc"><strong>Not Modified</strong> — <span>El recurso no cambió — usa la versión en caché.</span></div></div>
+        </div>
+      </div>
+      <div class="status-detail" id="detail-4xx" style="--sc:#ffd93d">
+        <h4>// 4XX — ERROR DEL CLIENTE</h4>
+        <div class="codes-list">
+          <div class="code-item"><div class="code-badge">400</div><div class="code-desc"><strong>Bad Request</strong> — <span>La solicitud tiene errores o le faltan parámetros.</span></div></div>
+          <div class="code-item"><div class="code-badge">401</div><div class="code-desc"><strong>Unauthorized</strong> — <span>Necesitas autenticarte primero.</span></div></div>
+          <div class="code-item"><div class="code-badge">403</div><div class="code-desc"><strong>Forbidden</strong> — <span>Sin permiso, aunque estés autenticado.</span></div></div>
+          <div class="code-item"><div class="code-badge">404</div><div class="code-desc"><strong>Not Found</strong> — <span>El recurso no existe en el servidor.</span></div></div>
+          <div class="code-item"><div class="code-badge">405</div><div class="code-desc"><strong>Method Not Allowed</strong> — <span>Ese método HTTP no está permitido para esa ruta.</span></div></div>
+        </div>
+      </div>
+      <div class="status-detail" id="detail-5xx" style="--sc:#ff6b6b">
+        <h4>// 5XX — ERROR DEL SERVIDOR</h4>
+        <div class="codes-list">
+          <div class="code-item"><div class="code-badge">500</div><div class="code-desc"><strong>Internal Server Error</strong> — <span>El servidor no supo manejar la solicitud.</span></div></div>
+          <div class="code-item"><div class="code-badge">502</div><div class="code-desc"><strong>Bad Gateway</strong> — <span>El servidor recibió una respuesta inválida de otro servidor.</span></div></div>
+          <div class="code-item"><div class="code-badge">503</div><div class="code-desc"><strong>Service Unavailable</strong> — <span>Servidor sobrecargado o en mantenimiento.</span></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CABECERAS -->
+    <div class="section-label" style="margin-top:48px">// Cabeceras HTTP — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">REQ</div>
+          <div class="concept-title">Cabeceras de Solicitud</div>
+          <div class="concept-badge">cliente → servidor</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li><code>Host</code> — <strong>Qué sitio web quieres</strong> — un servidor puede alojar varios dominios</li>
+            <li><code>User-Agent</code> — <strong>Navegador y versión</strong> — el servidor adapta la respuesta según el cliente</li>
+            <li><code>Content-Length</code> — <strong>Tamaño de los datos enviados</strong> — el servidor espera exactamente ese número de bytes</li>
+            <li><code>Accept-Encoding</code> — <strong>Compresión aceptada</strong>: gzip, br, deflate...</li>
+            <li><code>Cookie</code> — <strong>Datos de sesión</strong> guardados anteriormente</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">RES</div>
+          <div class="concept-title">Cabeceras de Respuesta</div>
+          <div class="concept-badge">servidor → cliente</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li><code>Set-Cookie</code> — <strong>Guarda esta cookie</strong> en el navegador para enviarla en futuras solicitudes</li>
+            <li><code>Cache-Control</code> — <strong>Cuánto tiempo cachear</strong> el recurso antes de volver a solicitarlo</li>
+            <li><code>Content-Type</code> — <strong>Tipo de datos devueltos</strong>: text/html, application/json, image/png...</li>
+            <li><code>Content-Encoding</code> — <strong>Compresión usada</strong>: gzip, br...</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COOKIES -->
+    <div class="section-label" style="margin-top:48px">// Cookies — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">🍪</div>
+          <div class="concept-title">¿Qué son las cookies?</div>
+          <div class="concept-badge">estado en HTTP sin estado</div>
+        </div>
+        <div class="concept-body">
+          <p>HTTP es un protocolo <strong>sin estado</strong> — no recuerda solicitudes anteriores. Las cookies resuelven esto: pequeños archivos que el servidor manda al navegador y este devuelve en cada solicitud.</p>
+          <div class="code-block">
+            <span class="comment"># Servidor → Cliente (primera vez)</span><br>
+            <span class="kw">Set-Cookie:</span> <span class="ok">sessionId=abc123xyz</span>; HttpOnly; Secure<br>
+            <br>
+            <span class="comment"># Cliente → Servidor (todas las siguientes)</span><br>
+            <span class="kw">Cookie:</span> <span class="ok">sessionId=abc123xyz</span>
+          </div>
+          <p style="margin-top:12px">Sus usos principales son:</p>
+          <ul>
+            <li><strong>Autenticación</strong> — token de sesión único, nunca la contraseña en texto plano</li>
+            <li><strong>Preferencias</strong> — idioma, tema, configuración del sitio</li>
+            <li><strong>Seguimiento</strong> — analítica y publicidad</li>
+          </ul>
+          <p>Puedes verlas en <strong>DevTools → Red → selecciona una solicitud → Cookies</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+
+// CONCEPTS expand
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+// STATUS expand
+const statusRanges = document.querySelectorAll('.status-range');
+statusRanges.forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.id;
+    const detail = document.getElementById('detail-' + id);
+    const wasActive = card.classList.contains('active');
+    statusRanges.forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.status-detail').forEach(d => d.classList.remove('show'));
+    if (!wasActive) {
+      card.classList.add('active');
+      if (detail) detail.classList.add('show');
+    }
+  });
+});
+
+// QUIZ
+const questions = [
+  { q: "¿Qué significa HTTP?", opts: ["HyperText Transfer Protocol","High Traffic Transfer Protocol","HyperText Transport Program","Host Transfer Text Protocol"], correct: 0, exp: "HTTP significa HyperText Transfer Protocol — el protocolo que define cómo se comunican cliente y servidor web." },
+  { q: "¿Cuál es la diferencia principal entre HTTP y HTTPS?", opts: ["HTTPS es más rápido","HTTPS cifra el tráfico con TLS/SSL","HTTPS usa el puerto 80","No hay diferencia"], correct: 1, exp: "HTTPS cifra el tráfico con TLS/SSL, lo que protege los datos en tránsito e impide interceptaciones." },
+  { q: "¿Qué método HTTP se usa para obtener información de un servidor?", opts: ["POST","DELETE","PUT","GET"], correct: 3, exp: "GET se usa para solicitar/obtener recursos del servidor. Es el método más común — cada carga de página usa GET." },
+  { q: "¿Qué código de estado indica que una solicitud se completó correctamente?", opts: ["404","301","500","200"], correct: 3, exp: "200 OK indica que la solicitud se completó correctamente." },
+  { q: "¿Qué significa un código 404?", opts: ["Error del servidor","Solicitud incorrecta","Recurso no encontrado","Sin permiso"], correct: 2, exp: "404 Not Found significa que el recurso solicitado no existe en el servidor." },
+  { q: "¿Qué parte de la URL indica el protocolo a usar?", opts: ["El puerto","El fragmento","El esquema","La ruta"], correct: 2, exp: "El esquema (http://, https://, ftp://) indica qué protocolo usar para acceder al recurso." },
+  { q: "¿Qué cabecera HTTP indica al servidor qué tipo de navegador está usando el cliente?", opts: ["Host","Cookie","Content-Type","User-Agent"], correct: 3, exp: "User-Agent contiene información sobre el navegador y su versión, lo que permite al servidor adaptar la respuesta." },
+  { q: "¿Para qué sirve la cabecera Set-Cookie?", opts: ["Para comprimir la respuesta","Para autenticar al servidor","Para que el servidor guarde una cookie en el navegador","Para indicar el tipo de contenido"], correct: 2, exp: "Set-Cookie ordena al navegador que guarde una cookie, que será enviada de vuelta al servidor en solicitudes futuras." },
+  { q: "¿Qué código de estado indica que el cliente no tiene permiso aunque esté autenticado?", opts: ["401","404","403","400"], correct: 2, exp: "403 Forbidden significa que no tienes permiso para acceder al recurso, independientemente de si estás autenticado." },
+  { q: "¿Por qué HTTP se considera 'sin estado'?", opts: ["Porque no usa TLS","Porque no recuerda solicitudes anteriores","Porque solo funciona con GET","Porque no tiene cabeceras"], correct: 1, exp: "HTTP no guarda información sobre solicitudes anteriores. Las cookies existen precisamente para resolver este problema." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas HTTP.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

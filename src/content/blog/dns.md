@@ -86,22 +86,25 @@ Sus usos más comunes son: verificar propiedad del dominio, configurar SPF/DMARC
 
 Cuando escribes `tryhackme.com` en el navegador, ocurre lo siguiente:
 
-**1. Caché local**
+**1. Caché local:**
 Tu ordenador comprueba si ya resolvió ese dominio recientemente. Si está en caché y el TTL no ha expirado, usa esa respuesta directamente.
 
-**2. Servidor DNS recursivo**
+**2. Servidor DNS recursivo:**
 Si no hay caché local, la consulta va al servidor DNS recursivo — normalmente proporcionado por tu ISP, aunque puedes usar otros como `8.8.8.8` (Google) o `1.1.1.1` (Cloudflare). Este servidor también tiene su propia caché.
 
-**3. Servidores raíz**
+**3. Servidores raíz:**
 Si el recursivo no tiene la respuesta, consulta uno de los 13 servidores raíz de Internet. Su función es redirigir al servidor TLD correcto según la extensión del dominio (`.com`, `.org`, `.es`...).
 
-**4. Servidor TLD**
+**4. Servidor TLD:**
 El servidor TLD sabe dónde están los servidores autoritativos para cada dominio registrado bajo esa extensión. Devuelve la dirección del servidor de nombres del dominio.
 
-**5. Servidor autoritativo**
+**5. Servidor autoritativo:**
 Es el servidor final — el que tiene los registros DNS reales del dominio. Devuelve la respuesta al recursivo, que la cachea y la envía a tu ordenador.
 
 **TTL (Time To Live):** cada registro DNS lleva un valor TTL en segundos. Mientras no expire, la respuesta se puede reutilizar desde caché sin volver a consultar.
+
+![Flujo de resolución DNS](/dns-resolution.svg)
+
 
 ---
 

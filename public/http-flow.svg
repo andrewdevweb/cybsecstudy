@@ -1,0 +1,67 @@
+<svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="660" height="300" fill="#0a0a0f"/>
+
+  <!-- CLIENT -->
+  <rect x="20" y="60" width="180" height="180" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="20" y="60" width="180" height="3" fill="#00ff9f"/>
+  <text x="110" y="82" text-anchor="middle" fill="#00ff9f" font-size="10" letter-spacing="2">CLIENTE</text>
+  <!-- monitor icon -->
+  <rect x="60" y="94" width="80" height="54" rx="2" fill="#0a0a0f" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="65" y="99" width="70" height="42" fill="#0d0d18"/>
+  <line x1="68" y1="107" x2="132" y2="107" stroke="#00ff9f" stroke-width="1.5"/>
+  <line x1="68" y1="115" x2="125" y2="115" stroke="#00ff9f" stroke-width="1" opacity="0.5"/>
+  <line x1="68" y1="123" x2="128" y2="123" stroke="#00ff9f" stroke-width="1" opacity="0.5"/>
+  <line x1="68" y1="131" x2="120" y2="131" stroke="#00ff9f" stroke-width="1" opacity="0.3"/>
+  <rect x="92" y="148" width="16" height="6" fill="#00ff9f" opacity="0.3"/>
+  <rect x="75" y="154" width="50" height="4" rx="1" fill="#00ff9f" opacity="0.3"/>
+  <!-- request box -->
+  <rect x="30" y="170" width="160" height="58" rx="1" fill="#0d0d18" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="40" y="186" fill="#00ff9f" font-size="9" font-weight="700">GET / HTTP/1.1</text>
+  <text x="40" y="198" fill="#4d96ff" font-size="8">Host: <tspan fill="#6b6b8a">tryhackme.com</tspan></text>
+  <text x="40" y="210" fill="#4d96ff" font-size="8">User-Agent: <tspan fill="#6b6b8a">Firefox</tspan></text>
+  <text x="40" y="222" fill="#4d96ff" font-size="8">Cookie: <tspan fill="#6b6b8a">sess=abc</tspan></text>
+
+  <!-- arrows center -->
+  <!-- request arrow → -->
+  <line x1="205" y1="145" x2="450" y2="145" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="327" y="138" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">REQUEST</text>
+  <text x="327" y="127" text-anchor="middle" fill="#6b6b8a" font-size="8">GET /index.html HTTP/1.1</text>
+
+  <!-- response arrow ← -->
+  <line x1="450" y1="165" x2="205" y2="165" stroke="#4d96ff" stroke-width="1.5" marker-end="url(#ba)"/>
+  <text x="327" y="183" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">RESPONSE</text>
+  <text x="327" y="194" text-anchor="middle" fill="#6b6b8a" font-size="8">HTTP/1.1 200 OK + HTML</text>
+
+  <!-- SERVER -->
+  <rect x="455" y="60" width="185" height="180" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="455" y="60" width="185" height="3" fill="#4d96ff"/>
+  <text x="547" y="82" text-anchor="middle" fill="#4d96ff" font-size="10" letter-spacing="2">SERVIDOR</text>
+  <!-- server rack icon -->
+  <rect x="500" y="94" width="95" height="60" rx="2" fill="#0a0a0f" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="504" y="98" width="87" height="14" rx="1" fill="#0d0d18" stroke="#4d96ff" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="584" cy="105" r="3" fill="#4d96ff"/>
+  <rect x="504" y="116" width="87" height="14" rx="1" fill="#0d0d18" stroke="#4d96ff" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="584" cy="123" r="3" fill="#4d96ff" opacity="0.6"/>
+  <rect x="504" y="134" width="87" height="14" rx="1" fill="#0d0d18" stroke="#4d96ff" stroke-width="0.5" opacity="0.5"/>
+  <circle cx="584" cy="141" r="3" fill="#4d96ff" opacity="0.4"/>
+  <!-- response box -->
+  <rect x="465" y="170" width="165" height="58" rx="1" fill="#0d0d18" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="475" y="186" fill="#4d96ff" font-size="9" font-weight="700">HTTP/1.1 <tspan fill="#00ff9f">200 OK</tspan></text>
+  <text x="475" y="198" fill="#4d96ff" font-size="8">Content-Type: <tspan fill="#6b6b8a">text/html</tspan></text>
+  <text x="475" y="210" fill="#4d96ff" font-size="8">Set-Cookie: <tspan fill="#6b6b8a">sess=abc</tspan></text>
+  <text x="475" y="222" fill="#6b6b8a" font-size="8">&lt;html&gt;...&lt;/html&gt;</text>
+
+  <!-- HTTPS badge -->
+  <rect x="230" y="240" width="200" height="40" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="330" y="256" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">HTTPS = HTTP + TLS</text>
+  <text x="330" y="271" text-anchor="middle" fill="#6b6b8a" font-size="8">tráfico cifrado · puerto 443</text>
+
+  <defs>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/>
+    </marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/>
+    </marker>
+  </defs>
+</svg>
