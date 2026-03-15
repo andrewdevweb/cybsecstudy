@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
-const guidesCount = 7; // actualiza este número cuando añadas una guía
+const guidesCount = 7;
 ---
 
 <!doctype html>
@@ -33,8 +33,8 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 				<div class="stats-col">
 					<div class="stat-card">
 						<div class="stat-num">{guidesCount}</div>
-							<div class="stat-label">Guías interactivas</div>
-						</div>
+						<div class="stat-label">Guías interactivas</div>
+					</div>
 					<div class="stat-card">
 						<div class="stat-num">{posts.length}</div>
 						<div class="stat-label">Apuntes publicados</div>
@@ -165,8 +165,14 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 </html>
 
 <style>
+	html, body {
+		overflow-x: hidden;
+		max-width: 100%;
+	}
+
 	.about-hero {
 		width: 100%;
+		max-width: 100%;
 		border-bottom: 1px solid #1e1e2e;
 		margin-bottom: 48px;
 		overflow: hidden;
@@ -178,6 +184,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		display: block;
 		border: none;
 		border-radius: 0;
+		max-width: 100%;
 	}
 
 	.section { margin-bottom: 64px; }
@@ -219,6 +226,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		border: 1px solid #1e1e2e;
 		padding: 16px;
 		text-align: center;
+		box-sizing: border-box;
 	}
 
 	.stat-num {
@@ -249,11 +257,15 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		transition: border-color 0.2s;
 		overflow: hidden;
 		word-break: break-word;
+		box-sizing: border-box;
+		min-width: 0;
 	}
 
 	.platform-card:hover { border-color: #2a2a3a; }
 
 	.platform-icon { font-size: 24px; flex-shrink: 0; }
+
+	.platform-info { min-width: 0; }
 
 	.platform-name {
 		font-size: 17px;
@@ -291,6 +303,8 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		border-left: 3px solid var(--ac);
 		padding: 20px;
 		transition: transform 0.2s;
+		box-sizing: border-box;
+		min-width: 0;
 	}
 
 	.area-card:hover { transform: translateX(4px); }
@@ -302,7 +316,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		margin-bottom: 10px;
 	}
 
-	.area-icon { font-size: 18px; }
+	.area-icon { font-size: 18px; flex-shrink: 0; }
 	.area-name { font-size: 15px; font-weight: 800; color: var(--ac); }
 
 	.area-desc {
@@ -319,6 +333,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		padding: 28px 32px;
 		margin-bottom: 32px;
 		position: relative;
+		box-sizing: border-box;
 	}
 
 	.quote-mark {
@@ -363,7 +378,8 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		gap: 14px;
 		align-items: center;
 		flex: 1;
-		min-width: 160px;
+		min-width: 0;
+		box-sizing: border-box;
 	}
 
 	.philo-icon {
@@ -373,7 +389,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		flex-shrink: 0;
 	}
 
-	.philo-text { display: flex; flex-direction: column; gap: 2px; }
+	.philo-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 	.philo-text strong { font-size: 13px; color: #e8eaf0; }
 	.philo-text span { font-size: 11px; color: #6b6b8a; }
 	.philo-arrow { font-size: 20px; color: #2a2a3a; flex-shrink: 0; }
@@ -383,6 +399,7 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 		border: 1px solid #1e1e2e;
 		padding: 40px;
 		text-align: center;
+		box-sizing: border-box;
 	}
 
 	.cta-tag {
@@ -444,12 +461,16 @@ const guidesCount = 7; // actualiza este número cuando añadas una guía
 
 	@media (max-width: 720px) {
 		.intro-grid { grid-template-columns: 1fr; }
-		.stats-col { flex-direction: row; }
+		.stats-col { flex-direction: row; flex-wrap: wrap; }
+		.stat-card { flex: 1; min-width: 80px; }
 		.platforms-grid { grid-template-columns: 1fr; }
 		.areas-grid { grid-template-columns: 1fr; }
-		.philosophy-grid { flex-direction: column; }
-		.philo-arrow { transform: rotate(90deg); }
-		.philo-item { min-width: 100%; }
+		.philosophy-grid { flex-direction: column; align-items: stretch; }
+		.philo-arrow { transform: rotate(90deg); text-align: center; }
+		.philo-item { width: 100%; }
 		.cta-card { padding: 24px; }
+		.quote-card { padding: 20px 16px 20px 20px; }
+		.quote-mark { font-size: 40px; }
+		blockquote { font-size: 14px; padding-left: 10px; }
 	}
 </style>

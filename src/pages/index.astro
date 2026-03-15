@@ -22,7 +22,7 @@ const guides = [
   { num: '06', href: '/guias/web',              title: 'Sitios Web',        desc: 'HTML, CSS, JavaScript, exposición de datos y HTML Injection.',         tag: 'Web',   color: '#6bcb77' },
   { num: '07', href: '/guias/infra',            title: 'La Web por Dentro', desc: 'Balanceadores, CDN, WAF, bases de datos y servidores web.',             tag: 'Web',   color: '#ff9f43' },
 ];
-const recentGuides = guides.slice(-3);
+const recentGuides = guides.slice(-3).reverse();
 ---
 
 <!doctype html>
