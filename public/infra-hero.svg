@@ -1,0 +1,139 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/></marker>
+    <marker id="oa" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ff9f43"/></marker>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="72" fill="#1a1a2a" font-size="76" font-weight="700">LA WEB</text>
+  <text x="46" y="70" fill="#e8eaf0" font-size="76" font-weight="700">LA WEB</text>
+  <text x="48" y="92" fill="#00ff9f" font-size="10" letter-spacing="4">POR DENTRO — INFRAESTRUCTURA Y SERVIDORES</text>
+  <line x1="48" y1="102" x2="460" y2="102" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: request flow top to bottom -->
+  <text x="48" y="122" fill="#6b6b8a" font-size="9" letter-spacing="2">// FLUJO DE UNA SOLICITUD WEB</text>
+
+  <!-- Browser -->
+  <rect x="48" y="132" width="90" height="44" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="93" y="150" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">BROWSER</text>
+  <text x="93" y="165" text-anchor="middle" fill="#6b6b8a" font-size="8">solicitud</text>
+  <line x1="142" y1="154" x2="182" y2="154" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- DNS -->
+  <rect x="184" y="132" width="90" height="44" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="229" y="150" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">DNS</text>
+  <text x="229" y="165" text-anchor="middle" fill="#6b6b8a" font-size="8">resuelve IP</text>
+  <line x1="278" y1="154" x2="318" y2="154" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- WAF -->
+  <rect x="320" y="132" width="90" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="365" y="150" text-anchor="middle" fill="#ff6b6b" font-size="9" font-weight="700">WAF</text>
+  <text x="365" y="165" text-anchor="middle" fill="#6b6b8a" font-size="8">filtra ataques</text>
+  <line x1="414" y1="154" x2="452" y2="154" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- Load Balancer -->
+  <rect x="48" y="210" width="420" height="44" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="258" y="228" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">BALANCEADOR DE CARGA</text>
+  <text x="258" y="243" text-anchor="middle" fill="#6b6b8a" font-size="8">round-robin · ponderado · health checks</text>
+  <!-- arrow from WAF down to LB -->
+  <line x1="454" y1="178" x2="454" y2="208" stroke="#ff9f43" stroke-width="1.5"/>
+  <line x1="454" y1="208" x2="300" y2="208" stroke="#ff9f43" stroke-width="1.5" marker-end="url(#oa)"/>
+
+  <!-- Servers -->
+  <rect x="48"  y="288" width="120" height="40" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="108" y="308" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">SERVER 1</text>
+  <text x="108" y="320" text-anchor="middle" fill="#6b6b8a" font-size="8">Apache / Nginx</text>
+
+  <rect x="186" y="288" width="120" height="40" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="246" y="308" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">SERVER 2</text>
+  <text x="246" y="320" text-anchor="middle" fill="#6b6b8a" font-size="8">Apache / Nginx</text>
+
+  <rect x="324" y="288" width="120" height="40" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="384" y="308" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">SERVER 3</text>
+  <text x="384" y="320" text-anchor="middle" fill="#6b6b8a" font-size="8">Apache / Nginx</text>
+
+  <!-- arrows LB to servers -->
+  <line x1="150" y1="254" x2="108" y2="286" stroke="#6bcb77" stroke-width="1" marker-end="url(#ga)"/>
+  <line x1="258" y1="254" x2="246" y2="286" stroke="#6bcb77" stroke-width="1" marker-end="url(#ga)"/>
+  <line x1="366" y1="254" x2="384" y2="286" stroke="#6bcb77" stroke-width="1" marker-end="url(#ga)"/>
+
+  <!-- DB -->
+  <rect x="48" y="362" width="396" height="40" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="246" y="380" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="700">BASE DE DATOS</text>
+  <text x="246" y="393" text-anchor="middle" fill="#6b6b8a" font-size="8">MySQL · PostgreSQL · MongoDB · MSSQL</text>
+  <line x1="246" y1="328" x2="246" y2="360" stroke="#c77dff" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#ba)"/>
+
+  <!-- CDN -->
+  <rect x="48" y="432" width="396" height="40" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="246" y="450" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">CDN — RED DE DISTRIBUCIÓN DE CONTENIDO</text>
+  <text x="246" y="463" text-anchor="middle" fill="#6b6b8a" font-size="8">JS · CSS · imágenes · vídeos — servidor más cercano</text>
+
+  <!-- RIGHT divider -->
+  <line x1="500" y1="30" x2="500" y2="480" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT TOP: virtual hosts -->
+  <text x="526" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// HOSTS VIRTUALES</text>
+  <rect x="526" y="58" width="466" height="90" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="526" y="58" width="3" height="90" fill="#4d96ff"/>
+  <text x="540" y="78" fill="#6b6b8a" font-size="10">Host: <tspan fill="#4d96ff">one.com</tspan></text>
+  <text x="660" y="78" fill="#6b6b8a" font-size="10">→</text>
+  <text x="678" y="78" fill="#6bcb77" font-size="10">/var/www/website_one</text>
+  <text x="540" y="98" fill="#6b6b8a" font-size="10">Host: <tspan fill="#4d96ff">two.com</tspan></text>
+  <text x="660" y="98" fill="#6b6b8a" font-size="10">→</text>
+  <text x="678" y="98" fill="#6bcb77" font-size="10">/var/www/website_two</text>
+  <text x="540" y="118" fill="#6b6b8a" font-size="10">Host: <tspan fill="#4d96ff">three.com</tspan></text>
+  <text x="660" y="118" fill="#6b6b8a" font-size="10">→</text>
+  <text x="678" y="118" fill="#6bcb77" font-size="10">/var/www/website_three</text>
+  <text x="540" y="138" fill="#3a3a5a" font-size="9">mismo servidor · diferente dominio · sin límite de sitios</text>
+
+  <!-- RIGHT MID: static vs dynamic -->
+  <text x="526" y="172" fill="#6b6b8a" font-size="9" letter-spacing="2">// ESTÁTICO VS DINÁMICO</text>
+  <rect x="526" y="182" width="224" height="80" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="526" y="182" width="3" height="80" fill="#4d96ff"/>
+  <text x="540" y="200" fill="#4d96ff" font-size="10" font-weight="700">ESTÁTICO</text>
+  <text x="540" y="218" fill="#6b6b8a" font-size="9">HTML · CSS · JS · imágenes</text>
+  <text x="540" y="232" fill="#6b6b8a" font-size="9">nunca cambia</text>
+  <text x="540" y="246" fill="#6b6b8a" font-size="9">servido directo desde disco</text>
+
+  <rect x="762" y="182" width="230" height="80" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="762" y="182" width="3" height="80" fill="#ff9f43"/>
+  <text x="776" y="200" fill="#ff9f43" font-size="10" font-weight="700">DINÁMICO</text>
+  <text x="776" y="218" fill="#6b6b8a" font-size="9">PHP · Python · Ruby · NodeJS</text>
+  <text x="776" y="232" fill="#6b6b8a" font-size="9">generado en tiempo real</text>
+  <text x="776" y="246" fill="#6b6b8a" font-size="9">procesado en el backend</text>
+
+  <!-- RIGHT: backend example -->
+  <text x="526" y="286" fill="#6b6b8a" font-size="9" letter-spacing="2">// EJEMPLO BACKEND PHP</text>
+  <rect x="526" y="296" width="466" height="100" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="526" y="296" width="3" height="100" fill="#ff9f43"/>
+  <text x="540" y="314" fill="#6b6b8a" font-size="9">URL solicitada:</text>
+  <text x="540" y="330" fill="#4d96ff" font-size="10">http://example.com/index.php<tspan fill="#ffd93d">?name=adam</tspan></text>
+  <text x="540" y="352" fill="#6b6b8a" font-size="9">Código PHP en el servidor:</text>
+  <text x="540" y="368" fill="#ff9f43" font-size="10">&lt;?php echo $_GET[<tspan fill="#6bcb77">"name"</tspan>]; ?&gt;</text>
+  <text x="540" y="386" fill="#6b6b8a" font-size="9">El cliente recibe: <tspan fill="#00ff9f">Hello adam</tspan> — nunca ve el PHP</text>
+
+  <!-- RIGHT: web servers -->
+  <text x="526" y="420" fill="#6b6b8a" font-size="9" letter-spacing="2">// SERVIDORES WEB COMUNES</text>
+  <rect x="526" y="430" width="100" height="42" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="576" y="448" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">Apache</text>
+  <text x="576" y="462" text-anchor="middle" fill="#6b6b8a" font-size="8">Linux</text>
+
+  <rect x="636" y="430" width="100" height="42" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="686" y="448" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">Nginx</text>
+  <text x="686" y="462" text-anchor="middle" fill="#6b6b8a" font-size="8">Linux</text>
+
+  <rect x="746" y="430" width="100" height="42" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="796" y="448" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">IIS</text>
+  <text x="796" y="462" text-anchor="middle" fill="#6b6b8a" font-size="8">Windows</text>
+
+  <rect x="856" y="430" width="100" height="42" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="906" y="448" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">NodeJS</text>
+  <text x="906" y="462" text-anchor="middle" fill="#6b6b8a" font-size="8">Ambos</text>
+
+</svg>

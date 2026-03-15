@@ -20,8 +20,9 @@ const guides = [
   { num: '04', href: '/guias/dns',              title: 'DNS',               desc: 'Sistema de Nombres de Dominio — jerarquía, registros y resolución.', tag: 'Redes', color: '#c77dff' },
   { num: '05', href: '/guias/http',             title: 'HTTP en Detalle',   desc: 'Solicitudes, respuestas, métodos, códigos de estado y cookies.',      tag: 'Web',   color: '#ff6b9d' },
   { num: '06', href: '/guias/web',              title: 'Sitios Web',        desc: 'HTML, CSS, JavaScript, exposición de datos y HTML Injection.',         tag: 'Web',   color: '#6bcb77' },
+  { num: '07', href: '/guias/infra',            title: 'La Web por Dentro', desc: 'Balanceadores, CDN, WAF, bases de datos y servidores web.',             tag: 'Web',   color: '#ff9f43' },
 ];
-const recentGuides = guides.slice(-3).reverse();
+const recentGuides = guides.slice(-3);
 ---
 
 <!doctype html>
@@ -168,10 +169,10 @@ const recentGuides = guides.slice(-3).reverse();
 	}
 	.post-card:hover { border-color: #00ff9f; transform: translateY(-2px); }
 	.post-image {
-    	width: 100%;
- 		overflow: hidden;
-    	border-bottom: 1px solid #1e1e2e;
-    	background: #0a0a0f;
+		width: 100%;
+		overflow: hidden;
+		border-bottom: 1px solid #1e1e2e;
+		background: #0a0a0f;
 	}
 	.post-image img {
 		width: 100%;

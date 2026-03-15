@@ -1,0 +1,321 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="La Web por Dentro — CybSecStudy" description="Guía interactiva sobre infraestructura web: balanceadores de carga, CDN, WAF, servidores y contenido dinámico." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(32px, 5vw, 54px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Web — Guía Interactiva</div>
+      <h1>La Web <span class="accent">por Dentro</span></h1>
+      <p class="guide-desc">Infraestructura, servidores y todo lo que ocurre entre tu navegador y la página que ves. Clic para expandir cada componente.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Cuando solicitas una web, tu navegador usa <strong>DNS</strong> para obtener la IP del servidor, luego se comunica mediante <strong>HTTP</strong>. El servidor devuelve HTML, JS, CSS e imágenes.</p>
+      <p>Pero hay muchos más componentes que hacen que esto funcione a escala y de forma segura.</p>
+    </div>
+
+    <div class="section-label">// Stack completo de infraestructura</div>
+    <img src="/infra-stack.svg" alt="Stack completo de infraestructura web" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Componentes — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">LB</div>
+          <div class="concept-title">Balanceador de Carga</div>
+          <div class="concept-badge">alta disponibilidad</div>
+        </div>
+        <div class="concept-body">
+          <p>Cuando el tráfico crece o necesitas que el sitio esté siempre disponible, un solo servidor no basta. El balanceador de carga recibe todas las solicitudes y las distribuye entre varios servidores.</p>
+          <img src="/infra-lb.svg" alt="Balanceador de carga" style="width:100%;margin:12px 0;border:none;border-radius:0" />
+          <p><strong>Algoritmos de distribución:</strong></p>
+          <ul>
+            <li><strong>Round-robin</strong> — cada solicitud va al siguiente servidor por turnos</li>
+            <li><strong>Ponderado</strong> — envía al servidor con menor carga en ese momento</li>
+          </ul>
+          <p>También realiza <strong>health checks</strong> periódicos — si un servidor no responde, deja de enviarle tráfico hasta que se recupere.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">CDN</div>
+          <div class="concept-title">Red de Distribución de Contenido</div>
+          <div class="concept-badge">latencia mínima</div>
+        </div>
+        <div class="concept-body">
+          <p>Una CDN aloja archivos estáticos (JS, CSS, imágenes, vídeos) en <strong>miles de servidores</strong> repartidos por todo el mundo. Cuando un usuario solicita un archivo, la CDN lo sirve desde el servidor más cercano geográficamente.</p>
+          <ul>
+            <li>Reduce la latencia — el archivo viene del servidor más cercano</li>
+            <li>Reduce la carga del servidor principal</li>
+            <li>Mejora la disponibilidad — si un nodo falla, otro responde</li>
+          </ul>
+          <p>Ejemplos: Cloudflare, AWS CloudFront, Fastly.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">DB</div>
+          <div class="concept-title">Bases de Datos</div>
+          <div class="concept-badge">persistencia de datos</div>
+        </div>
+        <div class="concept-body">
+          <p>Los sitios web necesitan almacenar y recuperar información. El servidor web se comunica con la base de datos para gestionar estos datos.</p>
+          <ul>
+            <li><strong>MySQL / PostgreSQL</strong> — bases de datos relacionales, ideales para datos estructurados</li>
+            <li><strong>MongoDB</strong> — no relacional, almacena documentos JSON flexibles</li>
+            <li><strong>MSSQL</strong> — relacional, entornos Microsoft</li>
+          </ul>
+          <p>Desde el punto de vista de seguridad, las bases de datos son un objetivo crítico — una <strong>SQL Injection</strong> puede comprometer todos los datos si la aplicación no está bien protegida.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">WAF</div>
+          <div class="concept-title">Web Application Firewall</div>
+          <div class="concept-badge">protección contra ataques</div>
+        </div>
+        <div class="concept-body">
+          <p>El WAF se sitúa entre el usuario y el servidor web. Analiza cada solicitud antes de que llegue al servidor.</p>
+          <ul>
+            <li>Detecta técnicas de ataque conocidas: SQLi, XSS, LFI...</li>
+            <li>Distingue navegadores reales de bots automatizados</li>
+            <li><strong>Rate limiting</strong> — limita solicitudes por segundo desde una misma IP</li>
+            <li>Descarta solicitudes sospechosas antes de que lleguen al servidor</li>
+          </ul>
+          <p>Ejemplos: Cloudflare WAF, AWS WAF, ModSecurity.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label" style="margin-top:48px">// Servidores web — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">SRV</div>
+          <div class="concept-title">¿Qué es un Servidor Web?</div>
+          <div class="concept-badge">Apache · Nginx · IIS</div>
+        </div>
+        <div class="concept-body">
+          <p>Un servidor web es software que escucha conexiones entrantes y entrega contenido mediante HTTP. Sirve archivos desde su <strong>directorio raíz</strong>.</p>
+          <ul>
+            <li><strong>Apache / Nginx</strong> en Linux → <code>/var/www/html</code></li>
+            <li><strong>IIS</strong> en Windows → <code>C:\inetpub\wwwroot</code></li>
+          </ul>
+          <p>Si solicitas <code>http://example.com/foto.jpg</code>, el servidor busca <code>/var/www/html/foto.jpg</code> y lo devuelve.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">VH</div>
+          <div class="concept-title">Hosts Virtuales</div>
+          <div class="concept-badge">múltiples sitios · un servidor</div>
+        </div>
+        <div class="concept-body">
+          <p>Un servidor puede alojar <strong>múltiples sitios web</strong> con diferentes dominios. El servidor lee la cabecera <code>Host</code> de la solicitud HTTP y sirve el sitio correcto.</p>
+          <div class="code-block">Host: one.com   →  /var/www/website_one
+Host: two.com   →  /var/www/website_two
+Host: three.com →  /var/www/website_three</div>
+          <p style="margin-top:10px">No hay límite en la cantidad de sitios que puede alojar un servidor. Esto tiene implicaciones de seguridad — un ataque que comprometa el servidor afecta a todos los sitios alojados.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b9d">
+        <div class="concept-header">
+          <div class="concept-num" style="font-size:9px">DYN</div>
+          <div class="concept-title">Contenido Estático vs Dinámico</div>
+          <div class="concept-badge">frontend · backend</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Estático</strong> — nunca cambia. Se sirve directamente desde disco: HTML fijo, CSS, JS, imágenes.</p>
+          <p><strong>Dinámico</strong> — generado en tiempo real por el backend según la solicitud. El usuario nunca ve el código del servidor — solo el resultado HTML.</p>
+          <div class="code-block"># URL solicitada:
+http://example.com/index.php?name=adam
+
+# Código PHP en el servidor (invisible para el usuario):
+&lt;html&gt;&lt;body&gt;Hello &lt;?php echo $_GET["name"]; ?&gt;&lt;/body&gt;&lt;/html&gt;
+
+# Lo que recibe el cliente:
+&lt;html&gt;&lt;body&gt;Hello adam&lt;/body&gt;&lt;/html&gt;</div>
+          <p style="margin-top:10px">Lenguajes de backend: <strong>PHP, Python, Ruby, NodeJS, Perl</strong>. El contenido dinámico introduce muchos más vectores de ataque — parámetros manipulables, queries a BD, lógica de negocio expuesta.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Cuál es la función principal de un balanceador de carga?", opts: ["Cifrar el tráfico HTTP","Distribuir solicitudes entre múltiples servidores","Almacenar archivos estáticos","Resolver nombres de dominio"], correct: 1, exp: "El balanceador de carga distribuye las solicitudes entre varios servidores para gestionar el tráfico y proporcionar redundancia." },
+  { q: "¿Qué algoritmo de balanceo envía cada solicitud al siguiente servidor por turnos?", opts: ["Ponderado","Hash de IP","Round-robin","Least connections"], correct: 2, exp: "Round-robin envía cada solicitud al siguiente servidor de la lista de forma rotativa." },
+  { q: "¿Para qué sirve una CDN?", opts: ["Para cifrar el tráfico","Para filtrar ataques web","Para servir archivos estáticos desde el servidor más cercano","Para gestionar bases de datos"], correct: 2, exp: "Una CDN aloja archivos estáticos en servidores distribuidos globalmente y sirve cada archivo desde el nodo más cercano al usuario." },
+  { q: "¿Qué hace un WAF?", opts: ["Balancea la carga entre servidores","Almacena sesiones de usuario","Protege el servidor web filtrando solicitudes maliciosas","Gestiona certificados SSL"], correct: 2, exp: "El WAF analiza las solicitudes entrantes, detecta técnicas de ataque y descarta las peligrosas antes de que lleguen al servidor." },
+  { q: "¿Cuál es el directorio raíz por defecto de Apache en Linux?", opts: ["C:\\inetpub\\wwwroot","/var/www/html","/srv/http","/home/www"], correct: 1, exp: "Apache y Nginx usan /var/www/html como directorio raíz por defecto en sistemas Linux." },
+  { q: "¿Qué son los hosts virtuales?", opts: ["Servidores físicos secundarios","Configuraciones que permiten alojar múltiples sitios en un servidor","Instancias de bases de datos","Reglas de firewall"], correct: 1, exp: "Los hosts virtuales permiten que un mismo servidor web aloje múltiples sitios con diferentes dominios usando la cabecera Host de HTTP." },
+  { q: "¿Cuál es la diferencia entre contenido estático y dinámico?", opts: ["El estático es más rápido de escribir","El estático nunca cambia, el dinámico se genera en tiempo real","El dinámico usa solo HTML","No hay diferencia práctica"], correct: 1, exp: "El contenido estático se sirve tal cual desde disco. El dinámico es generado por el backend en tiempo real según la solicitud." },
+  { q: "¿Qué significa que PHP se ejecuta en el backend?", opts: ["El código PHP se envía al navegador","El usuario puede ver el código PHP","El código se procesa en el servidor — el cliente solo recibe el HTML resultante","PHP es solo para diseño visual"], correct: 2, exp: "El código PHP (y otros lenguajes backend) se ejecuta en el servidor. El cliente nunca lo ve — solo recibe el HTML generado." },
+  { q: "¿Qué hace el rate limiting en un WAF?", opts: ["Aumenta la velocidad del servidor","Limita el número de solicitudes por segundo desde una IP","Cifra las respuestas HTTP","Balancea el tráfico entre servidores"], correct: 1, exp: "El rate limiting limita cuántas solicitudes puede hacer una IP en un período de tiempo — protege contra ataques DDoS y fuerza bruta." },
+  { q: "¿Qué implica alojar múltiples sitios en un servidor desde el punto de vista de seguridad?", opts: ["Mayor seguridad por aislamiento","Un ataque que compromete el servidor afecta a todos los sitios","Cada sitio tiene su propio firewall","No hay implicaciones de seguridad"], correct: 1, exp: "Si un servidor con hosting múltiple es comprometido, todos los sitios alojados en él pueden verse afectados." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas la infraestructura web.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

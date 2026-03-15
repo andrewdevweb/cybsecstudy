@@ -1,0 +1,72 @@
+<svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="660" height="280" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/></marker>
+    <marker id="pa" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#c77dff"/></marker>
+    <marker id="ya" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ffd93d"/></marker>
+  </defs>
+
+  <!-- flow: Browser → DNS → WAF → LB → Server → DB + CDN -->
+
+  <!-- BROWSER -->
+  <rect x="10" y="110" width="80" height="44" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="50" y="130" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">BROWSER</text>
+  <text x="50" y="145" text-anchor="middle" fill="#6b6b8a" font-size="8">usuario</text>
+  <line x1="92" y1="132" x2="112" y2="132" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- DNS -->
+  <rect x="114" y="110" width="80" height="44" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="154" y="130" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">DNS</text>
+  <text x="154" y="145" text-anchor="middle" fill="#6b6b8a" font-size="8">IP lookup</text>
+  <line x1="196" y1="132" x2="216" y2="132" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- WAF -->
+  <rect x="218" y="110" width="80" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="258" y="130" text-anchor="middle" fill="#ff6b6b" font-size="9" font-weight="700">WAF</text>
+  <text x="258" y="145" text-anchor="middle" fill="#6b6b8a" font-size="8">filtra ataques</text>
+  <line x1="300" y1="132" x2="320" y2="132" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- LOAD BALANCER -->
+  <rect x="322" y="110" width="90" height="44" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="367" y="128" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">LOAD</text>
+  <text x="367" y="142" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">BALANCER</text>
+  <line x1="414" y1="132" x2="434" y2="132" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- WEB SERVER -->
+  <rect x="436" y="110" width="90" height="44" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="481" y="128" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">WEB</text>
+  <text x="481" y="142" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">SERVER</text>
+
+  <!-- DB arrow down -->
+  <line x1="481" y1="156" x2="481" y2="186" stroke="#c77dff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#pa)"/>
+
+  <!-- DATABASE -->
+  <rect x="436" y="188" width="90" height="44" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="481" y="207" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="700">DATABASE</text>
+  <text x="481" y="222" text-anchor="middle" fill="#6b6b8a" font-size="8">MySQL · Mongo</text>
+
+  <!-- CDN arrow up -->
+  <line x1="481" y1="108" x2="481" y2="78" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ya)"/>
+
+  <!-- CDN -->
+  <rect x="436" y="30" width="90" height="44" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="481" y="50" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">CDN</text>
+  <text x="481" y="65" text-anchor="middle" fill="#6b6b8a" font-size="8">archivos estáticos</text>
+
+  <!-- response arrow bottom -->
+  <line x1="434" y1="148" x2="414" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ba)"/>
+  <line x1="320" y1="148" x2="300" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ba)"/>
+  <line x1="216" y1="148" x2="196" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ba)"/>
+  <line x1="112" y1="148" x2="92" y2="148" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ba)"/>
+
+  <!-- legend -->
+  <line x1="20" y1="258" x2="50" y2="258" stroke="#00ff9f" stroke-width="1.5"/>
+  <text x="56" y="262" fill="#6b6b8a" font-size="8">solicitud</text>
+  <line x1="120" y1="258" x2="150" y2="258" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="156" y="262" fill="#6b6b8a" font-size="8">respuesta</text>
+  <line x1="230" y1="258" x2="260" y2="258" stroke="#c77dff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="266" y="262" fill="#6b6b8a" font-size="8">consulta DB</text>
+  <line x1="350" y1="258" x2="380" y2="258" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="386" y="262" fill="#6b6b8a" font-size="8">contenido estático CDN</text>
+</svg>
