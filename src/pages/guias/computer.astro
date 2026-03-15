@@ -1,0 +1,346 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Dentro de un Sistema Informático — CybSecStudy" description="Guía interactiva sobre componentes de un ordenador, secuencia de arranque y relevancia en ciberseguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1>Dentro de un <span class="accent">Sistema Informático</span></h1>
+      <p class="guide-desc">Para defender un castillo, primero debes conocerlo. Componentes, jerarquía de memoria y secuencia de arranque — la base de todo.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Intentar defender lo que no entiendes es como defender un castillo que nunca has visto. Antes de hablar de seguridad, necesitamos entender qué estamos protegiendo.</p>
+      <p>Veremos los <strong>componentes básicos</strong> de un ordenador, cómo se <strong>arrancan los sistemas</strong> y por qué todo esto es relevante en ciberseguridad.</p>
+    </div>
+
+    <!-- COMPONENTS -->
+    <div class="section-label">// Componentes principales — clic para expandir</div>
+    <img src="/computer-components.svg" alt="Componentes de un ordenador" style="width:100%;margin-bottom:24px;border:none;border-radius:0" />
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">CPU</div>
+          <div class="concept-title">CPU — El Cerebro</div>
+          <div class="concept-badge">ejecuta instrucciones</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>Unidad Central de Procesamiento</strong> ejecuta todas las instrucciones del sistema. Cada suma, comparación o movimiento de datos pasa por aquí. Su velocidad se mide en GHz.</p>
+          <ul>
+            <li>Contiene núcleos (cores) — cada uno puede ejecutar instrucciones en paralelo</li>
+            <li>Caché integrada (L1/L2/L3) para datos de acceso frecuente</li>
+            <li>Gestiona interrupciones del hardware y llamadas al sistema</li>
+          </ul>
+          <div class="sec-badge">⚠ Spectre / Meltdown — explotan optimizaciones de la CPU para leer memoria de otros procesos</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">RAM</div>
+          <div class="concept-title">RAM — Memoria Volátil</div>
+          <div class="concept-badge">corto plazo · desaparece al apagar</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>Memoria de Acceso Aleatorio</strong> almacena los datos que el sistema usa ahora mismo. Es rápida pero volátil — cuando apagas el ordenador, su contenido desaparece.</p>
+          <ul>
+            <li>El sistema operativo y las aplicaciones abiertas residen en RAM</li>
+            <li>Capacidad típica: 8 GB, 16 GB, 32 GB...</li>
+            <li>Mucho más rápida que el disco — el SO intenta mantener datos en RAM</li>
+          </ul>
+          <div class="sec-badge">⚠ RAM Forensics — capturar la RAM en vivo revela contraseñas, claves de cifrado y procesos maliciosos</div>
+          <div class="sec-badge">⚠ Cold Boot Attack — enfriar la RAM ralentiza la pérdida de datos, permitiendo leerla tras apagar</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">SSD</div>
+          <div class="concept-title">SSD / HDD — Almacenamiento</div>
+          <div class="concept-badge">persistente · largo plazo</div>
+        </div>
+        <div class="concept-body">
+          <p>Los dispositivos de almacenamiento guardan datos de forma permanente. A diferencia de la RAM, sobreviven al apagado.</p>
+          <ul>
+            <li><strong>HDD</strong> — disco magnético giratorio. Lento pero barato para grandes capacidades</li>
+            <li><strong>SSD</strong> — chips de memoria flash. Rápido, silencioso, sin piezas móviles</li>
+            <li><strong>NVMe</strong> — SSD conectado directamente a PCIe. El más rápido disponible</li>
+          </ul>
+          <div class="sec-badge">⚠ Malware, logs y archivos robados residen aquí — objetivo principal en análisis forense</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">MB</div>
+          <div class="concept-title">Placa Base — El Esqueleto</div>
+          <div class="concept-badge">conecta todo</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>placa base</strong> conecta todos los componentes entre sí mediante buses de datos. Sin ella, nada puede comunicarse con nada.</p>
+          <ul>
+            <li>Slots DDR para la RAM</li>
+            <li>Socket para la CPU</li>
+            <li>Slots PCIe para la GPU y otras tarjetas</li>
+            <li>Puertos SATA / M.2 para almacenamiento</li>
+            <li>Chip de firmware UEFI/BIOS integrado</li>
+          </ul>
+          <div class="sec-badge">⚠ El chip UEFI en la placa base es el objetivo de los bootkits más persistentes</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">GPU</div>
+          <div class="concept-title">GPU — Procesamiento Paralelo</div>
+          <div class="concept-badge">miles de núcleos</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>GPU</strong> tiene miles de núcleos pequeños diseñados para cálculos paralelos masivos. Originalmente para gráficos, hoy se usa para IA, machine learning y...</p>
+          <ul>
+            <li>Renderizado gráfico y videojuegos</li>
+            <li>Entrenamiento de modelos de IA</li>
+            <li>Minería de criptomonedas</li>
+          </ul>
+          <div class="sec-badge">⚠ Hashcat usa la GPU para probar miles de millones de hashes/segundo — password cracking por fuerza bruta</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOOT SEQUENCE -->
+    <div class="section-label" style="margin-top:48px">// Secuencia de arranque — clic para expandir</div>
+    <img src="/computer-boot.svg" alt="Secuencia de arranque" style="width:100%;margin-bottom:24px;border:none;border-radius:0" />
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">1</div>
+          <div class="concept-title">Botón de encendido</div>
+          <div class="concept-badge">PSU distribuye energía</div>
+        </div>
+        <div class="concept-body">
+          <p>Al pulsar el botón de encendido, se envía una señal a la <strong>fuente de alimentación (PSU)</strong> para que distribuya energía a todos los componentes. El hardware despierta.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">2</div>
+          <div class="concept-title">UEFI / BIOS</div>
+          <div class="concept-badge">primer software en ejecutarse</div>
+        </div>
+        <div class="concept-body">
+          <p>El <strong>firmware</strong> es el primer software que se ejecuta — está grabado en un chip de la placa base. <strong>UEFI</strong> (sustituto del antiguo BIOS) inicializa todos los componentes de hardware y prepara el entorno para cargar el sistema operativo.</p>
+          <div class="sec-badge">⚠ Bootkits — malware que infecta el firmware UEFI. Arrancan antes que el SO y son casi indetectables con antivirus convencional</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">3</div>
+          <div class="concept-title">POST — Power-On Self-Test</div>
+          <div class="concept-badge">autodiagnóstico</div>
+        </div>
+        <div class="concept-body">
+          <p>La UEFI ejecuta el <strong>autodiagnóstico</strong>: verifica que la RAM, CPU, almacenamiento y otros componentes estén presentes y funcionen correctamente. Si algo falla, el sistema emite pitidos o muestra un error antes de continuar.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">4</div>
+          <div class="concept-title">Selección del dispositivo de arranque</div>
+          <div class="concept-badge">lista de prioridad UEFI</div>
+        </div>
+        <div class="concept-body">
+          <p>La UEFI tiene una <strong>lista ordenada</strong> de dispositivos de arranque (SSD, USB, red...). Busca en el primero de la lista un gestor de arranque válido.</p>
+          <div class="sec-badge">⚠ Boot desde USB malicioso — si el USB tiene prioridad, puede arrancar un sistema alternativo que bypasea contraseñas del SO</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">5</div>
+          <div class="concept-title">Gestor de arranque</div>
+          <div class="concept-badge">carga el SO en RAM</div>
+        </div>
+        <div class="concept-body">
+          <p>El <strong>bootloader</strong> (GRUB en Linux, Windows Boot Manager en Windows) carga el sistema operativo desde el disco a la RAM. Una vez cargado, la UEFI le cede el control de todos los componentes. El sistema está operativo.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Cuál es la función principal de la CPU?", opts: ["Almacenar datos permanentemente","Ejecutar instrucciones del sistema","Gestionar la alimentación eléctrica","Renderizar gráficos"], correct: 1, exp: "La CPU (Unidad Central de Procesamiento) ejecuta todas las instrucciones — cada operación del sistema pasa por ella." },
+  { q: "¿Por qué la RAM se considera 'memoria volátil'?", opts: ["Porque es muy rápida","Porque su contenido desaparece al apagar el sistema","Porque está conectada a la GPU","Porque tiene capacidad limitada"], correct: 1, exp: "La RAM es volátil — su contenido desaparece cuando se corta la alimentación. Por eso el SO guarda en disco los datos importantes." },
+  { q: "¿Qué es un bootkit?", opts: ["Un tipo de RAM especial","Un disco de arranque de emergencia","Malware que infecta el firmware UEFI, ejecutándose antes que el SO","Un gestor de particiones"], correct: 2, exp: "Un bootkit infecta el firmware UEFI/BIOS y arranca antes que el sistema operativo, haciéndolo casi indetectable con antivirus convencional." },
+  { q: "¿En qué paso del arranque se verifica que el hardware funciona correctamente?", opts: ["Al pulsar el botón de encendido","Durante el POST","Al seleccionar el dispositivo de arranque","Al iniciar el bootloader"], correct: 1, exp: "El POST (Power-On Self-Test) es el autodiagnóstico que verifica RAM, CPU y almacenamiento antes de continuar el arranque." },
+  { q: "¿Por qué la GPU es útil para el cracking de contraseñas?", opts: ["Porque tiene más memoria que la CPU","Porque tiene miles de núcleos para cálculos paralelos masivos","Porque consume menos energía","Porque tiene acceso directo al disco"], correct: 1, exp: "La GPU tiene miles de núcleos pequeños diseñados para cálculos paralelos. Herramientas como Hashcat la usan para probar miles de millones de hashes por segundo." },
+  { q: "¿Qué componente conecta físicamente todos los demás componentes del ordenador?", opts: ["La CPU","La RAM","La GPU","La placa base"], correct: 3, exp: "La placa base es el esqueleto del sistema — conecta CPU, RAM, GPU, almacenamiento y todos los demás componentes mediante buses de datos." },
+  { q: "¿Qué es un cold boot attack?", opts: ["Un ataque que sobrecarga la CPU","Un ataque que explota la UEFI","Enfriar la RAM para leer su contenido tras apagar el sistema","Un ataque de red en frío"], correct: 2, exp: "Los chips de RAM tardan un tiempo en perder datos al apagarse. Enfriándolos se ralentiza ese proceso, permitiendo leer su contenido — incluyendo claves de cifrado." },
+  { q: "¿Cuál es la diferencia principal entre SSD y HDD?", opts: ["El SSD tiene más capacidad","El HDD es más rápido","El SSD usa chips de memoria flash, el HDD usa disco magnético giratorio","No hay diferencia práctica"], correct: 2, exp: "El SSD usa chips de memoria flash (sin piezas móviles, más rápido). El HDD usa un disco magnético giratorio (más lento pero más barato por GB)." },
+  { q: "¿Qué ocurre si en la lista de prioridad de arranque hay un USB malicioso en primer lugar?", opts: ["El sistema ignora el USB","El sistema puede arrancar desde el USB y bypassear contraseñas del SO","El UEFI bloquea automáticamente el USB","Solo afecta si el USB tiene virus conocidos"], correct: 1, exp: "Si el USB tiene prioridad, el sistema arranca desde él. Un atacante puede usar esto para acceder a los datos del disco sin conocer la contraseña del SO." },
+  { q: "¿Por qué el análisis forense de RAM debe hacerse con el sistema encendido?", opts: ["Porque la RAM es más rápida encendida","Porque al apagar el sistema los datos en RAM desaparecen","Porque el SO bloquea el acceso en frío","Porque la RAM no es accesible desde disco"], correct: 1, exp: "La RAM es volátil — su contenido desaparece al apagar. Para capturar procesos en ejecución, contraseñas y claves de cifrado hay que hacer el volcado con el sistema activo." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas los fundamentos del hardware.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

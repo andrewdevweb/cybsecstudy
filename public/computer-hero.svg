@@ -1,0 +1,150 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="72" fill="#1a1a2a" font-size="72" font-weight="700">SISTEMA</text>
+  <text x="46" y="70" fill="#e8eaf0" font-size="72" font-weight="700">SISTEMA</text>
+  <text x="48" y="92" fill="#00ff9f" font-size="10" letter-spacing="4">DENTRO DE UN SISTEMA INFORMÁTICO</text>
+  <line x1="48" y1="102" x2="460" y2="102" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: components grid -->
+  <text x="48" y="122" fill="#6b6b8a" font-size="9" letter-spacing="2">// COMPONENTES PRINCIPALES</text>
+
+  <!-- CPU -->
+  <rect x="48" y="132" width="120" height="56" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="108" y="157" text-anchor="middle" fill="#00ff9f" font-size="12" font-weight="700">CPU</text>
+  <text x="108" y="173" text-anchor="middle" fill="#6b6b8a" font-size="9">el cerebro</text>
+  <text x="108" y="184" text-anchor="middle" fill="#6b6b8a" font-size="8">ejecuta instrucciones</text>
+
+  <!-- RAM -->
+  <rect x="178" y="132" width="120" height="56" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="238" y="157" text-anchor="middle" fill="#4d96ff" font-size="12" font-weight="700">RAM</text>
+  <text x="238" y="173" text-anchor="middle" fill="#6b6b8a" font-size="9">memoria volátil</text>
+  <text x="238" y="184" text-anchor="middle" fill="#6b6b8a" font-size="8">corto plazo · GB</text>
+
+  <!-- Motherboard -->
+  <rect x="308" y="132" width="130" height="56" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="373" y="153" text-anchor="middle" fill="#ff9f43" font-size="11" font-weight="700">PLACA BASE</text>
+  <text x="373" y="169" text-anchor="middle" fill="#6b6b8a" font-size="9">esqueleto y nervios</text>
+  <text x="373" y="180" text-anchor="middle" fill="#6b6b8a" font-size="8">conecta todo</text>
+
+  <!-- GPU -->
+  <rect x="48" y="200" width="120" height="56" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="108" y="225" text-anchor="middle" fill="#c77dff" font-size="12" font-weight="700">GPU</text>
+  <text x="108" y="241" text-anchor="middle" fill="#6b6b8a" font-size="9">córtex visual</text>
+  <text x="108" y="252" text-anchor="middle" fill="#6b6b8a" font-size="8">cálculo paralelo</text>
+
+  <!-- SSD/HDD -->
+  <rect x="178" y="200" width="120" height="56" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="238" y="221" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">SSD / HDD</text>
+  <text x="238" y="237" text-anchor="middle" fill="#6b6b8a" font-size="9">memoria permanente</text>
+  <text x="238" y="248" text-anchor="middle" fill="#6b6b8a" font-size="8">largo plazo · TB</text>
+
+  <!-- PSU -->
+  <rect x="308" y="200" width="130" height="56" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="373" y="225" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="700">PSU</text>
+  <text x="373" y="241" text-anchor="middle" fill="#6b6b8a" font-size="9">corazón y pulmones</text>
+  <text x="373" y="252" text-anchor="middle" fill="#6b6b8a" font-size="8">alimenta todo</text>
+
+  <!-- memory hierarchy -->
+  <text x="48" y="286" fill="#6b6b8a" font-size="9" letter-spacing="2">// JERARQUÍA DE MEMORIA</text>
+  <!-- bars -->
+  <rect x="48"  y="296" width="30"  height="16" rx="1" fill="#00ff9f" opacity="0.9"/>
+  <text x="86"  y="308" fill="#e8eaf0" font-size="9">Registros CPU — bytes — instantáneo</text>
+  <rect x="48"  y="318" width="60"  height="16" rx="1" fill="#4d96ff" opacity="0.8"/>
+  <text x="116" y="330" fill="#e8eaf0" font-size="9">Caché L1/L2/L3 — KB/MB — ns</text>
+  <rect x="48"  y="340" width="110" height="16" rx="1" fill="#ff9f43" opacity="0.7"/>
+  <text x="166" y="352" fill="#e8eaf0" font-size="9">RAM — GB — ~100ns</text>
+  <rect x="48"  y="362" width="180" height="16" rx="1" fill="#ffd93d" opacity="0.6"/>
+  <text x="236" y="374" fill="#e8eaf0" font-size="9">SSD — TB — µs</text>
+  <rect x="48"  y="384" width="260" height="16" rx="1" fill="#ff6b6b" opacity="0.5"/>
+  <text x="316" y="396" fill="#e8eaf0" font-size="9">HDD — TB — ms</text>
+  <text x="48"  y="418" fill="#3a3a5a" font-size="8">← más rápido / más caro / menos capacidad</text>
+
+  <!-- security notes -->
+  <text x="48" y="445" fill="#6b6b8a" font-size="9" letter-spacing="2">// RELEVANCIA EN CIBERSEGURIDAD</text>
+  <rect x="48" y="454" width="195" height="40" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="48" y="454" width="4" height="40" fill="#ff6b6b"/>
+  <text x="62" y="470" fill="#ff6b6b" font-size="9" font-weight="700">RAM Forensics</text>
+  <text x="62" y="484" fill="#6b6b8a" font-size="8">contraseñas · claves · malware en vivo</text>
+
+  <rect x="254" y="454" width="185" height="40" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="254" y="454" width="4" height="40" fill="#c77dff"/>
+  <text x="268" y="470" fill="#c77dff" font-size="9" font-weight="700">GPU Cracking</text>
+  <text x="268" y="484" fill="#6b6b8a" font-size="8">miles de millones de hashes/s</text>
+
+  <!-- RIGHT divider -->
+  <line x1="480" y1="30" x2="480" y2="480" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: boot sequence -->
+  <text x="506" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// SECUENCIA DE ARRANQUE</text>
+
+  <!-- step boxes vertical -->
+  <!-- step 1 -->
+  <rect x="506" y="58" width="480" height="52" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="506" y="58" width="4" height="52" fill="#00ff9f"/>
+  <rect x="514" y="66" width="24" height="24" rx="3" fill="#00ff9f"/>
+  <text x="526" y="83" text-anchor="middle" fill="#000" font-size="11" font-weight="700">1</text>
+  <text x="548" y="80" fill="#00ff9f" font-size="11" font-weight="700">Botón de encendido</text>
+  <text x="548" y="98" fill="#6b6b8a" font-size="10">La PSU distribuye energía. El hardware despierta.</text>
+
+  <!-- arrow -->
+  <line x1="746" y1="112" x2="746" y2="126" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- step 2 -->
+  <rect x="506" y="128" width="480" height="52" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="506" y="128" width="4" height="52" fill="#4d96ff"/>
+  <rect x="514" y="136" width="24" height="24" rx="3" fill="#4d96ff"/>
+  <text x="526" y="153" text-anchor="middle" fill="#000" font-size="11" font-weight="700">2</text>
+  <text x="548" y="150" fill="#4d96ff" font-size="11" font-weight="700">Firmware UEFI / BIOS</text>
+  <text x="548" y="168" fill="#6b6b8a" font-size="10">Primer software en ejecutarse. Inicializa el hardware.</text>
+
+  <line x1="746" y1="182" x2="746" y2="196" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- step 3 -->
+  <rect x="506" y="198" width="480" height="52" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="506" y="198" width="4" height="52" fill="#ff9f43"/>
+  <rect x="514" y="206" width="24" height="24" rx="3" fill="#ff9f43"/>
+  <text x="526" y="223" text-anchor="middle" fill="#000" font-size="11" font-weight="700">3</text>
+  <text x="548" y="220" fill="#ff9f43" font-size="11" font-weight="700">POST — Power-On Self-Test</text>
+  <text x="548" y="238" fill="#6b6b8a" font-size="10">Autodiagnóstico: comprueba RAM, CPU, almacenamiento.</text>
+
+  <line x1="746" y1="252" x2="746" y2="266" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- step 4 -->
+  <rect x="506" y="268" width="480" height="52" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="506" y="268" width="4" height="52" fill="#ffd93d"/>
+  <rect x="514" y="276" width="24" height="24" rx="3" fill="#ffd93d"/>
+  <text x="526" y="293" text-anchor="middle" fill="#000" font-size="11" font-weight="700">4</text>
+  <text x="548" y="290" fill="#ffd93d" font-size="11" font-weight="700">Selección del dispositivo de arranque</text>
+  <text x="548" y="308" fill="#6b6b8a" font-size="10">UEFI busca el gestor de arranque en la lista de prioridades.</text>
+
+  <line x1="746" y1="322" x2="746" y2="336" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- step 5 -->
+  <rect x="506" y="338" width="480" height="52" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="506" y="338" width="4" height="52" fill="#c77dff"/>
+  <rect x="514" y="346" width="24" height="24" rx="3" fill="#c77dff"/>
+  <text x="526" y="363" text-anchor="middle" fill="#000" font-size="11" font-weight="700">5</text>
+  <text x="548" y="360" fill="#c77dff" font-size="11" font-weight="700">Gestor de arranque</text>
+  <text x="548" y="378" fill="#6b6b8a" font-size="10">Carga el SO desde disco a RAM. UEFI cede el control.</text>
+
+  <!-- security warning -->
+  <rect x="506" y="408" width="480" height="52" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="506" y="408" width="4" height="52" fill="#ff6b6b"/>
+  <text x="520" y="426" fill="#ff6b6b" font-size="10" font-weight="700">⚠ Seguridad en el arranque</text>
+  <text x="520" y="442" fill="#6b6b8a" font-size="9">Bootkits infectan el firmware — arrancan antes que el SO.</text>
+  <text x="520" y="455" fill="#6b6b8a" font-size="9">Boot desde USB malicioso puede bypassear contraseñas.</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>
