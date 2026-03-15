@@ -108,3 +108,13 @@ Ejemplo en PHP:
 ```
 
 El cliente nunca ve el código PHP — solo el HTML resultante. Esta separación entre lo que el usuario ve (**frontend**) y lo que procesa el servidor (**backend**) es fundamental en seguridad web, ya que introduce vectores de ataque que no existen en sitios estáticos.
+
+---
+
+## El recorrido completo de una solicitud web
+
+Cuando escribes una URL y pulsas Enter, esto es exactamente lo que ocurre:
+
+![Flujo completo de una solicitud web](/infra-request-flow.svg)
+
+En resumen: **DNS** resuelve el nombre, el **WAF** filtra la solicitud, el **balanceador** la distribuye, el **servidor** la procesa y devuelve el HTML que tu navegador renderiza.

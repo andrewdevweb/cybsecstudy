@@ -1,0 +1,121 @@
+<svg viewBox="0 0 660 920" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="660" height="920" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ga" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4d96ff"/></marker>
+  </defs>
+
+  <!-- helper macro: each step is 100px tall, centered at x=330 -->
+  <!-- step box width: 340px, centered -->
+
+  <!-- ── STEP 1 ─────────────────────────────── -->
+  <rect x="145" y="10" width="370" height="72" rx="4" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="145" y="10" width="4" height="72" rx="2 0 0 2" fill="#00ff9f"/>
+  <rect x="158" y="10" width="28" height="28" rx="3" fill="#00ff9f" style="margin:0"/>
+  <text x="172" y="29" text-anchor="middle" fill="#000" font-size="13" font-weight="700">1</text>
+  <text x="200" y="34" fill="#00ff9f" font-size="11" font-weight="700">Solicitud del navegador</text>
+  <text x="200" y="52" fill="#6b6b8a" font-size="10">Escribes tryhackme.com en el navegador.</text>
+  <text x="200" y="66" fill="#6b6b8a" font-size="10">El navegador necesita la IP del servidor.</text>
+
+  <line x1="330" y1="84" x2="330" y2="108" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 2 ─────────────────────────────── -->
+  <rect x="145" y="110" width="370" height="72" rx="4" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="145" y="110" width="4" height="72" rx="2 0 0 2" fill="#00ff9f"/>
+  <rect x="158" y="110" width="28" height="28" rx="3" fill="#00ff9f"/>
+  <text x="172" y="129" text-anchor="middle" fill="#000" font-size="13" font-weight="700">2</text>
+  <text x="200" y="134" fill="#00ff9f" font-size="11" font-weight="700">Caché local</text>
+  <text x="200" y="152" fill="#6b6b8a" font-size="10">El sistema operativo comprueba su caché DNS.</text>
+  <text x="200" y="166" fill="#6b6b8a" font-size="10">Si encuentra la IP, salta al paso 7 directamente.</text>
+
+  <line x1="330" y1="184" x2="330" y2="208" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 3 ─────────────────────────────── -->
+  <rect x="145" y="210" width="370" height="72" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="145" y="210" width="4" height="72" rx="2 0 0 2" fill="#4d96ff"/>
+  <rect x="158" y="210" width="28" height="28" rx="3" fill="#4d96ff"/>
+  <text x="172" y="229" text-anchor="middle" fill="#000" font-size="13" font-weight="700">3</text>
+  <text x="200" y="234" fill="#4d96ff" font-size="11" font-weight="700">DNS Recursivo (ISP)</text>
+  <text x="200" y="252" fill="#6b6b8a" font-size="10">Consulta al servidor DNS de tu ISP o al que</text>
+  <text x="200" y="266" fill="#6b6b8a" font-size="10">hayas configurado (8.8.8.8, 1.1.1.1...).</text>
+
+  <line x1="330" y1="284" x2="330" y2="308" stroke="#4d96ff" stroke-width="1.5" marker-end="url(#ba)"/>
+
+  <!-- ── STEP 4 ─────────────────────────────── -->
+  <rect x="145" y="310" width="370" height="72" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="145" y="310" width="4" height="72" rx="2 0 0 2" fill="#4d96ff"/>
+  <rect x="158" y="310" width="28" height="28" rx="3" fill="#4d96ff"/>
+  <text x="172" y="329" text-anchor="middle" fill="#000" font-size="13" font-weight="700">4</text>
+  <text x="200" y="334" fill="#4d96ff" font-size="11" font-weight="700">Servidores Raíz → TLD → Autoritativo</text>
+  <text x="200" y="352" fill="#6b6b8a" font-size="10">Raíz indica el servidor TLD (.com). El TLD</text>
+  <text x="200" y="366" fill="#6b6b8a" font-size="10">indica el servidor autoritativo del dominio.</text>
+
+  <line x1="330" y1="384" x2="330" y2="408" stroke="#4d96ff" stroke-width="1.5" marker-end="url(#ba)"/>
+
+  <!-- ── STEP 5 ─────────────────────────────── -->
+  <rect x="145" y="410" width="370" height="72" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="145" y="410" width="4" height="72" rx="2 0 0 2" fill="#4d96ff"/>
+  <rect x="158" y="410" width="28" height="28" rx="3" fill="#4d96ff"/>
+  <text x="172" y="429" text-anchor="middle" fill="#000" font-size="13" font-weight="700">5</text>
+  <text x="200" y="434" fill="#4d96ff" font-size="11" font-weight="700">IP resuelta — respuesta DNS</text>
+  <text x="200" y="452" fill="#6b6b8a" font-size="10">El servidor autoritativo devuelve la IP.</text>
+  <text x="200" y="466" fill="#6b6b8a" font-size="10">Se cachea con su TTL. Tu navegador ya tiene la IP.</text>
+
+  <line x1="330" y1="484" x2="330" y2="508" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 6 ─────────────────────────────── -->
+  <rect x="145" y="510" width="370" height="72" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="145" y="510" width="4" height="72" rx="2 0 0 2" fill="#ff6b6b"/>
+  <rect x="158" y="510" width="28" height="28" rx="3" fill="#ff6b6b"/>
+  <text x="172" y="529" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">6</text>
+  <text x="200" y="534" fill="#ff6b6b" font-size="11" font-weight="700">WAF — Firewall de Aplicación Web</text>
+  <text x="200" y="552" fill="#6b6b8a" font-size="10">La solicitud pasa por el WAF antes de llegar</text>
+  <text x="200" y="566" fill="#6b6b8a" font-size="10">al servidor. Filtra ataques y bots maliciosos.</text>
+
+  <line x1="330" y1="584" x2="330" y2="608" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 7 ─────────────────────────────── -->
+  <rect x="145" y="610" width="370" height="72" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="145" y="610" width="4" height="72" rx="2 0 0 2" fill="#ff9f43"/>
+  <rect x="158" y="610" width="28" height="28" rx="3" fill="#ff9f43"/>
+  <text x="172" y="629" text-anchor="middle" fill="#000" font-size="13" font-weight="700">7</text>
+  <text x="200" y="634" fill="#ff9f43" font-size="11" font-weight="700">Balanceador de carga</text>
+  <text x="200" y="652" fill="#6b6b8a" font-size="10">Distribuye la solicitud entre los servidores</text>
+  <text x="200" y="666" fill="#6b6b8a" font-size="10">disponibles. Conexión por HTTP (80) o HTTPS (443).</text>
+
+  <line x1="330" y1="684" x2="330" y2="708" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 8 ─────────────────────────────── -->
+  <rect x="145" y="710" width="370" height="72" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="145" y="710" width="4" height="72" rx="2 0 0 2" fill="#6bcb77"/>
+  <rect x="158" y="710" width="28" height="28" rx="3" fill="#6bcb77"/>
+  <text x="172" y="729" text-anchor="middle" fill="#000" font-size="13" font-weight="700">8</text>
+  <text x="200" y="734" fill="#6bcb77" font-size="11" font-weight="700">Servidor web procesa la solicitud</text>
+  <text x="200" y="752" fill="#6b6b8a" font-size="10">Apache / Nginx recibe el GET. Si es contenido</text>
+  <text x="200" y="766" fill="#6b6b8a" font-size="10">dinámico, consulta la base de datos (PHP, Python...).</text>
+
+  <line x1="330" y1="784" x2="330" y2="808" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- ── STEP 9 ─────────────────────────────── -->
+  <rect x="145" y="810" width="370" height="72" rx="4" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="145" y="810" width="4" height="72" rx="2 0 0 2" fill="#c77dff"/>
+  <rect x="158" y="810" width="28" height="28" rx="3" fill="#c77dff"/>
+  <text x="172" y="829" text-anchor="middle" fill="#000" font-size="13" font-weight="700">9</text>
+  <text x="200" y="834" fill="#c77dff" font-size="11" font-weight="700">Respuesta HTTP al navegador</text>
+  <text x="200" y="852" fill="#6b6b8a" font-size="10">El servidor devuelve HTML, CSS, JS e imágenes.</text>
+  <text x="200" y="866" fill="#6b6b8a" font-size="10">El navegador los renderiza y muestra la página.</text>
+
+  <!-- left timeline line -->
+  <line x1="127" y1="10" x2="127" y2="882" stroke="#1e1e2e" stroke-width="1"/>
+  <!-- dots on timeline -->
+  <circle cx="127" cy="46"  r="4" fill="#00ff9f"/>
+  <circle cx="127" cy="146" r="4" fill="#00ff9f"/>
+  <circle cx="127" cy="246" r="4" fill="#4d96ff"/>
+  <circle cx="127" cy="346" r="4" fill="#4d96ff"/>
+  <circle cx="127" cy="446" r="4" fill="#4d96ff"/>
+  <circle cx="127" cy="546" r="4" fill="#ff6b6b"/>
+  <circle cx="127" cy="646" r="4" fill="#ff9f43"/>
+  <circle cx="127" cy="746" r="4" fill="#6bcb77"/>
+  <circle cx="127" cy="846" r="4" fill="#c77dff"/>
+
+</svg>
