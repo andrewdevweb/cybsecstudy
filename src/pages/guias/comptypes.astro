@@ -1,0 +1,334 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Tipos de Computadoras — CybSecStudy" description="Portátiles, servidores, IoT, sistemas embebidos y smartphones: diferencias, compromisos y vectores de ataque." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1>Tipos de <span class="accent">Computadoras</span></h1>
+      <p class="guide-desc">No todas las computadoras son iguales. Cada tipo existe por una razón — y cada tipo tiene sus propios vectores de ataque.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Sophia encontró <strong>NexusCool Fridge X17</strong> en su lista de redes WiFi. Su vecino tenía una nevera con un ordenador integrado. Eso la hizo reflexionar: los ordenadores ya no son solo portátiles y teléfonos — están en <strong>objetos cotidianos</strong>.</p>
+      <p>Entender qué tipo de computadora es cada dispositivo es el primer paso para saber cómo protegerlo.</p>
+    </div>
+
+    <div class="section-label">// Compromisos de diseño</div>
+    <img src="/comptypes-tradeoffs.svg" alt="Compromisos de diseño por tipo de computadora" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <!-- DEVICES WITH SCREENS -->
+    <div class="section-label">// Dispositivos con pantalla — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">💻</div>
+          <div class="concept-title">Portátil</div>
+          <div class="concept-badge">movilidad · batería</div>
+        </div>
+        <div class="concept-body">
+          <p>Diseñado para moverse. La batería y el factor de forma obligan a compromisos: menor rendimiento sostenido y peor disipación de calor. Bajo carga prolongada, el <strong>throttling térmico</strong> reduce el rendimiento para proteger los componentes.</p>
+          <ul>
+            <li>Procesadores ARM o x86 de bajo consumo</li>
+            <li>Batería de 4–20 horas según el uso</li>
+            <li>Perfecto para trabajo cotidiano: correo, documentos, navegación</li>
+            <li>Limitado para simulaciones o renders largos</li>
+          </ul>
+          <div class="sec-badge">⚠ Robos físicos — datos sin cifrar en disco accesibles si no hay BitLocker/FileVault</div>
+          <div class="sec-badge">⚠ USB malicioso — un USB puede ejecutar código al conectarse</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">🖥️</div>
+          <div class="concept-title">Ordenador de Sobremesa</div>
+          <div class="concept-badge">fijo · rendimiento sostenido</div>
+        </div>
+        <div class="concept-body">
+          <p>Fijo, conectado a la corriente, con mejor refrigeración. Puede mantener el rendimiento máximo indefinidamente porque no tiene restricciones de tamaño ni batería. La misma tarea que ralentiza un portátil se ejecuta sin problemas en un sobremesa.</p>
+          <ul>
+            <li>Sin limitación térmica — puede usar disipadores grandes</li>
+            <li>Componentes más potentes al mismo precio que un portátil</li>
+            <li>Fácil de actualizar (RAM, GPU, almacenamiento)</li>
+            <li>No es portátil — queda fijo en su ubicación</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">⚙️</div>
+          <div class="concept-title">Estación de Trabajo</div>
+          <div class="concept-badge">ECC · precisión profesional</div>
+        </div>
+        <div class="concept-body">
+          <p>Parece un sobremesa pero prioriza <strong>precisión y fiabilidad</strong> sobre velocidad bruta. Usa memoria <strong>ECC (Error-Correcting Code)</strong> que detecta y corrige errores de bits en tiempo real.</p>
+          <p>Un bit erróneo en un cálculo de 8 horas puede invalidar todo el resultado. En simulaciones científicas, modelos 3D o análisis forense, eso no es aceptable.</p>
+          <ul>
+            <li>RAM ECC — detecta y corrige errores de un bit</li>
+            <li>CPUs de servidor (Xeon, EPYC) con más núcleos</li>
+            <li>Diseñada para carga continua durante días</li>
+            <li>Usada en: ciencia, ingeniería, VFX, forense digital</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">🗄️</div>
+          <div class="concept-title">Servidor</div>
+          <div class="concept-badge">24/7 · sin pantalla · redundancia</div>
+        </div>
+        <div class="concept-body">
+          <p>Máquinas sin pantalla que funcionan <strong>continuamente</strong>, respondiendo solicitudes de múltiples usuarios simultáneamente. Nunca los tocas directamente, pero son la base de casi todo lo que usas en internet.</p>
+          <ul>
+            <li><strong>Redundancia</strong> — fuentes de alimentación dobles, discos RAID, NICs en bonding</li>
+            <li><strong>Uptime</strong> — diseñados para disponibilidad del 99.99%</li>
+            <li><strong>Rack-mounted</strong> — apilados en bastidores en centros de datos</li>
+            <li>Gestionados remotamente por SSH o interfaces web (iDRAC, iLO)</li>
+          </ul>
+          <div class="sec-badge">⚠ Superficie de ataque grande — servicios expuestos en red (HTTP, SSH, DB)</div>
+          <div class="sec-badge">⚠ RCE, SQLi, DDoS — principales vectores de ataque</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HIDDEN DEVICES -->
+    <div class="section-label" style="margin-top:48px">// Dispositivos ocultos y de bolsillo — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">📱</div>
+          <div class="concept-title">Smartphone</div>
+          <div class="concept-badge">ARM · batería · sensores</div>
+        </div>
+        <div class="concept-body">
+          <p>El ordenador más potente que la mayoría posee cabe en el bolsillo. Optimizado para <strong>duración de batería y conectividad</strong>.</p>
+          <ul>
+            <li>Arquitectura <strong>ARM</strong> — mucho más eficiente energéticamente que x86</li>
+            <li>WiFi, Bluetooth, LTE/5G, NFC todo integrado</li>
+            <li>GPS, acelerómetro, giroscopio, cámara, micrófono, huella dactilar</li>
+            <li>Acceso a banca, correo, mensajes, ubicación — todo en un dispositivo</li>
+          </ul>
+          <div class="sec-badge">⚠ El dispositivo más atacado del mundo — contiene todo lo valioso</div>
+          <div class="sec-badge">⚠ Apps maliciosas, MitM en WiFi público, spyware</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">📡</div>
+          <div class="concept-title">Dispositivo IoT</div>
+          <div class="concept-badge">conectado a red · propósito único</div>
+        </div>
+        <div class="concept-body">
+          <p>Dispositivos conectados a internet con <strong>un único propósito</strong>: el termostato que reporta la temperatura, el timbre que envía vídeo, la nevera que avisa cuando falta leche.</p>
+          <ul>
+            <li>Bajo coste — hardware mínimo para su función</li>
+            <li>Siempre conectados — visibles en la red</li>
+            <li>Raramente actualizados — firmware obsoleto durante años</li>
+            <li>Sin interfaz para el usuario final — difíciles de monitorizar</li>
+          </ul>
+          <div class="sec-badge">⚠ Contraseñas por defecto que nadie cambia (admin/admin)</div>
+          <div class="sec-badge">⚠ Mirai (2016) — 600.000 dispositivos IoT comprometidos, tumbó Dyn DNS</div>
+          <div class="sec-badge">⚠ Puerta de entrada a la red interna</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">🔧</div>
+          <div class="concept-title">Sistema Embebido</div>
+          <div class="concept-badge">invisible · sin red · fiable</div>
+        </div>
+        <div class="concept-body">
+          <p>Un ordenador <strong>completamente invisible</strong> dentro de otro dispositivo. Sophia pasaba cada día por puertas automáticas en Nova Labs sin saber que un pequeño chip detectaba su movimiento y activaba el motor.</p>
+          <p><strong>La diferencia clave con IoT:</strong> un sistema embebido puede no conectarse a ninguna red — simplemente realiza su función dentro de la máquina, a veces durante décadas sin que nadie sepa que existe.</p>
+          <ul>
+            <li>Coches — ABS, airbags, control de tracción, infotainment</li>
+            <li>Aviones — sistemas de vuelo, sensores, controles</li>
+            <li>Medicina — marcapasos, bombas de insulina, monitores</li>
+            <li>Infraestructura — semáforos, centrales eléctricas, plantas industriales</li>
+          </ul>
+          <div class="sec-badge">⚠ Acceso físico permite tampering e implantes de hardware</div>
+          <div class="sec-badge">⚠ Sistemas críticos sin actualizaciones durante años</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Cuál es la principal limitación de un portátil frente a un sobremesa?", opts: ["No tiene pantalla","El throttling térmico limita el rendimiento sostenido","No puede conectarse a internet","No soporta múltiples usuarios"], correct: 1, exp: "Los portátiles están limitados por la batería y el calor. Bajo carga prolongada, el throttling térmico reduce el rendimiento para proteger los componentes." },
+  { q: "¿Qué es la memoria ECC y en qué dispositivos se usa?", opts: ["Memoria más rápida, en portátiles","Memoria que detecta y corrige errores de bits, en workstations y servidores","Memoria externa USB, en smartphones","Memoria de vídeo, en GPUs"], correct: 1, exp: "La RAM ECC (Error-Correcting Code) detecta y corrige errores de un bit en tiempo real. Es crítica en workstations y servidores donde un error puede invalidar cálculos largos." },
+  { q: "¿Cuál es la diferencia principal entre un dispositivo IoT y un sistema embebido?", opts: ["El IoT es más grande","El sistema embebido es más caro","El IoT se conecta a una red; el embebido puede no conectarse a nada","No hay diferencia"], correct: 2, exp: "Los dispositivos IoT se conectan a una red para enviar/recibir datos. Los sistemas embebidos realizan su función dentro de una máquina y pueden funcionar sin ninguna conexión." },
+  { q: "¿Qué fue Mirai y por qué es relevante?", opts: ["Un antivirus para IoT","Una botnet que comprometió 600.000 dispositivos IoT en 2016","Un protocolo de seguridad para servidores","Un tipo de firewall para redes domésticas"], correct: 1, exp: "Mirai fue una botnet que en 2016 comprometió 600.000 dispositivos IoT con credenciales por defecto. Usó esos dispositivos para atacar Dyn DNS, dejando inaccesibles Twitter, Netflix y Reddit." },
+  { q: "¿Por qué los smartphones son el dispositivo más atacado del mundo?", opts: ["Porque son más baratos","Porque tienen menos seguridad que los PC","Porque concentran datos bancarios, ubicación, comunicaciones y credenciales en un solo dispositivo","Porque usan WiFi"], correct: 2, exp: "El smartphone contiene todo lo valioso: banca, correo, mensajes, ubicación, contraseñas. Es el objetivo más rentable para un atacante." },
+  { q: "¿Por qué los servidores usan redundancia (fuentes dobles, RAID)?", opts: ["Para ser más rápidos","Para evitar fallos que causarían pérdidas económicas enormes y downtime","Para ahorrar energía","Para facilitar la instalación"], correct: 1, exp: "Los servidores están diseñados para uptime del 99.99%. Un fallo en un sistema crítico puede costar millones. La redundancia garantiza que si un componente falla, otro toma el relevo." },
+  { q: "¿Por qué los dispositivos IoT son especialmente vulnerables?", opts: ["Porque son muy pequeños","Porque usan Bluetooth","Porque tienen contraseñas por defecto, firmware sin actualizar y no pueden instalar antivirus","Porque consumen mucha batería"], correct: 2, exp: "Los IoT son vulnerables porque: nadie cambia las contraseñas por defecto, el firmware no se actualiza, no tienen interfaz para monitorizarlos y no pueden ejecutar software de seguridad." },
+  { q: "¿En qué se diferencia una workstation de un sobremesa normal?", opts: ["La workstation es más barata","La workstation no tiene GPU","La workstation prioriza precisión con ECC RAM y componentes de servidor","La workstation es portátil"], correct: 2, exp: "Una workstation parece un sobremesa pero usa ECC RAM, CPUs de servidor y componentes diseñados para carga continua y precisión — crítico en ciencia, ingeniería y análisis forense." },
+  { q: "¿Qué arquitectura de CPU usan principalmente los smartphones?", opts: ["x86","x86-64","ARM","RISC-V"], correct: 2, exp: "Los smartphones usan arquitectura ARM, mucho más eficiente energéticamente que x86. Eso permite más horas de batería con el mismo rendimiento." },
+  { q: "¿Por qué no existe el 'ordenador perfecto'?", opts: ["Porque la tecnología no ha avanzado suficiente","Porque cada diseño implica compromisos: movilidad vs rendimiento, coste vs fiabilidad","Porque los fabricantes no quieren hacerlo","Porque sería demasiado caro"], correct: 1, exp: "Cada tipo de computadora existe porque tiene compromisos distintos. La movilidad consume energía. La fiabilidad cuesta redundancia. No hay un diseño que lo optimice todo a la vez." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Conoces todos los tipos de computadoras.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>
