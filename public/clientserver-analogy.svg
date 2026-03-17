@@ -1,0 +1,62 @@
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="200" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/></marker>
+  </defs>
+
+  <!-- Analogía pizzería -->
+  <text x="350" y="18" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANALOGÍA — LA PIZZERÍA DE LUIGI</text>
+
+  <!-- Alice/Browser box -->
+  <rect x="20" y="28" width="140" height="110" rx="3" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="20" y="28" width="140" height="4" fill="#00ff9f"/>
+  <text x="90" y="52" text-anchor="middle" fill="#00ff9f" font-size="11" font-weight="700">ALICE / NAVEGADOR</text>
+  <text x="90" y="68" text-anchor="middle" fill="#6b6b8a" font-size="9">cliente</text>
+  <text x="90" y="86" text-anchor="middle" fill="#3a3a5a" font-size="8">«Quiero pizza</text>
+  <text x="90" y="98" text-anchor="middle" fill="#3a3a5a" font-size="8">de pepperoni»</text>
+  <text x="90" y="113" text-anchor="middle" fill="#3a3a5a" font-size="8">= GET /pizza HTTP/1.1</text>
+  <text x="90" y="148" text-anchor="middle" fill="#00ff9f" font-size="9">inicia la solicitud</text>
+
+  <!-- arrows center -->
+  <line x1="162" y1="72" x2="258" y2="72" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="210" y="64" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">PEDIDO (REQUEST)</text>
+  <line x1="258" y1="92" x2="162" y2="92" stroke="#4d96ff" stroke-width="1.5" marker-end="url(#ba)"/>
+  <text x="210" y="110" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">PIZZA (RESPONSE)</text>
+  <text x="210" y="122" text-anchor="middle" fill="#3a3a5a" font-size="8">200 OK + pizza</text>
+
+  <!-- Luigi/Server box -->
+  <rect x="260" y="28" width="140" height="110" rx="3" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="260" y="28" width="140" height="4" fill="#4d96ff"/>
+  <text x="330" y="52" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">LUIGI'S / SERVIDOR</text>
+  <text x="330" y="68" text-anchor="middle" fill="#6b6b8a" font-size="9">servidor</text>
+  <text x="330" y="86" text-anchor="middle" fill="#3a3a5a" font-size="8">«¡Enseguida!»</text>
+  <text x="330" y="98" text-anchor="middle" fill="#3a3a5a" font-size="8">procesa y responde</text>
+  <text x="330" y="113" text-anchor="middle" fill="#3a3a5a" font-size="8">= 200 OK + recurso</text>
+  <text x="330" y="148" text-anchor="middle" fill="#4d96ff" font-size="9">espera · procesa · responde</text>
+
+  <!-- protocol box -->
+  <rect x="430" y="28" width="120" height="52" rx="3" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="430" y="28" width="120" height="4" fill="#c77dff"/>
+  <text x="490" y="50" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">PROTOCOLO</text>
+  <text x="490" y="65" text-anchor="middle" fill="#6b6b8a" font-size="8">idioma común</text>
+  <text x="490" y="75" text-anchor="middle" fill="#3a3a5a" font-size="8">HTTP · reglas</text>
+
+  <!-- DNS box -->
+  <rect x="560" y="28" width="120" height="52" rx="3" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <rect x="560" y="28" width="120" height="4" fill="#ffd93d"/>
+  <text x="620" y="50" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">DNS</text>
+  <text x="620" y="65" text-anchor="middle" fill="#6b6b8a" font-size="8">GPS del internet</text>
+  <text x="620" y="75" text-anchor="middle" fill="#3a3a5a" font-size="8">nombre → IP</text>
+
+  <!-- ports box -->
+  <rect x="430" y="90" width="250" height="48" rx="3" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="430" y="90" width="250" height="4" fill="#ff9f43"/>
+  <text x="555" y="109" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">PUERTO — puerta de acceso al servicio</text>
+  <text x="555" y="124" text-anchor="middle" fill="#6b6b8a" font-size="9">:80 HTTP · :443 HTTPS · :22 SSH · :53 DNS</text>
+  <text x="555" y="134" text-anchor="middle" fill="#3a3a5a" font-size="8">cada servicio usa su propia puerta</text>
+
+  <!-- bottom note -->
+  <text x="350" y="175" text-anchor="middle" fill="#3a3a5a" font-size="8">el cliente SIEMPRE inicia · el servidor SIEMPRE espera y responde</text>
+  <text x="350" y="188" text-anchor="middle" fill="#3a3a5a" font-size="8">HTTP es sin estado — las cookies mantienen la sesión</text>
+</svg>

@@ -1,0 +1,393 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Cliente-Servidor — CybSecStudy" description="Guía interactiva sobre el modelo cliente-servidor, DNS, puertos, protocolos y HTTP." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; gap: 0; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; font-weight: 700; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .ports-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; }
+    .port-card { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 10px; text-align: center; }
+    .port-num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--cc); }
+    .port-name { font-size: 10px; color: #6b6b8a; margin-top: 4px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+      .ports-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1>Modelo <span class="accent">Cliente-Servidor</span></h1>
+      <p class="guide-desc">La base de toda comunicación en internet. Cliente, servidor, DNS, puertos y protocolos — explicados con una pizzería.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Es viernes por la noche. Alice quiere pizza. Bob conduce hasta Luigi's, hace el pedido y vuelve con la pizza. Este proceso cotidiano esconde <strong>toda la arquitectura de Internet</strong>.</p>
+      <p>El <strong>cliente siempre inicia la solicitud</strong>. El servidor espera, escucha y responde.</p>
+    </div>
+
+    <div class="section-label">// La analogía de la pizzería</div>
+    <img src="/clientserver-analogy.svg" alt="Analogía cliente-servidor con pizzería" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">CLI</div>
+          <div class="concept-title">Cliente</div>
+          <div class="concept-badge">inicia la solicitud</div>
+        </div>
+        <div class="concept-body">
+          <p>El cliente es cualquier dispositivo o software que <strong>solicita un servicio</strong> a otro sistema. Siempre inicia la comunicación — el servidor nunca contacta al cliente primero (salvo en conexiones push como WebSockets).</p>
+          <ul>
+            <li>Navegador web (Chrome, Firefox) → solicita páginas HTML</li>
+            <li>App de correo → solicita mensajes al servidor IMAP</li>
+            <li>App de mensajería → solicita mensajes al servidor</li>
+            <li>Herramienta <code>curl</code> → solicita recursos desde la terminal</li>
+          </ul>
+          <p>En la analogía: Alice (y Bob como intermediario) es el cliente que pide pizza a Luigi's.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">SRV</div>
+          <div class="concept-title">Servidor</div>
+          <div class="concept-badge">escucha · procesa · responde</div>
+        </div>
+        <div class="concept-body">
+          <p>El servidor <strong>espera solicitudes</strong>, las procesa y devuelve una respuesta. Un mismo servidor puede atender a miles de clientes simultáneamente.</p>
+          <ul>
+            <li>Servidor web (Apache, Nginx) → sirve páginas HTML</li>
+            <li>Servidor de base de datos (MySQL) → gestiona consultas</li>
+            <li>Servidor de correo → gestiona envío y recepción</li>
+            <li>Servidor DNS → resuelve nombres de dominio</li>
+          </ul>
+          <p>En la analogía: Luigi's Pizza es el servidor — espera pedidos, los prepara y los entrega.</p>
+          <div class="sec-badge">⚠ Los servicios expuestos son la principal superficie de ataque de un servidor</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">DNS</div>
+          <div class="concept-title">DNS — Domain Name System</div>
+          <div class="concept-badge">nombre → IP</div>
+        </div>
+        <div class="concept-body">
+          <p>El DNS traduce nombres de dominio legibles por humanos a direcciones IP que usan los ordenadores. Es el <strong>GPS de Internet</strong>.</p>
+          <div class="code-block">tryhackme.com  →  DNS  →  104.26.10.229
+google.com     →  DNS  →  142.250.185.46</div>
+          <p style="margin-top:10px">Sin DNS tendrías que memorizar la IP de cada sitio web. El proceso completo de resolución DNS pasa por: caché local → recursivo (ISP) → servidores raíz → TLD → autoritativo.</p>
+          <div class="sec-badge">⚠ DNS Spoofing — respuestas DNS falsificadas redirigen a servidores maliciosos</div>
+          <div class="sec-badge">⚠ DNS usa el puerto 53 — bloquearlo corta la resolución de nombres</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">PTO</div>
+          <div class="concept-title">Puerto</div>
+          <div class="concept-badge">puerta de acceso al servicio</div>
+        </div>
+        <div class="concept-body">
+          <p>Un puerto identifica un <strong>servicio específico</strong> en un servidor. Como Luigi's tiene puertas distintas para llevar, comer y entrega — cada servicio usa su propio puerto.</p>
+          <div class="ports-grid" style="--cc:#ff9f43">
+            <div class="port-card"><div class="port-num" style="color:#00ff9f">80</div><div class="port-name">HTTP</div></div>
+            <div class="port-card"><div class="port-num" style="color:#00ff9f">443</div><div class="port-name">HTTPS</div></div>
+            <div class="port-card"><div class="port-num" style="color:#ff9f43">22</div><div class="port-name">SSH</div></div>
+            <div class="port-card"><div class="port-num" style="color:#ffd93d">53</div><div class="port-name">DNS</div></div>
+            <div class="port-card"><div class="port-num" style="color:#4d96ff">25</div><div class="port-name">SMTP</div></div>
+            <div class="port-card"><div class="port-num" style="color:#4d96ff">143</div><div class="port-name">IMAP</div></div>
+            <div class="port-card"><div class="port-num" style="color:#c77dff">3306</div><div class="port-name">MySQL</div></div>
+            <div class="port-card"><div class="port-num" style="color:#ff6b6b">21</div><div class="port-name">FTP</div></div>
+          </div>
+          <div class="sec-badge">⚠ Escanear puertos abiertos (nmap) es el primer paso en reconocimiento</div>
+          <div class="sec-badge">⚠ Puertos innecesarios abiertos = superficie de ataque</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">PRO</div>
+          <div class="concept-title">Protocolo</div>
+          <div class="concept-badge">reglas de comunicación</div>
+        </div>
+        <div class="concept-body">
+          <p>Un protocolo define <strong>cómo se comunican cliente y servidor</strong>: qué comandos entienden, cómo estructurar las solicitudes, qué responder a cada tipo de petición y cómo gestionar errores.</p>
+          <p>Como el idioma y el menú de Luigi's — sin seguir las reglas, el servidor no entiende el pedido.</p>
+          <ul>
+            <li><strong>HTTP/HTTPS</strong> — protocolo de la web</li>
+            <li><strong>FTP</strong> — transferencia de archivos</li>
+            <li><strong>SSH</strong> — acceso remoto cifrado</li>
+            <li><strong>SMTP</strong> — envío de correo electrónico</li>
+            <li><strong>DNS</strong> — resolución de nombres</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HTTP METHODS -->
+    <div class="section-label" style="margin-top:48px">// Métodos HTTP — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">GET</div>
+          <div class="concept-title">GET — Obtener un recurso</div>
+          <div class="concept-badge">el más común</div>
+        </div>
+        <div class="concept-body">
+          <p>Solicita un recurso del servidor. Cada vez que cargas una página web, tu navegador envía un GET. <strong>No modifica nada en el servidor.</strong></p>
+          <div class="code-block">GET /index.html HTTP/1.1
+Host: tryhackme.com
+User-Agent: Mozilla/5.0 Firefox/87.0
+
+← respuesta →
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 12483
+
+&lt;!DOCTYPE html&gt;&lt;html&gt;...</div>
+          <div class="sec-badge">⚠ Nunca enviar credenciales por GET — los parámetros quedan en la URL y en logs</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">POST</div>
+          <div class="concept-title">POST — Enviar datos</div>
+          <div class="concept-badge">formularios · login</div>
+        </div>
+        <div class="concept-body">
+          <p>Envía datos al servidor para <strong>crear un nuevo recurso</strong>. Los datos viajan en el cuerpo de la solicitud, no en la URL — más seguro para credenciales.</p>
+          <div class="code-block">POST /login HTTP/1.1
+Host: tryhackme.com
+Content-Type: application/x-www-form-urlencoded
+
+username=alice&password=s3cur3p4ss</div>
+          <div class="sec-badge">⚠ SQL Injection — si el servidor inserta el input directamente en una consulta SQL</div>
+          <div class="sec-badge">⚠ CSRF — peticiones POST falsificadas desde otro sitio</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">PUT</div>
+          <div class="concept-title">PUT / PATCH / DELETE</div>
+          <div class="concept-badge">APIs REST</div>
+        </div>
+        <div class="concept-body">
+          <p>Métodos usados principalmente en <strong>APIs REST</strong> para gestionar recursos:</p>
+          <ul>
+            <li><strong>PUT</strong> — reemplaza un recurso completo</li>
+            <li><strong>PATCH</strong> — modifica parcialmente un recurso</li>
+            <li><strong>DELETE</strong> — elimina un recurso</li>
+          </ul>
+          <p>Ejemplo en una API de usuarios:</p>
+          <div class="code-block">PUT    /api/users/42  → reemplaza el usuario 42
+PATCH  /api/users/42  → actualiza campos del usuario 42
+DELETE /api/users/42  → elimina el usuario 42</div>
+          <div class="sec-badge">⚠ Endpoints sin autenticación que aceptan DELETE = peligro crítico</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HTTP stateless + session -->
+    <div class="section-label" style="margin-top:48px">// HTTP sin estado y sesiones — clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">SES</div>
+          <div class="concept-title">HTTP sin estado — Cookies y Sesiones</div>
+          <div class="concept-badge">stateless · cookies · tokens</div>
+        </div>
+        <div class="concept-body">
+          <p>HTTP es <strong>sin estado</strong> — cada solicitud es independiente. El servidor no recuerda la anterior. Sin mecanismos adicionales, tendrías que hacer login en cada clic.</p>
+          <p>Para resolverlo, los sitios web usan <strong>sesiones</strong>:</p>
+          <ul>
+            <li>Al iniciar sesión, el servidor crea un ID de sesión único</li>
+            <li>Lo envía al cliente como cookie o token</li>
+            <li>El cliente lo adjunta a cada solicitud posterior</li>
+            <li>El servidor reconoce el ID y sabe quién eres</li>
+          </ul>
+          <div class="code-block"># Servidor → Cliente (tras login exitoso)
+Set-Cookie: sessionId=a3f8c2d1e9b; HttpOnly; Secure
+
+# Cliente → Servidor (en cada solicitud posterior)
+Cookie: sessionId=a3f8c2d1e9b</div>
+          <div class="sec-badge">⚠ Session Hijacking — robar el cookie de sesión = suplantar al usuario</div>
+          <div class="sec-badge">⚠ XSS puede robar cookies si no tienen el flag HttpOnly</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Quién inicia siempre la comunicación en el modelo cliente-servidor?", opts: ["El servidor","El router","El cliente","El DNS"], correct: 2, exp: "El cliente siempre inicia la solicitud. El servidor espera, escucha y responde — nunca contacta al cliente por iniciativa propia en HTTP estándar." },
+  { q: "¿Qué hace el DNS?", opts: ["Cifra el tráfico HTTP","Traduce nombres de dominio a direcciones IP","Gestiona las cookies de sesión","Asigna puertos a servicios"], correct: 1, exp: "El DNS (Domain Name System) traduce nombres legibles como tryhackme.com a direcciones IP que usan los ordenadores para conectarse." },
+  { q: "¿En qué puerto escucha por defecto HTTPS?", opts: ["80","22","443","53"], correct: 2, exp: "HTTPS usa el puerto 443 por defecto. HTTP usa el 80. Recuerda: el puerto 443 siempre implica comunicación cifrada con TLS." },
+  { q: "¿Por qué HTTP se considera 'sin estado'?", opts: ["Porque no tiene cabeceras","Porque cada solicitud es independiente — el servidor no recuerda la anterior","Porque solo funciona con GET","Porque no usa TCP"], correct: 1, exp: "HTTP no mantiene estado entre solicitudes. Cada request es procesado de forma independiente. Las cookies y sesiones son mecanismos externos que añaden estado." },
+  { q: "¿Qué método HTTP se usa para obtener una página web?", opts: ["POST","DELETE","PUT","GET"], correct: 3, exp: "GET se usa para obtener recursos del servidor. Cada vez que cargas una página, tu navegador envía una solicitud GET." },
+  { q: "¿Qué es un puerto en el contexto de redes?", opts: ["Un tipo de cable de red","Un identificador numérico que distingue servicios en un servidor","El hardware físico del servidor","La contraseña de acceso al servidor"], correct: 1, exp: "Un puerto es un número (0-65535) que identifica un servicio específico. El servidor puede ejecutar múltiples servicios simultáneamente, cada uno en su propio puerto." },
+  { q: "¿Por qué nunca debes enviar contraseñas como parámetros GET?", opts: ["Porque GET es más lento","Porque los parámetros GET quedan visibles en la URL, logs y caché del navegador","Porque GET no soporta texto","Porque el servidor no los lee"], correct: 1, exp: "Los parámetros GET aparecen en la URL, en los logs del servidor, en el historial del navegador y pueden ser capturados en tránsito. Las credenciales siempre deben ir por POST o en el cuerpo de la solicitud." },
+  { q: "¿Qué es el session hijacking?", opts: ["Robar la contraseña del usuario","Interceptar y reutilizar el cookie de sesión para suplantar al usuario","Atacar el servidor DNS","Escanear puertos abiertos"], correct: 1, exp: "El session hijacking consiste en robar el identificador de sesión (cookie) de un usuario autenticado para suplantar su identidad sin necesitar su contraseña." },
+  { q: "¿Qué protocolo usa el puerto 22?", opts: ["HTTP","FTP","DNS","SSH"], correct: 3, exp: "SSH (Secure Shell) usa el puerto 22 para proporcionar acceso remoto cifrado a servidores. Es el protocolo estándar para administración remota de sistemas." },
+  { q: "¿Cuál es la diferencia entre PUT y PATCH?", opts: ["No hay diferencia","PUT elimina, PATCH crea","PUT reemplaza el recurso completo; PATCH hace una modificación parcial","PUT es más seguro que PATCH"], correct: 2, exp: "PUT reemplaza completamente un recurso con los datos enviados. PATCH solo modifica los campos especificados, manteniendo el resto intacto." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas el modelo cliente-servidor.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

@@ -23,8 +23,9 @@ const guides = [
   { num: '07', href: '/guias/infra',            title: 'La Web por Dentro', desc: 'Balanceadores, CDN, WAF, bases de datos y servidores web.',             tag: 'Web',          color: '#ff9f43' },
   { num: '08', href: '/guias/computer',         title: 'Sistema Informático', desc: 'CPU, RAM, almacenamiento, GPU y secuencia de arranque.',              tag: 'Fundamentos',  color: '#00ff9f' },
   { num: '09', href: '/guias/comptypes',        title: 'Tipos de Computadoras', desc: 'Portátiles, servidores, IoT, sistemas embebidos y smartphones.',    tag: 'Fundamentos',  color: '#6bcb77' },
+  { num: '10', href: '/guias/clientserver',     title: 'Cliente-Servidor',    desc: 'Cliente, servidor, DNS, puertos, protocolos y HTTP.',                tag: 'Fundamentos',  color: '#4d96ff' },
 ];
-const recentGuides = guides.slice(-3).reverse();
+const recentGuides = guides.slice(-3);
 ---
 
 <!doctype html>
@@ -172,14 +173,15 @@ const recentGuides = guides.slice(-3).reverse();
 	.post-card:hover { border-color: #00ff9f; transform: translateY(-2px); }
 	.post-image {
 		width: 100%;
+		height: 160px;
 		overflow: hidden;
 		border-bottom: 1px solid #1e1e2e;
 		background: #0a0a0f;
 	}
 	.post-image img {
 		width: 100%;
-		height: auto;
-		object-fit: contain;
+		height: 100%;
+		object-fit: cover;
 		border-radius: 0;
 		border: none;
 		transition: transform 0.3s ease;
