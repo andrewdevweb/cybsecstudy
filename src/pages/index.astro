@@ -24,8 +24,9 @@ const guides = [
   { num: '08', href: '/guias/computer',         title: 'Sistema Informático', desc: 'CPU, RAM, almacenamiento, GPU y secuencia de arranque.',              tag: 'Fundamentos',  color: '#00ff9f' },
   { num: '09', href: '/guias/comptypes',        title: 'Tipos de Computadoras', desc: 'Portátiles, servidores, IoT, sistemas embebidos y smartphones.',    tag: 'Fundamentos',  color: '#6bcb77' },
   { num: '10', href: '/guias/clientserver',     title: 'Cliente-Servidor',    desc: 'Cliente, servidor, DNS, puertos, protocolos y HTTP.',                tag: 'Fundamentos',  color: '#4d96ff' },
+  { num: '11', href: '/guias/virt',             title: 'Virtualización',      desc: 'Hipervisores Tipo 1 y 2, máquinas virtuales y contenedores Docker.',  tag: 'Fundamentos',  color: '#c77dff' },
 ];
-const recentGuides = guides.slice(-3);
+const recentGuides = guides.slice(-3).reverse();
 ---
 
 <!doctype html>

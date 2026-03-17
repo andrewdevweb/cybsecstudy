@@ -1,0 +1,156 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="58" fill="#1a1a2a" font-size="52" font-weight="700">VIRTUALIZACIÓN</text>
+  <text x="46" y="56" fill="#e8eaf0" font-size="52" font-weight="700">VIRTUALIZACIÓN</text>
+  <text x="48" y="76" fill="#00ff9f" font-size="10" letter-spacing="4">HIPERVISORES · VMs · CONTENEDORES</text>
+  <line x1="48" y1="86" x2="440" y2="86" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: building analogy as stack -->
+  <text x="48" y="106" fill="#6b6b8a" font-size="9" letter-spacing="2">// ARQUITECTURA DE VIRTUALIZACIÓN</text>
+
+  <!-- Physical server -->
+  <rect x="48" y="116" width="370" height="28" rx="2" fill="#ff9f43" opacity="0.15" stroke="#ff9f43" stroke-width="1.5"/>
+  <text x="233" y="135" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">SERVIDOR FÍSICO — CPU · RAM · Almacenamiento</text>
+
+  <!-- Hypervisor -->
+  <rect x="48" y="150" width="370" height="24" rx="2" fill="#c77dff" opacity="0.2" stroke="#c77dff" stroke-width="1.5"/>
+  <text x="233" y="166" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">HIPERVISOR — divide y gestiona los recursos</text>
+
+  <!-- VM 1 -->
+  <rect x="48" y="180" width="176" height="130" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="48" y="180" width="176" height="18" rx="2 2 0 0" fill="#4d96ff" opacity="0.2"/>
+  <text x="136" y="193" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">VM 1 — Linux</text>
+  <!-- containers -->
+  <rect x="56" y="204" width="80" height="20" rx="1" fill="#00ff9f" opacity="0.07" stroke="#00ff9f" stroke-width="0.8"/>
+  <text x="96" y="218" text-anchor="middle" fill="#00ff9f" font-size="8">🐳 Web App</text>
+  <rect x="140" y="204" width="76" height="20" rx="1" fill="#00ff9f" opacity="0.07" stroke="#00ff9f" stroke-width="0.8"/>
+  <text x="178" y="218" text-anchor="middle" fill="#00ff9f" font-size="8">🐳 API</text>
+  <rect x="56" y="229" width="160" height="20" rx="1" fill="#00ff9f" opacity="0.07" stroke="#00ff9f" stroke-width="0.8"/>
+  <text x="136" y="243" text-anchor="middle" fill="#00ff9f" font-size="8">🐳 Base de datos</text>
+  <text x="136" y="268" text-anchor="middle" fill="#00ff9f" font-size="8">contenedores Docker</text>
+  <text x="136" y="282" text-anchor="middle" fill="#3a3a5a" font-size="7">comparten kernel de la VM</text>
+  <text x="136" y="300" text-anchor="middle" fill="#6b6b8a" font-size="8">arranque: segundos</text>
+
+  <!-- VM 2 -->
+  <rect x="232" y="180" width="186" height="130" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="232" y="180" width="186" height="18" rx="2 2 0 0" fill="#ff9f43" opacity="0.2"/>
+  <text x="325" y="193" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">VM 2 — Windows Server</text>
+  <rect x="240" y="204" width="170" height="20" rx="1" fill="#ff9f43" opacity="0.06" stroke="#ff9f43" stroke-width="0.8"/>
+  <text x="325" y="218" text-anchor="middle" fill="#ff9f43" font-size="8">App empresarial</text>
+  <rect x="240" y="229" width="170" height="20" rx="1" fill="#ff9f43" opacity="0.06" stroke="#ff9f43" stroke-width="0.8"/>
+  <text x="325" y="243" text-anchor="middle" fill="#ff9f43" font-size="8">Servidor de correo</text>
+  <text x="325" y="268" text-anchor="middle" fill="#6b6b8a" font-size="8">SO completo · aislado</text>
+  <text x="325" y="282" text-anchor="middle" fill="#3a3a5a" font-size="7">fallo de VM2 no afecta a VM1</text>
+  <text x="325" y="300" text-anchor="middle" fill="#6b6b8a" font-size="8">arranque: minutos</text>
+
+  <!-- vm3 kali -->
+  <rect x="48" y="318" width="370" height="42" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="48" y="318" width="370" height="4" fill="#6bcb77" opacity="0.4"/>
+  <text x="233" y="337" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">VM 3 — Kali Linux (Pentesting / Malware Lab)</text>
+  <text x="233" y="353" text-anchor="middle" fill="#3a3a5a" font-size="8">aislada del host · snapshot antes de análisis · fácil rollback</text>
+
+  <!-- analogy labels -->
+  <text x="48" y="382" fill="#3a3a5a" font-size="8">edificio = servidor físico · apartamentos = VMs · admin = hipervisor · habitaciones = contenedores</text>
+
+  <!-- problem boxes -->
+  <text x="48" y="406" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANTES VS DESPUÉS</text>
+  <rect x="48"  y="416" width="174" height="72" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="48"  y="416" width="4"   height="72" fill="#ff6b6b"/>
+  <text x="62" y="433" fill="#ff6b6b" font-size="9" font-weight="700">Sin virtualización</text>
+  <text x="62" y="449" fill="#6b6b8a" font-size="8">4 servicios = 4 servidores</text>
+  <text x="62" y="463" fill="#6b6b8a" font-size="8">uso real: 5–20% por máquina</text>
+  <text x="62" y="477" fill="#6b6b8a" font-size="8">coste y espacio máximos</text>
+
+  <rect x="230" y="416" width="188" height="72" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="230" y="416" width="4"   height="72" fill="#00ff9f"/>
+  <text x="244" y="433" fill="#00ff9f" font-size="9" font-weight="700">Con virtualización</text>
+  <text x="244" y="449" fill="#6b6b8a" font-size="8">4 servicios = 1 servidor físico</text>
+  <text x="244" y="463" fill="#6b6b8a" font-size="8">uso real: 70–90% del hardware</text>
+  <text x="244" y="477" fill="#6b6b8a" font-size="8">escala en minutos</text>
+
+  <!-- RIGHT divider -->
+  <line x1="448" y1="30" x2="448" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: hypervisor types -->
+  <text x="474" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// TIPOS DE HIPERVISOR</text>
+
+  <rect x="474" y="58" width="248" height="120" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="474" y="58" width="248" height="4" fill="#c77dff"/>
+  <text x="598" y="78" text-anchor="middle" fill="#c77dff" font-size="11" font-weight="700">TIPO 1 — Bare Metal</text>
+  <text x="598" y="96" text-anchor="middle" fill="#6b6b8a" font-size="9">sobre hardware físico directo</text>
+  <text x="598" y="110" text-anchor="middle" fill="#6b6b8a" font-size="9">rápido · eficiente · producción</text>
+  <text x="598" y="126" text-anchor="middle" fill="#3a3a5a" font-size="8">VMware ESXi · Hyper-V · KVM</text>
+  <text x="598" y="142" text-anchor="middle" fill="#3a3a5a" font-size="8">centros de datos · servidores críticos</text>
+  <text x="598" y="170" text-anchor="middle" fill="#3a3a5a" font-size="8">⚠ sin SO intermedio que atacar</text>
+
+  <rect x="730" y="58" width="262" height="120" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="730" y="58" width="262" height="4" fill="#4d96ff"/>
+  <text x="861" y="78" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">TIPO 2 — Hosted</text>
+  <text x="861" y="96" text-anchor="middle" fill="#6b6b8a" font-size="9">sobre un SO existente (Windows/Linux)</text>
+  <text x="861" y="110" text-anchor="middle" fill="#6b6b8a" font-size="9">fácil de instalar · aprendizaje</text>
+  <text x="861" y="126" text-anchor="middle" fill="#3a3a5a" font-size="8">VirtualBox · VMware Workstation</text>
+  <text x="861" y="142" text-anchor="middle" fill="#3a3a5a" font-size="8">laboratorios · pentesting · Kali</text>
+  <text x="861" y="170" text-anchor="middle" fill="#3a3a5a" font-size="8">⚠ SO anfitrión como vector de ataque</text>
+
+  <!-- VM vs Container table -->
+  <text x="474" y="206" fill="#6b6b8a" font-size="9" letter-spacing="2">// VM VS CONTENEDOR</text>
+  <rect x="474" y="216" width="518" height="168" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="474" y="216" width="518" height="24" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="620" y="232" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">MÁQUINA VIRTUAL</text>
+  <text x="850" y="232" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">CONTENEDOR</text>
+
+  <text x="484" y="256" fill="#6b6b8a" font-size="9">SO propio</text>
+  <text x="620" y="256" text-anchor="middle" fill="#4d96ff" font-size="9">Sí (completo)</text>
+  <text x="850" y="256" text-anchor="middle" fill="#00ff9f" font-size="9">No (comparte kernel)</text>
+  <line x1="484" y1="263" x2="984" y2="263" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="484" y="279" fill="#6b6b8a" font-size="9">Tamaño</text>
+  <text x="620" y="279" text-anchor="middle" fill="#4d96ff" font-size="9">GB</text>
+  <text x="850" y="279" text-anchor="middle" fill="#00ff9f" font-size="9">MB</text>
+  <line x1="484" y1="286" x2="984" y2="286" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="484" y="302" fill="#6b6b8a" font-size="9">Inicio</text>
+  <text x="620" y="302" text-anchor="middle" fill="#4d96ff" font-size="9">Minutos</text>
+  <text x="850" y="302" text-anchor="middle" fill="#00ff9f" font-size="9">Segundos</text>
+  <line x1="484" y1="309" x2="984" y2="309" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="484" y="325" fill="#6b6b8a" font-size="9">Aislamiento</text>
+  <text x="620" y="325" text-anchor="middle" fill="#4d96ff" font-size="9">Completo</text>
+  <text x="850" y="325" text-anchor="middle" fill="#00ff9f" font-size="9">Parcial (kernel compartido)</text>
+  <line x1="484" y1="332" x2="984" y2="332" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="484" y="348" fill="#6b6b8a" font-size="9">Herramienta</text>
+  <text x="620" y="348" text-anchor="middle" fill="#4d96ff" font-size="9">VirtualBox · VMware</text>
+  <text x="850" y="348" text-anchor="middle" fill="#00ff9f" font-size="9">Docker</text>
+  <line x1="484" y1="355" x2="984" y2="355" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="484" y="371" fill="#6b6b8a" font-size="9">Uso típico</text>
+  <text x="620" y="371" text-anchor="middle" fill="#4d96ff" font-size="9">SO completo · malware lab</text>
+  <text x="850" y="371" text-anchor="middle" fill="#00ff9f" font-size="9">apps · microservicios · cloud</text>
+
+  <!-- security + cloud -->
+  <rect x="474" y="400" width="248" height="58" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="474" y="400" width="4" height="58" fill="#ff6b6b"/>
+  <text x="488" y="418" fill="#ff6b6b" font-size="9" font-weight="700">⚠ Seguridad</text>
+  <text x="488" y="434" fill="#6b6b8a" font-size="8">VM escape — malware sale de la VM</text>
+  <text x="488" y="448" fill="#6b6b8a" font-size="8">Docker mal conf. → host comprometido</text>
+
+  <rect x="730" y="400" width="262" height="58" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="730" y="400" width="4" height="58" fill="#ffd93d"/>
+  <text x="744" y="418" fill="#ffd93d" font-size="9" font-weight="700">☁ Cloud = virtualización a escala</text>
+  <text x="744" y="434" fill="#6b6b8a" font-size="8">AWS EC2 = VM en servidor de Amazon</text>
+  <text x="744" y="448" fill="#6b6b8a" font-size="8">IaaS · PaaS · SaaS</text>
+
+  <!-- quote -->
+  <rect x="474" y="468" width="518" height="30" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="474" y="468" width="4" height="30" fill="#00ff9f"/>
+  <text x="488" y="487" fill="#6b6b8a" font-size="9">"Sin virtualización, el cloud computing no existiría" — AWS · Azure · GCP son granjas de hipervisores</text>
+</svg>

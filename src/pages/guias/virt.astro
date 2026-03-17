@@ -1,0 +1,274 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Virtualización — CybSecStudy" description="Guía interactiva sobre hipervisores Tipo 1 y Tipo 2, máquinas virtuales y contenedores Docker." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .guide-desc { color: #6b6b8a; font-size: 15px; max-width: 560px; line-height: 1.7; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid #00ff9f; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1><span class="accent">Virtualización</span></h1>
+      <p class="guide-desc">Hipervisores, máquinas virtuales y contenedores — la tecnología que hace posible el cloud computing moderno.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Antes de la virtualización: <strong>un servidor = una aplicación</strong>. Las empresas compraban hardware que usaban al 5–20% de su capacidad. Ineficiente y carísimo.</p>
+      <p>La virtualización resolvió esto permitiendo que <strong>varias aplicaciones compartan el mismo servidor físico de forma segura</strong> — como dividir un edificio en apartamentos independientes.</p>
+    </div>
+
+    <div class="section-label">// Tipos de hipervisor</div>
+    <img src="/virt-types.svg" alt="Tipos de hipervisor" style="width:100%;margin-bottom:32px;border:none;border-radius:0"/>
+
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">T1</div>
+          <div class="concept-title">Hipervisor Tipo 1 — Bare Metal</div>
+          <div class="concept-badge">producción · data center</div>
+        </div>
+        <div class="concept-body">
+          <p>Se ejecuta <strong>directamente sobre el hardware físico</strong>, sin sistema operativo intermedio. Más rápido, eficiente y seguro porque elimina la capa extra del SO anfitrión.</p>
+          <ul>
+            <li>VMware ESXi — estándar en centros de datos empresariales</li>
+            <li>Microsoft Hyper-V — integrado en Windows Server</li>
+            <li>KVM — open source integrado en el kernel Linux</li>
+            <li>Citrix XenServer — usado en entornos cloud</li>
+          </ul>
+          <p>Casos de uso: servidores de producción, bases de datos críticas, centros de datos, infraestructura cloud.</p>
+          <div class="sec-badge">★ Sin SO intermedio que pueda ser atacado</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">T2</div>
+          <div class="concept-title">Hipervisor Tipo 2 — Hosted</div>
+          <div class="concept-badge">labs · aprendizaje</div>
+        </div>
+        <div class="concept-body">
+          <p>Se ejecuta <strong>dentro de un sistema operativo existente</strong> como una aplicación. Más fácil de instalar, ideal para laboratorios y aprendizaje.</p>
+          <ul>
+            <li><strong>Oracle VirtualBox</strong> — gratuito, multiplataforma, perfecto para empezar</li>
+            <li><strong>VMware Workstation</strong> — más potente, versión gratuita disponible</li>
+          </ul>
+          <p>Casos de uso: ejecutar Kali Linux sin reinstalar, analizar malware en entorno aislado, practicar en TryHackMe.</p>
+          <div class="sec-badge">⚠ El SO anfitrión puede ser un vector de ataque adicional</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">VM</div>
+          <div class="concept-title">Máquinas Virtuales</div>
+          <div class="concept-badge">los apartamentos</div>
+        </div>
+        <div class="concept-body">
+          <p>Una <strong>VM</strong> es un ordenador virtual creado por el hipervisor. Aunque virtual, se comporta como una máquina física real — tiene su propio SO, aplicaciones y configuración.</p>
+          <ul>
+            <li>CPU, RAM, almacenamiento y red totalmente virtualizados</li>
+            <li>Puede ejecutar cualquier SO: Windows, Linux, macOS</li>
+            <li>Completamente aislada — si una VM falla, las demás siguen</li>
+            <li><strong>Snapshots</strong> — guardan el estado exacto para restaurar en segundos</li>
+          </ul>
+          <div class="sec-badge">⚠ VM escape — malware avanzado puede salir de la VM al host</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">🐳</div>
+          <div class="concept-title">Contenedores — Docker</div>
+          <div class="concept-badge">las habitaciones</div>
+        </div>
+        <div class="concept-body">
+          <p>Un <strong>contenedor</strong> es un entorno ligero que ejecuta una sola aplicación con todas sus dependencias, tomando prestado el <strong>kernel</strong> del sistema anfitrión.</p>
+          <ul>
+            <li>Arrancan en <strong>milisegundos</strong> vs minutos de una VM</li>
+            <li>Ocupan <strong>MB</strong> vs GB de una VM completa</li>
+            <li>Portables — funcionan igual en cualquier máquina</li>
+            <li>No se puede ejecutar un contenedor Windows en host Linux</li>
+          </ul>
+          <div class="code-block"># Ejecutar nginx en un contenedor
+docker run -d -p 80:80 nginx
+
+# Ver contenedores activos
+docker ps
+
+# Parar un contenedor
+docker stop &lt;id&gt;</div>
+          <div class="sec-badge">⚠ Docker mal configurado puede comprometer el host</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label" style="margin-top:60px">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Cuál es la función principal de un hipervisor?", opts: ["Gestionar archivos del servidor","Dividir un servidor físico en múltiples VMs","Cifrar el tráfico de red","Gestionar contraseñas"], correct: 1, exp: "El hipervisor divide el hardware físico en múltiples VMs independientes, asignando a cada una su parte de CPU, RAM y almacenamiento." },
+  { q: "¿Qué diferencia al hipervisor Tipo 1 del Tipo 2?", opts: ["El Tipo 1 es más barato","El Tipo 2 es más rápido","El Tipo 1 corre sobre hardware; el Tipo 2 sobre un SO existente","No hay diferencia real"], correct: 2, exp: "El Tipo 1 (Bare Metal) se instala directamente sobre el hardware. El Tipo 2 (Hosted) se instala como aplicación dentro de un SO." },
+  { q: "¿Para qué se usa principalmente el hipervisor Tipo 2?", opts: ["Centros de datos en producción","Bases de datos críticas","Aprendizaje, laboratorios y pruebas","Servidores de alta disponibilidad"], correct: 2, exp: "El Tipo 2 (VirtualBox, VMware Workstation) es ideal para laboratorios domésticos, aprendizaje, Kali Linux y análisis de malware." },
+  { q: "¿Qué es un snapshot de una VM?", opts: ["Una copia del disco duro físico","El estado guardado de una VM en un momento concreto","Una imagen del SO","Un backup de los archivos del servidor"], correct: 1, exp: "Un snapshot guarda el estado exacto de la VM. Permite volver a ese estado en segundos — esencial antes de analizar malware." },
+  { q: "¿Cuál es la principal ventaja de los contenedores sobre las VMs?", opts: ["Mayor aislamiento","Más seguridad","Arrancan en segundos y ocupan MB en lugar de GB","Pueden ejecutar cualquier SO"], correct: 2, exp: "Los contenedores comparten el kernel del host, por lo que son más ligeros (MB vs GB) y arrancan casi al instante vs minutos de una VM." },
+  { q: "¿Por qué no se puede ejecutar un contenedor Windows en un host Linux?", opts: ["Por licencias","Porque los contenedores comparten el kernel del host","Porque Docker no soporta Windows","Porque no tienen SO propio"], correct: 1, exp: "Los contenedores comparten el kernel del host. Un kernel Linux no puede ejecutar aplicaciones diseñadas para el kernel Windows." },
+  { q: "¿Qué es el 'VM escape'?", opts: ["Cerrar una VM","Malware que sale de la VM al host","Iniciar una VM desde snapshot","Migrar una VM a otro servidor"], correct: 1, exp: "El VM escape es una vulnerabilidad donde el malware dentro de una VM logra salir al sistema anfitrión. Es un vector de ataque avanzado." },
+  { q: "¿Qué modelo cloud corresponde a 'alquilar una VM en AWS'?", opts: ["SaaS","PaaS","IaaS","FaaS"], correct: 2, exp: "IaaS (Infrastructure as a Service) proporciona VMs y redes virtuales. AWS EC2 es IaaS: alquilas una VM en hardware de Amazon." },
+  { q: "¿Cuál es un ejemplo de hipervisor Tipo 1?", opts: ["Oracle VirtualBox","VMware Workstation","VMware ESXi","Parallels"], correct: 2, exp: "VMware ESXi es Tipo 1 (Bare Metal). VirtualBox y VMware Workstation son Tipo 2 (Hosted)." },
+  { q: "¿Qué problema principal resolvió la virtualización?", opts: ["Lentitud de los discos","Servidores al 5-20% de capacidad, costosos e ineficientes","Falta de ancho de banda","Dificultad para programar"], correct: 1, exp: "La virtualización resolvió que las empresas pagaban por servidores que solo usaban al 5–20% de su capacidad, desperdiciando hardware, electricidad y espacio." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas la virtualización.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

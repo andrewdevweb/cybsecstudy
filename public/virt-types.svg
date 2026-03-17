@@ -1,0 +1,46 @@
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="220" fill="#0a0a0f"/>
+
+  <!-- Type 1 -->
+  <rect x="20" y="20" width="300" height="180" rx="3" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="20" y="20" width="300" height="5" fill="#c77dff"/>
+  <text x="170" y="44" text-anchor="middle" fill="#c77dff" font-size="12" font-weight="700">TIPO 1 — Bare Metal</text>
+
+  <!-- stack visual -->
+  <rect x="36" y="54" width="268" height="20" rx="2" fill="#ff9f43" opacity="0.15" stroke="#ff9f43" stroke-width="0.8"/>
+  <text x="170" y="68" text-anchor="middle" fill="#ff9f43" font-size="9">Hardware físico</text>
+  <rect x="36" y="78" width="268" height="20" rx="2" fill="#c77dff" opacity="0.2" stroke="#c77dff" stroke-width="0.8"/>
+  <text x="170" y="92" text-anchor="middle" fill="#c77dff" font-size="9">Hipervisor Tipo 1 (directo)</text>
+  <rect x="36"  y="102" width="82" height="20" rx="2" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="77"  y="116" text-anchor="middle" fill="#4d96ff" font-size="8">VM 1</text>
+  <rect x="123" y="102" width="82" height="20" rx="2" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="164" y="116" text-anchor="middle" fill="#4d96ff" font-size="8">VM 2</text>
+  <rect x="210" y="102" width="94" height="20" rx="2" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="257" y="116" text-anchor="middle" fill="#4d96ff" font-size="8">VM 3</text>
+
+  <text x="36" y="146" fill="#6b6b8a" font-size="8">✓ VMware ESXi · Microsoft Hyper-V · KVM</text>
+  <text x="36" y="160" fill="#6b6b8a" font-size="8">✓ Producción · centros de datos · DB críticas</text>
+  <text x="36" y="174" fill="#00ff9f" font-size="8">★ Más rápido y seguro — sin SO intermedio</text>
+  <text x="36" y="188" fill="#3a3a5a" font-size="8">⚠ Más complejo de configurar</text>
+
+  <!-- Type 2 -->
+  <rect x="380" y="20" width="300" height="180" rx="3" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="380" y="20" width="300" height="5" fill="#4d96ff"/>
+  <text x="530" y="44" text-anchor="middle" fill="#4d96ff" font-size="12" font-weight="700">TIPO 2 — Hosted</text>
+
+  <!-- stack visual -->
+  <rect x="396" y="54" width="268" height="20" rx="2" fill="#ff9f43" opacity="0.15" stroke="#ff9f43" stroke-width="0.8"/>
+  <text x="530" y="68" text-anchor="middle" fill="#ff9f43" font-size="9">Hardware físico</text>
+  <rect x="396" y="78" width="268" height="20" rx="2" fill="#6bcb77" opacity="0.1" stroke="#6bcb77" stroke-width="0.8"/>
+  <text x="530" y="92" text-anchor="middle" fill="#6bcb77" font-size="9">Sistema Operativo anfitrión</text>
+  <rect x="396" y="102" width="268" height="20" rx="2" fill="#4d96ff" opacity="0.2" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="530" y="116" text-anchor="middle" fill="#4d96ff" font-size="9">Hipervisor Tipo 2 (app)</text>
+  <rect x="396" y="126" width="82" height="16" rx="2" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="437" y="138" text-anchor="middle" fill="#4d96ff" font-size="8">VM 1</text>
+  <rect x="483" y="126" width="82" height="16" rx="2" fill="#4d96ff" opacity="0.1" stroke="#4d96ff" stroke-width="0.8"/>
+  <text x="524" y="138" text-anchor="middle" fill="#4d96ff" font-size="8">VM 2</text>
+
+  <text x="396" y="160" fill="#6b6b8a" font-size="8">✓ VirtualBox · VMware Workstation</text>
+  <text x="396" y="174" fill="#6b6b8a" font-size="8">✓ Aprendizaje · labs · Kali Linux</text>
+  <text x="396" y="188" fill="#3a3a5a" font-size="8">⚠ SO anfitrión puede ser atacado</text>
+</svg>
