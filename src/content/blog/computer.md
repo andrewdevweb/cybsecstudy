@@ -3,6 +3,7 @@ title: 'Dentro de un Sistema Informático'
 description: 'Componentes de un ordenador, cómo arrancan los sistemas y por qué entender el hardware es la base de la ciberseguridad.'
 pubDate: 'Mar 15 2026 14:15:00'
 heroImage: '../../assets/computer-hero.svg'
+category: 'fundamentos'
 ---
 
 Antes de proteger un sistema, necesitas entenderlo. Como un castillo: para defenderlo, primero debes conocer su distribución — dónde está la cámara del tesoro, quién puede entrar y cómo. Intentar defender lo que no se entiende es defender a ciegas.

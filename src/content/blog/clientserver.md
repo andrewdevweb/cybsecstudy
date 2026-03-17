@@ -3,6 +3,7 @@ title: 'Conceptos Básicos de Cliente-Servidor'
 description: 'El modelo cliente-servidor, DNS, puertos, protocolos y HTTP explicados desde cero con analogías reales.'
 pubDate: 'Mar 17 2026 09:00:00'
 heroImage: '../../assets/clientserver-hero.svg'
+category: 'web'
 ---
 
 Al principio, los ordenadores funcionaban solos. Almacenaban sus propios archivos, ejecutaban sus propios programas y no se comunicaban con nadie. Pronto, organizaciones de todo el mundo comenzaron a interconectarlos — ARPANET, CYCLADES, NPL y NSFNET sentaron las bases de lo que hoy conocemos como Internet.

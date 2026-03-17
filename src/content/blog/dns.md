@@ -3,6 +3,7 @@ title: 'DNS — El Sistema de Nombres de Dominio'
 description: 'Qué es el DNS, jerarquía de dominios, tipos de registros y cómo funciona una solicitud DNS paso a paso.'
 pubDate: 'Mar 13 2026 12:00:00'
 heroImage: '../../assets/dns-hero.svg'
+category: 'redes'
 ---
 
 El DNS (Sistema de Nombres de Dominio) es el servicio que traduce nombres como `tryhackme.com` a la dirección IP real del servidor — por ejemplo `104.26.10.229`. Sin él, tendrías que memorizar números para acceder a cada web.

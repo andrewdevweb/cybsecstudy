@@ -3,6 +3,7 @@ title: 'Paquetes & Tramas — TCP, UDP y Puertos'
 description: 'Qué son los paquetes y tramas, cómo funcionan TCP y UDP, el three-way handshake y los puertos más importantes en ciberseguridad.'
 pubDate: 'Mar 06 2025 10:00:00'
 heroImage: '../../assets/packets-hero.svg'
+category: 'redes'
 ---
 
 En redes, los datos no se envían de golpe — se dividen en fragmentos pequeños que viajan de forma independiente y se reconstruyen en el destino. Estos fragmentos se llaman **paquetes** en la Capa 3 (Red) y **tramas** en la Capa 2 (Enlace de Datos).

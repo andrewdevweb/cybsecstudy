@@ -3,6 +3,7 @@ title: 'La Web por Dentro — Infraestructura y Servidores'
 description: 'Balanceadores de carga, CDNs, bases de datos, WAF, servidores web, hosts virtuales y contenido dinámico explicados desde cero.'
 pubDate: 'Mar 15 2026 13:35:00'
 heroImage: '../../assets/infra-hero.svg'
+category: 'web'
 ---
 
 Cuando solicitas una página web, tu navegador necesita la dirección IP del servidor — para eso usa **DNS**. Luego se comunica con el servidor web mediante **HTTP**, que devuelve HTML, JavaScript, CSS e imágenes para que el navegador renderice la página.

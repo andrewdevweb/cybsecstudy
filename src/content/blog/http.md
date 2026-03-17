@@ -3,6 +3,7 @@ title: 'HTTP en Detalle — Solicitudes, Respuestas y Cookies'
 description: 'Cómo funciona HTTP y HTTPS, métodos, códigos de estado, cabeceras y cookies explicados desde cero.'
 pubDate: 'Mar 14 2026 09:00:00'
 heroImage: '../../assets/http-hero.svg'
+category: 'web'
 ---
 
 HTTP (HyperText Transfer Protocol) es el protocolo que hace posible la web. Fue desarrollado por Tim Berners-Lee entre 1989 y 1991 y define las reglas para comunicarse con servidores web y transferir recursos: HTML, imágenes, vídeos, APIs...

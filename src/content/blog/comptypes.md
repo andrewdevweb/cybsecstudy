@@ -3,6 +3,7 @@ title: 'Tipos de Computadoras — La Herramienta Adecuada para Cada Tarea'
 description: 'Portátiles, servidores, IoT, sistemas embebidos y smartphones: qué los diferencia, qué los hace únicos y por qué importa en ciberseguridad.'
 pubDate: 'Mar 16 2026 19:30:00'
 heroImage: '../../assets/comptypes-hero.svg'
+category: 'fundamentos'
 ---
 
 Sophia escaneó las redes WiFi de su casa y encontró algo inesperado: **NexusCool Fridge X17**. Su vecino había comprado una nevera inteligente — una nevera con un ordenador integrado capaz de conectarse a internet.

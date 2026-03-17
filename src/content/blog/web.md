@@ -3,6 +3,7 @@ title: 'Cómo Funcionan los Sitios Web'
 description: 'Frontend, backend, HTML, CSS, JavaScript, exposición de datos y HTML injection explicados desde cero.'
 pubDate: 'Mar 14 2026 10:00:00'
 heroImage: '../../assets/web-hero.svg'
+category: 'web'
 ---
 
 Cuando visitas un sitio web, tu navegador envía una solicitud a un servidor web pidiendo información. El servidor responde con datos que el navegador usa para mostrar la página. Un servidor web es simplemente un ordenador dedicado, en algún lugar del mundo, que gestiona esas solicitudes.
