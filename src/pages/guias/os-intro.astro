@@ -1,0 +1,238 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Sistemas Operativos — CybSecStudy" description="Guía interactiva sobre sistemas operativos: kernel, user space, GUI, CLI y familias de SO." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1><span class="accent">Sistemas Operativos</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">El software que coordina todo lo que sucede en un ordenador — entre el usuario, las apps y el hardware.</p>
+    </div>
+    <div class="intro-card">
+      <p>Sin un sistema operativo, cada aplicación necesitaría controlar directamente la CPU, memoria, archivos y dispositivos — provocando conflictos inmediatos.</p>
+      <p>El SO actúa como <strong>administrador invisible</strong> — coordina todos los recursos, los protege y los reparte de forma segura entre todas las aplicaciones en ejecución.</p>
+    </div>
+    <div class="section-label">// Capas del sistema — Kernel vs User Space</div>
+    <img src="/os-kernel.svg" alt="Kernel Space vs User Space" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">SO</div>
+          <div class="concept-title">¿Qué es un Sistema Operativo?</div>
+          <div class="concept-badge">coordinador central</div>
+        </div>
+        <div class="concept-body">
+          <p>El SO es el software principal que <strong>coordina todo</strong> lo que ocurre en un ordenador. Se sitúa entre el usuario, las aplicaciones y el hardware físico.</p>
+          <p>Analogía del aeropuerto: el hardware son las pistas y aviones, las apps son las aerolíneas, y el SO es el <strong>sistema de control de tráfico aéreo</strong> — no vuela ningún avión, pero sin él ninguno podría operar de forma segura.</p>
+          <ul>
+            <li>Gestiona quién usa la CPU y cuándo</li>
+            <li>Asigna y protege la memoria de cada proceso</li>
+            <li>Organiza archivos y permisos</li>
+            <li>Comunica apps con hardware de forma segura</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">KRN</div>
+          <div class="concept-title">Kernel Space vs User Space</div>
+          <div class="concept-badge">separación de privilegios</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Kernel Space</strong> — el núcleo privilegiado. Acceso directo y sin restricciones a todo el hardware. Solo el kernel opera aquí. Es la torre de control — solo personal autorizado.</p>
+          <p><strong>User Space</strong> — donde corren todas las apps normales. Prohibido acceder directamente al hardware. Cuando una app necesita algo del hardware, hace una <strong>syscall</strong> — una petición formal al kernel.</p>
+          <div class="code-block">[App Chrome] -- syscall(open, "archivo.txt") --> [Kernel] --> Disco
+[Kernel] -- resultado --> [App Chrome]</div>
+          <p style="margin-top:10px">Si Chrome se cuelga, no puede arrastrar al kernel ni a otras apps. Esta separación es la base de la estabilidad del sistema.</p>
+          <div class="sec-badge">⚠ Escalada de privilegios: User Space a Kernel Space = control total</div>
+          <div class="sec-badge">⚠ Rootkits operan en Kernel Space — casi indetectables</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">FUN</div>
+          <div class="concept-title">Funciones del SO</div>
+          <div class="concept-badge">qué hace entre bastidores</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li><strong>Gestión de procesos</strong> — planifica la CPU, permite multitarea, prioriza procesos</li>
+            <li><strong>Gestión de memoria</strong> — asigna RAM, aísla procesos, usa swap cuando la RAM se agota</li>
+            <li><strong>Sistema de archivos</strong> — organiza archivos, gestiona permisos, rutas y metadatos</li>
+            <li><strong>Gestión de usuarios</strong> — autenticación, cuentas múltiples, permisos por usuario</li>
+            <li><strong>Gestión de dispositivos</strong> — carga drivers, abstrae el hardware para las apps</li>
+            <li><strong>Seguridad</strong> — autenticación, aislamiento de procesos, protección del sistema</li>
+          </ul>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">UI</div>
+          <div class="concept-title">GUI vs CLI</div>
+          <div class="concept-badge">dos formas de interactuar</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>GUI</strong> — iconos, ventanas, menús. Intuitivo y visual. Como usar una app de navegación con mapa.</p>
+          <p><strong>CLI</strong> — comandos de texto directos. Más potente, preciso y rápido para tareas avanzadas.</p>
+          <div class="code-block">ls /home/usuario/documentos   # listar archivos
+ps aux | grep chrome          # ver procesos
+ssh usuario@192.168.1.10      # conexión remota</div>
+          <p style="margin-top:10px">En ciberseguridad la CLI es <strong>indispensable</strong> — nmap, metasploit, burpsuite funcionan desde terminal. Los servidores Linux no tienen GUI.</p>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">FAM</div>
+          <div class="concept-title">Familias de Sistemas Operativos</div>
+          <div class="concept-badge">Windows · Linux · macOS · móvil</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Windows</strong> — el más usado en escritorio. Win 11, Server 2022/2025. Mayor superficie de ataque del mundo.</p>
+          <p><strong>Linux</strong> — familia de distribuciones. Domina servidores (+90%). Kali Linux es el estándar en pentesting. Ubuntu, Debian, Alpine para servidores y contenedores.</p>
+          <p><strong>macOS</strong> — basado en Unix. Popular en desarrollo. Sonoma (14), Sequoia (15).</p>
+          <p><strong>Android / iOS</strong> — SO móviles dominantes. Android basado en Linux. Alto valor como objetivo — contienen datos bancarios, ubicación y comunicaciones.</p>
+          <div class="sec-badge">⚠ Kali Linux — distribución diseñada para pentesting y ciberseguridad</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuál es la función principal de un sistema operativo?", opts: ["Ejecutar aplicaciones directamente","Coordinar hardware, aplicaciones y usuarios como capa intermediaria","Conectar el ordenador a internet","Almacenar archivos del usuario"], correct: 1, exp: "El SO actúa como coordinador central — gestiona CPU, memoria, archivos y dispositivos. Sin él, cada app tendría que controlar el hardware directamente, causando conflictos inmediatos." },
+  { q: "¿Qué es el Kernel Space?", opts: ["El espacio donde corren las apps de usuario","La memoria RAM del sistema","El núcleo privilegiado del SO con acceso directo al hardware","La partición del disco del sistema operativo"], correct: 2, exp: "El Kernel Space es donde se ejecuta el kernel con acceso total al hardware. Solo el kernel opera aquí — las aplicaciones normales están en User Space y deben hacer syscalls para acceder al hardware." },
+  { q: "¿Qué es una syscall?", opts: ["Un virus que ataca el kernel","Una llamada del kernel a las aplicaciones","Una petición de una app al kernel para acceder al hardware","Un comando de terminal"], correct: 2, exp: "Una syscall es la forma en que una aplicación en User Space pide al kernel que realice una operación de hardware — abrir un archivo, conectarse a la red, reproducir audio." },
+  { q: "¿Por qué existe la separación Kernel Space / User Space?", opts: ["Para mejorar la velocidad de la CPU","Para que las apps puedan acceder al hardware más fácilmente","Para que un fallo en una app no colapse el sistema y el hardware esté protegido","Para ahorrar RAM"], correct: 2, exp: "Esta separación garantiza estabilidad y seguridad — si Chrome se cuelga, no puede arrastrar al kernel ni a otras apps. Además protege el hardware de accesos no autorizados." },
+  { q: "¿Qué distribución Linux es el estándar en pentesting?", opts: ["Ubuntu","Debian","Alpine Linux","Kali Linux"], correct: 3, exp: "Kali Linux es la distribución diseñada para pentesting. Incluye cientos de herramientas preinstaladas: nmap, metasploit, burpsuite, wireshark..." },
+  { q: "¿Qué porcentaje de servidores web corren Linux?", opts: ["20%","50%","70%","+90%"], correct: 3, exp: "Más del 90% de los servidores web del mundo corren Linux — por su estabilidad, seguridad y naturaleza open source." },
+  { q: "¿Qué ventaja tiene la CLI en ciberseguridad?", opts: ["Es más visual","Es más lenta pero precisa","Permite automatización y uso de herramientas sin GUI","No hay ventaja"], correct: 2, exp: "La CLI permite automatizar tareas con scripts, usar herramientas de seguridad (nmap, metasploit), conectarse a servidores por SSH y trabajar más rápido una vez dominada." },
+  { q: "¿Qué es una escalada de privilegios?", opts: ["Actualizar el SO","Conseguir más permisos de los asignados — de user a root/kernel","Instalar más RAM","Aumentar la velocidad de la CPU"], correct: 1, exp: "La escalada de privilegios es conseguir más permisos de los asignados. Puede ser vertical (user a admin/root) o hasta kernel. Es uno de los objetivos principales en pentesting." },
+  { q: "¿En qué se diferencia un SO de servidor del de escritorio?", opts: ["El servidor tiene más colores en la GUI","El servidor no tiene GUI, maximiza uptime y acceso remoto; el escritorio prioriza UX","El escritorio es más seguro","No hay diferencia"], correct: 1, exp: "Un SO de servidor está optimizado para uptime continuo, acceso remoto SSH, sin GUI (headless) y gestión multiusuario. Un SO de escritorio prioriza GUI avanzada y multitarea." },
+  { q: "¿Qué son los RTOS?", opts: ["SO para gaming","SO en tiempo real para aviones, coches y marcapasos donde el tiempo de respuesta es crítico","SO para servidores de alto rendimiento","Distribuciones Linux para contenedores"], correct: 1, exp: "Los RTOS garantizan tiempos de respuesta precisos — un retraso en el SO de un avión o marcapasos puede ser fatal. FreeRTOS, VxWorks y QNX son los más comunes." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Dominas los fundamentos de los SO.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

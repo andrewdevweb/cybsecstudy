@@ -1,0 +1,303 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Cloud Computing — CybSecStudy" description="Guía interactiva sobre computación en la nube: IaaS, PaaS, SaaS, proveedores y seguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .concept-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1><span class="accent">Cloud Computing</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">De los servidores físicos a la nube global — IaaS, PaaS, SaaS, proveedores y seguridad en cloud.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>¿Caro e ineficiente si cada app necesitara su propio servidor físico? La virtualización lo mejoró. Pero la nube fue el siguiente paso: <strong>alquilar recursos por horas, en cualquier región del mundo, sin comprar hardware.</strong></p>
+      <p>Netflix, Spotify, Instagram — todo corre en cloud. Y cada vez más, la seguridad también se juega ahí.</p>
+    </div>
+
+    <div class="section-label">// Modelos de servicio — IaaS · PaaS · SaaS</div>
+    <img src="/cloud-models.svg" alt="IaaS vs PaaS vs SaaS" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">☁</div>
+          <div class="concept-title">¿Qué es el Cloud Computing?</div>
+          <div class="concept-badge">recursos por internet</div>
+        </div>
+        <div class="concept-body">
+          <p>La computación en la nube es el acceso a recursos informáticos — servidores, almacenamiento, bases de datos, redes, software — <strong>a través de internet, bajo demanda y con pago por uso</strong>.</p>
+          <p>En lugar de comprar y mantener tu propio hardware, alquilas capacidad a un proveedor cloud. Puedes escalar en minutos, no en semanas.</p>
+          <ul>
+            <li><strong>Escalabilidad</strong> — amplía o reduce recursos según la demanda</li>
+            <li><strong>Pago por uso</strong> — pagas solo lo que consumes</li>
+            <li><strong>Alta disponibilidad</strong> — múltiples zonas geográficas redundantes</li>
+            <li><strong>Acceso global</strong> — despliega en cualquier región del mundo</li>
+            <li><strong>Autoservicio inmediato</strong> — crear un servidor tarda segundos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">IaaS</div>
+          <div class="concept-title">IaaS — Infraestructura como Servicio</div>
+          <div class="concept-badge">máximo control</div>
+        </div>
+        <div class="concept-body">
+          <p>Alquilas servidores virtuales, almacenamiento y red. <strong>Tú gestionas el SO y todo lo que va encima.</strong> El proveedor gestiona el hardware físico.</p>
+          <ul>
+            <li>Máximo control sobre la configuración</li>
+            <li>Instala cualquier SO, herramienta o servicio</li>
+            <li>Ideal para ciberseguridad — pentesting, laboratorios, configuraciones custom</li>
+            <li>EC2 (AWS), Azure VMs, Google Compute Engine</li>
+          </ul>
+          <p><strong>En ciberseguridad:</strong> las instancias EC2 son la base para laboratorios de pentesting, servidores de C2, honeypots y entornos de análisis de malware.</p>
+          <div class="sec-badge">⚠ Tú eres responsable de parchear el SO</div>
+          <div class="sec-badge">⚠ Grupos de seguridad mal configurados exponen servicios</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">PaaS</div>
+          <div class="concept-title">PaaS — Plataforma como Servicio</div>
+          <div class="concept-badge">foco en el código</div>
+        </div>
+        <div class="concept-body">
+          <p>El proveedor gestiona la infraestructura y el SO. <strong>Tú solo despliegas código.</strong> Más rápido de desarrollar, menos control sobre el entorno.</p>
+          <ul>
+            <li>No te preocupas por servidores ni actualizaciones de SO</li>
+            <li>Despliegues rápidos — push de código y funciona</li>
+            <li>Heroku, Google App Engine, AWS Elastic Beanstalk</li>
+            <li>Ideal para startups y equipos pequeños</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">SaaS</div>
+          <div class="concept-title">SaaS — Software como Servicio</div>
+          <div class="concept-badge">listo para usar</div>
+        </div>
+        <div class="concept-body">
+          <p>Usas una aplicación completa a través del navegador. <strong>El proveedor gestiona absolutamente todo.</strong> Tú solo usas el producto.</p>
+          <ul>
+            <li>Gmail, Zoom, Slack, Office 365, Salesforce</li>
+            <li>Sin instalación, sin mantenimiento, sin actualizaciones manuales</li>
+            <li>Ideal para usuarios finales y empresas sin equipo técnico</li>
+          </ul>
+          <div class="sec-badge">⚠ Phishing contra credenciales SaaS — el ataque más común</div>
+          <div class="sec-badge">⚠ OAuth mal configurado puede exponer datos</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">🌍</div>
+          <div class="concept-title">Tipos de nube — Pública, Privada, Híbrida</div>
+          <div class="concept-badge">modelos de despliegue</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Nube pública</strong> — el proveedor posee y gestiona la infraestructura. Los clientes comparten recursos. La opción más económica y escalable. AWS, Azure, GCP.</p>
+          <p><strong>Nube privada</strong> — infraestructura dedicada exclusivamente a una organización. Más control y personalización. Usada por bancos, sanidad y gobierno por requisitos de cumplimiento normativo.</p>
+          <p><strong>Nube híbrida</strong> — combina pública y privada. Los datos sensibles se quedan en la privada; las cargas variables escalan en la pública. Una tienda online mantiene datos de pago en privada pero escala su web en pública durante el Black Friday.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">🔐</div>
+          <div class="concept-title">Seguridad en la nube — Responsabilidad compartida</div>
+          <div class="concept-badge">quién protege qué</div>
+        </div>
+        <div class="concept-body">
+          <p>El concepto más importante en cloud security: <strong>el proveedor protege la nube; tú proteges lo que pones en ella.</strong></p>
+          <p><strong>El proveedor es responsable de:</strong> seguridad física, hardware, red, virtualización y disponibilidad.</p>
+          <p><strong>Tú eres responsable de:</strong> configuración de servicios, IAM, cifrado de datos, actualizaciones del SO (en IaaS), firewalls y grupos de seguridad.</p>
+          <ul>
+            <li>Bucket S3 público con datos sensibles → responsabilidad del cliente</li>
+            <li>Claves AWS expuestas en GitHub → responsabilidad del cliente</li>
+            <li>IAM con permisos excesivos → responsabilidad del cliente</li>
+          </ul>
+          <div class="sec-badge">⚠ El 99% de brechas cloud son por misconfiguration del cliente</div>
+          <div class="sec-badge">⚠ Herramientas: ScoutSuite, Prowler, Pacu</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label">// Modelo de responsabilidad compartida</div>
+    <img src="/cloud-responsibility.svg" alt="Responsabilidad compartida en cloud" style="width:100%;margin-bottom:48px;border:none;border-radius:0"/>
+
+    <!-- QUIZ -->
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "¿Cuál es la principal diferencia entre IaaS y PaaS?", opts: ["IaaS es más barato","En IaaS gestionas el SO; en PaaS el proveedor gestiona la infraestructura y el SO","IaaS solo funciona en AWS","PaaS no permite desplegar aplicaciones propias"], correct: 1, exp: "En IaaS alquilas servidores virtuales y gestionas todo desde el SO. En PaaS el proveedor gestiona infraestructura y SO — tú solo despliegas código." },
+  { q: "¿Qué modelo de servicio usa Gmail?", opts: ["IaaS","PaaS","SaaS","FaaS"], correct: 2, exp: "Gmail es SaaS — Software como Servicio. El proveedor (Google) gestiona todo: infraestructura, SO y aplicación. Tú solo usas el producto a través del navegador." },
+  { q: "¿Qué es el modelo de responsabilidad compartida?", opts: ["El proveedor y el cliente comparten el mismo servidor","El proveedor protege la infraestructura; el cliente protege sus configuraciones y datos","El cliente paga la mitad de los costes de seguridad","Ambos tienen acceso al mismo panel de control"], correct: 1, exp: "El proveedor protege la seguridad DE la nube (hardware, red, virtualización). El cliente protege la seguridad EN la nube (configuración, IAM, datos, SO en IaaS). La mayoría de brechas son por misconfiguration del cliente." },
+  { q: "¿Qué tipo de nube usaría un banco para datos muy sensibles?", opts: ["Nube pública","Nube híbrida","Nube privada","No usarían nube"], correct: 2, exp: "La nube privada ofrece mayor control y personalización, cumpliendo con requisitos normativos estrictos para datos sensibles. Bancos, sanidad y gobierno suelen usar nube privada o híbrida." },
+  { q: "¿En qué año lanzó AWS y qué significó para la industria?", opts: ["2000 — primeros servidores dedicados","2006 — convirtió infraestructura interna en servicio alquilable","2012 — lanzó los contenedores","1999 — inicio de la virtualización"], correct: 1, exp: "AWS se lanzó en 2006, convirtiendo la infraestructura interna de Amazon en servicios que cualquiera podía alquilar. Fue el inicio del cloud computing moderno — permitió a startups acceder a infraestructura de nivel empresarial sin comprar hardware." },
+  { q: "¿Cuál es la mayor causa de brechas de seguridad en entornos cloud?", opts: ["Ataques al hardware físico del proveedor","Fallos en los hipervisores","Misconfiguration por parte del cliente","Ataques de fuerza bruta a los CPDs"], correct: 2, exp: "El 99% de brechas cloud son por misconfiguration del cliente: buckets S3 públicos con datos sensibles, claves AWS expuestas en GitHub, IAM con permisos excesivos. El proveedor protege su infraestructura; el cliente debe proteger su configuración." },
+  { q: "¿Qué es EC2 en AWS?", opts: ["Un servicio de almacenamiento de archivos","Un servidor virtual en la nube (Elastic Compute Cloud)","Un firewall gestionado","Un servicio de base de datos"], correct: 1, exp: "EC2 (Elastic Compute Cloud) es el servicio de servidores virtuales de AWS. Permite crear instancias con diferentes capacidades de CPU y RAM bajo demanda — el servicio IaaS fundamental de AWS." },
+  { q: "Una tienda online mantiene datos de pago en servidores propios pero escala su web en AWS durante el Black Friday. ¿Qué modelo usa?", opts: ["Nube pública","Nube privada","Nube híbrida","Nube comunitaria"], correct: 2, exp: "La nube híbrida combina infraestructura privada (para datos sensibles como pagos) con nube pública (para escalar la carga variable). Es el modelo ideal para empresas con datos regulados que necesitan escalabilidad." },
+  { q: "¿Qué herramienta se usa para auditar la seguridad de un entorno AWS?", opts: ["nmap","Wireshark","Prowler / ScoutSuite","Metasploit"], correct: 2, exp: "Prowler y ScoutSuite son herramientas de Cloud Security Posture Management (CSPM) que analizan configuraciones de AWS buscando misconfigurations, permisos excesivos y buckets S3 expuestos." },
+  { q: "¿Por qué Netflix usa AWS en lugar de sus propios servidores?", opts: ["Porque AWS es gratuito para empresas grandes","Para escalar globalmente sin comprar infraestructura permanente y pagar solo por lo que usa","Porque sus propios servidores son menos seguros","Porque AWS gestiona el código de Netflix"], correct: 1, exp: "Netflix usa AWS para escalar a millones de usuarios durante estrenos sin comprar servidores permanentes. Pagan por lo que consumen — durante un estreno escalan 10x y después reducen. Con servidores propios tendrían infraestructura ociosa el resto del tiempo." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = `${current + 1}. ${q.q}`;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+  answered = false;
+  updateScore();
+}
+
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = '✓ Correcto! ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = '✗ Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('scoreLabel').textContent = `${score} / ${questions.length} correctas`;
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) {
+    renderQ();
+  } else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = `
+      <div style="text-align:center;padding:24px 0">
+        <div style="font-size:44px;margin-bottom:14px">${score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪'}</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ${score}/${questions.length}</div>
+        <div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">${score === 10 ? '¡Perfecto! Dominas los fundamentos del cloud.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.'}</div>
+        <button class="btn" onclick="location.reload()">Reintentar Quiz</button>
+      </div>
+    `;
+  }
+};
+
+renderQ();
+</script>

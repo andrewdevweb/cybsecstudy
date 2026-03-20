@@ -1,0 +1,33 @@
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="200" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ya" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ffd93d"/></marker>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+  </defs>
+
+  <!-- USER SPACE -->
+  <rect x="20" y="16" width="660" height="62" rx="3" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="20" y="16" width="660" height="4" fill="#4d96ff"/>
+  <text x="40" y="38" fill="#4d96ff" font-size="11" font-weight="700">USER SPACE</text>
+  <text x="40" y="54" fill="#6b6b8a" font-size="9">Chrome · Spotify · VS Code · nmap · Wireshark</text>
+  <text x="40" y="66" fill="#3a3a5a" font-size="8">prohibido acceder directamente al hardware</text>
+  <rect x="540" y="26" width="124" height="30" rx="2" fill="#4d96ff" opacity="0.08" stroke="#4d96ff" stroke-width="0.5"/>
+  <text x="602" y="44" text-anchor="middle" fill="#4d96ff" font-size="9">aplicaciones</text>
+
+  <!-- syscall arrows -->
+  <line x1="200" y1="80" x2="200" y2="108" stroke="#ffd93d" stroke-width="1.5" marker-end="url(#ya)"/>
+  <text x="210" y="98" fill="#ffd93d" font-size="9">syscall</text>
+  <line x1="400" y1="110" x2="400" y2="82" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="410" y="103" fill="#00ff9f" font-size="9">respuesta</text>
+
+  <!-- KERNEL SPACE -->
+  <rect x="20" y="112" width="660" height="72" rx="3" fill="#12121a" stroke="#00ff9f" stroke-width="2"/>
+  <rect x="20" y="112" width="660" height="5" fill="#00ff9f"/>
+  <text x="40" y="134" fill="#00ff9f" font-size="11" font-weight="700">KERNEL SPACE — acceso directo al hardware</text>
+  <text x="40" y="150" fill="#6b6b8a" font-size="9">gestión de procesos · memoria · sistema de archivos · drivers · red</text>
+  <text x="40" y="166" fill="#3a3a5a" font-size="8">sin restricciones · objetivo principal de rootkits</text>
+  <rect x="540" y="122" width="124" height="30" rx="2" fill="#00ff9f" opacity="0.08" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="602" y="140" text-anchor="middle" fill="#00ff9f" font-size="9">kernel Linux/NT</text>
+
+  <text x="350" y="196" text-anchor="middle" fill="#3a3a5a" font-size="8">la separación evita que una app defectuosa colapse el sistema — y dificulta el acceso de malware al kernel</text>
+</svg>

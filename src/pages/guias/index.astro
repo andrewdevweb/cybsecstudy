@@ -2,109 +2,118 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+
+const REDES = '#4d96ff';
+const WEB   = '#ff6b9d';
+const FUND  = '#6bcb77';
+
+const guides = [
+  { num:'01', href:'/guias/modelo-osi',       title:'Modelo OSI',                    desc:'Las 7 capas explicadas con protocolos y quiz interactivo.',                    cat:'Redes',        color: REDES },
+  { num:'02', href:'/guias/packets-frames',   title:'Packets & Frames',              desc:'TCP, UDP, Three-Way Handshake y puertos principales.',                         cat:'Redes',        color: REDES },
+  { num:'03', href:'/guias/ampliando-tu-red', title:'Ampliando tu Red',              desc:'Port Forwarding, Firewalls, VPNs, Routers y Switches.',                        cat:'Redes',        color: REDES },
+  { num:'04', href:'/guias/dns',              title:'DNS',                           desc:'Sistema de Nombres de Dominio — jerarquía, registros y resolución.',            cat:'Redes',        color: REDES },
+  { num:'05', href:'/guias/http',             title:'HTTP en Detalle',               desc:'Solicitudes, respuestas, métodos, códigos de estado, cabeceras y cookies.',     cat:'Web',          color: WEB   },
+  { num:'06', href:'/guias/web',              title:'Cómo Funcionan los Sitios Web', desc:'HTML, CSS, JavaScript, exposición de datos y HTML Injection.',                  cat:'Web',          color: WEB   },
+  { num:'07', href:'/guias/infra',            title:'La Web por Dentro',             desc:'Balanceadores, CDN, WAF, bases de datos, servidores y contenido dinámico.',     cat:'Web',          color: WEB   },
+  { num:'08', href:'/guias/clientserver',     title:'Modelo Cliente-Servidor',       desc:'Cliente, servidor, DNS, puertos, protocolos y HTTP.',                           cat:'Web',          color: WEB   },
+  { num:'09', href:'/guias/computer',         title:'Sistema Informático',           desc:'CPU, RAM, almacenamiento, placa base, GPU y secuencia de arranque.',            cat:'Fundamentos',  color: FUND  },
+  { num:'10', href:'/guias/comptypes',        title:'Tipos de Computadoras',         desc:'Portátiles, servidores, IoT, sistemas embebidos y smartphones.',                cat:'Fundamentos',  color: FUND  },
+  { num:'11', href:'/guias/os-intro',         title:'Sistemas Operativos',           desc:'Kernel, User Space, GUI vs CLI y familias de SO reales.',                       cat:'Fundamentos',  color: FUND  },
+  { num:'12', href:'/guias/virt',             title:'Virtualización',                desc:'Hipervisores Tipo 1 y 2, máquinas virtuales y contenedores Docker.',            cat:'Fundamentos',  color: FUND  },
+  { num:'13', href:'/guias/cloud',            title:'Cloud Computing',               desc:'IaaS, PaaS, SaaS, proveedores y seguridad en la nube.',                        cat:'Fundamentos',  color: FUND  },
+  { num:'13', href:'/guias/os-intro',         title:'Sistemas Operativos',           desc:'Kernel, privilegios, tipos de SO, Linux, Windows y CLI vs GUI.',               cat:'Fundamentos',  color: FUND  },
+];
+
+const sections = [
+  { cat: 'Redes',       color: REDES, desc: 'Protocolos, capas OSI, TCP/IP, DNS, firewalls y VPNs.' },
+  { cat: 'Web',         color: WEB,   desc: 'HTTP, HTML, JavaScript, infraestructura y cliente-servidor.' },
+  { cat: 'Fundamentos', color: FUND,  desc: 'Hardware, sistemas, virtualización y cloud computing.' },
+];
 ---
 
 <!doctype html>
 <html lang="es">
 <head>
   <BaseHead title="Guías Interactivas — CybSecStudy" description="Guías visuales e interactivas de ciberseguridad y redes." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .page-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 48px; }
+    .page-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(32px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 12px !important; }
+    .page-desc { color: #6b6b8a; font-size: 15px; max-width: 520px; }
+    .cat-section { margin-bottom: 48px; }
+    .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+    .section-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+    .section-line { flex: 1; height: 1px; opacity: 0.2; }
+    .section-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 10px; border: 1px solid; }
+    .section-desc { font-size: 13px; color: #6b6b8a; margin-bottom: 16px; }
+    .guide-row {
+      display: flex;
+      align-items: stretch;
+      text-decoration: none;
+      margin-bottom: 8px;
+      border: 1px solid #1e1e2e;
+      background: #12121a;
+      transition: all 0.2s;
+      overflow: hidden;
+    }
+    .guide-row:hover { border-color: var(--c); transform: translateX(4px); }
+    .guide-accent { width: 4px; flex-shrink: 0; }
+    .guide-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      width: 64px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #1e1e2e;
+    }
+    .guide-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .guide-title { font-size: 16px; font-weight: 800; color: #e8eaf0; line-height: 1.2; }
+    .guide-desc-text { font-size: 12px; color: #6b6b8a; line-height: 1.5; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 2px 8px; border: 1px solid; display: inline-block; margin-top: 4px; align-self: flex-start; }
+    @media (max-width: 600px) {
+      .guide-num { width: 44px; font-size: 14px; }
+    }
+  </style>
 </head>
 <body>
   <Header />
   <main>
-    <div style="padding:40px 0 32px;border-bottom:1px solid #1e1e2e;margin-bottom:40px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:#00ff9f;margin-bottom:16px">// Guías Interactivas</div>
+
+    <div class="page-header">
+      <div class="page-tag">// Guías Interactivas</div>
       <h1>Guías</h1>
-      <p style="color:#6b6b8a;font-size:15px;max-width:520px">Aprende con guías visuales e interactivas. Cada guía incluye explicaciones, diagramas y quiz.</p>
+      <p class="page-desc">Aprende con guías visuales e interactivas. Cada guía incluye explicaciones, diagramas y quiz.</p>
     </div>
-    <a href="/guias/modelo-osi" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#00ff9f;width:40px">01</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Modelo OSI</div>
-        <div style="font-size:13px;color:#6b6b8a">Las 7 capas explicadas con protocolos y quiz interactivo.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#00ff9f;border:1px solid #00ff9f;padding:2px 8px;display:inline-block;margin-top:8px">Redes</div>
-      </div>
-    </a>
-    <a href="/guias/packets-frames" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#4d96ff;width:40px">02</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Packets & Frames</div>
-        <div style="font-size:13px;color:#6b6b8a">TCP, UDP, Three-Way Handshake y puertos principales.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4d96ff;border:1px solid #4d96ff;padding:2px 8px;display:inline-block;margin-top:8px">Redes</div>
-      </div>
-    </a>
-    <a href="/guias/ampliando-tu-red" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#ff9f43;width:40px">03</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Ampliando tu Red</div>
-        <div style="font-size:13px;color:#6b6b8a">Port Forwarding, Firewalls, VPNs, Routers y Switches.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#ff9f43;border:1px solid #ff9f43;padding:2px 8px;display:inline-block;margin-top:8px">Redes</div>
-      </div>
-    </a>
-    <a href="/guias/dns" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#c77dff;width:40px">04</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">DNS</div>
-        <div style="font-size:13px;color:#6b6b8a">Sistema de Nombres de Dominio — jerarquía, registros y resolución.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#c77dff;border:1px solid #c77dff;padding:2px 8px;display:inline-block;margin-top:8px">Redes</div>
-      </div>
-    </a>
-    <a href="/guias/http" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#ff6b9d;width:40px">05</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">HTTP en Detalle</div>
-        <div style="font-size:13px;color:#6b6b8a">Solicitudes, respuestas, métodos, códigos de estado, cabeceras y cookies.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#ff6b9d;border:1px solid #ff6b9d;padding:2px 8px;display:inline-block;margin-top:8px">Web</div>
-      </div>
-    </a>
-    <a href="/guias/web" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#6bcb77;width:40px">06</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Cómo Funcionan los Sitios Web</div>
-        <div style="font-size:13px;color:#6b6b8a">HTML, CSS, JavaScript, exposición de datos y HTML Injection.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6bcb77;border:1px solid #6bcb77;padding:2px 8px;display:inline-block;margin-top:8px">Web</div>
-      </div>
-    </a>
-    <a href="/guias/infra" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#ff9f43;width:40px">07</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">La Web por Dentro</div>
-        <div style="font-size:13px;color:#6b6b8a">Balanceadores, CDN, WAF, bases de datos, servidores y contenido dinámico.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#ff9f43;border:1px solid #ff9f43;padding:2px 8px;display:inline-block;margin-top:8px">Web</div>
-      </div>
-    </a>
-    <a href="/guias/computer" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#00ff9f;width:40px">08</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Dentro de un Sistema Informático</div>
-        <div style="font-size:13px;color:#6b6b8a">CPU, RAM, almacenamiento, placa base, GPU y secuencia de arranque.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#00ff9f;border:1px solid #00ff9f;padding:2px 8px;display:inline-block;margin-top:8px">Fundamentos</div>
-      </div>
-    </a>
-    <a href="/guias/comptypes" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#6bcb77;width:40px">09</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Tipos de Computadoras</div>
-        <div style="font-size:13px;color:#6b6b8a">Portátiles, servidores, IoT, sistemas embebidos y smartphones.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6bcb77;border:1px solid #6bcb77;padding:2px 8px;display:inline-block;margin-top:8px">Fundamentos</div>
-      </div>
-    </a>
-    <a href="/guias/clientserver" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#4d96ff;width:40px">10</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Modelo Cliente-Servidor</div>
-        <div style="font-size:13px;color:#6b6b8a">Cliente, servidor, DNS, puertos, protocolos y HTTP.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4d96ff;border:1px solid #4d96ff;padding:2px 8px;display:inline-block;margin-top:8px">Fundamentos</div>
-      </div>
-    </a>
-    <a href="/guias/virt" style="display:flex;gap:20px;align-items:center;background:#12121a;border:1px solid #1e1e2e;padding:24px;text-decoration:none;margin-bottom:10px;transition:border-color 0.2s">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#c77dff;width:40px">11</div>
-      <div>
-        <div style="font-size:17px;font-weight:800;color:#e8eaf0;margin-bottom:4px">Virtualización</div>
-        <div style="font-size:13px;color:#6b6b8a">Hipervisores Tipo 1 y 2, máquinas virtuales y contenedores Docker.</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#c77dff;border:1px solid #c77dff;padding:2px 8px;display:inline-block;margin-top:8px">Fundamentos</div>
-      </div>
-    </a>
+
+    {sections.map(sec => {
+      const items = guides.filter(g => g.cat === sec.cat);
+      return (
+        <div class="cat-section">
+          <div class="section-header">
+            <div class="section-title" style={`color:${sec.color}`}>// {sec.cat}</div>
+            <div class="section-line" style={`background:${sec.color}`}></div>
+            <div class="section-count" style={`color:${sec.color};border-color:${sec.color}`}>{items.length} guías</div>
+          </div>
+          <p class="section-desc">{sec.desc}</p>
+          {items.map(g => (
+            <a href={g.href} class="guide-row" style={`--c:${g.color}`}>
+              <div class="guide-accent" style={`background:${g.color}`}></div>
+              <div class="guide-num" style={`color:${g.color}`}>{g.num}</div>
+              <div class="guide-body">
+                <div class="guide-title">{g.title}</div>
+                <div class="guide-desc-text">{g.desc}</div>
+                <div class="guide-tag" style={`color:${g.color};border-color:${g.color}`}>{g.cat}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      );
+    })}
+
   </main>
   <Footer />
 </body>

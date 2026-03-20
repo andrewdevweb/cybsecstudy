@@ -1,0 +1,58 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+
+  <!-- IaaS -->
+  <rect x="20" y="20" width="200" height="200" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="20" y="20" width="200" height="5" fill="#4d96ff"/>
+  <text x="120" y="46" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">IaaS</text>
+  <text x="120" y="62" text-anchor="middle" fill="#6b6b8a" font-size="9">Infraestructura como Servicio</text>
+
+  <!-- stack IaaS — tú gestionas todo desde SO -->
+  <rect x="36" y="72" width="168" height="20" rx="2" fill="#4d96ff" opacity="0.15" stroke="#4d96ff" stroke-width="0.5"/>
+  <text x="120" y="85" text-anchor="middle" fill="#4d96ff" font-size="9">Aplicación ← TÚ</text>
+  <rect x="36" y="96" width="168" height="20" rx="2" fill="#4d96ff" opacity="0.12" stroke="#4d96ff" stroke-width="0.5"/>
+  <text x="120" y="109" text-anchor="middle" fill="#4d96ff" font-size="9">Runtime / SO ← TÚ</text>
+  <rect x="36" y="120" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="120" y="133" text-anchor="middle" fill="#6b6b8a" font-size="9">Servidores ← Proveedor</text>
+  <rect x="36" y="144" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="120" y="157" text-anchor="middle" fill="#6b6b8a" font-size="9">Red / Storage ← Proveedor</text>
+
+  <text x="120" y="186" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">🏠 Piso vacío</text>
+  <text x="120" y="202" text-anchor="middle" fill="#3a3a5a" font-size="8">EC2 · VMs · máx. control</text>
+
+  <!-- PaaS -->
+  <rect x="250" y="20" width="200" height="200" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="250" y="20" width="200" height="5" fill="#ff9f43"/>
+  <text x="350" y="46" text-anchor="middle" fill="#ff9f43" font-size="14" font-weight="700">PaaS</text>
+  <text x="350" y="62" text-anchor="middle" fill="#6b6b8a" font-size="9">Plataforma como Servicio</text>
+
+  <rect x="266" y="72" width="168" height="20" rx="2" fill="#ff9f43" opacity="0.15" stroke="#ff9f43" stroke-width="0.5"/>
+  <text x="350" y="85" text-anchor="middle" fill="#ff9f43" font-size="9">Aplicación ← TÚ</text>
+  <rect x="266" y="96" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="350" y="109" text-anchor="middle" fill="#6b6b8a" font-size="9">Runtime / SO ← Proveedor</text>
+  <rect x="266" y="120" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="350" y="133" text-anchor="middle" fill="#6b6b8a" font-size="9">Servidores ← Proveedor</text>
+  <rect x="266" y="144" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="350" y="157" text-anchor="middle" fill="#6b6b8a" font-size="9">Red / Storage ← Proveedor</text>
+
+  <text x="350" y="186" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">🛋 Piso amueblado</text>
+  <text x="350" y="202" text-anchor="middle" fill="#3a3a5a" font-size="8">Heroku · App Engine</text>
+
+  <!-- SaaS -->
+  <rect x="480" y="20" width="200" height="200" rx="4" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="480" y="20" width="200" height="5" fill="#00ff9f"/>
+  <text x="580" y="46" text-anchor="middle" fill="#00ff9f" font-size="14" font-weight="700">SaaS</text>
+  <text x="580" y="62" text-anchor="middle" fill="#6b6b8a" font-size="9">Software como Servicio</text>
+
+  <rect x="496" y="72" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="580" y="85" text-anchor="middle" fill="#6b6b8a" font-size="9">Aplicación ← Proveedor</text>
+  <rect x="496" y="96" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="580" y="109" text-anchor="middle" fill="#6b6b8a" font-size="9">Runtime / SO ← Proveedor</text>
+  <rect x="496" y="120" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="580" y="133" text-anchor="middle" fill="#6b6b8a" font-size="9">Servidores ← Proveedor</text>
+  <rect x="496" y="144" width="168" height="20" rx="2" fill="#6b6b8a" opacity="0.1" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="580" y="157" text-anchor="middle" fill="#6b6b8a" font-size="9">Red / Storage ← Proveedor</text>
+
+  <text x="580" y="186" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">🏨 Hotel</text>
+  <text x="580" y="202" text-anchor="middle" fill="#3a3a5a" font-size="8">Gmail · Zoom · Slack</text>
+</svg>
