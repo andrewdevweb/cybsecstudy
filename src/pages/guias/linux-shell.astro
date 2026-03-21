@@ -1,0 +1,317 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Terminal, Consola y Shell — CybSecStudy" description="Diferencias entre terminal, consola y shell. Qué es bash, tipos de shells y cómo funciona la comunicación entre usuario y kernel." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .terminal { background: #0d0d14; border: 1px solid #1e1e2e; border-radius: 6px; overflow: hidden; margin: 16px 0; }
+    .terminal-bar { background: #1e1e2e; padding: 8px 14px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; }
+    .p { color: #00ff9f; }
+    .c { color: #e8eaf0; }
+    .o { color: #b0b0c8; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 2 de 6</div>
+      <h1><span class="accent">Terminal</span>, Consola y Shell</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Tres términos que todo el mundo usa como sinónimos — pero que tienen significados técnicamente distintos. Entenderlos te da una base más sólida.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Imagina que llegas a un país extranjero y necesitas hablar con un funcionario local. Tú hablas español; él solo habla japonés. Necesitas un <strong>intérprete</strong> — alguien que traduzca en ambas direcciones.</p>
+      <p>En Linux: <strong>tú</strong> eres el usuario, el <strong>kernel</strong> es el funcionario, la <strong>shell</strong> es el intérprete, y la <strong>terminal</strong> es la sala donde tiene lugar la conversación.</p>
+    </div>
+
+    <div class="section-label">// El flujo completo</div>
+    <img src="/linux-shell-diagram.svg" alt="Flujo terminal-shell-kernel" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">TRM</div>
+          <div class="concept-title">Terminal — La ventana de acceso</div>
+          <div class="concept-badge">emulador · ventana · interfaz</div>
+        </div>
+        <div class="concept-body">
+          <p>Una <strong>terminal</strong> (o emulador de terminal) es la aplicación que proporciona la ventana donde escribes y ves texto. <strong>No ejecuta comandos</strong> — simplemente muestra la interfaz visual para interactuar con la shell.</p>
+          <p>En los años 60-70 era un dispositivo físico: pantalla + teclado conectados a un mainframe por cable. Hoy usamos emuladores de software que simulan ese comportamiento.</p>
+          <ul>
+            <li><strong>GNOME Terminal</strong> — el más común en Ubuntu</li>
+            <li><strong>iTerm2</strong> — popular en macOS entre desarrolladores</li>
+            <li><strong>Windows Terminal</strong> — moderno, soporta WSL y PowerShell</li>
+            <li><strong>Alacritty</strong> — ultra rápido, acelerado por GPU</li>
+            <li><strong>tmux</strong> — multiplexor: múltiples sesiones en una sola ventana</li>
+          </ul>
+          <div class="info-badge">💡 tmux es esencial en pentesting — mantiene sesiones activas aunque se corte la conexión SSH</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">TTY</div>
+          <div class="concept-title">Consola — El acceso directo al sistema</div>
+          <div class="concept-badge">TTY · acceso físico · rescate</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>consola</strong> es el acceso más directo al sistema — originalmente el terminal físico conectado directamente al ordenador sin red. En Linux moderno, las <strong>consolas virtuales (TTY)</strong> se acceden con <code>Ctrl+Alt+F1</code> hasta <code>Ctrl+Alt+F6</code>.</p>
+          <p>Son interfaces de texto puras que funcionan incluso si el entorno gráfico se ha colgado. Los sysadmins las usan para rescatar sistemas bloqueados.</p>
+          <div class="code-block">tty              # ver en qué TTY estás
+# /dev/pts/0   ← terminal virtual (dentro de entorno gráfico)
+# /dev/tty1    ← consola física/virtual
+
+Ctrl+Alt+F1   # acceder a consola virtual 1
+Ctrl+Alt+F7   # volver al entorno gráfico (Ubuntu)</div>
+          <div class="sec-badge">⚠ Acceso físico a una consola TTY puede bypassear contraseñas — siempre asegurar acceso físico</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">SHL</div>
+          <div class="concept-title">Shell — El intérprete real</div>
+          <div class="concept-badge">bash · interpreta · ejecuta</div>
+        </div>
+        <div class="concept-body">
+          <p>La <strong>shell</strong> es el programa que realmente interpreta y ejecuta tus comandos. Es el cerebro — toma lo que escribes, lo interpreta, se lo pide al kernel y te devuelve el resultado.</p>
+          <p>Cuando escribes <code>ls -la</code>, la shell:</p>
+          <ul>
+            <li>Lee el comando</li>
+            <li>Busca el ejecutable en el <code>$PATH</code> (/bin/ls)</li>
+            <li>Lo lanza como proceso</li>
+            <li>Captura su salida</li>
+            <li>Te la muestra en la terminal</li>
+          </ul>
+          <div class="code-block">echo $SHELL     # ver tu shell actual
+# /bin/bash
+
+which ls        # ver dónde está el ejecutable
+# /bin/ls</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">BSH</div>
+          <div class="concept-title">Bash y tipos de shell</div>
+          <div class="concept-badge">bash · zsh · sh · fish</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Bash</strong> (Bourne Again Shell, 1989) es la shell más usada. Por defecto en la mayoría de Linux. Base para scripting en administración y seguridad.</p>
+          <p><strong>Zsh</strong> — bash mejorada con autocompletado inteligente y temas. Por defecto en macOS desde 2019. Popular con Oh My Zsh.</p>
+          <p><strong>sh</strong> — la shell original de Unix (1979). Más básica pero universal — existe en todos los sistemas Unix/Linux.</p>
+          <p><strong>Fish</strong> — diseñada para ser amigable desde el primer momento: sugerencias en tiempo real, sintaxis coloreada automática.</p>
+          <div class="code-block">cat /etc/shells     # ver shells disponibles en el sistema
+# /bin/sh
+# /bin/bash
+# /usr/bin/zsh
+# /usr/bin/fish
+
+chsh -s /usr/bin/zsh   # cambiar shell por defecto</div>
+          <div class="info-badge">💡 En CTFs, al obtener acceso se suele tener sh o dash — hay que upgradear a bash para interactividad completa</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">ENV</div>
+          <div class="concept-title">Variables de entorno y $PATH</div>
+          <div class="concept-badge">$PATH · $HOME · $SHELL</div>
+        </div>
+        <div class="concept-body">
+          <p>La shell mantiene un entorno de variables que configuran su comportamiento. Las más importantes:</p>
+          <div class="code-block">echo $SHELL   # /bin/bash — shell actual
+echo $HOME    # /home/ubuntu — directorio home
+echo $USER    # ubuntu — usuario actual
+echo $PWD     # directorio de trabajo actual
+echo $PATH    # rutas donde buscar ejecutables</div>
+          <p style="margin-top:10px"><code>$PATH</code> es especialmente importante — es la lista de directorios donde la shell busca ejecutables:</p>
+          <div class="code-block"># Cuando escribes "ls":
+# la shell busca en /usr/local/bin, /usr/bin, /bin...
+# encuentra /bin/ls → lo ejecuta
+
+which ls      # /bin/ls
+which python3 # /usr/bin/python3</div>
+          <div class="sec-badge">⚠ PATH hijacking: añadir un directorio malicioso al inicio del PATH para ejecutar código malicioso</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">RC</div>
+          <div class="concept-title">Configuración — .bashrc y .bash_profile</div>
+          <div class="concept-badge">alias · export · source</div>
+        </div>
+        <div class="concept-body">
+          <p><code>~/.bashrc</code> se ejecuta cada vez que abres una nueva terminal interactiva. Es donde personalizas tu entorno:</p>
+          <div class="code-block"># Ver tu .bashrc
+cat ~/.bashrc
+
+# Añadir alias (atajo de comando)
+alias ll='ls -la'
+alias ..='cd ..'
+alias grep='grep --color=auto'
+
+# Añadir directorio al PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Recargar sin cerrar la terminal
+source ~/.bashrc
+# o también:
+. ~/.bashrc</div>
+          <p style="margin-top:10px"><code>~/.bash_profile</code> o <code>~/.profile</code> se ejecutan al hacer login (SSH, consola). <code>~/.bashrc</code> se ejecuta en cada nueva terminal interactiva.</p>
+          <div class="info-badge">💡 En pentesting, modificar .bashrc puede ser un vector de persistencia en un sistema comprometido</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE EN LA SERIE</p>
+      <p><strong>Post 3: Sistema de archivos de Linux</strong> — la jerarquía de directorios, /, /home, /etc, /var y la diferencia entre rutas absolutas y relativas.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuál es la diferencia principal entre terminal y shell?", opts: ["Son lo mismo","La terminal ejecuta comandos; la shell los muestra","La terminal es la ventana de interfaz; la shell es el programa que interpreta los comandos","La shell solo existe en Linux; la terminal en todos los sistemas"], correct: 2, exp: "La terminal (emulador) proporciona la ventana visual donde escribes y ves texto. La shell (bash, zsh...) es el programa que realmente interpreta y ejecuta tus comandos, comunicándose con el kernel." },
+  { q: "¿Qué shell viene instalada por defecto en la mayoría de distribuciones Linux?", opts: ["zsh","fish","sh","bash"], correct: 3, exp: "Bash (Bourne Again Shell) es la shell por defecto en la mayoría de distribuciones Linux. Fue creada en 1989 por Brian Fox para el proyecto GNU como reemplazo mejorado de la shell original (sh)." },
+  { q: "¿Para qué sirve la variable $PATH?", opts: ["Guarda la ruta del directorio actual","Lista de directorios donde la shell busca ejecutables cuando escribes un comando","Almacena la contraseña del usuario","Indica el directorio home del usuario"], correct: 1, exp: "El $PATH es una lista de directorios separados por : que la shell recorre en orden para encontrar ejecutables. Cuando escribes 'ls', la shell busca el ejecutable en /usr/bin, /bin, etc. hasta encontrarlo." },
+  { q: "¿Qué hace el comando 'source ~/.bashrc'?", opts: ["Borra la configuración de bash","Recarga la configuración de .bashrc sin cerrar la terminal","Crea un nuevo archivo .bashrc","Muestra el contenido de .bashrc"], correct: 1, exp: "source (o el punto .) ejecuta un archivo en el contexto de la shell actual. 'source ~/.bashrc' recarga la configuración sin necesidad de abrir una nueva terminal." },
+  { q: "¿Qué son las consolas virtuales TTY en Linux?", opts: ["Ventanas del entorno gráfico","Interfaces de texto puras accesibles con Ctrl+Alt+F1-F6, que funcionan aunque el GUI esté caído","Emuladores de terminal avanzados","Tipos especiales de shells"], correct: 1, exp: "Las TTY son consolas virtuales de texto puro, accesibles con Ctrl+Alt+F1 a F6. Los administradores las usan para rescatar sistemas bloqueados, ya que funcionan independientemente del entorno gráfico." },
+  { q: "¿Qué es un alias en bash?", opts: ["Un usuario alternativo del sistema","Un atajo de comando: alias ll='ls -la' hace que ll ejecute ls -la","Un tipo de variable de entorno","Un nombre alternativo para un archivo"], correct: 1, exp: "Un alias es un atajo que defines en .bashrc. 'alias ll='ls -la'' hace que al escribir 'll' se ejecute realmente 'ls -la'. Son fundamentales para personalizar el flujo de trabajo y ahorrar tiempo." },
+  { q: "¿Qué es un reverse shell en ciberseguridad?", opts: ["Una shell que va al revés del flujo normal","Una shell remota donde la víctima conecta su terminal al sistema del atacante","Una shell que solo funciona como root","Una copia de seguridad de la shell"], correct: 1, exp: "En un reverse shell, la víctima (sistema comprometido) inicia una conexión hacia el atacante y le envía una shell. Esto bypassea firewalls que bloquean conexiones entrantes pero permiten salientes." },
+  { q: "¿Para qué sirve el comando 'python3 -c import pty; pty.spawn(\"/bin/bash\")' en pentesting?", opts: ["Instala Python en el sistema","Convierte una shell básica no interactiva en una TTY interactiva completa","Ejecuta un script de Python","Abre una nueva ventana de terminal"], correct: 1, exp: "Este comando hace un 'shell upgrade' — convierte una shell sin TTY (como la que se obtiene con netcat) en una bash interactiva completa, permitiendo usar Ctrl+C, autocompletado, editores de texto, etc." },
+  { q: "¿En qué archivo se configura el entorno de cada nueva terminal interactiva en bash?", opts: ["/etc/profile","~/.bash_profile","~/.bashrc","~/.bash_history"], correct: 2, exp: "~/.bashrc se ejecuta cada vez que abres una nueva terminal interactiva (no-login). Es donde se definen alias, variables personalizadas y configuración del prompt. ~/.bash_profile se ejecuta en shells de login (SSH)." },
+  { q: "¿Qué es el PATH hijacking?", opts: ["Robar contraseñas del archivo .bashrc","Modificar la variable PATH para que la shell encuentre un ejecutable malicioso antes que el legítimo","Cambiar el directorio de trabajo","Borrar el historial de comandos"], correct: 1, exp: "El PATH hijacking consiste en añadir un directorio malicioso al inicio del PATH. Si colocas un ejecutable llamado 'ls' en ese directorio, cuando alguien ejecute 'ls' la shell encontrará primero la versión maliciosa." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Dominas terminal, consola y shell.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

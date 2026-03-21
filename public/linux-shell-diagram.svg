@@ -1,0 +1,49 @@
+<svg viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="120" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#00ff9f"/></marker>
+    <marker id="ba" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4d96ff"/></marker>
+  </defs>
+
+  <!-- USUARIO -->
+  <rect x="10" y="30" width="110" height="50" rx="3" fill="#12121a" stroke="#6b6b8a" stroke-width="1.5"/>
+  <text x="65" y="52" text-anchor="middle" fill="#6b6b8a" font-size="10" font-weight="700">USUARIO</text>
+  <text x="65" y="67" text-anchor="middle" fill="#3a3a5a" font-size="8">escribe: ls -la</text>
+
+  <line x1="122" y1="55" x2="148" y2="55" stroke="#ffd93d" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="135" y="47" text-anchor="middle" fill="#ffd93d" font-size="7">input</text>
+
+  <!-- TERMINAL -->
+  <rect x="150" y="30" width="120" height="50" rx="3" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="210" y="52" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">TERMINAL</text>
+  <text x="210" y="67" text-anchor="middle" fill="#3a3a5a" font-size="8">emulador · ventana</text>
+
+  <line x1="272" y1="55" x2="298" y2="55" stroke="#ffd93d" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="285" y="47" text-anchor="middle" fill="#ffd93d" font-size="7">texto</text>
+
+  <!-- SHELL -->
+  <rect x="300" y="20" width="130" height="70" rx="3" fill="#12121a" stroke="#00ff9f" stroke-width="2"/>
+  <rect x="300" y="20" width="130" height="4" fill="#00ff9f"/>
+  <text x="365" y="50" text-anchor="middle" fill="#00ff9f" font-size="11" font-weight="700">SHELL</text>
+  <text x="365" y="65" text-anchor="middle" fill="#6b6b8a" font-size="8">bash · interpreta</text>
+  <text x="365" y="78" text-anchor="middle" fill="#3a3a5a" font-size="7">busca en $PATH</text>
+
+  <line x1="432" y1="55" x2="458" y2="55" stroke="#00ff9f" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="445" y="47" text-anchor="middle" fill="#00ff9f" font-size="7">syscall</text>
+
+  <!-- KERNEL -->
+  <rect x="460" y="30" width="110" height="50" rx="3" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <text x="515" y="52" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">KERNEL</text>
+  <text x="515" y="67" text-anchor="middle" fill="#3a3a5a" font-size="8">ejecuta en HW</text>
+
+  <line x1="572" y1="55" x2="598" y2="55" stroke="#ff9f43" stroke-width="1.5" marker-end="url(#ga)"/>
+
+  <!-- HARDWARE -->
+  <rect x="600" y="30" width="90" height="50" rx="3" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="645" y="52" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="700">HW</text>
+  <text x="645" y="67" text-anchor="middle" fill="#3a3a5a" font-size="8">disco · CPU</text>
+
+  <!-- return arrow underneath -->
+  <path d="M 645 82 Q 645 105 365 105 Q 85 105 65 82" fill="none" stroke="#4d96ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ba)"/>
+  <text x="350" y="115" text-anchor="middle" fill="#4d96ff" font-size="7">resultado devuelto al usuario</text>
+</svg>

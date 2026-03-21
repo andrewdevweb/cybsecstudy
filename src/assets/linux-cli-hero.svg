@@ -1,0 +1,164 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="58" fill="#1a1a2a" font-size="50" font-weight="700">LINUX CLI</text>
+  <text x="46" y="56" fill="#e8eaf0" font-size="50" font-weight="700">LINUX CLI</text>
+  <text x="48" y="74" fill="#00ff9f" font-size="9" letter-spacing="3">INTRODUCCIÓN — FILOSOFÍA UNIX · CLI VS GUI · TERMINAL</text>
+  <line x1="48" y1="84" x2="420" y2="84" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: terminal simulation -->
+  <text x="48" y="104" fill="#6b6b8a" font-size="9" letter-spacing="2">// TERMINAL</text>
+  <rect x="48" y="114" width="390" height="220" rx="4" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="114" width="390" height="22" rx="4 4 0 0" fill="#1e1e2e"/>
+  <circle cx="64"  cy="125" r="5" fill="#ff6b6b"/>
+  <circle cx="80"  cy="125" r="5" fill="#ffd93d"/>
+  <circle cx="96"  cy="125" r="5" fill="#6bcb77"/>
+  <text x="220" y="129" text-anchor="middle" fill="#6b6b8a" font-size="9">bash — ubuntu@tryhackme</text>
+
+  <text x="62" y="154" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="196" y="154" fill="#e8eaf0" font-size="10"> pwd</text>
+  <text x="62" y="170" fill="#b0b0c8" font-size="10">/home/ubuntu</text>
+
+  <text x="62" y="190" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="196" y="190" fill="#e8eaf0" font-size="10"> ls -la</text>
+  <text x="62" y="206" fill="#4d96ff" font-size="9">drwxr-xr-x  ubuntu ubuntu  Desktop</text>
+  <text x="62" y="220" fill="#4d96ff" font-size="9">drwxr-xr-x  ubuntu ubuntu  Documents</text>
+  <text x="62" y="234" fill="#ff9f43" font-size="9">-rw-------  ubuntu ubuntu  .bash_history</text>
+
+  <text x="62" y="254" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="196" y="254" fill="#e8eaf0" font-size="10"> whoami</text>
+  <text x="62" y="270" fill="#b0b0c8" font-size="10">ubuntu</text>
+
+  <text x="62" y="290" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="196" y="290" fill="#e8eaf0" font-size="10"> uname -a</text>
+  <text x="62" y="306" fill="#b0b0c8" font-size="9">Linux tryhackme 6.8.0-aws x86_64 GNU/Linux</text>
+
+  <text x="62" y="326" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <rect x="184" y="314" width="8" height="14" fill="#00ff9f" opacity="0.8"/>
+
+  <!-- Unix philosophy -->
+  <text x="48" y="360" fill="#6b6b8a" font-size="9" letter-spacing="2">// FILOSOFÍA UNIX</text>
+  <rect x="48"  y="370" width="120" height="44" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="108" y="388" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">Una cosa</text>
+  <text x="108" y="402" text-anchor="middle" fill="#6b6b8a" font-size="8">y hazla bien</text>
+
+  <rect x="176" y="370" width="120" height="44" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="236" y="388" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">Combina</text>
+  <text x="236" y="402" text-anchor="middle" fill="#6b6b8a" font-size="8">programas con pipes</text>
+
+  <rect x="304" y="370" width="134" height="44" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <text x="371" y="388" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">Todo es</text>
+  <text x="371" y="402" text-anchor="middle" fill="#6b6b8a" font-size="8">un archivo</text>
+
+  <!-- pipe example -->
+  <text x="48" y="438" fill="#6b6b8a" font-size="9" letter-spacing="2">// PODER DE LAS PIPES</text>
+  <rect x="48" y="448" width="390" height="44" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="465" fill="#00ff9f" font-size="9">$</text>
+  <text x="74" y="465" fill="#e8eaf0" font-size="9"> ls -l /var/log | grep "error" | wc -l</text>
+  <text x="62" y="481" fill="#ffd93d" font-size="9">lista → filtra → cuenta → resultado en una línea</text>
+
+  <!-- RIGHT divider -->
+  <line x1="468" y1="30" x2="468" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: CLI vs GUI + history -->
+  <text x="494" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// CLI VS GUI</text>
+  <rect x="494" y="58" width="502" height="160" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="494" y="58" width="502" height="26" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="640" y="75" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">CLI</text>
+  <text x="840" y="75" text-anchor="middle" fill="#6b6b8a" font-size="10" font-weight="700">GUI</text>
+
+  <text x="504" y="100" fill="#6b6b8a" font-size="9">Automatización</text>
+  <text x="640" y="100" text-anchor="middle" fill="#00ff9f" font-size="9">✓ un script</text>
+  <text x="840" y="100" text-anchor="middle" fill="#ff6b6b" font-size="9">✗ difícil</text>
+  <line x1="502" y1="106" x2="988" y2="106" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="504" y="122" fill="#6b6b8a" font-size="9">Servidores remotos</text>
+  <text x="640" y="122" text-anchor="middle" fill="#00ff9f" font-size="9">✓ SSH nativo</text>
+  <text x="840" y="122" text-anchor="middle" fill="#ff6b6b" font-size="9">✗ complejo</text>
+  <line x1="502" y1="128" x2="988" y2="128" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="504" y="144" fill="#6b6b8a" font-size="9">Recursos del sistema</text>
+  <text x="640" y="144" text-anchor="middle" fill="#00ff9f" font-size="9">✓ mínimos</text>
+  <text x="840" y="144" text-anchor="middle" fill="#ff6b6b" font-size="9">✗ alto consumo</text>
+  <line x1="502" y1="150" x2="988" y2="150" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="504" y="166" fill="#6b6b8a" font-size="9">Herramientas de seguridad</text>
+  <text x="640" y="166" text-anchor="middle" fill="#00ff9f" font-size="9">✓ todas</text>
+  <text x="840" y="166" text-anchor="middle" fill="#ff6b6b" font-size="9">✗ pocas</text>
+  <line x1="502" y1="172" x2="988" y2="172" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="504" y="188" fill="#6b6b8a" font-size="9">Curva aprendizaje</text>
+  <text x="640" y="188" text-anchor="middle" fill="#ffd93d" font-size="9">media</text>
+  <text x="840" y="188" text-anchor="middle" fill="#00ff9f" font-size="9">baja</text>
+
+  <!-- Timeline -->
+  <text x="494" y="244" fill="#6b6b8a" font-size="9" letter-spacing="2">// LÍNEA DE TIEMPO</text>
+  <line x1="502" y1="265" x2="988" y2="265" stroke="#1e1e2e" stroke-width="1"/>
+
+  <circle cx="520"  cy="265" r="4" fill="#6b6b8a"/>
+  <text x="520"  y="255" text-anchor="middle" fill="#6b6b8a" font-size="8">1969</text>
+  <text x="520"  y="278" text-anchor="middle" fill="#6b6b8a" font-size="7">Unix</text>
+
+  <circle cx="620"  cy="265" r="4" fill="#ff9f43"/>
+  <text x="620"  y="255" text-anchor="middle" fill="#ff9f43" font-size="8">1983</text>
+  <text x="620"  y="278" text-anchor="middle" fill="#ff9f43" font-size="7">GNU</text>
+
+  <circle cx="720"  cy="265" r="5" fill="#00ff9f"/>
+  <text x="720"  y="255" text-anchor="middle" fill="#00ff9f" font-size="8">1991</text>
+  <text x="720"  y="278" text-anchor="middle" fill="#00ff9f" font-size="7">Linux</text>
+
+  <circle cx="830"  cy="265" r="4" fill="#4d96ff"/>
+  <text x="830"  y="255" text-anchor="middle" fill="#4d96ff" font-size="8">2004</text>
+  <text x="830"  y="278" text-anchor="middle" fill="#4d96ff" font-size="7">Ubuntu</text>
+
+  <circle cx="950"  cy="265" r="4" fill="#c77dff"/>
+  <text x="950"  y="255" text-anchor="middle" fill="#c77dff" font-size="8">Hoy</text>
+  <text x="950"  y="278" text-anchor="middle" fill="#c77dff" font-size="7">+90% servers</text>
+
+  <!-- Prompt anatomy -->
+  <text x="494" y="312" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANATOMÍA DEL PROMPT</text>
+  <rect x="494" y="322" width="502" height="70" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="516" y="350" fill="#00ff9f" font-size="14" font-weight="700">ubuntu</text>
+  <text x="590" y="350" fill="#6b6b8a" font-size="14">@</text>
+  <text x="606" y="350" fill="#4d96ff" font-size="14" font-weight="700">tryhackme</text>
+  <text x="708" y="350" fill="#6b6b8a" font-size="14">:</text>
+  <text x="718" y="350" fill="#ffd93d" font-size="14" font-weight="700">~</text>
+  <text x="738" y="350" fill="#6b6b8a" font-size="14">$</text>
+
+  <text x="532" y="368" text-anchor="middle" fill="#00ff9f" font-size="7">usuario</text>
+  <text x="650" y="368" text-anchor="middle" fill="#4d96ff" font-size="7">hostname</text>
+  <text x="718" y="368" text-anchor="middle" fill="#ffd93d" font-size="7">/home</text>
+  <text x="738" y="368" text-anchor="middle" fill="#6b6b8a" font-size="7">normal</text>
+
+  <!-- distros -->
+  <text x="494" y="416" fill="#6b6b8a" font-size="9" letter-spacing="2">// DISTRIBUCIONES PRINCIPALES</text>
+  <rect x="494"  y="426" width="92" height="44" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="540" y="444" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">Ubuntu</text>
+  <text x="540" y="458" text-anchor="middle" fill="#3a3a5a" font-size="7">principiantes</text>
+
+  <rect x="594"  y="426" width="92" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="640" y="444" text-anchor="middle" fill="#ff6b6b" font-size="9" font-weight="700">Kali</text>
+  <text x="640" y="458" text-anchor="middle" fill="#3a3a5a" font-size="7">ciberseguridad</text>
+
+  <rect x="694"  y="426" width="92" height="44" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="740" y="444" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">Debian</text>
+  <text x="740" y="458" text-anchor="middle" fill="#3a3a5a" font-size="7">servidores</text>
+
+  <rect x="794"  y="426" width="92" height="44" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <text x="840" y="444" text-anchor="middle" fill="#00ff9f" font-size="9" font-weight="700">Alpine</text>
+  <text x="840" y="458" text-anchor="middle" fill="#3a3a5a" font-size="7">contenedores</text>
+
+  <rect x="894"  y="426" width="92" height="44" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <text x="940" y="444" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="700">Arch</text>
+  <text x="940" y="458" text-anchor="middle" fill="#3a3a5a" font-size="7">avanzado</text>
+
+  <text x="741" y="490" text-anchor="middle" fill="#3a3a5a" font-size="8">todas comparten el mismo kernel Linux — lo que cambia es el entorno</text>
+</svg>

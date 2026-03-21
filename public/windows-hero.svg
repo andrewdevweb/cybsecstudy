@@ -1,0 +1,141 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="56" fill="#1a1a2a" font-size="48" font-weight="700">WINDOWS</text>
+  <text x="46" y="54" fill="#e8eaf0" font-size="48" font-weight="700">WINDOWS</text>
+  <text x="48" y="70" fill="#4d96ff" font-size="9" letter-spacing="3">AUTENTICACIÓN · REGISTRO · HERRAMIENTAS</text>
+  <text x="48" y="82" fill="#4d96ff" font-size="9" letter-spacing="3">SEGURIDAD NATIVA · SISTEMA DE ARCHIVOS</text>
+  <line x1="48" y1="92" x2="430" y2="92" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: Account types -->
+  <text x="48" y="112" fill="#6b6b8a" font-size="9" letter-spacing="2">// TIPOS DE CUENTA</text>
+
+  <rect x="48" y="122" width="380" height="36" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <rect x="48" y="122" width="4" height="36" fill="#6b6b8a"/>
+  <text x="62" y="139" fill="#6b6b8a" font-size="10" font-weight="700">Invitado</text>
+  <text x="148" y="139" fill="#3a3a5a" font-size="9">acceso temporal · permisos mínimos</text>
+
+  <rect x="48" y="164" width="380" height="36" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="48" y="164" width="4" height="36" fill="#ffd93d"/>
+  <text x="62" y="181" fill="#ffd93d" font-size="10" font-weight="700">Estándar</text>
+  <text x="148" y="181" fill="#6b6b8a" font-size="9">uso diario · sin cambios de sistema</text>
+
+  <rect x="48" y="206" width="380" height="36" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="48" y="206" width="4" height="36" fill="#ff6b6b"/>
+  <text x="62" y="223" fill="#ff6b6b" font-size="10" font-weight="700">Administrador</text>
+  <text x="148" y="223" fill="#6b6b8a" font-size="9">control total · instalar software · gestionar usuarios</text>
+  <text x="62" y="236" fill="#3a3a5a" font-size="8">objetivo principal en escalada de privilegios</text>
+
+  <!-- UAC -->
+  <rect x="48" y="248" width="380" height="44" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="48" y="248" width="4" height="44" fill="#ff9f43"/>
+  <text x="62" y="266" fill="#ff9f43" font-size="10" font-weight="700">UAC — Control de Cuentas de Usuario</text>
+  <text x="62" y="280" fill="#6b6b8a" font-size="9">solicita confirmación antes de acciones privilegiadas</text>
+  <text x="62" y="290" fill="#3a3a5a" font-size="8">⚠ UAC bypass — técnica común en malware</text>
+
+  <!-- File system -->
+  <text x="48" y="320" fill="#6b6b8a" font-size="9" letter-spacing="2">// ESTRUCTURA DE ARCHIVOS</text>
+  <rect x="48" y="330" width="380" height="90" rx="2" fill="#0a0a0f" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="348" fill="#4d96ff" font-size="10">C:\</text>
+  <text x="76" y="364" fill="#6b6b8a" font-size="9">├── Windows\System32\</text>
+  <text x="270" y="364" fill="#ff6b6b" font-size="8">← archivos críticos del SO</text>
+  <text x="76" y="378" fill="#6b6b8a" font-size="9">├── Users\usuario\Desktop|Docs</text>
+  <text x="76" y="392" fill="#6b6b8a" font-size="9">└── Program Files\</text>
+  <text x="270" y="392" fill="#3a3a5a" font-size="8">← apps instaladas</text>
+  <text x="62" y="410" fill="#3a3a5a" font-size="8">⚠ DLL hijacking — reemplazar DLLs en System32</text>
+
+  <!-- Security Windows -->
+  <text x="48" y="444" fill="#6b6b8a" font-size="9" letter-spacing="2">// SEGURIDAD NATIVA</text>
+  <rect x="48"  y="454" width="88" height="40" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="92"  y="470" text-anchor="middle" fill="#4d96ff" font-size="8" font-weight="700">Defender</text>
+  <text x="92"  y="482" text-anchor="middle" fill="#3a3a5a" font-size="7">antivirus</text>
+
+  <rect x="142" y="454" width="88" height="40" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="186" y="470" text-anchor="middle" fill="#4d96ff" font-size="8" font-weight="700">Firewall</text>
+  <text x="186" y="482" text-anchor="middle" fill="#3a3a5a" font-size="7">tráfico red</text>
+
+  <rect x="236" y="454" width="88" height="40" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="280" y="470" text-anchor="middle" fill="#4d96ff" font-size="8" font-weight="700">SmartScreen</text>
+  <text x="280" y="482" text-anchor="middle" fill="#3a3a5a" font-size="7">apps/webs</text>
+
+  <rect x="330" y="454" width="98" height="40" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="379" y="470" text-anchor="middle" fill="#4d96ff" font-size="8" font-weight="700">Secure Boot</text>
+  <text x="379" y="482" text-anchor="middle" fill="#3a3a5a" font-size="7">hardware</text>
+
+  <!-- RIGHT divider -->
+  <line x1="460" y1="30" x2="460" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: Registry + Task Manager + Tools -->
+  <text x="486" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// REGISTRO DE WINDOWS</text>
+  <rect x="486" y="58" width="510" height="110" rx="2" fill="#0a0a0f" stroke="#c77dff" stroke-width="1"/>
+  <rect x="486" y="58" width="4" height="110" fill="#c77dff"/>
+  <text x="500" y="76" fill="#c77dff" font-size="10" font-weight="700">Base de datos jerárquica de configuración del sistema</text>
+  <text x="500" y="92"  fill="#6b6b8a" font-size="9">HKEY_LOCAL_MACHINE\  — configuración global del sistema</text>
+  <text x="500" y="106" fill="#6b6b8a" font-size="9">HKEY_CURRENT_USER\   — configuración del usuario activo</text>
+  <text x="500" y="120" fill="#6b6b8a" font-size="9">HKEY_CLASSES_ROOT\   — asociaciones de archivos</text>
+  <text x="500" y="134" fill="#6b6b8a" font-size="9">HKEY_USERS\          — perfiles de todos los usuarios</text>
+  <text x="500" y="158" fill="#ff6b6b" font-size="8">⚠ Persistencia de malware: HKLM\...\CurrentVersion\Run</text>
+
+  <!-- Task Manager -->
+  <text x="486" y="184" fill="#6b6b8a" font-size="9" letter-spacing="2">// ADMINISTRADOR DE TAREAS — Ctrl+Shift+Esc</text>
+  <rect x="486" y="194" width="510" height="100" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="486" y="194" width="4" height="100" fill="#00ff9f"/>
+
+  <rect x="498" y="204" width="90" height="22" rx="2" fill="#00ff9f" opacity="0.1" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="543" y="219" text-anchor="middle" fill="#00ff9f" font-size="9">Procesos</text>
+  <rect x="596" y="204" width="90" height="22" rx="2" fill="#00ff9f" opacity="0.1" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="641" y="219" text-anchor="middle" fill="#00ff9f" font-size="9">Rendimiento</text>
+  <rect x="694" y="204" width="70" height="22" rx="2" fill="#00ff9f" opacity="0.1" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="729" y="219" text-anchor="middle" fill="#00ff9f" font-size="9">Usuarios</text>
+  <rect x="772" y="204" width="70" height="22" rx="2" fill="#00ff9f" opacity="0.1" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="807" y="219" text-anchor="middle" fill="#00ff9f" font-size="9">Detalles</text>
+  <rect x="850" y="204" width="80" height="22" rx="2" fill="#00ff9f" opacity="0.1" stroke="#00ff9f" stroke-width="0.5"/>
+  <text x="890" y="219" text-anchor="middle" fill="#00ff9f" font-size="9">Servicios</text>
+
+  <text x="500" y="248" fill="#6b6b8a" font-size="9">PID · estado · ejecutable · CPU · RAM · ruta del proceso</text>
+  <text x="500" y="264" fill="#3a3a5a" font-size="8">⚠ svchost.exe fuera de System32 = señal de alerta</text>
+  <text x="500" y="278" fill="#3a3a5a" font-size="8">Event ID 4688 — nuevo proceso creado (forense)</text>
+
+  <!-- Key tools -->
+  <text x="486" y="314" fill="#6b6b8a" font-size="9" letter-spacing="2">// HERRAMIENTAS CLAVE</text>
+  <rect x="486" y="324" width="510" height="150" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+
+  <rect x="494" y="332" width="148" height="28" rx="2" fill="#4d96ff" opacity="0.08" stroke="#4d96ff" stroke-width="0.5"/>
+  <text x="568" y="344" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">PowerShell</text>
+  <text x="568" y="356" text-anchor="middle" fill="#3a3a5a" font-size="7">scripting · admin · pentesting</text>
+
+  <rect x="650" y="332" width="148" height="28" rx="2" fill="#6b6b8a" opacity="0.08" stroke="#6b6b8a" stroke-width="0.5"/>
+  <text x="724" y="344" text-anchor="middle" fill="#6b6b8a" font-size="9" font-weight="700">CMD</text>
+  <text x="724" y="356" text-anchor="middle" fill="#3a3a5a" font-size="7">terminal legacy · .bat scripts</text>
+
+  <rect x="806" y="332" width="172" height="28" rx="2" fill="#c77dff" opacity="0.08" stroke="#c77dff" stroke-width="0.5"/>
+  <text x="892" y="344" text-anchor="middle" fill="#c77dff" font-size="9" font-weight="700">regedit</text>
+  <text x="892" y="356" text-anchor="middle" fill="#3a3a5a" font-size="7">editor del registro</text>
+
+  <rect x="494" y="368" width="148" height="28" rx="2" fill="#ffd93d" opacity="0.08" stroke="#ffd93d" stroke-width="0.5"/>
+  <text x="568" y="380" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">eventvwr</text>
+  <text x="568" y="392" text-anchor="middle" fill="#3a3a5a" font-size="7">logs del sistema · forense</text>
+
+  <rect x="650" y="368" width="148" height="28" rx="2" fill="#ff9f43" opacity="0.08" stroke="#ff9f43" stroke-width="0.5"/>
+  <text x="724" y="380" text-anchor="middle" fill="#ff9f43" font-size="9" font-weight="700">services.msc</text>
+  <text x="724" y="392" text-anchor="middle" fill="#3a3a5a" font-size="7">gestión de servicios</text>
+
+  <rect x="806" y="368" width="172" height="28" rx="2" fill="#6bcb77" opacity="0.08" stroke="#6bcb77" stroke-width="0.5"/>
+  <text x="892" y="380" text-anchor="middle" fill="#6bcb77" font-size="9" font-weight="700">msconfig</text>
+  <text x="892" y="392" text-anchor="middle" fill="#3a3a5a" font-size="7">configuración de arranque</text>
+
+  <rect x="494" y="404" width="484" height="28" rx="2" fill="#ff6b6b" opacity="0.06" stroke="#ff6b6b" stroke-width="0.5"/>
+  <text x="736" y="416" text-anchor="middle" fill="#ff6b6b" font-size="9" font-weight="700">Visor de eventos — Event IDs críticos</text>
+  <text x="736" y="428" text-anchor="middle" fill="#3a3a5a" font-size="7">4624 login · 4648 login explícito · 4688 proceso · 4697 servicio instalado · 7045 nuevo servicio</text>
+
+  <!-- bottom -->
+  <rect x="486" y="488" width="510" height="14" rx="2" fill="#12121a"/>
+  <text x="741" y="498" text-anchor="middle" fill="#3a3a5a" font-size="7">WannaCry (2017) — EternalBlue/SMBv1 · parche disponible 60 días antes · millones de sistemas sin actualizar</text>
+</svg>

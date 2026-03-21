@@ -1,0 +1,273 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Windows Básico — CybSecStudy" description="Autenticación, escritorio, registro, administrador de tareas y seguridad nativa de Windows." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #4d96ff; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #4d96ff; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #4d96ff); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #4d96ff; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #4d96ff; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos — Guía Interactiva</div>
+      <h1><span class="accent">Windows</span> Básico</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">El SO más usado del mundo — y el más atacado. Entender cómo funciona es la base para defenderte y para atacar en entornos corporativos.</p>
+    </div>
+    <div class="intro-card">
+      <p>Windows domina el escritorio corporativo. Conocer su arquitectura — cuentas, registro, servicios, herramientas — es <strong>obligatorio para cualquier profesional de ciberseguridad</strong>.</p>
+      <p>Desde el UAC bypass hasta la persistencia en el registro, la mayoría de técnicas de ataque y defensa en entornos Windows pasan por los conceptos de esta guía.</p>
+    </div>
+    <div class="section-label">// Registro y seguridad</div>
+    <img src="/windows-security.svg" alt="Registro de Windows y seguridad nativa" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">USR</div>
+          <div class="concept-title">Tipos de cuenta y autenticación</div>
+          <div class="concept-badge">Invitado · Estándar · Admin</div>
+        </div>
+        <div class="concept-body">
+          <p>Antes de acceder al escritorio, Windows verifica tu identidad. Cada cuenta tiene un nivel de permisos distinto.</p>
+          <ul>
+            <li><strong>Invitado</strong> — acceso temporal, permisos mínimos, sin cambios de sistema</li>
+            <li><strong>Estándar</strong> — uso diario, ejecutar apps, cambiar configuración personal</li>
+            <li><strong>Administrador</strong> — control total: instalar software, gestionar usuarios, cambiar configuración del sistema</li>
+          </ul>
+          <p>El <strong>UAC</strong> (Control de Cuentas de Usuario) solicita confirmación antes de realizar acciones privilegiadas — incluso para administradores. Es una capa de seguridad que muchos ataques intentan bypassear.</p>
+          <div class="sec-badge">⚠ Escalada de privilegios: user → admin = objetivo principal en pentesting</div>
+          <div class="sec-badge">⚠ UAC bypass — técnica común en malware para ejecutar código elevado</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">REG</div>
+          <div class="concept-title">Registro de Windows</div>
+          <div class="concept-badge">base de datos de configuración</div>
+        </div>
+        <div class="concept-body">
+          <p>El Registro es la <strong>base de datos jerárquica</strong> donde Windows almacena toda la configuración del sistema, aplicaciones y usuarios.</p>
+          <div class="code-block">HKEY_LOCAL_MACHINE\  -- configuración global del sistema
+HKEY_CURRENT_USER\   -- configuración del usuario activo
+HKEY_CLASSES_ROOT\   -- asociaciones de archivos (.exe, .pdf...)
+HKEY_USERS\          -- perfiles de todos los usuarios</div>
+          <p style="margin-top:10px">Acceso: <code>regedit</code> en la búsqueda. Para análisis de malware: <strong>Autoruns</strong> de Sysinternals muestra todo lo que se ejecuta automáticamente.</p>
+          <div class="sec-badge">⚠ Persistencia de malware: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</div>
+          <div class="sec-badge">⚠ Modificaciones del registro son señal de alerta en análisis forense</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">TSK</div>
+          <div class="concept-title">Administrador de Tareas</div>
+          <div class="concept-badge">Ctrl+Shift+Esc</div>
+        </div>
+        <div class="concept-body">
+          <p>Herramienta esencial para monitorizar el sistema en tiempo real. Cinco pestañas clave:</p>
+          <ul>
+            <li><strong>Procesos</strong> — apps y procesos en segundo plano + uso de CPU/RAM</li>
+            <li><strong>Rendimiento</strong> — gráficos de CPU, memoria, disco y red</li>
+            <li><strong>Usuarios</strong> — sesiones activas y sus recursos</li>
+            <li><strong>Detalles</strong> — PID, ejecutable, usuario que ejecuta el proceso</li>
+            <li><strong>Servicios</strong> — servicios de Windows y su estado</li>
+          </ul>
+          <div class="sec-badge">⚠ svchost.exe fuera de C:\Windows\System32 = proceso malicioso</div>
+          <div class="sec-badge">⚠ Event ID 4688 — nuevo proceso creado (análisis forense)</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">SEC</div>
+          <div class="concept-title">Seguridad nativa de Windows</div>
+          <div class="concept-badge">Defender · Firewall · SmartScreen</div>
+        </div>
+        <div class="concept-body">
+          <p>Windows incluye protecciones integradas habilitadas por defecto:</p>
+          <ul>
+            <li><strong>Windows Defender</strong> — antivirus con protección en tiempo real. Competitivo con soluciones de terceros</li>
+            <li><strong>Windows Firewall</strong> — stateful, controla tráfico por programa/puerto. 3 perfiles: Dominio, Privado, Público</li>
+            <li><strong>SmartScreen</strong> — bloquea apps, archivos y sitios web no verificados</li>
+            <li><strong>Secure Boot + TPM</strong> — protecciones de hardware contra bootkits</li>
+          </ul>
+          <p><strong>Event IDs críticos</strong> en el Visor de Eventos:</p>
+          <div class="code-block">4624 -- inicio de sesión exitoso
+4648 -- intento de login con credenciales explícitas
+4688 -- nuevo proceso creado
+4697 -- nuevo servicio instalado
+7045 -- servicio instalado en el sistema</div>
+          <div class="sec-badge">⚠ WannaCry (2017) — EternalBlue/SMBv1 · parche disponible 60 días antes</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">FS</div>
+          <div class="concept-title">Sistema de archivos y estructura</div>
+          <div class="concept-badge">C:\Windows\System32</div>
+        </div>
+        <div class="concept-body">
+          <p>Windows usa una <strong>estructura jerárquica</strong> con la unidad raíz <code>C:\</code>:</p>
+          <div class="code-block">C:\Windows\System32\  -- DLLs y ejecutables del SO (crítico)
+C:\Windows\SysWOW64\ -- sistema 32 bits en Windows 64 bits
+C:\Users\usuario\    -- perfil del usuario (Escritorio, Docs...)
+C:\Program Files\    -- aplicaciones instaladas (64 bits)
+C:\Program Files (x86)\ -- aplicaciones 32 bits</div>
+          <div class="sec-badge">⚠ DLL hijacking — colocar una DLL maliciosa con el mismo nombre que una legítima</div>
+          <div class="sec-badge">⚠ Masquerading — proceso malicioso con nombre parecido a uno legítimo</div>
+        </div>
+      </div>
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">🔧</div>
+          <div class="concept-title">Herramientas esenciales</div>
+          <div class="concept-badge">PowerShell · regedit · eventvwr</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li><strong>PowerShell</strong> — terminal potente para scripting, admin y pentesting. <code>Win+X → PowerShell</code></li>
+            <li><strong>CMD</strong> — terminal legacy, compatible con .bat. <code>cmd</code> en búsqueda</li>
+            <li><strong>regedit</strong> — editor del Registro de Windows</li>
+            <li><strong>eventvwr</strong> — Visor de eventos — logs del sistema, fundamental en forense</li>
+            <li><strong>services.msc</strong> — gestión de servicios del sistema</li>
+            <li><strong>msconfig</strong> — configuración de arranque, programas de inicio</li>
+            <li><strong>taskmgr</strong> — Administrador de Tareas</li>
+            <li><strong>lusrmgr.msc</strong> — gestión de usuarios y grupos locales</li>
+          </ul>
+          <p><strong>Sysinternals Suite</strong> (Microsoft) — conjunto de herramientas avanzadas para análisis y administración: Process Explorer, Autoruns, TCPView, PsExec...</p>
+        </div>
+      </div>
+    </div>
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Qué tipo de cuenta tiene control total sobre Windows?", opts: ["Invitado","Estándar","Administrador","Supervisor"], correct: 2, exp: "La cuenta de Administrador tiene control total — instalar software, cambiar configuración del sistema y gestionar otros usuarios. Es el objetivo principal de la escalada de privilegios." },
+  { q: "¿Qué es el UAC en Windows?", opts: ["Un tipo de antivirus","Un mecanismo que solicita confirmación antes de acciones privilegiadas","Un servicio de red","Un tipo de cuenta de usuario"], correct: 1, exp: "El UAC (Control de Cuentas de Usuario) pide confirmación antes de realizar cambios importantes en el sistema, incluso para administradores. Muchos ataques intentan bypassearlo." },
+  { q: "¿Para qué sirve el Registro de Windows?", opts: ["Almacenar archivos del usuario","Base de datos jerárquica que almacena configuración del sistema, apps y usuarios","Registrar logs de red","Gestionar procesos en ejecución"], correct: 1, exp: "El Registro almacena toda la configuración de Windows — del sistema, aplicaciones y usuarios. Es también un lugar frecuente de persistencia de malware." },
+  { q: "¿En qué clave del registro suele persistir el malware?", opts: ["HKEY_CLASSES_ROOT","HKEY_USERS","HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run","HKEY_CURRENT_USER\\Desktop"], correct: 2, exp: "La clave Run en HKLM y HKCU ejecuta automáticamente programas al iniciar sesión. Es el mecanismo de persistencia más común para malware — cualquier valor añadido aquí se ejecuta al arrancar." },
+  { q: "¿Qué atajo de teclado abre el Administrador de Tareas?", opts: ["Ctrl+Alt+Del","Win+R","Ctrl+Shift+Esc","Alt+F4"], correct: 2, exp: "Ctrl+Shift+Esc abre el Administrador de Tareas directamente. También puedes acceder con Ctrl+Alt+Del y seleccionarlo, o buscando 'taskmgr'." },
+  { q: "¿Por qué es sospechoso un proceso svchost.exe en C:\\Users\\?", opts: ["No es sospechoso, es normal","Porque svchost.exe debe ejecutarse desde C:\\Windows\\System32\\","Porque usa demasiada CPU","Porque tiene un nombre largo"], correct: 1, exp: "svchost.exe es un proceso legítimo de Windows que SIEMPRE debe ejecutarse desde C:\\Windows\\System32\\. Si aparece en otra ruta como C:\\Users\\, es una señal clara de malware usando masquerading." },
+  { q: "¿Qué Event ID indica un inicio de sesión exitoso en Windows?", opts: ["4688","4697","4624","7045"], correct: 2, exp: "El Event ID 4624 registra cada inicio de sesión exitoso. Es fundamental en análisis forense para rastrear accesos. Otros importantes: 4688 (nuevo proceso), 4697 (servicio instalado), 7045 (nuevo servicio)." },
+  { q: "¿Qué es DLL hijacking?", opts: ["Un tipo de ataque de red","Colocar una DLL maliciosa con el mismo nombre que una legítima para que sea cargada en su lugar","Robar contraseñas del sistema","Modificar el registro de arranque"], correct: 1, exp: "DLL hijacking aprovecha el orden en que Windows busca DLLs. Si un atacante coloca una DLL maliciosa en una ruta con mayor prioridad que la legítima, Windows la carga automáticamente al ejecutar la aplicación." },
+  { q: "¿Qué exploit usó WannaCry en 2017?", opts: ["Heartbleed","EternalBlue — vulnerabilidad en SMBv1","Log4Shell","Shellshock"], correct: 1, exp: "WannaCry usó EternalBlue, un exploit de la NSA filtrado que aprovechaba una vulnerabilidad en SMBv1. Microsoft publicó el parche MS17-010 60 días antes, pero millones de sistemas sin actualizar fueron infectados." },
+  { q: "¿Para qué sirve la herramienta Autoruns de Sysinternals?", opts: ["Gestionar la memoria RAM","Ver todo lo que se ejecuta automáticamente al iniciar Windows","Analizar el tráfico de red","Editar el registro de Windows"], correct: 1, exp: "Autoruns muestra absolutamente todo lo que se ejecuta al iniciar Windows — registro, servicios, drivers, extensiones del navegador, etc. Es la herramienta más usada para detectar persistencia de malware." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Dominas los fundamentos de Windows.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

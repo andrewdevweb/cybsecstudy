@@ -1,0 +1,296 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Introducción a Linux y la CLI — CybSecStudy" description="Qué es Linux, filosofía Unix, CLI vs GUI y por qué la terminal sigue siendo clave en ciberseguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .terminal { background: #0d0d14; border: 1px solid #1e1e2e; border-radius: 6px; overflow: hidden; margin: 12px 0; }
+    .terminal-bar { background: #1e1e2e; padding: 8px 14px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; }
+    .prompt { color: #00ff9f; }
+    .cmd { color: #e8eaf0; }
+    .out { color: #b0b0c8; }
+    .out-blue { color: #4d96ff; }
+    .out-yellow { color: #ffd93d; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 1 de 6</div>
+      <h1>Introducción a <span class="accent">Linux</span> y la CLI</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Por qué la terminal sigue siendo la herramienta más potente en tecnología — y por qué en 2026 es más relevante que nunca.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>El 90% de los servidores del mundo corren Linux sin interfaz gráfica. Gmail, YouTube, Netflix, AWS — todo funciona sobre Linux. Si quieres trabajar en ciberseguridad, DevOps o desarrollo de sistemas, <strong>la terminal no es opcional</strong>.</p>
+      <p>Esta es la primera guía de una serie progresiva sobre Linux CLI. Empezamos desde cero, sin asumir ningún conocimiento previo.</p>
+    </div>
+
+    <!-- TERMINAL DEMO -->
+    <div class="section-label">// Así se ve la terminal</div>
+    <div class="terminal" style="margin-bottom:32px">
+      <div class="terminal-bar">
+        <div class="dot" style="background:#ff6b6b"></div>
+        <div class="dot" style="background:#ffd93d"></div>
+        <div class="dot" style="background:#6bcb77"></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b6b8a;margin-left:8px">bash — ubuntu@tryhackme</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">ubuntu@tryhackme:~$</span><span class="cmd"> pwd</span></div>
+        <div class="out">/home/ubuntu</div>
+        <div style="margin-top:8px"><span class="prompt">ubuntu@tryhackme:~$</span><span class="cmd"> whoami</span></div>
+        <div class="out">ubuntu</div>
+        <div style="margin-top:8px"><span class="prompt">ubuntu@tryhackme:~$</span><span class="cmd"> ls -l /var/log | grep "error" | wc -l</span></div>
+        <div class="out-yellow">3 archivos de log con "error" — en una sola línea</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Conceptos clave — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">LNX</div>
+          <div class="concept-title">¿Qué es Linux?</div>
+          <div class="concept-badge">kernel · distros · historia</div>
+        </div>
+        <div class="concept-body">
+          <p>Linux no es un sistema operativo completo — es un <strong>kernel</strong>: el núcleo que gestiona el hardware. Lo que llamamos "Linux" es en realidad <strong>GNU/Linux</strong> — el kernel Linux + herramientas del proyecto GNU.</p>
+          <p>En <strong>1991</strong>, Linus Torvalds, estudiante finlandés de 21 años, anunció que estaba desarrollando un kernel libre como hobby. Hoy ese kernel alimenta el 90% de los servidores del mundo.</p>
+          <p>Una <strong>distribución</strong> empaqueta el kernel con diferentes herramientas e interfaces:</p>
+          <ul>
+            <li><strong>Ubuntu</strong> — la más popular, ideal para principiantes</li>
+            <li><strong>Kali Linux</strong> — diseñada para ciberseguridad y pentesting</li>
+            <li><strong>Debian</strong> — estabilidad máxima, base de Ubuntu</li>
+            <li><strong>Alpine</strong> — ultra ligera, ideal para contenedores Docker</li>
+            <li><strong>Arch</strong> — máximo control para usuarios avanzados</li>
+          </ul>
+          <div class="info-badge">💡 Todas las distros comparten el mismo kernel Linux — lo que cambia es el entorno</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">PHI</div>
+          <div class="concept-title">Filosofía Unix — El diseño que cambió la informática</div>
+          <div class="concept-badge">3 principios fundamentales</div>
+        </div>
+        <div class="concept-body">
+          <p>Linux hereda la filosofía de Unix (1969, Bell Labs). Tres principios que siguen siendo revolucionarios:</p>
+          <p><strong>1. Haz una cosa y hazla bien.</strong> Cada programa tiene un propósito específico. <code>ls</code> lista archivos. <code>grep</code> busca texto. <code>wc</code> cuenta líneas. Ninguno intenta hacer todo.</p>
+          <p><strong>2. Combina programas para crear soluciones complejas.</strong> La potencia real viene de conectar programas simples mediante pipes (<code>|</code>).</p>
+          <div class="code-block">ls -l /var/log | grep "error" | wc -l
+# lista → filtra → cuenta → resultado en una línea</div>
+          <p style="margin-top:10px"><strong>3. Todo es un archivo.</strong> Discos, impresoras, conexiones de red, procesos del sistema — todo se representa como un archivo. Esta abstracción hace el sistema extraordinariamente consistente.</p>
+          <div class="info-badge">💡 Esta filosofía es la razón por la que Linux domina en servidores, cloud y ciberseguridad</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">CLI</div>
+          <div class="concept-title">CLI vs GUI — ¿Por qué usar texto en 2026?</div>
+          <div class="concept-badge">velocidad · automatización · control</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>GUI</strong> (Interfaz Gráfica): ventanas, botones, menús. Intuitiva. Es como un cajero automático — fácil de usar sin saber nada del banco por dentro.</p>
+          <p><strong>CLI</strong> (Línea de Comandos): texto puro, control total. Es como hablar directamente con el director del banco — más complejo al principio, pero acceso a todo.</p>
+          <p>La CLI sigue siendo irreemplazable por 4 razones:</p>
+          <ul>
+            <li><strong>Los servidores no tienen pantalla.</strong> Un servidor en AWS se administra exclusivamente por SSH desde terminal</li>
+            <li><strong>Automatización.</strong> Renombrar 10.000 archivos: en GUI son horas, en CLI es un comando</li>
+            <li><strong>Herramientas de seguridad.</strong> nmap, metasploit, hashcat, john — todas desde terminal</li>
+            <li><strong>Control total.</strong> La GUI te muestra lo que alguien decidió mostrarte. La CLI da acceso a todo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">PRM</div>
+          <div class="concept-title">Anatomía del prompt</div>
+          <div class="concept-badge">usuario · host · ruta · privilegios</div>
+        </div>
+        <div class="concept-body">
+          <p>El prompt no es aleatorio — cada parte tiene un significado preciso:</p>
+          <div class="code-block">ubuntu @ tryhackme : ~ $
+  │          │       │  │
+  │          │       │  └─ $ = usuario normal  # = root
+  │          │       └──── ~ = directorio home (/home/ubuntu)
+  │          └──────────── hostname (nombre del ordenador)
+  └─────────────────────── usuario actual</div>
+          <p style="margin-top:10px">El símbolo al final es clave: <code>$</code> significa usuario normal, <code>#</code> significa <strong>root</strong> — el superusuario con acceso total al sistema.</p>
+          <div class="sec-badge">⚠ Como root, un comando mal ejecutado puede destruir el sistema — úsalo con precaución</div>
+          <div class="info-badge">💡 En CTFs y pentesting, conseguir un prompt con # es el objetivo — "rooteaste la máquina"</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">SEC</div>
+          <div class="concept-title">Linux en ciberseguridad</div>
+          <div class="concept-badge">pentesting · forense · blue team</div>
+        </div>
+        <div class="concept-body">
+          <p>La CLI no es solo una herramienta de trabajo — es el campo de batalla en ciberseguridad:</p>
+          <ul>
+            <li><strong>Pentesting</strong> — Kali Linux + nmap, metasploit, burpsuite, hydra</li>
+            <li><strong>Análisis forense</strong> — examinar logs, procesos y archivos del sistema comprometido</li>
+            <li><strong>Blue Team</strong> — monitorizar en tiempo real, analizar tráfico, revisar logs</li>
+            <li><strong>CTFs</strong> — la mayoría de retos de Capture The Flag requieren CLI de Linux</li>
+            <li><strong>Acceso remoto post-explotación</strong> — un atacante con acceso remoto solo tiene terminal</li>
+          </ul>
+          <div class="info-badge">💡 TryHackMe, HackTheBox — todas las plataformas de práctica usan Linux</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- NEXT POST CARD -->
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE EN LA SERIE</p>
+      <p><strong>Post 2: Terminal, consola y shell</strong> — qué son exactamente y en qué se diferencian. El rol de bash como intérprete entre humano y máquina.</p>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Qué es exactamente el kernel Linux?", opts: ["Un sistema operativo completo","El núcleo que gestiona hardware y recursos del sistema","Un navegador de archivos","Una distribución de Linux"], correct: 1, exp: "Linux es un kernel — el núcleo del sistema operativo que gestiona el hardware. Lo que usamos es GNU/Linux: el kernel Linux combinado con herramientas del proyecto GNU." },
+  { q: "¿Quién creó el kernel Linux y en qué año?", opts: ["Richard Stallman en 1983","Dennis Ritchie en 1969","Linus Torvalds en 1991","Steve Jobs en 1984"], correct: 2, exp: "Linus Torvalds, estudiante finlandés de 21 años, anunció el kernel Linux en 1991. Lo que empezó como un hobby se convirtió en el sistema que alimenta el 90% de los servidores del mundo." },
+  { q: "¿Cuál es el primer principio de la filosofía Unix?", opts: ["Todo debe tener GUI","Haz una cosa y hazla bien","Los programas deben ser grandes y completos","La seguridad primero"], correct: 1, exp: "La filosofía Unix propone programas simples con un propósito específico. ls lista archivos, grep filtra texto, wc cuenta. La potencia viene de combinarlos, no de que cada uno lo haga todo." },
+  { q: "¿Qué significa el símbolo # al final del prompt?", opts: ["El sistema está en modo depuración","Estás en el directorio raíz","Estás operando como root — superusuario con acceso total","El terminal tiene un error"], correct: 2, exp: "El # indica que operas como root — el superusuario con acceso sin restricciones al sistema. En CTFs y pentesting, conseguir un prompt con # significa que 'rooteaste' la máquina." },
+  { q: "¿Por qué la CLI sigue siendo irreemplazable en servidores?", opts: ["Porque es más bonita","Porque los servidores no tienen pantalla y se administran solo por SSH","Porque es más fácil de aprender","Porque los fabricantes no hacen GUI para servidores"], correct: 1, exp: "Un servidor en un centro de datos no tiene monitor ni ratón. Se administra exclusivamente por terminal a través de SSH. No hay alternativa GUI en la mayoría de entornos de producción." },
+  { q: "¿Qué distribución de Linux está diseñada específicamente para ciberseguridad?", opts: ["Ubuntu","Debian","Kali Linux","Alpine"], correct: 2, exp: "Kali Linux está diseñada para pentesting y ciberseguridad. Incluye cientos de herramientas preinstaladas: nmap, metasploit, burpsuite, hashcat, wireshark..." },
+  { q: "¿Qué significa el símbolo ~ en el prompt ubuntu@tryhackme:~$?", opts: ["El directorio raíz /","El directorio vacío","El directorio home del usuario actual (/home/usuario)","Un directorio temporal"], correct: 2, exp: "El ~ es un shortcut para el directorio home del usuario actual. Para el usuario ubuntu, ~ equivale a /home/ubuntu. Es una convención universal en sistemas Unix/Linux." },
+  { q: "¿Qué hace el pipe | en la línea: ls | grep error | wc -l?", opts: ["Separa comandos para ejecutarlos en paralelo","Pasa la salida de un comando como entrada del siguiente","Crea un archivo nuevo","Muestra errores del sistema"], correct: 1, exp: "El pipe | conecta comandos en cadena: la salida de ls se convierte en entrada de grep, que filtra las líneas con 'error', y wc -l cuenta cuántas hay. Es la esencia de la filosofía Unix." },
+  { q: "¿Qué proyecto proporcionó las herramientas para completar GNU/Linux?", opts: ["Microsoft","El proyecto GNU de Richard Stallman","Apple","IBM"], correct: 1, exp: "El proyecto GNU (1983), creado por Richard Stallman, desarrolló las herramientas esenciales (compilador GCC, bash, utilidades básicas) que se combinaron con el kernel Linux para crear un sistema completo." },
+  { q: "¿Por qué Linux domina en servidores y cloud?", opts: ["Porque Microsoft lo exige","Por su estabilidad, seguridad, naturaleza open source y coste (gratuito)","Porque tiene mejor interfaz gráfica","Porque es más fácil de usar que Windows"], correct: 1, exp: "Linux domina servidores por su estabilidad (años sin reinicios), seguridad, modelo open source (auditado por miles de expertos), coste cero y enorme comunidad. AWS, Google Cloud y Azure corren mayoritariamente sobre Linux." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Tienes una base sólida de Linux.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
