@@ -1,0 +1,316 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Sistema de Archivos de Linux — CybSecStudy" description="Jerarquía FHS, directorios clave, rutas absolutas y relativas, inodes y relevancia en ciberseguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 3 de 6</div>
+      <h1>Sistema de <span class="accent">Archivos</span> de Linux</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Todo parte de un único punto: /. Una sola raíz, una jerarquía clara, y todo cuelga de ella.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>En Windows tienes <strong>C:\</strong>, <strong>D:\</strong>, letras de unidad. En Linux hay <strong>una sola raíz: /</strong>. Todo el sistema — discos, USB, dispositivos, procesos — cuelga de ese único punto.</p>
+      <p>Una vez que entiendes esta jerarquía, navegar por cualquier sistema Linux se vuelve predecible e intuitivo.</p>
+    </div>
+
+    <div class="section-label">// Rutas absolutas vs relativas</div>
+    <img src="/linux-fs-paths.svg" alt="Rutas absolutas vs relativas" style="width:100%;margin-bottom:32px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Directorios clave — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">/</div>
+          <div class="concept-title">La raíz — El origen de todo</div>
+          <div class="concept-badge">FHS · un solo árbol</div>
+        </div>
+        <div class="concept-body">
+          <p>El directorio <strong>/</strong> (raíz) es el punto de partida de todo el sistema de archivos. A diferencia de Windows con múltiples unidades, Linux tiene <strong>un único árbol jerárquico</strong>. Los discos adicionales y USB se "montan" como subdirectorios dentro de ese árbol.</p>
+          <p>El estándar que define esta estructura se llama <strong>FHS</strong> (Filesystem Hierarchy Standard) y lo siguen la mayoría de distribuciones Linux.</p>
+          <div class="code-block">ls /          # ver el contenido de la raíz
+mount         # ver todos los sistemas de archivos montados
+df -h         # uso de disco por punto de montaje</div>
+          <div class="info-badge">💡 En Windows C:\ es la raíz de la unidad C. En Linux / es la raíz de TODO el sistema</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">/etc</div>
+          <div class="concept-title">/etc — Configuración del sistema</div>
+          <div class="concept-badge">passwd · shadow · hosts · ssh</div>
+        </div>
+        <div class="concept-body">
+          <p>El directorio más importante para la configuración. Contiene los archivos de configuración de todos los servicios y el sistema. Modificar archivos aquí cambia el comportamiento del sistema.</p>
+          <div class="code-block">/etc/passwd         # lista de usuarios (sin contraseñas)
+/etc/shadow         # hashes de contraseñas (solo root)
+/etc/hosts          # resolución de nombres local
+/etc/hostname       # nombre del ordenador
+/etc/fstab          # sistemas a montar al arranque
+/etc/ssh/sshd_config # configuración del servidor SSH
+/etc/crontab        # tareas programadas del sistema</div>
+          <div class="sec-badge">⚠ /etc/shadow contiene hashes de contraseñas — objetivo de ataques</div>
+          <div class="sec-badge">⚠ /etc/crontab puede usarse para persistencia de malware</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">/home</div>
+          <div class="concept-title">/home — Directorios personales</div>
+          <div class="concept-badge">usuario · .ssh · .bashrc</div>
+        </div>
+        <div class="concept-body">
+          <p>Cada usuario tiene su propio directorio en <code>/home/nombre_usuario</code>. Aquí viven sus archivos, configuración personal y datos privados.</p>
+          <div class="code-block">/home/ubuntu/          # home del usuario ubuntu
+/home/ubuntu/.ssh/     # claves SSH del usuario
+/home/ubuntu/.bashrc   # configuración de bash
+/home/ubuntu/.bash_history  # historial de comandos</div>
+          <p style="margin-top:10px">El usuario <strong>root</strong> es especial — su home es <code>/root</code>, no <code>/home/root</code>. Esto lo protege del resto de usuarios.</p>
+          <div class="sec-badge">⚠ /home/usuario/.ssh/id_rsa contiene la clave privada SSH — acceso persistente si se roba</div>
+          <div class="sec-badge">⚠ .bash_history puede revelar comandos ejecutados por el usuario</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">/var</div>
+          <div class="concept-title">/var — Datos variables y logs</div>
+          <div class="concept-badge">auth.log · syslog · www</div>
+        </div>
+        <div class="concept-body">
+          <p>Contiene datos que cambian durante la operación del sistema. Los <strong>logs</strong> son especialmente críticos para Blue Team y análisis forense.</p>
+          <div class="code-block">/var/log/syslog      # log general del sistema
+/var/log/auth.log    # intentos de autenticación y SSH
+/var/log/apache2/    # logs del servidor web Apache
+/var/log/nginx/      # logs de Nginx
+/var/www/html/       # raíz del servidor web por defecto
+/var/mail/           # correo del sistema</div>
+          <div class="info-badge">💡 /var/log/auth.log — primer lugar donde buscar intentos de acceso SSH no autorizados</div>
+          <div class="sec-badge">⚠ Atacantes frecuentemente borran o modifican logs para cubrir huellas</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">/proc</div>
+          <div class="concept-title">/proc y /dev — El hardware como archivos</div>
+          <div class="concept-badge">virtual · procesos · dispositivos</div>
+        </div>
+        <div class="concept-body">
+          <p><code>/proc</code> no existe en disco — es generado por el kernel en tiempo real. Contiene información sobre procesos y estado del sistema.</p>
+          <div class="code-block">cat /proc/cpuinfo     # info del procesador
+cat /proc/meminfo     # uso de memoria
+cat /proc/version     # versión del kernel
+ls /proc/1234/        # info del proceso con PID 1234</div>
+          <p style="margin-top:10px"><code>/dev</code> trata los dispositivos como archivos — la filosofía "todo es un archivo":</p>
+          <div class="code-block">/dev/sda              # primer disco
+/dev/null             # agujero negro
+/dev/zero             # genera ceros infinitos
+/dev/random           # números aleatorios
+
+# Redirigir errores a la papelera
+comando 2>/dev/null</div>
+          <div class="info-badge">💡 /proc/PID/cmdline muestra exactamente qué comando lanzó un proceso — útil en forense</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">TMP</div>
+          <div class="concept-title">/tmp — Archivos temporales</div>
+          <div class="concept-badge">escritura libre · se borra al reiniciar</div>
+        </div>
+        <div class="concept-body">
+          <p><code>/tmp</code> se borra completamente al reiniciar. <strong>Cualquier usuario puede escribir aquí</strong> — sin restricciones de permisos.</p>
+          <div class="code-block">ls -la /tmp
+# drwxrwxrwt  ← todos pueden escribir (sticky bit t)
+
+# /dev/shm — memoria compartida en RAM, también libre
+ls /dev/shm</div>
+          <div class="sec-badge">⚠ Atacantes depositan scripts y ejecutables maliciosos en /tmp y /dev/shm</div>
+          <div class="sec-badge">⚠ Buscar ejecutables en /tmp es señal de actividad maliciosa</div>
+          <div class="info-badge">💡 En incident response, siempre revisar /tmp y /dev/shm en busca de artefactos</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">IND</div>
+          <div class="concept-title">Inode — Los metadatos de cada archivo</div>
+          <div class="concept-badge">permisos · fechas · hard links</div>
+        </div>
+        <div class="concept-body">
+          <p>Cada archivo tiene dos partes: el <strong>nombre</strong> (en el directorio) y el <strong>inode</strong> (los metadatos reales). El inode almacena permisos, propietario, tamaño, fechas y punteros a los datos en disco — pero <strong>no el nombre</strong>.</p>
+          <div class="code-block">ls -i archivo.txt     # ver número de inode
+# 262146 archivo.txt
+
+stat archivo.txt      # todos los metadatos
+# Inode: 262146  Permisos: 644  Tamaño: 1234
+# Acceso: 2026-03-21  Modificación: 2026-03-20
+
+# Hard link — dos nombres, mismo inode
+ln archivo.txt copia.txt
+ls -i
+# 262146 archivo.txt
+# 262146 copia.txt   ← mismo contenido
+
+# Soft link (symlink) — apunta a una ruta
+ln -s /etc/nginx/nginx.conf nginx.conf</div>
+          <div class="sec-badge">⚠ Análisis forense de inodes puede revelar archivos borrados y fechas de acceso manipuladas</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE EN LA SERIE</p>
+      <p><strong>Post 4: Navegación básica</strong> — ls, cd, pwd en profundidad. Opciones, flags y cómo moverse eficientemente por el sistema de archivos.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuál es la diferencia fundamental entre el sistema de archivos de Linux y Windows?", opts: ["Linux usa letras de unidad como C: y D:","Linux tiene una única raíz / de la que cuelga todo el sistema","Windows tiene mejor organización","Son idénticos en estructura"], correct: 1, exp: "Linux tiene un único árbol jerárquico que parte de /. Los discos, USB y particiones se montan como subdirectorios. Windows usa letras de unidad (C:, D:) creando árboles separados." },
+  { q: "¿Qué directorio contiene los archivos de configuración del sistema en Linux?", opts: ["/var","/home","/etc","/usr"], correct: 2, exp: "/etc contiene todos los archivos de configuración del sistema y servicios. Desde /etc/passwd (usuarios) hasta /etc/ssh/sshd_config (configuración SSH). Es el directorio más importante para un administrador." },
+  { q: "¿Por qué /tmp es un vector de ataque frecuente?", opts: ["Porque es el directorio más grande","Porque cualquier usuario puede escribir ahí y se borra al reiniciar","Porque contiene logs del sistema","Porque es el directorio home de root"], correct: 1, exp: "/tmp tiene permisos de escritura para todos los usuarios (drwxrwxrwt). Atacantes lo usan para depositar payloads, scripts maliciosos y ejecutables temporales que no requieren privilegios para crear." },
+  { q: "¿Qué contiene /etc/shadow?", opts: ["Archivos de configuración de red","Los hashes de contraseñas de los usuarios del sistema","Los logs de autenticación","Las claves SSH públicas"], correct: 1, exp: "/etc/shadow almacena los hashes de las contraseñas de todos los usuarios. Solo es legible por root. Es un objetivo frecuente en post-explotación para hacer password cracking offline." },
+  { q: "¿Cuál es la diferencia entre una ruta absoluta y una relativa?", opts: ["Las absolutas son más cortas","Las absolutas empiezan desde / y son independientes del directorio actual; las relativas parten del directorio donde estás","Las relativas son más precisas","No hay diferencia práctica"], correct: 1, exp: "Las rutas absolutas (empiezan con /) son independientes — funcionan desde cualquier parte del sistema. Las relativas parten del directorio actual y cambian de significado según dónde estés." },
+  { q: "¿Qué es un inode?", opts: ["El nombre del archivo en el directorio","Una estructura de datos que almacena los metadatos del archivo (permisos, fechas, propietario) pero no el nombre","El contenido del archivo en disco","Un tipo de enlace simbólico"], correct: 1, exp: "Un inode almacena todos los metadatos de un archivo: permisos, propietario, tamaño, fechas y punteros a los bloques de datos. El nombre del archivo vive en el directorio y apunta al número de inode." },
+  { q: "¿Qué directorio deberías revisar primero al analizar intentos de acceso SSH no autorizados?", opts: ["/tmp","/etc/shadow","/var/log/auth.log","/proc/net"], correct: 2, exp: "/var/log/auth.log registra todos los intentos de autenticación, incluyendo SSH. Muestra IPs que intentaron conectarse, usuarios probados, éxitos y fallos. Es el primer destino en Blue Team." },
+  { q: "¿Qué diferencia hay entre un hard link y un symlink?", opts: ["Son lo mismo","Un hard link apunta al mismo inode (mismo contenido); un symlink apunta a una ruta (si se borra el original, el symlink se rompe)","Los hard links solo funcionan en /home","Los symlinks son más rápidos"], correct: 1, exp: "Un hard link crea otro nombre que apunta al mismo inode — el archivo no se borra hasta que no quedan enlaces. Un symlink apunta a una ruta; si se borra el archivo original, el symlink queda roto (enlace simbólico roto)." },
+  { q: "¿Por qué /proc no ocupa espacio en disco?", opts: ["Porque está comprimido","Porque es generado por el kernel en tiempo real en RAM — es un sistema de archivos virtual","Porque solo contiene enlaces simbólicos","Porque está vacío por defecto"], correct: 1, exp: "/proc es un sistema de archivos virtual que el kernel genera en tiempo real en memoria RAM. No existe en disco. Proporciona una interfaz para consultar el estado del sistema y los procesos en ejecución." },
+  { q: "¿Dónde vive el directorio home del usuario root?", opts: ["/home/root","/root","/etc/root","/usr/root"], correct: 1, exp: "El usuario root tiene su home en /root, no en /home/root. Esta separación es intencional — protege los archivos de root del directorio /home que es accesible por usuarios normales." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Dominas el sistema de archivos de Linux.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Sigue estudiando — revisa las secciones de arriba.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

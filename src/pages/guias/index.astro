@@ -2,82 +2,137 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-
-const REDES = '#4d96ff';
-const WEB   = '#ff6b9d';
-const FUND  = '#6bcb77';
-
-const guides = [
-  { num:'01', href:'/guias/modelo-osi',       title:'Modelo OSI',                    desc:'Las 7 capas explicadas con protocolos y quiz interactivo.',                    cat:'Redes',        color: REDES },
-  { num:'02', href:'/guias/packets-frames',   title:'Packets & Frames',              desc:'TCP, UDP, Three-Way Handshake y puertos principales.',                         cat:'Redes',        color: REDES },
-  { num:'03', href:'/guias/ampliando-tu-red', title:'Ampliando tu Red',              desc:'Port Forwarding, Firewalls, VPNs, Routers y Switches.',                        cat:'Redes',        color: REDES },
-  { num:'04', href:'/guias/dns',              title:'DNS',                           desc:'Sistema de Nombres de Dominio — jerarquía, registros y resolución.',            cat:'Redes',        color: REDES },
-  { num:'05', href:'/guias/http',             title:'HTTP en Detalle',               desc:'Solicitudes, respuestas, métodos, códigos de estado, cabeceras y cookies.',     cat:'Web',          color: WEB   },
-  { num:'06', href:'/guias/web',              title:'Cómo Funcionan los Sitios Web', desc:'HTML, CSS, JavaScript, exposición de datos y HTML Injection.',                  cat:'Web',          color: WEB   },
-  { num:'07', href:'/guias/infra',            title:'La Web por Dentro',             desc:'Balanceadores, CDN, WAF, bases de datos, servidores y contenido dinámico.',     cat:'Web',          color: WEB   },
-  { num:'08', href:'/guias/clientserver',     title:'Modelo Cliente-Servidor',       desc:'Cliente, servidor, DNS, puertos, protocolos y HTTP.',                           cat:'Web',          color: WEB   },
-  { num:'09', href:'/guias/computer',         title:'Sistema Informático',           desc:'CPU, RAM, almacenamiento, placa base, GPU y secuencia de arranque.',            cat:'Fundamentos',  color: FUND  },
-  { num:'10', href:'/guias/comptypes',        title:'Tipos de Computadoras',         desc:'Portátiles, servidores, IoT, sistemas embebidos y smartphones.',                cat:'Fundamentos',  color: FUND  },
-  { num:'11', href:'/guias/os-intro',         title:'Sistemas Operativos',           desc:'Kernel, User Space, GUI vs CLI y familias de SO reales.',                       cat:'Fundamentos',  color: FUND  },
-  { num:'12', href:'/guias/virt',             title:'Virtualización',                desc:'Hipervisores Tipo 1 y 2, máquinas virtuales y contenedores Docker.',            cat:'Fundamentos',  color: FUND  },
-  { num:'13', href:'/guias/cloud',            title:'Cloud Computing',               desc:'IaaS, PaaS, SaaS, proveedores y seguridad en la nube.',                        cat:'Fundamentos',  color: FUND  },
-  { num:'14', href:'/guias/windows-basics',   title:'Windows Básico',                desc:'Autenticación, registro, administrador de tareas y seguridad nativa.',          cat:'Fundamentos',  color: FUND  },
-  { num:'15', href:'/guias/linux-cli-intro',  title:'Linux — Intro a la CLI',        desc:'Qué es Linux, filosofía Unix, CLI vs GUI y el poder de la terminal.',           cat:'Fundamentos',  color: FUND  },
-  { num:'16', href:'/guias/linux-shell',      title:'Terminal, Consola y Shell',     desc:'Diferencias entre terminal, consola y shell. Bash, zsh, $PATH y .bashrc.',      cat:'Fundamentos',  color: FUND  },
-];
-
-const sections = [
-  { cat: 'Redes',       color: REDES, desc: 'Protocolos, capas OSI, TCP/IP, DNS, firewalls y VPNs.' },
-  { cat: 'Web',         color: WEB,   desc: 'HTTP, HTML, JavaScript, infraestructura y cliente-servidor.' },
-  { cat: 'Fundamentos', color: FUND,  desc: 'Hardware, sistemas, virtualización y cloud computing.' },
-];
 ---
 
 <!doctype html>
 <html lang="es">
 <head>
-  <BaseHead title="Guías Interactivas — CybSecStudy" description="Guías visuales e interactivas de ciberseguridad y redes." />
+  <BaseHead title="Guías Interactivas — CybSecStudy" description="Guías visuales e interactivas de ciberseguridad, organizadas por temática y nivel." />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     .page-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 48px; }
     .page-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
     h1 { font-size: clamp(32px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 12px !important; }
     .page-desc { color: #6b6b8a; font-size: 15px; max-width: 520px; }
-    .cat-section { margin-bottom: 48px; }
-    .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
-    .section-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
-    .section-line { flex: 1; height: 1px; opacity: 0.2; }
-    .section-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 10px; border: 1px solid; }
-    .section-desc { font-size: 13px; color: #6b6b8a; margin-bottom: 16px; }
-    .guide-row {
-      display: flex;
-      align-items: stretch;
-      text-decoration: none;
-      margin-bottom: 8px;
-      border: 1px solid #1e1e2e;
+
+    /* ── CATEGORY GRID ── */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 64px; }
+
+    .cat-card {
       background: #12121a;
+      border: 1px solid #1e1e2e;
+      cursor: pointer;
       transition: all 0.2s;
       overflow: hidden;
+      position: relative;
     }
-    .guide-row:hover { border-color: var(--c); transform: translateX(4px); }
-    .guide-accent { width: 4px; flex-shrink: 0; }
+    .cat-card:hover { border-color: var(--cc); transform: translateY(-3px); }
+    .cat-card.active { border-color: var(--cc); }
+
+    .cat-card-top { padding: 28px 28px 20px; border-bottom: 1px solid #1e1e2e; }
+    .cat-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+    .cat-name { font-size: 22px; font-weight: 800; color: #e8eaf0; margin-bottom: 6px; }
+    .cat-sub { font-size: 12px; color: #6b6b8a; line-height: 1.5; }
+
+    .cat-card-bottom { padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .cat-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--cc); }
+    .cat-levels { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #3a3a5a; }
+    .cat-arrow { font-size: 14px; color: var(--cc); transition: transform 0.2s; }
+    .cat-card.active .cat-arrow { transform: rotate(90deg); }
+
+    .cat-bar { height: 3px; background: var(--cc); opacity: 0; transition: opacity 0.2s; }
+    .cat-card.active .cat-bar, .cat-card:hover .cat-bar { opacity: 1; }
+
+    /* ── PANEL ── */
+    .cat-panel { display: none; margin-bottom: 48px; }
+    .cat-panel.open { display: block; }
+
+    .panel-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1e1e2e; }
+    .panel-title { font-size: 18px; font-weight: 800; color: var(--pc); }
+    .panel-desc { font-size: 13px; color: #6b6b8a; flex: 1; }
+    .panel-close {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 6px 14px;
+      border: 1px solid #1e1e2e;
+      background: transparent;
+      color: #6b6b8a;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+    .panel-close:hover { border-color: var(--pc); color: var(--pc); }
+
+    /* ── LEVELS ── */
+    .level-block { margin-bottom: 24px; }
+    .level-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: #3a3a5a;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
+    .guides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+
+    .guide-card {
+      background: #0d0d18;
+      border: 1px solid #1e1e2e;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow: hidden;
+      transition: all 0.15s;
+    }
+    .guide-card:hover { border-color: var(--pc); background: #12121a; }
     .guide-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
+      font-size: 11px;
       font-weight: 700;
-      width: 64px;
-      flex-shrink: 0;
+      width: 44px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--pc);
+      flex-shrink: 0;
       border-right: 1px solid #1e1e2e;
+      opacity: 0.5;
+      transition: opacity 0.15s;
     }
-    .guide-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-    .guide-title { font-size: 16px; font-weight: 800; color: #e8eaf0; line-height: 1.2; }
-    .guide-desc-text { font-size: 12px; color: #6b6b8a; line-height: 1.5; }
-    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 2px 8px; border: 1px solid; display: inline-block; margin-top: 4px; align-self: flex-start; }
+    .guide-card:hover .guide-num { opacity: 1; }
+    .guide-info { padding: 12px 14px; min-width: 0; flex: 1; }
+    .guide-title { font-size: 13px; font-weight: 700; color: #e8eaf0; line-height: 1.3; margin-bottom: 3px; }
+    .guide-desc { font-size: 11px; color: #6b6b8a; line-height: 1.4; }
+    .guide-go { padding: 0 14px; color: #2a2a3a; font-size: 12px; flex-shrink: 0; transition: color 0.15s; }
+    .guide-card:hover .guide-go { color: var(--pc); }
+
+    /* ── SEARCH ── */
+    .search-wrap { position: relative; margin-bottom: 40px; }
+    .search-input {
+      width: 100%;
+      background: #12121a;
+      border: 1px solid #1e1e2e;
+      color: #e8eaf0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 12px 16px 12px 40px;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .search-input:focus { border-color: #00ff9f; }
+    .search-input::placeholder { color: #2a2a3a; }
+    .search-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #3a3a5a; font-family: 'JetBrains Mono', monospace; font-size: 11px; pointer-events: none; }
+    .search-panel { display: none; }
+    .search-panel.open { display: block; margin-bottom: 40px; }
+    .search-empty { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3a3a5a; padding: 16px 0; }
+
     @media (max-width: 600px) {
-      .guide-num { width: 44px; font-size: 14px; }
+      .cat-grid { grid-template-columns: 1fr; }
+      .guides-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -88,35 +143,382 @@ const sections = [
     <div class="page-header">
       <div class="page-tag">// Guías Interactivas</div>
       <h1>Guías</h1>
-      <p class="page-desc">Aprende con guías visuales e interactivas. Cada guía incluye explicaciones, diagramas y quiz.</p>
+      <p class="page-desc">Visuales, interactivas y con quiz. Elige una temática para ver las guías disponibles.</p>
     </div>
 
-    {sections.map(sec => {
-      const items = guides.filter(g => g.cat === sec.cat);
-      return (
-        <div class="cat-section">
-          <div class="section-header">
-            <div class="section-title" style={`color:${sec.color}`}>// {sec.cat}</div>
-            <div class="section-line" style={`background:${sec.color}`}></div>
-            <div class="section-count" style={`color:${sec.color};border-color:${sec.color}`}>{items.length} guías</div>
-          </div>
-          <p class="section-desc">{sec.desc}</p>
-          {items.map(g => (
-            <a href={g.href} class="guide-row" style={`--c:${g.color}`}>
-              <div class="guide-accent" style={`background:${g.color}`}></div>
-              <div class="guide-num" style={`color:${g.color}`}>{g.num}</div>
-              <div class="guide-body">
-                <div class="guide-title">{g.title}</div>
-                <div class="guide-desc-text">{g.desc}</div>
-                <div class="guide-tag" style={`color:${g.color};border-color:${g.color}`}>{g.cat}</div>
-              </div>
-            </a>
-          ))}
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-ico">//</span>
+      <input class="search-input" type="text" id="searchInput" placeholder="Buscar entre todas las guías..." autocomplete="off"/>
+    </div>
+    <div class="search-panel" id="searchPanel"></div>
+
+    <!-- CATEGORY CARDS -->
+    <div class="cat-grid" id="catGrid">
+
+      <div class="cat-card" style="--cc:#6bcb77" data-cat="fundamentos">
+        <div class="cat-bar"></div>
+        <div class="cat-card-top">
+          <span class="cat-icon">🖥</span>
+          <div class="cat-name">Fundamentos</div>
+          <div class="cat-sub">Hardware, sistemas operativos, virtualización, cloud y Linux CLI.</div>
         </div>
-      );
-    })}
+        <div class="cat-card-bottom">
+          <span class="cat-count">9 guías</span>
+          <span class="cat-levels">3 niveles</span>
+          <span class="cat-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="cat-card" style="--cc:#4d96ff" data-cat="redes">
+        <div class="cat-bar"></div>
+        <div class="cat-card-top">
+          <span class="cat-icon">🌐</span>
+          <div class="cat-name">Redes</div>
+          <div class="cat-sub">Modelo OSI, TCP/IP, DNS, firewalls, VPNs y protocolos de red.</div>
+        </div>
+        <div class="cat-card-bottom">
+          <span class="cat-count">4 guías</span>
+          <span class="cat-levels">2 niveles</span>
+          <span class="cat-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="cat-card" style="--cc:#ff6b9d" data-cat="web">
+        <div class="cat-bar"></div>
+        <div class="cat-card-top">
+          <span class="cat-icon">🕸</span>
+          <div class="cat-name">Web</div>
+          <div class="cat-sub">HTTP, HTML, JavaScript, infraestructura y cliente-servidor.</div>
+        </div>
+        <div class="cat-card-bottom">
+          <span class="cat-count">4 guías</span>
+          <span class="cat-levels">2 niveles</span>
+          <span class="cat-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PANELS (hidden by default) -->
+    <div class="cat-panel" id="panel-fundamentos" style="--pc:#6bcb77">
+      <div class="panel-header">
+        <div class="panel-title">Fundamentos</div>
+        <div class="panel-desc">La base de todo. Desde hardware hasta Linux CLI.</div>
+        <button class="panel-close" data-close="fundamentos">✕ Cerrar</button>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 1 — Hardware y Sistemas</div>
+        <div class="guides-grid">
+          <a href="/guias/computer" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">01</div>
+            <div class="guide-info">
+              <div class="guide-title">Sistema Informático</div>
+              <div class="guide-desc">CPU, RAM, almacenamiento, GPU y secuencia de arranque.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/comptypes" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">02</div>
+            <div class="guide-info">
+              <div class="guide-title">Tipos de Computadoras</div>
+              <div class="guide-desc">Portátiles, servidores, IoT, embebidos y smartphones.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/os-intro" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">03</div>
+            <div class="guide-info">
+              <div class="guide-title">Sistemas Operativos</div>
+              <div class="guide-desc">Kernel, User Space, GUI vs CLI y familias de SO.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/windows-basics" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">04</div>
+            <div class="guide-info">
+              <div class="guide-title">Windows Básico</div>
+              <div class="guide-desc">Autenticación, registro, Task Manager y seguridad nativa.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 2 — Virtualización y Cloud</div>
+        <div class="guides-grid">
+          <a href="/guias/virt" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">05</div>
+            <div class="guide-info">
+              <div class="guide-title">Virtualización</div>
+              <div class="guide-desc">Hipervisores Tipo 1 y 2, VMs y contenedores Docker.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/cloud" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">06</div>
+            <div class="guide-info">
+              <div class="guide-title">Cloud Computing</div>
+              <div class="guide-desc">IaaS, PaaS, SaaS, proveedores y seguridad en la nube.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 3 — Linux CLI</div>
+        <div class="guides-grid">
+          <a href="/guias/linux-cli-intro" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">07</div>
+            <div class="guide-info">
+              <div class="guide-title">Linux — Intro a la CLI</div>
+              <div class="guide-desc">Qué es Linux, filosofía Unix, CLI vs GUI.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/linux-shell" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">08</div>
+            <div class="guide-info">
+              <div class="guide-title">Terminal, Consola y Shell</div>
+              <div class="guide-desc">Bash, zsh, $PATH, .bashrc y tipos de shell.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/linux-fs" class="guide-card" style="--pc:#6bcb77">
+            <div class="guide-num">09</div>
+            <div class="guide-info">
+              <div class="guide-title">Sistema de Archivos Linux</div>
+              <div class="guide-desc">FHS, /etc, /home, /var, /proc, rutas e inodes.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="panel-redes" style="--pc:#4d96ff">
+      <div class="panel-header">
+        <div class="panel-title">Redes</div>
+        <div class="panel-desc">Protocolos, capas, DNS, firewalls y VPNs.</div>
+        <button class="panel-close" data-close="redes">✕ Cerrar</button>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 1 — Protocolos y Capas</div>
+        <div class="guides-grid">
+          <a href="/guias/modelo-osi" class="guide-card" style="--pc:#4d96ff">
+            <div class="guide-num">01</div>
+            <div class="guide-info">
+              <div class="guide-title">Modelo OSI</div>
+              <div class="guide-desc">Las 7 capas con protocolos y quiz interactivo.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/packets-frames" class="guide-card" style="--pc:#4d96ff">
+            <div class="guide-num">02</div>
+            <div class="guide-info">
+              <div class="guide-title">Packets & Frames</div>
+              <div class="guide-desc">TCP, UDP, Three-Way Handshake y puertos principales.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/dns" class="guide-card" style="--pc:#4d96ff">
+            <div class="guide-num">03</div>
+            <div class="guide-info">
+              <div class="guide-title">DNS</div>
+              <div class="guide-desc">Jerarquía de dominios, registros y resolución paso a paso.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 2 — Infraestructura de Red</div>
+        <div class="guides-grid">
+          <a href="/guias/ampliando-tu-red" class="guide-card" style="--pc:#4d96ff">
+            <div class="guide-num">04</div>
+            <div class="guide-info">
+              <div class="guide-title">Ampliando tu Red</div>
+              <div class="guide-desc">Port Forwarding, Firewalls, VPNs, Routers y Switches.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="panel-web" style="--pc:#ff6b9d">
+      <div class="panel-header">
+        <div class="panel-title">Web</div>
+        <div class="panel-desc">HTTP, HTML, JavaScript, infraestructura y cliente-servidor.</div>
+        <button class="panel-close" data-close="web">✕ Cerrar</button>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 1 — Fundamentos Web</div>
+        <div class="guides-grid">
+          <a href="/guias/clientserver" class="guide-card" style="--pc:#ff6b9d">
+            <div class="guide-num">01</div>
+            <div class="guide-info">
+              <div class="guide-title">Modelo Cliente-Servidor</div>
+              <div class="guide-desc">Cliente, servidor, DNS, puertos, protocolos y HTTP.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/http" class="guide-card" style="--pc:#ff6b9d">
+            <div class="guide-num">02</div>
+            <div class="guide-info">
+              <div class="guide-title">HTTP en Detalle</div>
+              <div class="guide-desc">Solicitudes, respuestas, métodos, códigos y cookies.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/web" class="guide-card" style="--pc:#ff6b9d">
+            <div class="guide-num">03</div>
+            <div class="guide-info">
+              <div class="guide-title">Cómo Funcionan los Sitios Web</div>
+              <div class="guide-desc">HTML, CSS, JavaScript, exposición de datos y HTML Injection.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="level-block">
+        <div class="level-label">// Nivel 2 — Infraestructura Web</div>
+        <div class="guides-grid">
+          <a href="/guias/infra" class="guide-card" style="--pc:#ff6b9d">
+            <div class="guide-num">04</div>
+            <div class="guide-info">
+              <div class="guide-title">La Web por Dentro</div>
+              <div class="guide-desc">Balanceadores, CDN, WAF, bases de datos y servidores.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
 
   </main>
   <Footer />
 </body>
 </html>
+
+<script>
+// @ts-nocheck
+
+// ── CATEGORY CARDS ──
+document.querySelectorAll('.cat-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const cat = card.dataset.cat;
+    const panel = document.getElementById('panel-' + cat);
+    const isOpen = card.classList.contains('active');
+
+    // close all
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('open'));
+
+    if (!isOpen) {
+      card.classList.add('active');
+      panel.classList.add('open');
+      // smooth scroll to panel
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+  });
+});
+
+// ── CLOSE BUTTONS ──
+document.querySelectorAll('.panel-close').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const cat = btn.dataset.close;
+    document.getElementById('panel-' + cat).classList.remove('open');
+    document.querySelector('[data-cat="' + cat + '"]').classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ── SEARCH ──
+const allGuides = [
+  { num:'01', href:'/guias/modelo-osi',       title:'Modelo OSI',                    cat:'Redes',       color:'#4d96ff', desc:'Las 7 capas con protocolos y quiz.' },
+  { num:'02', href:'/guias/packets-frames',   title:'Packets & Frames',              cat:'Redes',       color:'#4d96ff', desc:'TCP, UDP, Three-Way Handshake y puertos.' },
+  { num:'03', href:'/guias/ampliando-tu-red', title:'Ampliando tu Red',              cat:'Redes',       color:'#4d96ff', desc:'Port Forwarding, Firewalls, VPNs, Routers.' },
+  { num:'04', href:'/guias/dns',              title:'DNS',                           cat:'Redes',       color:'#4d96ff', desc:'Jerarquía de dominios, registros y resolución.' },
+  { num:'05', href:'/guias/http',             title:'HTTP en Detalle',               cat:'Web',         color:'#ff6b9d', desc:'Solicitudes, respuestas, métodos y cookies.' },
+  { num:'06', href:'/guias/web',              title:'Cómo Funcionan los Sitios Web', cat:'Web',         color:'#ff6b9d', desc:'HTML, CSS, JavaScript y HTML Injection.' },
+  { num:'07', href:'/guias/infra',            title:'La Web por Dentro',             cat:'Web',         color:'#ff6b9d', desc:'Balanceadores, CDN, WAF y servidores.' },
+  { num:'08', href:'/guias/clientserver',     title:'Modelo Cliente-Servidor',       cat:'Web',         color:'#ff6b9d', desc:'Cliente, servidor, DNS, puertos y HTTP.' },
+  { num:'09', href:'/guias/computer',         title:'Sistema Informático',           cat:'Fundamentos', color:'#6bcb77', desc:'CPU, RAM, GPU y secuencia de arranque.' },
+  { num:'10', href:'/guias/comptypes',        title:'Tipos de Computadoras',         cat:'Fundamentos', color:'#6bcb77', desc:'Portátiles, servidores, IoT y smartphones.' },
+  { num:'11', href:'/guias/os-intro',         title:'Sistemas Operativos',           cat:'Fundamentos', color:'#6bcb77', desc:'Kernel, User Space, GUI vs CLI.' },
+  { num:'12', href:'/guias/virt',             title:'Virtualización',                cat:'Fundamentos', color:'#6bcb77', desc:'Hipervisores, VMs y contenedores.' },
+  { num:'13', href:'/guias/cloud',            title:'Cloud Computing',               cat:'Fundamentos', color:'#6bcb77', desc:'IaaS, PaaS, SaaS y seguridad cloud.' },
+  { num:'14', href:'/guias/windows-basics',   title:'Windows Básico',                cat:'Fundamentos', color:'#6bcb77', desc:'Autenticación, registro y seguridad nativa.' },
+  { num:'15', href:'/guias/linux-cli-intro',  title:'Linux — Intro a la CLI',        cat:'Fundamentos', color:'#6bcb77', desc:'Filosofía Unix, CLI vs GUI, terminal.' },
+  { num:'16', href:'/guias/linux-shell',      title:'Terminal, Consola y Shell',     cat:'Fundamentos', color:'#6bcb77', desc:'Bash, zsh, $PATH y .bashrc.' },
+  { num:'17', href:'/guias/linux-fs',         title:'Sistema de Archivos Linux',     cat:'Fundamentos', color:'#6bcb77', desc:'FHS, /etc, /home, /var, rutas e inodes.' },
+];
+
+const searchInput = document.getElementById('searchInput');
+const searchPanel = document.getElementById('searchPanel');
+const catGrid = document.getElementById('catGrid');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+
+  if (q.length < 2) {
+    searchPanel.classList.remove('open');
+    searchPanel.innerHTML = '';
+    catGrid.style.display = '';
+    document.querySelectorAll('.cat-panel.open').forEach(p => p.style.display = '');
+    return;
+  }
+
+  // hide cat cards while searching
+  catGrid.style.display = 'none';
+  document.querySelectorAll('.cat-panel').forEach(p => p.style.display = 'none');
+
+  const matches = allGuides.filter(g =>
+    g.title.toLowerCase().includes(q) ||
+    g.desc.toLowerCase().includes(q) ||
+    g.cat.toLowerCase().includes(q)
+  );
+
+  if (matches.length === 0) {
+    searchPanel.innerHTML = '<div class="search-empty">// sin resultados para "' + q + '"</div>';
+  } else {
+    searchPanel.innerHTML =
+      '<div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:3px;color:#3a3a5a;margin-bottom:16px;text-transform:uppercase">// ' + matches.length + ' resultado' + (matches.length !== 1 ? 's' : '') + '</div>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">' +
+      matches.map(g => `
+        <a href="${g.href}" style="
+          display:flex;align-items:center;gap:0;text-decoration:none;
+          border:1px solid #1e1e2e;background:#0d0d18;overflow:hidden;
+          transition:all 0.15s;
+        " onmouseover="this.style.borderColor='${g.color}';this.style.background='#12121a'" onmouseout="this.style.borderColor='#1e1e2e';this.style.background='#0d0d18'">
+          <div style="width:44px;height:64px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:${g.color};flex-shrink:0;border-right:1px solid #1e1e2e;">${g.num}</div>
+          <div style="padding:12px 14px;flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:700;color:#e8eaf0;margin-bottom:3px;">${g.title}</div>
+            <div style="font-size:11px;color:#6b6b8a;">${g.desc}</div>
+          </div>
+          <div style="padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:${g.color};flex-shrink:0;letter-spacing:1px;">${g.cat}</div>
+        </a>
+      `).join('') +
+      '</div>';
+  }
+
+  searchPanel.classList.add('open');
+});
+
+// restore on clear
+searchInput.addEventListener('input', () => {
+  if (searchInput.value.trim().length < 2) {
+    catGrid.style.display = '';
+    document.querySelectorAll('.cat-panel').forEach(p => p.style.display = '');
+  }
+});
+</script>

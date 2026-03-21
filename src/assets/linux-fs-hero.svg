@@ -1,0 +1,128 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="54" fill="#1a1a2a" font-size="42" font-weight="700">SISTEMA DE ARCHIVOS</text>
+  <text x="46" y="52" fill="#e8eaf0" font-size="42" font-weight="700">SISTEMA DE ARCHIVOS</text>
+  <text x="48" y="70" fill="#00ff9f" font-size="9" letter-spacing="3">JERARQUÍA FHS · RUTAS · INODES</text>
+  <line x1="48" y1="80" x2="430" y2="80" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: directory tree -->
+  <text x="48" y="100" fill="#6b6b8a" font-size="9" letter-spacing="2">// JERARQUÍA DE DIRECTORIOS</text>
+  <rect x="48" y="110" width="390" height="360" rx="3" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- root -->
+  <text x="64" y="132" fill="#00ff9f" font-size="12" font-weight="700">/</text>
+  <text x="88" y="132" fill="#3a3a5a" font-size="9">← raíz del sistema</text>
+
+  <text x="72" y="152" fill="#4d96ff" font-size="10">├── etc/</text>
+  <text x="180" y="152" fill="#6b6b8a" font-size="8">configuración del sistema</text>
+  <text x="80" y="166" fill="#3a3a5a" font-size="8">│   ├── passwd · shadow · hosts · fstab · ssh/</text>
+
+  <text x="72" y="184" fill="#6bcb77" font-size="10">├── home/</text>
+  <text x="180" y="184" fill="#6b6b8a" font-size="8">directorios de usuarios</text>
+  <text x="80" y="198" fill="#3a3a5a" font-size="8">│   └── ubuntu/ (.ssh/ .bashrc Desktop/)</text>
+
+  <text x="72" y="216" fill="#ff9f43" font-size="10">├── var/</text>
+  <text x="180" y="216" fill="#6b6b8a" font-size="8">datos variables</text>
+  <text x="80" y="230" fill="#3a3a5a" font-size="8">│   └── log/ (auth.log · syslog · nginx/)</text>
+
+  <text x="72" y="248" fill="#c77dff" font-size="10">├── proc/</text>
+  <text x="180" y="248" fill="#6b6b8a" font-size="8">procesos (virtual, en RAM)</text>
+  <text x="80" y="262" fill="#3a3a5a" font-size="8">│   └── PID/ (cmdline · mem · status)</text>
+
+  <text x="72" y="280" fill="#ffd93d" font-size="10">├── dev/</text>
+  <text x="180" y="280" fill="#6b6b8a" font-size="8">dispositivos como archivos</text>
+  <text x="80" y="294" fill="#3a3a5a" font-size="8">│   └── sda · null · zero · random · tty</text>
+
+  <text x="72" y="312" fill="#ff6b6b" font-size="10">├── tmp/</text>
+  <text x="180" y="312" fill="#ff6b6b" font-size="8">⚠ temporal · escritura libre</text>
+
+  <text x="72" y="330" fill="#6b6b8a" font-size="10">├── bin/ · sbin/</text>
+  <text x="200" y="330" fill="#6b6b8a" font-size="8">ejecutables del sistema</text>
+
+  <text x="72" y="348" fill="#6b6b8a" font-size="10">├── usr/</text>
+  <text x="140" y="348" fill="#6b6b8a" font-size="8">programas del usuario (bin/ share/ lib/)</text>
+
+  <text x="72" y="366" fill="#6b6b8a" font-size="10">├── boot/</text>
+  <text x="148" y="366" fill="#6b6b8a" font-size="8">kernel y gestor de arranque</text>
+
+  <text x="72" y="384" fill="#6b6b8a" font-size="10">└── root/</text>
+  <text x="148" y="384" fill="#6b6b8a" font-size="8">home del usuario root (no /home/root)</text>
+
+  <!-- inode box -->
+  <text x="48" y="490" fill="#6b6b8a" font-size="8">FHS — Filesystem Hierarchy Standard · todas las distros lo siguen</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: paths + inode -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// RUTAS ABSOLUTAS VS RELATIVAS</text>
+
+  <rect x="488" y="58" width="506" height="110" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="488" y="58" width="506" height="22" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="612" y="73" text-anchor="middle" fill="#4d96ff" font-size="9" font-weight="700">ABSOLUTA</text>
+  <text x="836" y="73" text-anchor="middle" fill="#ffd93d" font-size="9" font-weight="700">RELATIVA</text>
+
+  <text x="496" y="96" fill="#6b6b8a" font-size="8">desde /home/ubuntu</text>
+  <text x="612" y="96" text-anchor="middle" fill="#4d96ff" font-size="9">/home/ubuntu/docs/</text>
+  <text x="836" y="96" text-anchor="middle" fill="#ffd93d" font-size="9">docs/</text>
+
+  <text x="496" y="114" fill="#6b6b8a" font-size="8">nivel arriba</text>
+  <text x="612" y="114" text-anchor="middle" fill="#4d96ff" font-size="9">/home/</text>
+  <text x="836" y="114" text-anchor="middle" fill="#ffd93d" font-size="9">../</text>
+
+  <text x="496" y="132" fill="#6b6b8a" font-size="8">home rápido</text>
+  <text x="612" y="132" text-anchor="middle" fill="#4d96ff" font-size="9">/home/ubuntu/</text>
+  <text x="836" y="132" text-anchor="middle" fill="#ffd93d" font-size="9">~/</text>
+
+  <text x="496" y="150" fill="#6b6b8a" font-size="8">aquí mismo</text>
+  <text x="612" y="150" text-anchor="middle" fill="#4d96ff" font-size="9">/home/ubuntu/script.sh</text>
+  <text x="836" y="150" text-anchor="middle" fill="#ffd93d" font-size="9">./script.sh</text>
+
+  <!-- inode -->
+  <text x="488" y="192" fill="#6b6b8a" font-size="9" letter-spacing="2">// INODE — METADATOS DE CADA ARCHIVO</text>
+  <rect x="488" y="202" width="506" height="120" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="488" y="202" width="4" height="120" fill="#c77dff"/>
+  <text x="502" y="220" fill="#c77dff" font-size="10" font-weight="700">Inode = metadatos del archivo (no el nombre)</text>
+  <text x="502" y="238" fill="#6b6b8a" font-size="9">permisos · propietario · tamaño · fechas · punteros a datos</text>
+  <text x="502" y="254" fill="#3a3a5a" font-size="8">el nombre del archivo vive en el directorio, no en el inode</text>
+  <rect x="502" y="262" width="484" height="48" rx="1" fill="#0a0a0f"/>
+  <text x="512" y="278" fill="#00ff9f" font-size="9">$ stat archivo.txt</text>
+  <text x="512" y="292" fill="#b0b0c8" font-size="8">Inode: 262146  Permisos: 644  Tamaño: 1234</text>
+  <text x="512" y="304" fill="#b0b0c8" font-size="8">Acceso: 2026-03-21  Modificación: 2026-03-20</text>
+
+  <!-- security boxes -->
+  <text x="488" y="348" fill="#6b6b8a" font-size="9" letter-spacing="2">// RELEVANCIA EN CIBERSEGURIDAD</text>
+
+  <rect x="488" y="358" width="240" height="36" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="488" y="358" width="4" height="36" fill="#ff6b6b"/>
+  <text x="502" y="374" fill="#ff6b6b" font-size="9" font-weight="700">/etc/shadow</text>
+  <text x="502" y="386" fill="#6b6b8a" font-size="8">hashes de contraseñas · objetivo cracking</text>
+
+  <rect x="754" y="358" width="240" height="36" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="754" y="358" width="4" height="36" fill="#ff9f43"/>
+  <text x="768" y="374" fill="#ff9f43" font-size="9" font-weight="700">/tmp · /dev/shm</text>
+  <text x="768" y="386" fill="#6b6b8a" font-size="8">payloads · escritura libre todos</text>
+
+  <rect x="488" y="402" width="240" height="36" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="488" y="402" width="4" height="36" fill="#4d96ff"/>
+  <text x="502" y="418" fill="#4d96ff" font-size="9" font-weight="700">/var/log/auth.log</text>
+  <text x="502" y="430" fill="#6b6b8a" font-size="8">intentos de login · blue team</text>
+
+  <rect x="754" y="402" width="240" height="36" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <rect x="754" y="402" width="4" height="36" fill="#6bcb77"/>
+  <text x="768" y="418" fill="#6bcb77" font-size="9" font-weight="700">/home/.ssh/</text>
+  <text x="768" y="430" fill="#6b6b8a" font-size="8">claves SSH · acceso persistente</text>
+
+  <rect x="488" y="446" width="506" height="36" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="488" y="446" width="4" height="36" fill="#c77dff"/>
+  <text x="502" y="462" fill="#c77dff" font-size="9" font-weight="700">/etc/crontab · /var/spool/cron/</text>
+  <text x="502" y="474" fill="#6b6b8a" font-size="8">persistencia de malware mediante tareas programadas</text>
+</svg>
