@@ -1,0 +1,348 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Navegación Básica Linux — CybSecStudy" description="Aprende a moverte por Linux con ls, cd, pwd y find. Opciones, wildcards y atajos esenciales." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 48px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 68px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .terminal { background: #0d0d14; border: 1px solid #1e1e2e; border-radius: 4px; overflow: hidden; margin: 16px 0; }
+    .terminal-bar { background: #1e1e2e; padding: 8px 14px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.9; }
+    .p { color: #00ff9f; }
+    .c { color: #e8eaf0; }
+    .o { color: #b0b0c8; }
+    .ob { color: #4d96ff; }
+    .ow { color: #ff9f43; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .cmd-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 10px 14px; }
+    .cmd-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--cc); font-weight: 700; margin-bottom: 4px; }
+    .cmd-desc { font-size: 11px; color: #6b6b8a; line-height: 1.4; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .cmd-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 4 de 6</div>
+      <h1><span class="accent">Navegación</span> Básica</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Tres comandos — <strong style="color:#e8eaf0">pwd</strong>, <strong style="color:#e8eaf0">ls</strong> y <strong style="color:#e8eaf0">cd</strong> — son todo lo que necesitas para moverte por cualquier sistema Linux con precisión.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Ya conoces la jerarquía del sistema de archivos. Ahora toca <strong>moverse por ella</strong>. Estos comandos son tan fundamentales que los usarás cientos de veces al día — en administración, pentesting, forense y desarrollo.</p>
+      <p>Dominarlos bien, con todas sus opciones, marca la diferencia entre navegar a ciegas y moverse con precisión.</p>
+    </div>
+
+    <!-- LIVE TERMINAL DEMO -->
+    <div class="section-label">// Sesión de navegación típica</div>
+    <div class="terminal" style="margin-bottom:32px">
+      <div class="terminal-bar">
+        <div class="dot" style="background:#ff6b6b"></div>
+        <div class="dot" style="background:#ffd93d"></div>
+        <div class="dot" style="background:#6bcb77"></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b6b8a;margin-left:8px">bash — ubuntu@tryhackme</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="p">ubuntu@tryhackme:~$</span><span class="c"> pwd</span></div>
+        <div class="o">/home/ubuntu</div>
+        <div style="margin-top:6px"><span class="p">ubuntu@tryhackme:~$</span><span class="c"> ls -la</span></div>
+        <div class="ob">drwxr-xr-x  ubuntu  Desktop</div>
+        <div class="ob">drwxr-xr-x  ubuntu  Documents</div>
+        <div class="ow">-rw-------  ubuntu  .bash_history</div>
+        <div style="margin-top:6px"><span class="p">ubuntu@tryhackme:~$</span><span class="c"> cd Documents</span></div>
+        <div style="margin-top:6px"><span class="p">ubuntu@tryhackme:~/Documents$</span><span class="c"> find ~ -name "*.txt"</span></div>
+        <div class="o">/home/ubuntu/notes.txt</div>
+        <div class="o">/home/ubuntu/Documents/mission_brief.txt</div>
+        <div style="margin-top:6px"><span class="p">ubuntu@tryhackme:~/Documents$</span><span class="c"> cd -</span></div>
+        <div class="o">/home/ubuntu</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Comandos — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">pwd</div>
+          <div class="concept-title">pwd — ¿Dónde estoy?</div>
+          <div class="concept-badge">print working directory</div>
+        </div>
+        <div class="concept-body">
+          <p><code>pwd</code> imprime la ruta absoluta del directorio de trabajo actual. Es el primer comando que deberías ejecutar al abrir una terminal si no sabes dónde estás.</p>
+          <div class="code-block">pwd
+# /home/ubuntu
+
+cd /etc/nginx
+pwd
+# /etc/nginx
+
+cd ~
+pwd
+# /home/ubuntu</div>
+          <p style="margin-top:10px">Sin opciones relevantes — hace una sola cosa y la hace perfecta. Úsalo siempre que tengas dudas sobre tu ubicación.</p>
+          <div class="info-badge">💡 En scripts, $&#123;PWD&#125; da la ruta actual como variable</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">ls</div>
+          <div class="concept-title">ls — ¿Qué hay aquí?</div>
+          <div class="concept-badge">-la · -lh · -lt · -R</div>
+        </div>
+        <div class="concept-body">
+          <p><code>ls</code> lista el contenido de un directorio. Sus opciones son fundamentales para obtener información detallada del sistema de archivos.</p>
+          <div class="code-block">ls                  # contenido del directorio actual
+ls /etc             # listar otro directorio sin moverse
+ls -l               # formato largo: permisos, propietario, tamaño, fecha
+ls -a               # incluir archivos ocultos (empiezan con .)
+ls -la              # largo + ocultos — la combinación más usada
+ls -lh              # tamaños legibles: K, M, G en vez de bytes
+ls -lt              # ordenado por fecha (más reciente primero)
+ls -lR              # recursivo — lista subdirectorios también
+ls *.log            # solo archivos .log (wildcard)</div>
+          <p style="margin-top:10px">Leyendo la salida de <code>ls -la</code>: la primera letra indica el tipo — <strong>d</strong> directorio, <strong>-</strong> archivo, <strong>l</strong> symlink. Los 9 caracteres siguientes son los permisos (rwx para propietario/grupo/otros).</p>
+          <div class="sec-badge">⚠ ls -lt /etc — ver qué archivos de config cambiaron recientemente</div>
+          <div class="sec-badge">⚠ ls -la /tmp — detectar ejecutables sospechosos</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">cd</div>
+          <div class="concept-title">cd — Moverse por el árbol</div>
+          <div class="concept-badge">~ · .. · - · /</div>
+        </div>
+        <div class="concept-body">
+          <p><code>cd</code> cambia el directorio de trabajo. Acepta rutas absolutas y relativas, y tiene varios atajos imprescindibles:</p>
+          <div class="code-block">cd /etc/nginx        # ruta absoluta — siempre funciona
+cd Documents         # ruta relativa — desde donde estás
+cd ..                # subir un nivel al directorio padre
+cd ../..             # subir dos niveles
+cd ~                 # ir al home del usuario actual
+cd -                 # volver al directorio anterior ← muy útil
+cd /                 # ir a la raíz del sistema</div>
+          <p style="margin-top:10px"><code>cd -</code> es el "botón atrás" de la terminal. Alterna entre los dos últimos directorios visitados — imprescindible cuando saltas entre rutas largas.</p>
+          <p>Nombres con espacios: usa comillas — <code>cd "Mi Carpeta"</code> o escapa el espacio — <code>cd Mi\ Carpeta</code>.</p>
+          <div class="info-badge">💡 Combina Tab para autocompletar: cd Doc[Tab] → cd Documents/</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">find</div>
+          <div class="concept-title">find — Localizar archivos</div>
+          <div class="concept-badge">-name · -type · -perm · -size</div>
+        </div>
+        <div class="concept-body">
+          <p><code>find</code> busca archivos y directorios en el sistema de archivos según múltiples criterios. Es una de las herramientas más potentes para exploración y seguridad.</p>
+          <div class="code-block">find ~ -name "mission_brief.txt"      # por nombre exacto
+find /etc -name "*.conf"              # todos los .conf en /etc
+find / -name "passwd" 2>/dev/null     # todo el sistema, sin errores
+find ~ -type f -name "*.sh"           # solo archivos (no dirs) .sh
+find /tmp -type f                     # archivos en /tmp
+find ~ -size +10M                     # más de 10 megabytes
+find ~ -mtime -1                      # modificados en 24h
+
+# SUID — clave en privilege escalation
+find / -perm -u=s -type f 2>/dev/null
+
+# Archivos escribibles por el usuario actual
+find / -writable -type f 2>/dev/null</div>
+          <p style="margin-top:10px">El <code>2>/dev/null</code> redirige errores de permisos a la papelera — imprescindible al buscar en directorios del sistema.</p>
+          <div class="sec-badge">⚠ find / -perm -u=s = binarios SUID para escalada de privilegios</div>
+          <div class="sec-badge">⚠ find /tmp -type f = payloads maliciosos depositados en /tmp</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">*?[]</div>
+          <div class="concept-title">Wildcards — Comodines</div>
+          <div class="concept-badge">expansión de la shell</div>
+        </div>
+        <div class="concept-body">
+          <p>Los wildcards son expandidos por la shell <strong>antes</strong> de pasar los argumentos al comando. Se aplican a cualquier comando, no solo a <code>ls</code>.</p>
+          <ul>
+            <li><strong>*</strong> — cualquier cadena de caracteres (incluida vacía)</li>
+            <li><strong>?</strong> — exactamente un carácter cualquiera</li>
+            <li><strong>[abc]</strong> — uno de los caracteres entre corchetes</li>
+            <li><strong>&#123;txt,md&#125;</strong> — expansión de llaves (no es wildcard, pero similar)</li>
+          </ul>
+          <div class="code-block">ls *.log              # todos los .log
+ls foto?.jpg          # foto1.jpg, fotoA.jpg...
+ls [abc]*.sh          # empiezan por a, b o c y son .sh
+ls *.&#123;txt,md&#125;         # .txt y .md
+ls /var/log/*.log     # todos los .log en /var/log
+cat /etc/*.conf       # mostrar todos los .conf de /etc</div>
+          <div class="info-badge">💡 rm *.tmp borra todos los .tmp — comprueba con ls *.tmp antes de borrar</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">Tab</div>
+          <div class="concept-title">Atajos de teclado esenciales</div>
+          <div class="concept-badge">Tab · Ctrl+R · Ctrl+L</div>
+        </div>
+        <div class="concept-body">
+          <p>La terminal tiene atajos que multiplican tu velocidad. Desarrollar el hábito del <strong>Tab</strong> es lo más importante:</p>
+          <div class="cmd-grid">
+            <div class="cmd-item"><div class="cmd-name">Tab</div><div class="cmd-desc">Autocompletado de archivos y comandos</div></div>
+            <div class="cmd-item"><div class="cmd-name">Tab Tab</div><div class="cmd-desc">Mostrar todas las opciones disponibles</div></div>
+            <div class="cmd-item"><div class="cmd-name">↑ / ↓</div><div class="cmd-desc">Navegar por el historial de comandos</div></div>
+            <div class="cmd-item"><div class="cmd-name">Ctrl+R</div><div class="cmd-desc">Buscar en el historial (escribe parte del cmd)</div></div>
+            <div class="cmd-item"><div class="cmd-name">Ctrl+L</div><div class="cmd-desc">Limpiar pantalla (como clear)</div></div>
+            <div class="cmd-item"><div class="cmd-name">Ctrl+A / E</div><div class="cmd-desc">Ir al inicio / final de la línea</div></div>
+            <div class="cmd-item"><div class="cmd-name">Ctrl+W</div><div class="cmd-desc">Borrar la palabra anterior</div></div>
+            <div class="cmd-item"><div class="cmd-name">Ctrl+C</div><div class="cmd-desc">Cancelar el comando actual</div></div>
+          </div>
+          <div class="info-badge">💡 Ctrl+R + escribir "find" → busca el último find en el historial al instante</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE EN LA SERIE</p>
+      <p><strong>Post 5: Gestión de archivos</strong> — cp, mv, rm y touch. Copiar, mover, borrar y crear archivos desde la terminal.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Qué hace el comando pwd?", opts: ["Lista los archivos del directorio actual","Muestra la ruta absoluta del directorio de trabajo actual","Cambia al directorio home","Busca archivos por nombre"], correct: 1, exp: "pwd (print working directory) imprime la ruta absoluta del directorio donde te encuentras actualmente. Es el primer comando a ejecutar cuando no sabes dónde estás en el sistema de archivos." },
+  { q: "¿Qué combinación de opciones de ls es la más usada para ver todo el detalle incluyendo ocultos?", opts: ["ls -r","ls -t","ls -la","ls -R"], correct: 2, exp: "ls -la combina -l (formato largo con permisos, propietario, tamaño y fecha) con -a (mostrar archivos ocultos que empiezan con punto). Es la combinación más completa para inspeccionar un directorio." },
+  { q: "¿Qué hace cd - (con guión)?", opts: ["Va al directorio raíz /","Sube un nivel al directorio padre","Vuelve al directorio anterior visitado","Va al directorio home del usuario"], correct: 2, exp: "cd - vuelve al directorio anterior — alterna entre los dos últimos directorios visitados. Es el 'botón atrás' de la terminal, imprescindible para moverse entre rutas largas sin tener que escribirlas de nuevo." },
+  { q: "¿Qué significa el punto . al usar ls -la?", opts: ["Un archivo de configuración oculto","El directorio actual","El directorio padre","Un enlace simbólico"], correct: 1, exp: "El punto . representa el directorio actual. El doble punto .. representa el directorio padre. Siempre aparecen con ls -la. Se usan en rutas relativas: ./script.sh ejecuta el script en el directorio actual." },
+  { q: "¿Para qué sirve find / -perm -u=s -type f 2>/dev/null?", opts: ["Buscar archivos modificados recientemente","Encontrar archivos con bit SUID — útil para escalada de privilegios","Listar todos los ejecutables del sistema","Buscar archivos de más de 1MB"], correct: 1, exp: "Los binarios SUID se ejecutan con los permisos del propietario (normalmente root), no del usuario que los ejecuta. Encontrar binarios SUID inusuales es una técnica clásica de privilege escalation en CTFs y pentesting real." },
+  { q: "¿Qué hace 2>/dev/null al final de un comando find?", opts: ["Guarda los errores en un archivo","Redirige los mensajes de error a la papelera para que no ensucien la salida","Ejecuta el comando en segundo plano","Suprime todos los resultados"], correct: 1, exp: "2> redirige el flujo de error estándar (stderr). /dev/null es el 'agujero negro' de Linux — todo lo que se envía ahí desaparece. Al buscar en directorios del sistema, elimina los molestos mensajes de 'Permission denied'." },
+  { q: "¿Qué diferencia hay entre ls *.log y find /var/log -name '*.log'?", opts: ["Son idénticos","ls *.log expande el wildcard en el shell del directorio actual; find busca recursivamente en una ruta específica","find es más rápido siempre","ls no acepta wildcards"], correct: 1, exp: "ls *.log expande el wildcard en el directorio actual — solo lista .log del directorio donde estás. find /var/log -name '*.log' busca recursivamente dentro de /var/log en todos sus subdirectorios." },
+  { q: "¿Qué atajo de teclado busca en el historial de comandos?", opts: ["Ctrl+L","Ctrl+C","Ctrl+R","Ctrl+Z"], correct: 2, exp: "Ctrl+R abre la búsqueda inversa del historial. Escribe parte de un comando anterior y la shell lo autocompleta. Enter para ejecutarlo, Ctrl+C para cancelar. Imprescindible para reutilizar comandos largos." },
+  { q: "¿Qué hace ls -lh comparado con ls -l?", opts: ["Muestra archivos ocultos","Muestra archivos ocultos y sus permisos","Muestra los tamaños en formato legible (K, M, G) en vez de bytes","Lista los archivos por tamaño de mayor a menor"], correct: 2, exp: "La opción -h (human-readable) hace que los tamaños se muestren en KB, MB o GB en vez de en bytes. ls -lh 4.0K es mucho más legible que ls -l 4096. Se combina siempre con -l para el formato largo." },
+  { q: "¿Qué pasa si ejecutas rm *.tmp sin verificar antes?", opts: ["No hace nada porque * no funciona con rm","Borra todos los archivos que terminan en .tmp del directorio actual sin pedir confirmación","Mueve los archivos a la papelera","Solo borra el primer archivo .tmp encontrado"], correct: 1, exp: "rm no tiene papelera — borra directamente e irreversiblemente. El wildcard *.tmp se expande a todos los archivos .tmp del directorio actual. Siempre ejecuta ls *.tmp antes de rm *.tmp para verificar qué vas a borrar." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Navegas Linux como un pro.' : score >= 7 ? 'Muy bien. Repasa los comandos que fallaste.' : 'Practica en la terminal — la teoría sola no es suficiente.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

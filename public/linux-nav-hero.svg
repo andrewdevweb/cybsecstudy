@@ -1,0 +1,110 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="54" fill="#1a1a2a" font-size="44" font-weight="700">NAVEGACIÓN LINUX</text>
+  <text x="46" y="52" fill="#e8eaf0" font-size="44" font-weight="700">NAVEGACIÓN LINUX</text>
+  <text x="48" y="70" fill="#00ff9f" font-size="9" letter-spacing="3">pwd · ls · cd · find · wildcards</text>
+  <line x1="48" y1="80" x2="430" y2="80" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: terminal session -->
+  <text x="48" y="100" fill="#6b6b8a" font-size="9" letter-spacing="2">// SESIÓN DE NAVEGACIÓN</text>
+  <rect x="48" y="110" width="390" height="280" rx="3" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="110" width="390" height="20" rx="3 3 0 0" fill="#1e1e2e"/>
+  <circle cx="62" cy="120" r="4" fill="#ff6b6b"/>
+  <circle cx="76" cy="120" r="4" fill="#ffd93d"/>
+  <circle cx="90" cy="120" r="4" fill="#6bcb77"/>
+
+  <text x="62" y="148" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="192" y="148" fill="#e8eaf0" font-size="10"> pwd</text>
+  <text x="62" y="163" fill="#b0b0c8" font-size="10">/home/ubuntu</text>
+
+  <text x="62" y="181" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="192" y="181" fill="#e8eaf0" font-size="10"> ls -la</text>
+  <text x="62" y="196" fill="#4d96ff" font-size="9">drwxr-xr-x  ubuntu  Desktop</text>
+  <text x="62" y="209" fill="#4d96ff" font-size="9">drwxr-xr-x  ubuntu  Documents</text>
+  <text x="62" y="222" fill="#ff9f43" font-size="9">-rw-------  ubuntu  .bash_history</text>
+  <text x="62" y="235" fill="#6b6b8a" font-size="9">-rw-r--r--  ubuntu  .bashrc</text>
+
+  <text x="62" y="253" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~$</text>
+  <text x="192" y="253" fill="#e8eaf0" font-size="10"> cd Documents</text>
+  <text x="62" y="270" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~/Documents$</text>
+
+  <text x="62" y="288" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~/Documents$</text>
+  <text x="62" y="301" fill="#e8eaf0" font-size="10"> find ~ -name "*.txt"</text>
+  <text x="62" y="316" fill="#b0b0c8" font-size="10">/home/ubuntu/notes.txt</text>
+  <text x="62" y="329" fill="#b0b0c8" font-size="10">/home/ubuntu/Documents/mission_brief.txt</text>
+
+  <text x="62" y="347" fill="#00ff9f" font-size="10">ubuntu@tryhackme:~/Documents$</text>
+  <rect x="266" y="337" width="8" height="13" fill="#00ff9f" opacity="0.8"/>
+
+  <!-- wildcards -->
+  <text x="48" y="416" fill="#6b6b8a" font-size="9" letter-spacing="2">// WILDCARDS</text>
+  <rect x="48" y="426" width="390" height="70" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="444" fill="#ffd93d" font-size="9">*</text>
+  <text x="80" y="444" fill="#6b6b8a" font-size="9">cualquier cadena de caracteres</text>
+  <text x="62" y="460" fill="#ffd93d" font-size="9">?</text>
+  <text x="80" y="460" fill="#6b6b8a" font-size="9">exactamente un carácter</text>
+  <text x="62" y="476" fill="#ffd93d" font-size="9">[abc]</text>
+  <text x="100" y="476" fill="#6b6b8a" font-size="9">uno de los caracteres entre corchetes</text>
+  <text x="220" y="444" fill="#3a3a5a" font-size="8">ls *.log</text>
+  <text x="220" y="460" fill="#3a3a5a" font-size="8">ls foto?.jpg</text>
+  <text x="220" y="476" fill="#3a3a5a" font-size="8">ls [abc]*.sh</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: command reference -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// REFERENCIA DE COMANDOS</text>
+
+  <!-- pwd -->
+  <rect x="488" y="58" width="506" height="52" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="488" y="58" width="4" height="52" fill="#00ff9f"/>
+  <text x="502" y="76" fill="#00ff9f" font-size="12" font-weight="700">pwd</text>
+  <text x="542" y="76" fill="#6b6b8a" font-size="9">— print working directory</text>
+  <text x="502" y="98" fill="#3a3a5a" font-size="8">sin opciones relevantes · ¿dónde estoy ahora mismo?</text>
+
+  <!-- ls -->
+  <rect x="488" y="118" width="506" height="100" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="488" y="118" width="4" height="100" fill="#4d96ff"/>
+  <text x="502" y="136" fill="#4d96ff" font-size="12" font-weight="700">ls</text>
+  <text x="528" y="136" fill="#6b6b8a" font-size="9">— list directory contents</text>
+  <text x="502" y="154" fill="#6b6b8a" font-size="9">-l  formato largo · -a  ocultos · -h  legible</text>
+  <text x="502" y="168" fill="#6b6b8a" font-size="9">-t  por fecha · -R  recursivo · -1  una por línea</text>
+  <text x="502" y="184" fill="#3a3a5a" font-size="8">ls -la  ←  la combinación más usada</text>
+  <text x="502" y="198" fill="#3a3a5a" font-size="8">ls -lht  ←  formato largo + legible + por fecha</text>
+  <text x="502" y="210" fill="#3a3a5a" font-size="8">ls /etc  ←  listar otro directorio sin moverse</text>
+
+  <!-- cd -->
+  <rect x="488" y="226" width="506" height="100" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="488" y="226" width="4" height="100" fill="#ff9f43"/>
+  <text x="502" y="244" fill="#ff9f43" font-size="12" font-weight="700">cd</text>
+  <text x="528" y="244" fill="#6b6b8a" font-size="9">— change directory</text>
+  <text x="502" y="262" fill="#6b6b8a" font-size="9">cd ~      ← ir al home</text>
+  <text x="502" y="276" fill="#6b6b8a" font-size="9">cd ..     ← subir un nivel</text>
+  <text x="502" y="290" fill="#6b6b8a" font-size="9">cd -      ← volver al directorio anterior</text>
+  <text x="502" y="304" fill="#6b6b8a" font-size="9">cd /      ← ir a la raíz</text>
+  <text x="502" y="318" fill="#3a3a5a" font-size="8">cd -  es el "botón atrás" de la terminal</text>
+
+  <!-- find -->
+  <rect x="488" y="334" width="506" height="100" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="488" y="334" width="4" height="100" fill="#c77dff"/>
+  <text x="502" y="352" fill="#c77dff" font-size="12" font-weight="700">find</text>
+  <text x="544" y="352" fill="#6b6b8a" font-size="9">— buscar archivos en el sistema</text>
+  <text x="502" y="370" fill="#6b6b8a" font-size="9">find ~ -name "*.txt"         ← por nombre</text>
+  <text x="502" y="384" fill="#6b6b8a" font-size="9">find / -perm -u=s -type f    ← SUID (privesc)</text>
+  <text x="502" y="398" fill="#6b6b8a" font-size="9">find /tmp -type f             ← archivos en /tmp</text>
+  <text x="502" y="418" fill="#ff6b6b" font-size="8">⚠ find / -perm -u=s  →  binarios SUID para escalada</text>
+  <text x="502" y="430" fill="#ff6b6b" font-size="8">⚠ find / -writable   →  archivos escribibles</text>
+
+  <!-- shortcuts -->
+  <text x="488" y="458" fill="#6b6b8a" font-size="9" letter-spacing="2">// ATAJOS ESENCIALES</text>
+  <rect x="488" y="468" width="506" height="28" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="502" y="485" fill="#6b6b8a" font-size="8">Tab autocompletar  ·  ↑↓ historial  ·  Ctrl+R buscar historial  ·  Ctrl+L limpiar</text>
+</svg>
