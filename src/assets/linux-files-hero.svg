@@ -1,0 +1,140 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="50" fill="#1a1a2a" font-size="40" font-weight="700">GESTIÓN DE ARCHIVOS</text>
+  <text x="46" y="48" fill="#e8eaf0" font-size="40" font-weight="700">GESTIÓN DE ARCHIVOS</text>
+  <text x="48" y="66" fill="#00ff9f" font-size="9" letter-spacing="3">cp · mv · rm · touch · mkdir</text>
+  <line x1="48" y1="76" x2="430" y2="76" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: command cards -->
+  <text x="48" y="96" fill="#6b6b8a" font-size="9" letter-spacing="2">// COMANDOS</text>
+
+  <!-- touch -->
+  <rect x="48" y="106" width="185" height="70" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="48" y="106" width="185" height="4" fill="#6bcb77"/>
+  <text x="56" y="124" fill="#6bcb77" font-size="14" font-weight="700">touch</text>
+  <text x="56" y="140" fill="#6b6b8a" font-size="9">crear archivos vacíos</text>
+  <text x="56" y="154" fill="#6b6b8a" font-size="9">actualizar fechas</text>
+  <text x="56" y="168" fill="#3a3a5a" font-size="8">touch a.txt b.txt c.txt</text>
+
+  <!-- cp -->
+  <rect x="241" y="106" width="197" height="70" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="241" y="106" width="197" height="4" fill="#4d96ff"/>
+  <text x="249" y="124" fill="#4d96ff" font-size="14" font-weight="700">cp</text>
+  <text x="272" y="124" fill="#6b6b8a" font-size="9">[-r] [-a] [-i] [-p]</text>
+  <text x="249" y="140" fill="#6b6b8a" font-size="9">copiar archivos/dirs</text>
+  <text x="249" y="154" fill="#6b6b8a" font-size="9">-a preserva todo</text>
+  <text x="249" y="168" fill="#3a3a5a" font-size="8">cp -a /etc/ /backup/</text>
+
+  <!-- mv -->
+  <rect x="48" y="184" width="185" height="70" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="48" y="184" width="185" height="4" fill="#ff9f43"/>
+  <text x="56" y="202" fill="#ff9f43" font-size="14" font-weight="700">mv</text>
+  <text x="86" y="202" fill="#6b6b8a" font-size="9">[-i] [-n] [-v]</text>
+  <text x="56" y="218" fill="#6b6b8a" font-size="9">mover y renombrar</text>
+  <text x="56" y="232" fill="#6b6b8a" font-size="9">no hay copia — es corte</text>
+  <text x="56" y="246" fill="#3a3a5a" font-size="8">mv old.txt new.txt</text>
+
+  <!-- rm -->
+  <rect x="241" y="184" width="197" height="70" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="2"/>
+  <rect x="241" y="184" width="197" height="4" fill="#ff6b6b"/>
+  <text x="249" y="202" fill="#ff6b6b" font-size="14" font-weight="700">rm</text>
+  <text x="276" y="202" fill="#ff6b6b" font-size="9">⚠ SIN PAPELERA</text>
+  <text x="249" y="218" fill="#6b6b8a" font-size="9">elimina permanentemente</text>
+  <text x="249" y="232" fill="#6b6b8a" font-size="9">-rf = recursivo + forzado</text>
+  <text x="249" y="246" fill="#ff6b6b" font-size="8">ls antes de rm con *</text>
+
+  <!-- terminal -->
+  <text x="48" y="278" fill="#6b6b8a" font-size="9" letter-spacing="2">// FLUJO DE BACKUP SEGURO</text>
+  <rect x="48" y="288" width="390" height="100" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="308" fill="#6b6b8a" font-size="9"># 1. backup antes de editar</text>
+  <text x="62" y="324" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="324" fill="#e8eaf0" font-size="10"> cp /etc/nginx/nginx.conf nginx.conf.bak</text>
+  <text x="62" y="342" fill="#6b6b8a" font-size="9"># 2. editar el original</text>
+  <text x="62" y="358" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="358" fill="#e8eaf0" font-size="10"> nano /etc/nginx/nginx.conf</text>
+  <text x="62" y="376" fill="#6b6b8a" font-size="9"># 3. si algo falla, restaurar</text>
+  <text x="62" y="380" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="380" fill="#e8eaf0" font-size="10"> mv nginx.conf.bak /etc/nginx/nginx.conf</text>
+
+  <!-- warning -->
+  <rect x="48" y="404" width="390" height="44" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="48" y="404" width="4" height="44" fill="#ff6b6b"/>
+  <text x="62" y="422" fill="#ff6b6b" font-size="10" font-weight="700">⚠ Regla de oro con rm</text>
+  <text x="62" y="438" fill="#6b6b8a" font-size="9">ls *.log → verificar → rm *.log</text>
+
+  <!-- sec note -->
+  <rect x="48" y="456" width="390" height="36" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="48" y="456" width="4" height="36" fill="#c77dff"/>
+  <text x="62" y="472" fill="#c77dff" font-size="9" font-weight="700">touch -t → timestomping</text>
+  <text x="62" y="486" fill="#6b6b8a" font-size="8">modificar fechas para evadir análisis forense</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: options reference -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// OPCIONES CRÍTICAS</text>
+
+  <!-- cp options -->
+  <rect x="488" y="58" width="506" height="120" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="488" y="58" width="506" height="22" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="502" y="73" fill="#4d96ff" font-size="10" font-weight="700">cp — opciones</text>
+
+  <text x="502" y="96" fill="#4d96ff" font-size="10">-r</text>
+  <text x="524" y="96" fill="#6b6b8a" font-size="9">recursivo — necesario para copiar directorios</text>
+  <text x="502" y="112" fill="#4d96ff" font-size="10">-a</text>
+  <text x="524" y="112" fill="#6b6b8a" font-size="9">archive — preserva permisos, fechas, symlinks</text>
+  <text x="502" y="128" fill="#4d96ff" font-size="10">-i</text>
+  <text x="524" y="128" fill="#6b6b8a" font-size="9">interactivo — pregunta antes de sobreescribir</text>
+  <text x="502" y="144" fill="#4d96ff" font-size="10">-p</text>
+  <text x="524" y="144" fill="#6b6b8a" font-size="9">preserva permisos y fechas del original</text>
+  <text x="502" y="160" fill="#4d96ff" font-size="10">-v</text>
+  <text x="524" y="160" fill="#6b6b8a" font-size="9">verbose — muestra cada archivo copiado</text>
+  <text x="502" y="170" fill="#3a3a5a" font-size="8">cp -a /etc/ /backup/etc_20260322/   ← backup perfecto</text>
+
+  <!-- mv options -->
+  <rect x="488" y="186" width="506" height="96" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <rect x="488" y="186" width="506" height="22" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="502" y="201" fill="#ff9f43" font-size="10" font-weight="700">mv — opciones</text>
+
+  <text x="502" y="224" fill="#ff9f43" font-size="10">-i</text>
+  <text x="524" y="224" fill="#6b6b8a" font-size="9">interactivo — pregunta antes de sobreescribir</text>
+  <text x="502" y="240" fill="#ff9f43" font-size="10">-n</text>
+  <text x="524" y="240" fill="#6b6b8a" font-size="9">no clobber — no sobreescribe si ya existe</text>
+  <text x="502" y="256" fill="#ff9f43" font-size="10">-v</text>
+  <text x="524" y="256" fill="#6b6b8a" font-size="9">verbose — muestra cada operación</text>
+  <text x="502" y="272" fill="#3a3a5a" font-size="8">mv old.conf old.conf.bak   ← renombrar = backup</text>
+
+  <!-- rm options -->
+  <rect x="488" y="290" width="506" height="110" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="488" y="290" width="506" height="22" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="502" y="305" fill="#ff6b6b" font-size="10" font-weight="700">rm — opciones ⚠ sin papelera</text>
+
+  <text x="502" y="328" fill="#ff6b6b" font-size="10">-r</text>
+  <text x="524" y="328" fill="#6b6b8a" font-size="9">recursivo — elimina directorios y su contenido</text>
+  <text x="502" y="344" fill="#ff6b6b" font-size="10">-f</text>
+  <text x="524" y="344" fill="#6b6b8a" font-size="9">forzado — sin errores si no existe el archivo</text>
+  <text x="502" y="360" fill="#ff6b6b" font-size="10">-i</text>
+  <text x="524" y="360" fill="#6b6b8a" font-size="9">interactivo — confirma cada eliminación</text>
+  <text x="502" y="376" fill="#ff6b6b" font-size="10">-v</text>
+  <text x="524" y="376" fill="#6b6b8a" font-size="9">verbose — confirma cada archivo eliminado</text>
+  <text x="502" y="392" fill="#ff6b6b" font-size="8">rm -rf /  →  destruye el sistema · NUNCA ejecutar</text>
+
+  <!-- security section -->
+  <text x="488" y="422" fill="#6b6b8a" font-size="9" letter-spacing="2">// SEGURIDAD Y FORENSE</text>
+  <rect x="488" y="432" width="506" height="54" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="502" y="450" fill="#c77dff" font-size="9" font-weight="700">touch -t</text>
+  <text x="560" y="450" fill="#6b6b8a" font-size="8">timestomping — falsificar fechas de archivos maliciosos</text>
+  <text x="502" y="466" fill="#ff6b6b" font-size="9" font-weight="700">rm -rf</text>
+  <text x="546" y="466" fill="#6b6b8a" font-size="8">limpieza de evidencias post-explotación</text>
+  <text x="502" y="478" fill="#4d96ff" font-size="9" font-weight="700">cp /etc/shadow /tmp/</text>
+  <text x="632" y="478" fill="#6b6b8a" font-size="8">exfiltración de hashes</text>
+</svg>

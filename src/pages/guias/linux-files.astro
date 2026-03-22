@@ -1,0 +1,311 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Gestión de Archivos Linux — CybSecStudy" description="cp, mv, rm y touch explicados en profundidad. Opciones, errores comunes y aplicaciones en ciberseguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .code-block .cm { color: #6b6b8a; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .warn-block { background: #12121a; border: 1px solid #ff6b6b; border-left: 3px solid #ff6b6b; padding: 14px 18px; margin: 14px 0; }
+    .warn-strong { color: #ff6b6b; font-weight: 700; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 5 de 6</div>
+      <h1>Gestión de <span class="accent">Archivos</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Copiar, mover, renombrar y eliminar desde la terminal. Sin papelera. Sin deshacer. Con precisión.</p>
+    </div>
+
+    <div class="intro-card">
+      <p style="color:#b0b0c8;line-height:1.8;font-size:15px;margin:0 0 8px">En Linux no hay botón derecho → copiar. Todo se hace con comandos. Cuatro bastan para el 95% de las operaciones sobre archivos: <strong style="color:#00ff9f">touch</strong>, <strong style="color:#00ff9f">cp</strong>, <strong style="color:#00ff9f">mv</strong> y <strong style="color:#00ff9f">rm</strong>.</p>
+      <p style="color:#b0b0c8;line-height:1.8;font-size:15px;margin:0">La clave no es memorizarlos — es conocer sus opciones y cuándo cada una puede salvarte o destruirte el trabajo.</p>
+    </div>
+
+    <div class="section-label">// Comandos — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">touch</div>
+          <div class="concept-title">touch — Crear archivos y modificar fechas</div>
+          <div class="concept-badge">crear · timestamps</div>
+        </div>
+        <div class="concept-body">
+          <p><code>touch</code> tiene dos funciones: <strong>crear archivos vacíos</strong> si no existen, y <strong>actualizar la fecha</strong> de acceso/modificación si ya existen.</p>
+          <div class="code-block">touch archivo.txt              # crear archivo vacío
+touch a.txt b.txt c.txt        # crear varios a la vez
+touch -t 202603210900 log.txt  # establecer fecha específica (YYYYMMDDhhmm)
+touch -a archivo.txt           # actualizar solo fecha de acceso
+touch -m archivo.txt           # actualizar solo fecha de modificación</div>
+          <p style="margin-top:10px">Usos prácticos: crear archivos de log vacíos para un servicio, crear la estructura de un proyecto, o verificar que un archivo existe en un script sin modificarlo.</p>
+          <div class="sec-badge">⚠ touch -t = timestomping — falsificar fechas para evadir análisis forense</div>
+          <div class="info-badge">💡 Un archivo con fecha de 2019 en un sistema creado en 2026 es señal de alerta forense</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">cp</div>
+          <div class="concept-title">cp — Copiar archivos y directorios</div>
+          <div class="concept-badge">-r · -a · -i · -p</div>
+        </div>
+        <div class="concept-body">
+          <p>Sintaxis: <code>cp origen destino</code>. El original queda intacto — <code>cp</code> siempre hace una copia.</p>
+          <div class="code-block">cp archivo.txt copia.txt              # copiar con nuevo nombre
+cp archivo.txt /tmp/                  # copiar a otro directorio
+cp a.txt b.txt c.txt /tmp/            # copiar varios a un destino
+cp -r carpeta/ /tmp/carpeta_backup/   # copiar directorio (SIEMPRE -r)
+cp -a /etc/ /backup/etc_20260322/     # backup perfecto (preserva todo)
+cp -i archivo.txt destino/            # preguntar si el destino existe
+cp -p archivo.txt destino/            # preservar permisos y fechas
+cp -v archivo.txt destino/            # verbose: ver lo que copia</div>
+          <p style="margin-top:10px">La opción <strong>-a</strong> (archive) es la más importante para backups: equivale a <code>-dR --preserve=all</code>. Preserva permisos, fechas, propietario, grupo y symlinks. Un backup sin <code>-a</code> puede romper servicios al restaurar si los permisos no son correctos.</p>
+          <div class="info-badge">💡 cp -a es el estándar para backups de configuración de servidores</div>
+          <div class="sec-badge">⚠ cp /etc/shadow /tmp/ — técnica de exfiltración de hashes post-explotación</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">mv</div>
+          <div class="concept-title">mv — Mover y renombrar archivos</div>
+          <div class="concept-badge">-i · -n · -v · corte</div>
+        </div>
+        <div class="concept-body">
+          <p><code>mv</code> hace dos cosas según el destino: <strong>renombra</strong> (si el destino es un nombre en el mismo directorio) o <strong>mueve</strong> (si el destino es un directorio diferente).</p>
+          <div class="code-block">mv antiguo.txt nuevo.txt              # renombrar
+mv archivo.txt /tmp/                  # mover a otro directorio
+mv archivo.txt /tmp/nuevo_nombre.txt  # mover y renombrar a la vez
+mv a.txt b.txt c.txt /tmp/            # mover varios
+mv -i origen destino                  # preguntar si el destino existe
+mv -n origen destino                  # no sobreescribir si existe
+mv -v origen destino                  # verbose</div>
+          <p style="margin-top:10px">Diferencia crítica con <code>cp</code>: <strong>mv elimina el original</strong>. Si el destino está en la misma partición, es instantáneo (solo mueve el puntero del inode). Si está en otra partición, copia y luego borra.</p>
+          <p>Para renombrar múltiples archivos se usa un bucle:</p>
+          <div class="code-block">for f in *.txt; do mv "$f" "$&#123;f%.txt&#125;.md"; done</div>
+          <div class="info-badge">💡 mv archivo.conf archivo.conf.bak — forma rápida de hacer backup antes de editar</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">rm</div>
+          <div class="concept-title">rm — Eliminar archivos y directorios</div>
+          <div class="concept-badge">⚠ sin papelera · permanente</div>
+        </div>
+        <div class="concept-body">
+          <p><code>rm</code> elimina archivos <strong>permanentemente</strong>. No hay papelera. No hay Ctrl+Z. Una vez ejecutado, los datos solo son recuperables con herramientas forenses mientras el espacio en disco no haya sido reutilizado.</p>
+          <div class="code-block">rm archivo.txt            # eliminar un archivo
+rm a.txt b.txt c.txt      # eliminar varios
+rm *.log                  # eliminar todos los .log del directorio actual
+rm -r carpeta/            # eliminar directorio y todo su contenido
+rm -rf carpeta/           # forzado: sin preguntar, sin errores
+rm -i archivo.txt         # interactivo: confirma cada eliminación
+rm -v archivo.txt         # verbose: confirma lo que elimina</div>
+          <div class="warn-block">
+            <p style="font-size:13px;color:#b0b0c8;margin:0 0 6px;line-height:1.7"><span class="warn-strong">Regla de oro:</span> antes de <code>rm</code> con wildcards, siempre ejecuta <code>ls</code> con los mismos argumentos para verificar qué vas a borrar:</p>
+            <p style="font-size:13px;color:#b0b0c8;margin:0;line-height:1.7"><code>ls *.log</code> → revisar la lista → <code>rm *.log</code></p>
+          </div>
+          <div class="code-block"># NUNCA ejecutes esto
+rm -rf /           # destruye el sistema completo
+rm -rf /*          # destruye todo el contenido de /
+rm -rf ~/          # destruye tu directorio home completo
+rm -rf .           # destruye el directorio actual</div>
+          <div class="sec-badge">⚠ rm -rf ~/.bash_history — técnica para borrar historial de comandos</div>
+          <div class="sec-badge">⚠ Los archivos borrados son recuperables con testdisk, extundelete o Autopsy</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">mkdir</div>
+          <div class="concept-title">mkdir y rmdir — Gestión de directorios</div>
+          <div class="concept-badge">-p · estructura de proyecto</div>
+        </div>
+        <div class="concept-body">
+          <p>Van de la mano con los comandos anteriores:</p>
+          <div class="code-block">mkdir directorio              # crear un directorio
+mkdir -p a/b/c/d              # crear árbol completo sin error si existe
+mkdir -p proyecto/&#123;src,tests,docs,config&#125;  # varios subdirectorios a la vez
+
+rmdir directorio              # eliminar solo si está VACÍO
+rm -r directorio/             # eliminar con todo su contenido</div>
+          <p style="margin-top:10px">La opción <strong>-p</strong> es esencial en scripting — crea todos los directorios intermedios necesarios y no falla si ya existen. Sin <code>-p</code>, el comando falla si el directorio padre no existe.</p>
+          <div class="code-block"># Crear estructura completa de un proyecto
+mkdir -p mi-proyecto/&#123;src,docs,tests,config&#125;
+touch mi-proyecto/src/main.py
+touch mi-proyecto/README.md
+touch mi-proyecto/config/.env</div>
+          <div class="info-badge">💡 mkdir -p es el estándar en scripts de despliegue y CI/CD</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">🔗</div>
+          <div class="concept-title">Flujos de trabajo — Patrones reales</div>
+          <div class="concept-badge">backup · organizar · limpiar</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Backup antes de modificar archivos críticos:</strong></p>
+          <div class="code-block">cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+nano /etc/nginx/nginx.conf
+# Si algo falla:
+mv /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf</div>
+          <p style="margin-top:10px"><strong>Limpiar archivos temporales con verificación:</strong></p>
+          <div class="code-block">ls -lh /tmp/*.tmp        # ver qué hay antes
+rm -i /tmp/*.tmp         # eliminar con confirmación</div>
+          <p style="margin-top:10px"><strong>Organizar archivos por extensión:</strong></p>
+          <div class="code-block">mkdir -p docs images scripts
+mv *.pdf *.docx docs/
+mv *.png *.jpg images/
+mv *.sh *.py scripts/</div>
+          <p style="margin-top:10px"><strong>Alternativa segura a rm directo:</strong></p>
+          <div class="code-block">mv archivo_sospechoso.txt /tmp/   # mover primero
+# Verificar que ya no se necesita
+rm /tmp/archivo_sospechoso.txt    # borrar después</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin:0 0 8px">// SIGUIENTE EN LA SERIE</p>
+      <p style="color:#b0b0c8;font-size:14px;margin:0"><strong style="color:#4d96ff">Post 6: Visualización de contenido</strong> — cat, less, head, tail y grep. Leer y filtrar el contenido de archivos desde la terminal.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuál es la diferencia fundamental entre cp y mv?", opts: ["cp es más rápido que mv","cp mantiene el original; mv lo elimina (es un corte, no una copia)","mv crea una copia y luego borra; cp solo copia","No hay diferencia práctica"], correct: 1, exp: "cp siempre mantiene el original intacto y crea una copia. mv mueve el archivo — si el destino está en la misma partición solo mueve el puntero del inode (instantáneo). El original desaparece." },
+  { q: "¿Por qué necesitas -r al copiar un directorio con cp?", opts: ["Para copiar archivos ocultos","Para preservar los permisos del directorio","Porque cp solo trabaja con archivos individuales; -r activa el modo recursivo para directorios","Para forzar la copia sin confirmación"], correct: 2, exp: "Sin -r, cp no puede copiar directorios y falla. La opción -r (recursivo) hace que cp descienda por todos los subdirectorios y copie su contenido completo." },
+  { q: "¿Qué hace cp -a al copiar?", opts: ["Copia solo archivos ocultos","Activa el modo verbose","Preserva permisos, fechas, propietario, grupo y symlinks — ideal para backups","Pregunta antes de sobreescribir"], correct: 2, exp: "cp -a (archive) equivale a -dR --preserve=all. Es el estándar para backups porque un backup que no preserva permisos puede romper servicios al restaurar — imagina restaurar /etc/shadow sin sus permisos 640." },
+  { q: "¿Por qué es peligroso usar rm con wildcards sin verificar antes?", opts: ["Porque rm con wildcards no funciona en Linux","Porque rm no tiene papelera — borra permanentemente, y el wildcard puede coincidir con más archivos de los esperados","Porque rm necesita sudo con wildcards","Porque los wildcards se expanden muy lentamente"], correct: 1, exp: "rm borra permanentemente sin papelera. Si el wildcard *.log coincide con archivos que no esperabas, no hay forma de recuperarlos fácilmente. Siempre ejecuta ls *.log antes de rm *.log para verificar qué vas a borrar." },
+  { q: "¿Qué es el timestomping y qué comando lo realiza?", opts: ["Crear múltiples archivos a la vez con touch","Modificar las fechas de un archivo con touch -t para que parezca más antiguo y evadir análisis forense","Copiar archivos preservando sus fechas originales","Eliminar el historial de comandos con rm"], correct: 1, exp: "El timestomping es una técnica de evasión forense: el atacante usa touch -t para modificar las fechas de acceso y modificación de un archivo malicioso, haciéndolo parecer legítimo y antiguo ante un analista." },
+  { q: "¿Qué hace mkdir -p a/b/c/d?", opts: ["Crea solo el directorio d si a, b y c ya existen","Crea todo el árbol de directorios aunque los intermedios no existan, sin error si ya existen","Crea el directorio con permisos especiales","Elimina el árbol de directorios especificado"], correct: 1, exp: "mkdir -p crea toda la cadena de directorios necesaria. Sin -p, mkdir fallaría si el directorio padre no existe. Con -p, tampoco falla si los directorios ya existen — imprescindible en scripts." },
+  { q: "¿Para qué sirve mv -n?", opts: ["Renombrar con un número al final","No sobreescribir el archivo destino si ya existe","Mover en modo silencioso sin output","Mover sin preservar las fechas"], correct: 1, exp: "mv -n (no clobber) hace que mv no sobreescriba el archivo destino si ya existe. Es la opción de seguridad para mover archivos sin riesgo de perder datos en el destino." },
+  { q: "¿Qué ocurre con los archivos borrados con rm en Linux?", opts: ["Van a la papelera del sistema","Se eliminan inmediatamente y son irrecuperables en cualquier caso","Se marcan como disponibles en el sistema de archivos pero el contenido permanece en disco hasta que el espacio sea reutilizado","Se comprimen y archivan automáticamente"], correct: 2, exp: "rm libera el inode y marca el espacio como disponible, pero el contenido físico permanece en disco hasta que se sobreescriba. Herramientas como testdisk, extundelete o Autopsy pueden recuperar archivos borrados con rm." },
+  { q: "¿Cuál es el patrón correcto antes de editar un archivo de configuración crítico?", opts: ["Editar directamente sin preocupaciones","Hacer una copia con cp archivo archivo.bak, editar el original, y restaurar con mv si algo falla","Usar rm para borrar el archivo antes de editarlo","Usar touch para resetear el archivo"], correct: 1, exp: "El patrón estándar en administración de sistemas: 1) cp nginx.conf nginx.conf.bak, 2) editar nginx.conf, 3) si algo falla mv nginx.conf.bak nginx.conf. Siempre backup antes de tocar archivos de configuración en producción." },
+  { q: "¿Qué técnica de post-explotación implica cp /etc/shadow /tmp/archivo_oculto?", opts: ["Timestomping","Escalada de privilegios","Exfiltración de hashes de contraseñas","Borrado seguro de evidencias"], correct: 2, exp: "Copiar /etc/shadow (que contiene los hashes de contraseñas de todos los usuarios) a /tmp permite al atacante descargarlo o leerlo. Los hashes se atacan offline con hashcat o john para recuperar contraseñas en texto plano." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Gestionas archivos como un sysadmin.' : score >= 7 ? 'Muy bien. Repasa los comandos que fallaste.' : 'Practica en la terminal — estos comandos son diarios.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
