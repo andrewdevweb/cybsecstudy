@@ -1,0 +1,137 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="50" fill="#1a1a2a" font-size="38" font-weight="700">VER CONTENIDO</text>
+  <text x="46" y="48" fill="#e8eaf0" font-size="38" font-weight="700">VER CONTENIDO</text>
+  <text x="48" y="66" fill="#00ff9f" font-size="9" letter-spacing="3">cat · less · head · tail · grep · strings</text>
+  <line x1="48" y1="76" x2="430" y2="76" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: terminal -->
+  <text x="48" y="96" fill="#6b6b8a" font-size="9" letter-spacing="2">// SESIÓN DE ANÁLISIS</text>
+  <rect x="48" y="106" width="390" height="270" rx="3" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="106" width="390" height="20" rx="3 3 0 0" fill="#1e1e2e"/>
+  <circle cx="62" cy="116" r="4" fill="#ff6b6b"/>
+  <circle cx="76" cy="116" r="4" fill="#ffd93d"/>
+  <circle cx="90" cy="116" r="4" fill="#6bcb77"/>
+
+  <text x="62" y="142" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="142" fill="#e8eaf0" font-size="10"> cat /etc/hostname</text>
+  <text x="62" y="156" fill="#b0b0c8" font-size="10">tryhackme</text>
+
+  <text x="62" y="174" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="174" fill="#e8eaf0" font-size="10"> head -n 3 /etc/passwd</text>
+  <text x="62" y="188" fill="#4d96ff" font-size="9">root:x:0:0:root:/root:/bin/bash</text>
+  <text x="62" y="200" fill="#4d96ff" font-size="9">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</text>
+  <text x="62" y="212" fill="#4d96ff" font-size="9">bin:x:2:2:bin:/bin:/usr/sbin/nologin</text>
+
+  <text x="62" y="230" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="230" fill="#e8eaf0" font-size="10"> grep "Failed password" /var/log/auth.log | wc -l</text>
+  <text x="62" y="244" fill="#ff6b6b" font-size="10">2847</text>
+
+  <text x="62" y="262" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="262" fill="#e8eaf0" font-size="10"> tail -f /var/log/auth.log</text>
+  <text x="62" y="276" fill="#ff9f43" font-size="9">Mar 28 10:14:33 sshd[1234]: Failed password for root from 185.220.101.5</text>
+  <text x="62" y="288" fill="#ff9f43" font-size="9">Mar 28 10:14:34 sshd[1234]: Failed password for root from 185.220.101.5</text>
+  <text x="62" y="300" fill="#ff9f43" font-size="9">Mar 28 10:14:35 sshd[1234]: Failed password for root from 185.220.101.5</text>
+  <text x="62" y="314" fill="#3a3a5a" font-size="9">...ataque de fuerza bruta en tiempo real (Ctrl+C para detener)</text>
+
+  <text x="62" y="332" fill="#00ff9f" font-size="10">$</text>
+  <text x="74" y="332" fill="#e8eaf0" font-size="10"> grep -r "password" /var/www/ --include="*.php" -l</text>
+  <text x="62" y="346" fill="#ff6b6b" font-size="9">/var/www/html/config.php</text>
+  <text x="62" y="358" fill="#ff6b6b" font-size="9">/var/www/html/db.php</text>
+  <text x="62" y="372" fill="#3a3a5a" font-size="8">posibles credenciales hardcodeadas</text>
+
+  <!-- grep options -->
+  <text x="48" y="402" fill="#6b6b8a" font-size="9" letter-spacing="2">// GREP — OPCIONES CLAVE</text>
+  <rect x="48" y="412" width="390" height="86" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="430" fill="#ffd93d" font-size="9">-i</text><text x="82" y="430" fill="#6b6b8a" font-size="8">insensible a mayúsculas</text>
+  <text x="62" y="444" fill="#ffd93d" font-size="9">-r</text><text x="82" y="444" fill="#6b6b8a" font-size="8">recursivo en directorios</text>
+  <text x="62" y="458" fill="#ffd93d" font-size="9">-v</text><text x="82" y="458" fill="#6b6b8a" font-size="8">invertir — líneas que NO coinciden</text>
+  <text x="62" y="472" fill="#ffd93d" font-size="9">-n</text><text x="82" y="472" fill="#6b6b8a" font-size="8">número de línea</text>
+  <text x="200" y="430" fill="#ffd93d" font-size="9">-l</text><text x="220" y="430" fill="#6b6b8a" font-size="8">solo nombres de archivo</text>
+  <text x="200" y="444" fill="#ffd93d" font-size="9">-c</text><text x="220" y="444" fill="#6b6b8a" font-size="8">contar coincidencias</text>
+  <text x="200" y="458" fill="#ffd93d" font-size="9">-A N</text><text x="230" y="458" fill="#6b6b8a" font-size="8">N líneas después</text>
+  <text x="200" y="472" fill="#ffd93d" font-size="9">-E</text><text x="220" y="472" fill="#6b6b8a" font-size="8">regex extendida (|, +, ?)</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT top: command cards -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// COMANDOS</text>
+
+  <!-- cat -->
+  <rect x="488" y="58" width="150" height="60" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1.5"/>
+  <rect x="488" y="58" width="150" height="4" fill="#00ff9f"/>
+  <text x="496" y="76" fill="#00ff9f" font-size="13" font-weight="700">cat</text>
+  <text x="496" y="90" fill="#6b6b8a" font-size="8">ver completo</text>
+  <text x="496" y="104" fill="#3a3a5a" font-size="7">-n líneas · -A especiales</text>
+
+  <!-- less -->
+  <rect x="646" y="58" width="150" height="60" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="646" y="58" width="150" height="4" fill="#4d96ff"/>
+  <text x="654" y="76" fill="#4d96ff" font-size="13" font-weight="700">less</text>
+  <text x="654" y="90" fill="#6b6b8a" font-size="8">paginado interactivo</text>
+  <text x="654" y="104" fill="#3a3a5a" font-size="7">/ buscar · G final · q salir</text>
+
+  <!-- head -->
+  <rect x="804" y="58" width="192" height="60" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="804" y="58" width="192" height="4" fill="#ff9f43"/>
+  <text x="812" y="76" fill="#ff9f43" font-size="13" font-weight="700">head</text>
+  <text x="812" y="90" fill="#6b6b8a" font-size="8">primeras líneas</text>
+  <text x="812" y="104" fill="#3a3a5a" font-size="7">-n N · por defecto 10</text>
+
+  <!-- tail -->
+  <rect x="488" y="126" width="150" height="60" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="488" y="126" width="150" height="4" fill="#c77dff"/>
+  <text x="496" y="144" fill="#c77dff" font-size="13" font-weight="700">tail</text>
+  <text x="496" y="158" fill="#6b6b8a" font-size="8">últimas líneas</text>
+  <text x="496" y="172" fill="#ff6b6b" font-size="7">-f tiempo real ← clave</text>
+
+  <!-- grep -->
+  <rect x="646" y="126" width="350" height="60" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="2"/>
+  <rect x="646" y="126" width="350" height="4" fill="#ffd93d"/>
+  <text x="654" y="144" fill="#ffd93d" font-size="13" font-weight="700">grep</text>
+  <text x="700" y="144" fill="#6b6b8a" font-size="9">— buscar patrones en texto</text>
+  <text x="654" y="158" fill="#6b6b8a" font-size="8">-i -r -v -n -l -c -A -B -C -E</text>
+  <text x="654" y="172" fill="#3a3a5a" font-size="7">el más potente de los cinco — combina con pipes</text>
+
+  <!-- pipe examples -->
+  <text x="488" y="212" fill="#6b6b8a" font-size="9" letter-spacing="2">// COMBINACIONES CON PIPES</text>
+  <rect x="488" y="222" width="508" height="160" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="504" y="242" fill="#6b6b8a" font-size="8"># IPs haciendo fuerza bruta (Top 10)</text>
+  <rect x="500" y="248" width="488" height="18" rx="1" fill="#12121a"/>
+  <text x="508" y="260" fill="#e8eaf0" font-size="8">grep "Failed password" /var/log/auth.log | grep -oE "([0-9]+\.)+[0-9]+" | sort | uniq -c | sort -rn | head -10</text>
+
+  <text x="504" y="284" fill="#6b6b8a" font-size="8"># Ver config SSH sin comentarios ni líneas vacías</text>
+  <rect x="500" y="290" width="488" height="18" rx="1" fill="#12121a"/>
+  <text x="508" y="302" fill="#e8eaf0" font-size="8">grep -v "^#" /etc/ssh/sshd_config | grep -v "^$"</text>
+
+  <text x="504" y="326" fill="#6b6b8a" font-size="8"># Buscar webshells PHP en el servidor</text>
+  <rect x="500" y="332" width="488" height="18" rx="1" fill="#12121a"/>
+  <text x="508" y="344" fill="#e8eaf0" font-size="8">grep -r "system\|exec\|shell_exec" /var/www/ --include="*.php" -l</text>
+
+  <text x="504" y="368" fill="#6b6b8a" font-size="8"># Monitorizar errores nginx en tiempo real</text>
+  <rect x="500" y="374" width="488" height="18" rx="1" fill="#12121a"/>
+  <text x="508" y="386" fill="#e8eaf0" font-size="8">tail -f /var/log/nginx/error.log | grep "ERROR"</text>
+
+  <!-- less controls -->
+  <text x="488" y="412" fill="#6b6b8a" font-size="9" letter-spacing="2">// CONTROLES DE LESS</text>
+  <rect x="488" y="422" width="508" height="58" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <text x="500" y="438" fill="#4d96ff" font-size="8">Space próxima página</text>
+  <text x="500" y="452" fill="#4d96ff" font-size="8">b      página anterior</text>
+  <text x="500" y="466" fill="#4d96ff" font-size="8">G      ir al final</text>
+  <text x="650" y="438" fill="#4d96ff" font-size="8">/texto buscar adelante</text>
+  <text x="650" y="452" fill="#4d96ff" font-size="8">n      siguiente match</text>
+  <text x="650" y="466" fill="#4d96ff" font-size="8">q      salir</text>
+  <text x="800" y="438" fill="#4d96ff" font-size="8">g   inicio</text>
+  <text x="800" y="452" fill="#4d96ff" font-size="8">-N  nº línea</text>
+  <text x="800" y="466" fill="#4d96ff" font-size="8">+G  abrir al final</text>
+</svg>

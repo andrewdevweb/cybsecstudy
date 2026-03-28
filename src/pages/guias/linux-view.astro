@@ -1,0 +1,374 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Ver Contenido en Linux — CybSecStudy" description="cat, less, head, tail y grep explicados en profundidad. Leer, paginar y filtrar archivos desde la terminal." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #00ff9f; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #00ff9f; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #00ff9f; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #00ff9f; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #00ff9f); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .terminal { background: #0d0d14; border: 1px solid #1e1e2e; border-radius: 4px; overflow: hidden; margin: 16px 0; }
+    .terminal-bar { background: #1e1e2e; padding: 8px 14px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .tb { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.9; }
+    .p { color: #00ff9f; }
+    .c { color: #e8eaf0; }
+    .o { color: #b0b0c8; }
+    .ob { color: #4d96ff; }
+    .ow { color: #ff9f43; }
+    .or { color: #ff6b6b; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(0,255,159,0.06); border: 1px solid #00ff9f; color: #00ff9f; margin-top: 8px; margin-right: 6px; }
+    .keys-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; margin: 10px 0; }
+    .key-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 8px 12px; display: flex; gap: 10px; align-items: center; }
+    .key-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cc); font-weight: 700; flex-shrink: 0; min-width: 48px; }
+    .key-desc { font-size: 11px; color: #6b6b8a; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .complete-badge { background: #12121a; border: 1px solid #6bcb77; border-left: 3px solid #6bcb77; padding: 20px 24px; margin-bottom: 48px; }
+    .complete-badge p { color: #b0b0c8; font-size: 14px; margin: 0 0 6px; }
+    .complete-badge strong { color: #6bcb77; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #00ff9f; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #00ff9f; color: #00ff9f; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #00ff9f; background: transparent; color: #00ff9f; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #00ff9f; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #00ff9f; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .keys-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux CLI — Nivel Básico · Post 6 de 6</div>
+      <h1>Ver <span class="accent">Contenido</span> de Archivos</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Cinco comandos para leer, paginar, inspeccionar y filtrar el contenido de cualquier archivo desde la terminal.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>En Linux casi toda la configuración del sistema vive en archivos de texto plano. Saber leerlos con precisión — y filtrar exactamente lo que buscas — es tan importante como saber navegar por el sistema de archivos.</p>
+      <p><strong>cat</strong> para ver rápido · <strong>less</strong> para archivos largos · <strong>head/tail</strong> para los extremos · <strong>grep</strong> para encontrar cualquier patrón.</p>
+    </div>
+
+    <div class="section-label">// Terminal de análisis</div>
+    <div class="terminal" style="margin-bottom:32px">
+      <div class="terminal-bar">
+        <div class="dot" style="background:#ff6b6b"></div>
+        <div class="dot" style="background:#ffd93d"></div>
+        <div class="dot" style="background:#6bcb77"></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b6b8a;margin-left:8px">bash — análisis de servidor</span>
+      </div>
+      <div class="tb">
+        <div><span class="p">$</span><span class="c"> grep "Failed password" /var/log/auth.log | wc -l</span></div>
+        <div class="or">2847</div>
+        <div style="margin-top:6px"><span class="p">$</span><span class="c"> tail -f /var/log/auth.log | grep "Failed"</span></div>
+        <div class="ow">Mar 28 10:14:33 sshd: Failed password for root from 185.220.101.5</div>
+        <div class="ow">Mar 28 10:14:34 sshd: Failed password for root from 185.220.101.5</div>
+        <div style="color:#3a3a5a;font-size:11px">← ataque de fuerza bruta visible en tiempo real</div>
+        <div style="margin-top:6px"><span class="p">$</span><span class="c"> grep -v "^#" /etc/ssh/sshd_config | grep -v "^$"</span></div>
+        <div class="ob">PermitRootLogin yes</div>
+        <div class="ob">PasswordAuthentication yes</div>
+        <div style="color:#ff6b6b;font-size:11px">← configuración insegura detectada</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Comandos — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#00ff9f">
+        <div class="concept-header">
+          <div class="concept-num">cat</div>
+          <div class="concept-title">cat — Mostrar contenido completo</div>
+          <div class="concept-badge">concatenate · rápido · archivos cortos</div>
+        </div>
+        <div class="concept-body">
+          <p><code>cat</code> vuelca el contenido completo de uno o varios archivos en la terminal de una vez. Perfecto para archivos cortos — para archivos largos, usa <code>less</code>.</p>
+          <div class="code-block">cat archivo.txt                   # ver un archivo
+cat /etc/hostname                 # nombre del sistema (1 línea)
+cat /etc/os-release               # info de la distribución
+cat archivo1.txt archivo2.txt     # concatenar y mostrar dos archivos
+cat -n archivo.txt                # con números de línea
+cat -A archivo.txt                # mostrar tabs (^I) y fin de línea ($)
+cat -s archivo.txt                # comprimir líneas vacías consecutivas</div>
+          <p style="margin-top:10px"><code>cat</code> también crea archivos con contenido usando here-doc:</p>
+          <div class="code-block">cat > notas.txt &lt;&lt; EOF
+Línea 1
+Línea 2
+EOF
+
+cat >> notas.txt &lt;&lt; EOF
+Añadida al final
+EOF</div>
+          <div class="info-badge">💡 El nombre viene de catenate — su función original era concatenar archivos</div>
+          <div class="sec-badge">⚠ cat /etc/passwd y cat /etc/shadow — enumeración de usuarios y hashes</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">less</div>
+          <div class="concept-title">less — Leer archivos largos con comodidad</div>
+          <div class="concept-badge">paginado · búsqueda · bidireccional</div>
+        </div>
+        <div class="concept-body">
+          <p><code>less</code> abre el archivo en un visor paginado interactivo. Puedes desplazarte en ambas direcciones y buscar texto. Es el estándar para leer archivos de más de ~30 líneas.</p>
+          <div class="code-block">less /var/log/syslog
+less /etc/nginx/nginx.conf
+less +G /var/log/auth.log        # abrir directamente en el final
+less +/error /var/log/syslog     # abrir buscando "error"
+less -N /etc/nginx/nginx.conf    # con números de línea</div>
+          <p style="margin-top:10px">Controles principales dentro de less:</p>
+          <div class="keys-grid">
+            <div class="key-item"><span class="key-name">Space</span><span class="key-desc">página siguiente</span></div>
+            <div class="key-item"><span class="key-name">b</span><span class="key-desc">página anterior</span></div>
+            <div class="key-item"><span class="key-name">g / G</span><span class="key-desc">inicio / final</span></div>
+            <div class="key-item"><span class="key-name">/texto</span><span class="key-desc">buscar adelante</span></div>
+            <div class="key-item"><span class="key-name">?texto</span><span class="key-desc">buscar atrás</span></div>
+            <div class="key-item"><span class="key-name">n / N</span><span class="key-desc">siguiente / anterior match</span></div>
+            <div class="key-item"><span class="key-name">q</span><span class="key-desc">salir</span></div>
+            <div class="key-item"><span class="key-name">-N</span><span class="key-desc">activar números de línea</span></div>
+          </div>
+          <div class="info-badge">💡 "less is more" — less se creó como mejora de more, con scroll bidireccional</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">head</div>
+          <div class="concept-title">head — Ver el inicio de un archivo</div>
+          <div class="concept-badge">primeras líneas · -n · cabeceras</div>
+        </div>
+        <div class="concept-body">
+          <p><code>head</code> muestra las primeras líneas de un archivo. Por defecto las 10 primeras. Ideal para verificar cabeceras, CSV, scripts o frontmatter sin cargar el archivo completo.</p>
+          <div class="code-block">head archivo.txt              # primeras 10 líneas (por defecto)
+head -n 20 archivo.txt        # primeras 20 líneas
+head -n 1 /etc/hostname       # exactamente la primera línea
+head -c 100 archivo.txt       # primeros 100 bytes
+head -n 5 datos.csv           # cabecera de un CSV
+head -n 1 script.sh           # ver el shebang (#!/bin/bash)</div>
+          <div class="sec-badge">⚠ head -n 1 script.sh — verificar si un script tiene shebang antes de ejecutarlo</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">tail</div>
+          <div class="concept-title">tail — Ver el final y monitorizar en tiempo real</div>
+          <div class="concept-badge">-f tiempo real · logs · últimas líneas</div>
+        </div>
+        <div class="concept-body">
+          <p><code>tail</code> muestra las últimas líneas. Por defecto las 10 últimas. Su opción más importante es <code>-f</code> (follow) — mantiene el archivo abierto y muestra nuevas líneas en tiempo real.</p>
+          <div class="code-block">tail archivo.txt              # últimas 10 líneas
+tail -n 50 archivo.txt        # últimas 50 líneas
+tail -n +5 archivo.txt        # desde la línea 5 hasta el final
+tail -f /var/log/syslog       # seguir en tiempo real
+tail -f /var/log/auth.log     # monitorizar autenticaciones
+tail -f /var/log/nginx/access.log  # tráfico web en vivo
+
+# Monitorizar múltiples archivos a la vez
+tail -f /var/log/syslog /var/log/auth.log
+
+# Filtrar en tiempo real
+tail -f /var/log/nginx/error.log | grep "ERROR"</div>
+          <div class="sec-badge">⚠ tail -f /var/log/auth.log — ver ataques SSH de fuerza bruta en tiempo real</div>
+          <div class="info-badge">💡 tail -f es la herramienta de monitorización más usada por sysadmins</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">grep</div>
+          <div class="concept-title">grep — Buscar patrones en texto</div>
+          <div class="concept-badge">-i · -r · -v · -n · -E · regex</div>
+        </div>
+        <div class="concept-body">
+          <p><code>grep</code> (Global Regular Expression Print) busca líneas que contienen un patrón. Es el comando más potente de esta lista y el que más usarás en ciberseguridad.</p>
+          <div class="code-block">grep "error" archivo.log          # líneas con "error"
+grep -i "error" archivo.log       # ignorar mayúsculas
+grep -n "error" archivo.log       # mostrar número de línea
+grep -v "error" archivo.log       # líneas que NO contienen "error"
+grep -r "password" /etc/          # buscar recursivamente en /etc/
+grep -l "password" /etc/*.conf    # solo nombres de archivos
+grep -c "error" archivo.log       # contar coincidencias
+grep -A 3 "error" archivo.log     # 3 líneas después de cada match
+grep -B 3 "error" archivo.log     # 3 líneas antes de cada match
+grep -C 3 "error" archivo.log     # 3 líneas de contexto (antes y después)
+grep -E "error|warning|critical" archivo.log  # múltiples patrones</div>
+          <p style="margin-top:10px">Expresiones regulares básicas:</p>
+          <div class="code-block">grep "^root" /etc/passwd          # líneas que empiezan por "root"
+grep "bash$" /etc/passwd          # líneas que terminan en "bash"
+grep -E "192\.168\." log.txt      # IPs de red local
+grep -oE "([0-9]+\.)+[0-9]+" log  # extraer solo las IPs</div>
+          <div class="sec-badge">⚠ grep -r "PRIVATE KEY" /home/ — buscar claves SSH expuestas</div>
+          <div class="sec-badge">⚠ grep -r "system\|exec" /var/www/ --include="*.php" — detectar webshells</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">🔗</div>
+          <div class="concept-title">Combinaciones potentes con pipes</div>
+          <div class="concept-badge">| · wc · sort · uniq</div>
+        </div>
+        <div class="concept-body">
+          <p>Estos comandos alcanzan su máximo potencial al combinarse con pipes:</p>
+          <div class="code-block"># Contar intentos fallidos de SSH
+grep "Failed password" /var/log/auth.log | wc -l
+
+# Top 10 IPs haciendo fuerza bruta
+grep "Failed password" /var/log/auth.log \
+  | grep -oE "([0-9]+\.)+[0-9]+" \
+  | sort | uniq -c | sort -rn | head -10
+
+# Config SSH limpia (sin comentarios ni líneas vacías)
+grep -v "^#" /etc/ssh/sshd_config | grep -v "^$"
+
+# Usuarios del sistema que tienen bash
+grep "bash$" /etc/passwd | cut -d: -f1
+
+# Buscar webshells PHP en el servidor web
+grep -r "system\|exec\|shell_exec\|passthru" \
+  /var/www/ --include="*.php" -l
+
+# Monitorizar errores en tiempo real filtrados
+tail -f /var/log/nginx/error.log | grep "ERROR"
+
+# Ver qué procesos escuchan en qué puertos
+cat /proc/net/tcp | head -5</div>
+          <div class="info-badge">💡 Combinando 3-4 comandos con pipes se resuelven análisis que normalmente requerirían scripts</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="complete-badge">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#6bcb77;margin-bottom:8px">// NIVEL BÁSICO COMPLETADO</p>
+      <p><strong>¡Has completado el Nivel Básico de Linux CLI!</strong> Dominas la terminal, el sistema de archivos, la navegación, la gestión de archivos y la lectura de contenido.</p>
+      <p>El siguiente nivel: <strong>Permisos, usuarios, redirecciones, pipes y variables de entorno</strong> — cómo funciona Linux por dentro.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuándo deberías usar less en lugar de cat?", opts: ["Siempre que necesites buscar texto","Cuando el archivo es largo y cat haría que el contenido pase volando sin poder leerlo","Cuando necesites modificar el archivo","Cuando el archivo está en un directorio remoto"], correct: 1, exp: "cat vuelca todo el archivo de una vez sin paginación. Para archivos largos (logs, configuraciones extensas) less es la herramienta correcta — permite desplazarse, buscar y navegar sin que el contenido desaparezca." },
+  { q: "¿Qué hace tail -f?", opts: ["Muestra las primeras líneas de un archivo","Elimina el archivo tras leerlo","Mantiene el archivo abierto y muestra nuevas líneas en tiempo real","Muestra las últimas 10 líneas y sale"], correct: 2, exp: "tail -f (follow) es la herramienta de monitorización más usada. Mantiene el archivo abierto y muestra cada nueva línea que se añade — imprescindible para monitorizar logs de servidores en producción." },
+  { q: "¿Qué hace grep -v 'error' archivo.log?", opts: ["Cuenta las líneas con 'error'","Muestra las líneas que NO contienen 'error'","Busca 'error' de forma inversa (de abajo a arriba)","Elimina las líneas con 'error' del archivo"], correct: 1, exp: "-v invierte la selección: muestra todas las líneas que NO coinciden con el patrón. Muy útil para filtrar ruido: grep -v '^#' archivo.conf muestra solo las líneas de configuración activas, sin comentarios." },
+  { q: "¿Para qué sirve grep -r 'password' /etc/?", opts: ["Eliminar archivos con 'password' en /etc/","Buscar recursivamente la cadena 'password' en todos los archivos dentro de /etc/","Cambiar 'password' por otra cadena en /etc/","Mostrar el número de archivos en /etc/"], correct: 1, exp: "-r hace que grep descienda recursivamente por todos los subdirectorios. grep -r 'password' /etc/ busca en todos los archivos de configuración del sistema — útil para encontrar credenciales hardcodeadas." },
+  { q: "¿Qué combinación detecta ataques de fuerza bruta SSH en tiempo real?", opts: ["cat /var/log/auth.log","head -n 100 /var/log/auth.log","tail -f /var/log/auth.log | grep 'Failed password'","less /var/log/auth.log"], correct: 2, exp: "tail -f mantiene el log abierto y muestra nuevas líneas al instante. Combinado con grep 'Failed password' filtra solo los intentos fallidos. Un atacante haciendo brute force aparece como decenas de líneas por segundo." },
+  { q: "¿Qué hace head -n 1 script.sh?", opts: ["Ejecuta la primera línea del script","Muestra solo la primera línea — el shebang (#!/bin/bash)","Cuenta las líneas del script","Crea un backup de la primera línea"], correct: 1, exp: "head -n 1 muestra solo la primera línea. Para scripts, esto permite verificar el shebang (#!/bin/bash, #!/usr/bin/env python3...) antes de ejecutarlos — útil para saber qué intérprete requieren." },
+  { q: "¿Por qué grep 'bash$' /etc/passwd usa el símbolo $?", opts: ["Para ejecutar el comando como root","$ es una variable de entorno en grep","$ en regex significa 'fin de línea' — busca líneas que terminan en 'bash'","Para buscar en modo recursivo"], correct: 2, exp: "En expresiones regulares, $ ancla el patrón al final de la línea. grep 'bash$' /etc/passwd encuentra solo usuarios cuyo shell por defecto es bash — no encontraría '/bin/rbash' ni '/bin/bash_history'." },
+  { q: "¿Qué hace este comando: grep -oE '([0-9]+\\.)+[0-9]+' access.log?", opts: ["Elimina todas las IPs del log","Extrae solo las IPs del log (sin el resto del texto)","Cuenta cuántas IPs distintas hay","Reemplaza las IPs por asteriscos"], correct: 1, exp: "-o muestra solo la parte que coincide (no la línea completa). -E activa regex extendida. Combinados con el patrón de IP, extrae únicamente las direcciones IP de cada línea — útil para análisis de logs." },
+  { q: "¿Qué hace less +G /var/log/auth.log?", opts: ["Abre el log en modo edición","Abre less directamente en el final del archivo","Elimina el log tras leerlo","Busca 'G' en el archivo"], correct: 1, exp: "+G es una opción de posición inicial: abre less directamente en el final del archivo. Muy útil para logs — ver las entradas más recientes sin tener que pulsar G después de abrir." },
+  { q: "¿Por qué es útil grep -C 3 'error' log.txt en ciberseguridad?", opts: ["Para contar exactamente 3 errores","Muestra 3 líneas de contexto antes y después de cada 'error' — para entender qué ocurrió justo antes y después","Para buscar solo en las 3 primeras líneas","Para colorear los errores en rojo"], correct: 1, exp: "-C N (context) muestra N líneas antes y después de cada coincidencia. En análisis forense es esencial: un error aislado dice poco, pero las 3 líneas anteriores pueden revelar el evento que lo provocó." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Nivel Básico Linux completado.' : score >= 7 ? 'Muy bien. Repasa los comandos que fallaste.' : 'Practica en la terminal — lee logs reales.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
