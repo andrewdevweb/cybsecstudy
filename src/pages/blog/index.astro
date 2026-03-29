@@ -61,6 +61,9 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
   ...meta,
   posts: allPosts.filter(p => getPostCategory(p) === id),
 }));
+
+// Estimación de horas de estudio: ~12 min por artículo (lectura + quiz)
+const studyHours = Math.round(allPosts.length * 12 / 60);
 ---
 
 <!doctype html>
@@ -85,12 +88,16 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
       padding: 56px 0 48px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 56px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
     }
-    .hero-left {}
+    .hero-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-left { max-width: 580px; }
     .hero-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
@@ -117,29 +124,32 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
       color: var(--text);
       margin-bottom: 20px;
     }
-    .hero-title em {
-      font-style: normal;
-      color: var(--green);
-    }
+    .hero-title em { font-style: normal; color: var(--green); }
     .hero-desc {
       font-size: 15px;
       color: var(--muted);
       line-height: 1.7;
-      max-width: 400px;
-      margin-bottom: 28px;
+      margin-bottom: 0;
     }
     .hero-stats {
       display: flex;
-      gap: 24px;
+      gap: 0;
+      align-self: flex-end;
+      flex-shrink: 0;
     }
     .hero-stat {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
+      padding: 20px 28px;
+      border: 1px solid var(--border);
+      border-right: none;
+      background: var(--surface);
     }
+    .hero-stat:last-child { border-right: 1px solid var(--border); }
     .hero-stat-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
       color: var(--text);
       line-height: 1;
@@ -150,19 +160,38 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
       letter-spacing: 2px;
       color: var(--dim);
     }
-    .hero-right { display: flex; flex-direction: column; gap: 10px; }
-    .hero-cat-row {
+    .hero-stat.accent .hero-stat-num { color: var(--green); }
+
+    /* ── HERO CAT GRID ── */
+    .hero-cats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .hero-cat-card {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 14px 18px;
+      padding: 16px 20px;
       border: 1px solid var(--border);
       background: var(--surface);
-      text-decoration: none;
-      transition: all 0.15s;
       cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+      overflow: hidden;
     }
-    .hero-cat-row:hover { border-color: var(--hc); background: #161620; }
+    .hero-cat-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--hc);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.2s ease;
+    }
+    .hero-cat-card:hover { border-color: var(--hc); background: #161620; }
+    .hero-cat-card:hover::before { transform: scaleY(1); }
     .hero-cat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hc); flex-shrink: 0; }
     .hero-cat-name { font-weight: 800; font-size: 14px; color: var(--text); flex: 1; }
     .hero-cat-desc { font-size: 11px; color: var(--muted); }
@@ -332,11 +361,19 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .blog-hero { grid-template-columns: 1fr; gap: 32px; }
+      .hero-top { flex-direction: column; align-items: flex-start; }
+      .hero-stats { align-self: auto; width: 100%; }
+      .hero-stat { flex: 1; }
       .featured-card { grid-template-columns: 1fr; }
       .featured-img { max-height: 200px; }
       .recent-grid { grid-template-columns: 1fr; }
       .all-grid { grid-template-columns: 1fr; }
+      .hero-cats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero-cats { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; }
+      .hero-stat { border-right: 1px solid var(--border); }
     }
   </style>
 </head>
@@ -346,14 +383,19 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
 
     <!-- ── HERO ── -->
     <div class="blog-hero">
-      <div class="hero-left">
-        <div class="hero-eyebrow">Apuntes públicos</div>
-        <h1 class="hero-title">
-          Cyber<em>Sec</em><br/>Study<br/>Blog
-        </h1>
-        <p class="hero-desc">
-          Artículos técnicos sobre redes, sistemas y seguridad. Escritos mientras aprendo — pensados para que entiendas.
-        </p>
+
+      <!-- Fila superior: título + stats alineados -->
+      <div class="hero-top">
+        <div class="hero-left">
+          <div class="hero-eyebrow">Apuntes públicos</div>
+          <h1 class="hero-title">
+            Cyber<em>Sec</em><br/>Study<br/>Blog
+          </h1>
+          <p class="hero-desc">
+            Artículos técnicos sobre redes, sistemas y seguridad.<br/>Escritos mientras aprendo — pensados para que entiendas.
+          </p>
+        </div>
+
         <div class="hero-stats">
           <div class="hero-stat">
             <span class="hero-stat-num">{allPosts.length}</span>
@@ -363,31 +405,33 @@ const catGroups = Object.entries(catMeta).map(([id, meta]) => ({
             <span class="hero-stat-num">{Object.keys(catMeta).length}</span>
             <span class="hero-stat-label">categorías</span>
           </div>
-          <div class="hero-stat">
-            <span class="hero-stat-num">
-              {catGroups.reduce((max, c) => c.posts.length > max ? c.posts.length : max, 0)}
-            </span>
-            <span class="hero-stat-label">posts en cat. mayor</span>
+          <div class="hero-stat accent">
+            <span class="hero-stat-num">{studyHours}h</span>
+            <span class="hero-stat-label">de estudio</span>
           </div>
         </div>
       </div>
 
-      <div class="hero-right">
+      <!-- Grid de categorías debajo -->
+      <div class="hero-cats">
         {catGroups.map(cat => (
           <div
-            class="hero-cat-row"
+            class="hero-cat-card"
             style={`--hc:${cat.color}`}
             onclick={`filterPosts('${cat.id}')`}
             role="button"
             tabindex="0"
           >
             <div class="hero-cat-dot"></div>
-            <div class="hero-cat-name">{cat.label}</div>
-            <div class="hero-cat-desc">{cat.desc}</div>
+            <div>
+              <div class="hero-cat-name">{cat.label}</div>
+              <div class="hero-cat-desc">{cat.desc}</div>
+            </div>
             <div class="hero-cat-count">{cat.posts.length}</div>
           </div>
         ))}
       </div>
+
     </div>
 
     <!-- ── FEATURED ── -->
