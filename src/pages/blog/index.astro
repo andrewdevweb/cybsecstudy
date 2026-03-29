@@ -28,11 +28,12 @@ const slugCatMap: Record<string, string> = {
   'virt':              'fundamentos',
   'cloud':             'fundamentos',
   'windows-basics':    'fundamentos',
-  'linux-cli-intro':   'fundamentos',
-  'linux-shell':       'fundamentos',
-  'linux-fs':          'fundamentos',
-  'linux-nav':         'fundamentos',
-  'linux-files':       'fundamentos',
+  'linux-cli-intro':   'linux',
+  'linux-shell':       'linux',
+  'linux-fs':          'linux',
+  'linux-nav':         'linux',
+  'linux-files':       'linux',
+  'linux-view':        'linux',
 };
 
 function getPostCategory(post: any): string {
@@ -45,9 +46,10 @@ function getPostCategory(post: any): string {
 }
 
 const catMeta: Record<string, { label: string; color: string; desc: string }> = {
-  fundamentos: { label: 'Fundamentos',  color: '#6bcb77', desc: 'Hardware, SO, virtualización y Linux' },
+  fundamentos: { label: 'Fundamentos',  color: '#6bcb77', desc: 'Hardware, SO, virtualización y cloud' },
   redes:       { label: 'Redes',        color: '#4d96ff', desc: 'Protocolos, DNS, firewalls y VPNs' },
   web:         { label: 'Web',          color: '#ff6b9d', desc: 'HTTP, HTML, infraestructura web' },
+  linux:       { label: 'Linux & CLI',  color: '#ff9f43', desc: 'Terminal, sistema de archivos y comandos' },
 };
 
 const featured = allPosts[0];

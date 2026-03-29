@@ -161,11 +161,25 @@ import Footer from '../../components/Footer.astro';
         <div class="cat-card-top">
           <span class="cat-icon">🖥</span>
           <div class="cat-name">Fundamentos</div>
-          <div class="cat-sub">Hardware, sistemas operativos, virtualización, cloud y Linux CLI.</div>
+          <div class="cat-sub">Hardware, sistemas operativos, virtualización y cloud computing.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">12 guías</span>
-          <span class="cat-levels">3 niveles</span>
+          <span class="cat-count">6 guías</span>
+          <span class="cat-levels">2 niveles</span>
+          <span class="cat-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="cat-card" style="--cc:#ff9f43" data-cat="linux">
+        <div class="cat-bar"></div>
+        <div class="cat-card-top">
+          <span class="cat-icon">🐧</span>
+          <div class="cat-name">Linux & CLI</div>
+          <div class="cat-sub">Terminal, shell, sistema de archivos y comandos esenciales.</div>
+        </div>
+        <div class="cat-card-bottom">
+          <span class="cat-count">6 guías</span>
+          <span class="cat-levels">1 nivel</span>
           <span class="cat-arrow">→</span>
         </div>
       </div>
@@ -204,7 +218,7 @@ import Footer from '../../components/Footer.astro';
     <div class="cat-panel" id="panel-fundamentos" style="--pc:#6bcb77">
       <div class="panel-header">
         <div class="panel-title">Fundamentos</div>
-        <div class="panel-desc">La base de todo. Desde hardware hasta Linux CLI.</div>
+        <div class="panel-desc">La base de todo. Desde hardware hasta cloud computing.</div>
         <button class="panel-close" data-close="fundamentos">✕ Cerrar</button>
       </div>
 
@@ -267,52 +281,60 @@ import Footer from '../../components/Footer.astro';
           </a>
         </div>
       </div>
+    </div>
+
+    <div class="cat-panel" id="panel-linux" style="--pc:#ff9f43">
+      <div class="panel-header">
+        <div class="panel-title">Linux & CLI</div>
+        <div class="panel-desc">Domina la terminal — el campo de batalla de la ciberseguridad.</div>
+        <button class="panel-close" data-close="linux">✕ Cerrar</button>
+      </div>
 
       <div class="level-block">
-        <div class="level-label">// Nivel 3 — Linux CLI</div>
+        <div class="level-label">// Nivel Básico — Fundamentos de la terminal</div>
         <div class="guides-grid">
-          <a href="/guias/linux-cli-intro" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">07</div>
+          <a href="/guias/linux-cli-intro" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">01</div>
             <div class="guide-info">
-              <div class="guide-title">Linux — Intro a la CLI</div>
+              <div class="guide-title">Introducción a Linux y la CLI</div>
               <div class="guide-desc">Qué es Linux, filosofía Unix, CLI vs GUI.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
-          <a href="/guias/linux-shell" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">08</div>
+          <a href="/guias/linux-shell" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">02</div>
             <div class="guide-info">
               <div class="guide-title">Terminal, Consola y Shell</div>
               <div class="guide-desc">Bash, zsh, $PATH, .bashrc y tipos de shell.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
-          <a href="/guias/linux-fs" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">09</div>
+          <a href="/guias/linux-fs" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">03</div>
             <div class="guide-info">
               <div class="guide-title">Sistema de Archivos Linux</div>
               <div class="guide-desc">FHS, /etc, /home, /var, /proc, rutas e inodes.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
-          <a href="/guias/linux-nav" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">10</div>
+          <a href="/guias/linux-nav" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">04</div>
             <div class="guide-info">
               <div class="guide-title">Navegación Básica</div>
               <div class="guide-desc">ls, cd, pwd, find, wildcards y atajos de teclado.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
-          <a href="/guias/linux-files" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">11</div>
+          <a href="/guias/linux-files" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">05</div>
             <div class="guide-info">
               <div class="guide-title">Gestión de Archivos</div>
               <div class="guide-desc">cp, mv, rm, touch y mkdir. Copiar, mover, borrar y crear.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
-          <a href="/guias/linux-view" class="guide-card" style="--pc:#6bcb77">
-            <div class="guide-num">12</div>
+          <a href="/guias/linux-view" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">06</div>
             <div class="guide-info">
               <div class="guide-title">Ver Contenido de Archivos</div>
               <div class="guide-desc">cat, less, head, tail y grep. Leer, paginar y filtrar.</div>
@@ -470,21 +492,24 @@ document.querySelectorAll('.panel-close').forEach(btn => {
 const allGuides = [
   { num:'01', href:'/guias/modelo-osi',       title:'Modelo OSI',                    cat:'Redes',       color:'#4d96ff', desc:'Las 7 capas con protocolos y quiz.' },
   { num:'02', href:'/guias/packets-frames',   title:'Packets & Frames',              cat:'Redes',       color:'#4d96ff', desc:'TCP, UDP, Three-Way Handshake y puertos.' },
-  { num:'03', href:'/guias/ampliando-tu-red', title:'Ampliando tu Red',              cat:'Redes',       color:'#4d96ff', desc:'Port Forwarding, Firewalls, VPNs, Routers.' },
-  { num:'04', href:'/guias/dns',              title:'DNS',                           cat:'Redes',       color:'#4d96ff', desc:'Jerarquía de dominios, registros y resolución.' },
-  { num:'05', href:'/guias/http',             title:'HTTP en Detalle',               cat:'Web',         color:'#ff6b9d', desc:'Solicitudes, respuestas, métodos y cookies.' },
-  { num:'06', href:'/guias/web',              title:'Cómo Funcionan los Sitios Web', cat:'Web',         color:'#ff6b9d', desc:'HTML, CSS, JavaScript y HTML Injection.' },
-  { num:'07', href:'/guias/infra',            title:'La Web por Dentro',             cat:'Web',         color:'#ff6b9d', desc:'Balanceadores, CDN, WAF y servidores.' },
-  { num:'08', href:'/guias/clientserver',     title:'Modelo Cliente-Servidor',       cat:'Web',         color:'#ff6b9d', desc:'Cliente, servidor, DNS, puertos y HTTP.' },
-  { num:'09', href:'/guias/computer',         title:'Sistema Informático',           cat:'Fundamentos', color:'#6bcb77', desc:'CPU, RAM, GPU y secuencia de arranque.' },
-  { num:'10', href:'/guias/comptypes',        title:'Tipos de Computadoras',         cat:'Fundamentos', color:'#6bcb77', desc:'Portátiles, servidores, IoT y smartphones.' },
-  { num:'11', href:'/guias/os-intro',         title:'Sistemas Operativos',           cat:'Fundamentos', color:'#6bcb77', desc:'Kernel, User Space, GUI vs CLI.' },
-  { num:'12', href:'/guias/virt',             title:'Virtualización',                cat:'Fundamentos', color:'#6bcb77', desc:'Hipervisores, VMs y contenedores.' },
-  { num:'13', href:'/guias/cloud',            title:'Cloud Computing',               cat:'Fundamentos', color:'#6bcb77', desc:'IaaS, PaaS, SaaS y seguridad cloud.' },
-  { num:'14', href:'/guias/windows-basics',   title:'Windows Básico',                cat:'Fundamentos', color:'#6bcb77', desc:'Autenticación, registro y seguridad nativa.' },
-  { num:'15', href:'/guias/linux-cli-intro',  title:'Linux — Intro a la CLI',        cat:'Fundamentos', color:'#6bcb77', desc:'Filosofía Unix, CLI vs GUI, terminal.' },
-  { num:'16', href:'/guias/linux-shell',      title:'Terminal, Consola y Shell',     cat:'Fundamentos', color:'#6bcb77', desc:'Bash, zsh, $PATH y .bashrc.' },
-  { num:'17', href:'/guias/linux-fs',         title:'Sistema de Archivos Linux',     cat:'Fundamentos', color:'#6bcb77', desc:'FHS, /etc, /home, /var, rutas e inodes.' },
+  { num:'03', href:'/guias/dns',              title:'DNS',                           cat:'Redes',       color:'#4d96ff', desc:'Jerarquía de dominios, registros y resolución.' },
+  { num:'04', href:'/guias/ampliando-tu-red', title:'Ampliando tu Red',              cat:'Redes',       color:'#4d96ff', desc:'Port Forwarding, Firewalls, VPNs, Routers.' },
+  { num:'01', href:'/guias/clientserver',     title:'Modelo Cliente-Servidor',       cat:'Web',         color:'#ff6b9d', desc:'Cliente, servidor, DNS, puertos y HTTP.' },
+  { num:'02', href:'/guias/http',             title:'HTTP en Detalle',               cat:'Web',         color:'#ff6b9d', desc:'Solicitudes, respuestas, métodos y cookies.' },
+  { num:'03', href:'/guias/web',              title:'Cómo Funcionan los Sitios Web', cat:'Web',         color:'#ff6b9d', desc:'HTML, CSS, JavaScript y HTML Injection.' },
+  { num:'04', href:'/guias/infra',            title:'La Web por Dentro',             cat:'Web',         color:'#ff6b9d', desc:'Balanceadores, CDN, WAF y servidores.' },
+  { num:'01', href:'/guias/computer',         title:'Sistema Informático',           cat:'Fundamentos', color:'#6bcb77', desc:'CPU, RAM, GPU y secuencia de arranque.' },
+  { num:'02', href:'/guias/comptypes',        title:'Tipos de Computadoras',         cat:'Fundamentos', color:'#6bcb77', desc:'Portátiles, servidores, IoT y smartphones.' },
+  { num:'03', href:'/guias/os-intro',         title:'Sistemas Operativos',           cat:'Fundamentos', color:'#6bcb77', desc:'Kernel, User Space, GUI vs CLI.' },
+  { num:'04', href:'/guias/windows-basics',   title:'Windows Básico',                cat:'Fundamentos', color:'#6bcb77', desc:'Autenticación, registro y seguridad nativa.' },
+  { num:'05', href:'/guias/virt',             title:'Virtualización',                cat:'Fundamentos', color:'#6bcb77', desc:'Hipervisores, VMs y contenedores.' },
+  { num:'06', href:'/guias/cloud',            title:'Cloud Computing',               cat:'Fundamentos', color:'#6bcb77', desc:'IaaS, PaaS, SaaS y seguridad cloud.' },
+  { num:'01', href:'/guias/linux-cli-intro',  title:'Introducción a Linux y la CLI', cat:'Linux & CLI', color:'#ff9f43', desc:'Filosofía Unix, CLI vs GUI, terminal.' },
+  { num:'02', href:'/guias/linux-shell',      title:'Terminal, Consola y Shell',     cat:'Linux & CLI', color:'#ff9f43', desc:'Bash, zsh, $PATH y .bashrc.' },
+  { num:'03', href:'/guias/linux-fs',         title:'Sistema de Archivos Linux',     cat:'Linux & CLI', color:'#ff9f43', desc:'FHS, /etc, /home, /var, rutas e inodes.' },
+  { num:'04', href:'/guias/linux-nav',        title:'Navegación Básica',             cat:'Linux & CLI', color:'#ff9f43', desc:'ls, cd, pwd, find, wildcards y atajos.' },
+  { num:'05', href:'/guias/linux-files',      title:'Gestión de Archivos',           cat:'Linux & CLI', color:'#ff9f43', desc:'cp, mv, rm, touch y mkdir.' },
+  { num:'06', href:'/guias/linux-view',       title:'Ver Contenido de Archivos',     cat:'Linux & CLI', color:'#ff9f43', desc:'cat, less, head, tail y grep.' },
 ];
 
 const searchInput = document.getElementById('searchInput');
