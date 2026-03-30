@@ -1,0 +1,366 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Permisos en Linux — CybSecStudy" description="rwx, chmod, chown, SUID y sticky bit explicados en profundidad con ejemplos reales y quiz interactivo." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff9f43; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #ff9f43; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff9f43; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff9f43; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 64px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 84px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff9f43); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .perm-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+    .perm-ent { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px; text-align: center; }
+    .perm-ent-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ec); margin-bottom: 6px; font-weight: 700; }
+    .perm-ent-chars { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--ec); letter-spacing: 2px; }
+    .perm-ent-val { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #3a3a5a; margin-top: 4px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,159,67,0.06); border: 1px solid #ff9f43; color: #ff9f43; margin-top: 8px; margin-right: 6px; }
+    .perm-calculator { background: #0d0d14; border: 1px solid #1e1e2e; padding: 20px; margin: 14px 0; }
+    .calc-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .calc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6b6b8a; width: 60px; flex-shrink: 0; }
+    .calc-check { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; cursor: pointer; }
+    .calc-check input { accent-color: #ff9f43; width: 14px; height: 14px; cursor: pointer; }
+    .calc-result { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: #ff9f43; margin-top: 12px; padding-top: 12px; border-top: 1px solid #1e1e2e; }
+    .calc-symbolic { font-size: 13px; color: #6b6b8a; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff9f43; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff9f43; color: #ff9f43; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff9f43; background: transparent; color: #ff9f43; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff9f43; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff9f43; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .perm-demo { grid-template-columns: 1fr; } .calc-row { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux & CLI — Nivel Intermedio · Post 7</div>
+      <h1>Permisos en <span class="accent">Linux</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">rwx, chmod, chown, SUID y sticky bit. La columna vertebral de la seguridad en cualquier sistema Unix/Linux.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>En Linux, cada archivo pertenece a alguien y tiene reglas sobre quién puede hacer qué con él. Esto no es una característica opcional — <strong>es la arquitectura de seguridad fundamental del sistema</strong>.</p>
+      <p>Entender los permisos es la diferencia entre un usuario que ejecuta comandos y alguien que <strong>comprende realmente cómo funciona Linux</strong>.</p>
+    </div>
+
+    <div class="section-label">// Descomposición de permisos</div>
+    <img src="/linux-perms-rwx.svg" alt="Descomposición de la cadena de permisos rwx" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Calculadora de permisos</div>
+    <div class="perm-calculator">
+      <div class="calc-row">
+        <span class="calc-label" style="color:#ff9f43">USER (u)</span>
+        <label class="calc-check"><input type="checkbox" data-ent="u" data-val="4" onchange="calcPerms()"> r</label>
+        <label class="calc-check"><input type="checkbox" data-ent="u" data-val="2" onchange="calcPerms()"> w</label>
+        <label class="calc-check"><input type="checkbox" data-ent="u" data-val="1" onchange="calcPerms()"> x</label>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label" style="color:#4d96ff">GROUP (g)</span>
+        <label class="calc-check"><input type="checkbox" data-ent="g" data-val="4" onchange="calcPerms()"> r</label>
+        <label class="calc-check"><input type="checkbox" data-ent="g" data-val="2" onchange="calcPerms()"> w</label>
+        <label class="calc-check"><input type="checkbox" data-ent="g" data-val="1" onchange="calcPerms()"> x</label>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label" style="color:#6bcb77">OTHERS (o)</span>
+        <label class="calc-check"><input type="checkbox" data-ent="o" data-val="4" onchange="calcPerms()"> r</label>
+        <label class="calc-check"><input type="checkbox" data-ent="o" data-val="2" onchange="calcPerms()"> w</label>
+        <label class="calc-check"><input type="checkbox" data-ent="o" data-val="1" onchange="calcPerms()"> x</label>
+      </div>
+      <div class="calc-result" id="calcResult">chmod 000</div>
+      <div class="calc-symbolic" id="calcSymbolic">----------</div>
+    </div>
+
+    <div class="section-label">// Conceptos — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">rwx</div>
+          <div class="concept-title">El modelo de tres capas</div>
+          <div class="concept-badge">user · group · others</div>
+        </div>
+        <div class="concept-body">
+          <p>Cada archivo tiene tres entidades con permisos independientes:</p>
+          <div class="perm-demo">
+            <div class="perm-ent" style="--ec:#ff9f43"><div class="perm-ent-label">USER (u)</div><div class="perm-ent-chars">rw-</div><div class="perm-ent-val">propietario = 6</div></div>
+            <div class="perm-ent" style="--ec:#4d96ff"><div class="perm-ent-label">GROUP (g)</div><div class="perm-ent-chars">r--</div><div class="perm-ent-val">grupo asignado = 4</div></div>
+            <div class="perm-ent" style="--ec:#6bcb77"><div class="perm-ent-label">OTHERS (o)</div><div class="perm-ent-chars">r--</div><div class="perm-ent-val">todos los demás = 4</div></div>
+          </div>
+          <p>Para <strong>archivos</strong>: r=leer, w=modificar, x=ejecutar como programa.<br/>
+          Para <strong>directorios</strong>: r=listar con ls, w=crear/borrar dentro, x=entrar con cd.</p>
+          <div class="code-block">ls -la /etc/passwd
+-rw-r--r-- 1 root root 2847 Mar 21 /etc/passwd
+#tipo user  group others
+
+# Leer la cadena de izquierda a derecha:
+# - = archivo regular (d=dir, l=symlink)
+# rw- = propietario puede leer y escribir
+# r-- = grupo puede solo leer
+# r-- = otros pueden solo leer</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">chmod</div>
+          <div class="concept-title">chmod — Cambiar permisos</div>
+          <div class="concept-badge">simbólico · octal · -R</div>
+        </div>
+        <div class="concept-body">
+          <p><code>chmod</code> modifica los permisos de un archivo. Dos modos:</p>
+          <img src="/linux-perms-chmod.svg" alt="chmod simbólico vs octal" style="width:100%;margin:10px 0;border:none;border-radius:0"/>
+          <div class="code-block"># Simbólico — intuitivo
+chmod u+x script.sh          # añadir ejecución al propietario
+chmod g-w archivo.txt        # quitar escritura al grupo
+chmod o-r secreto.txt        # quitar lectura a otros
+chmod a+r publico.txt        # a = all (u+g+o)
+chmod u=rwx,g=rx,o= dir/     # establecer exacto
+
+# Octal — preciso
+chmod 755 script.sh          # rwxr-xr-x
+chmod 644 config.txt         # rw-r--r--
+chmod 600 ~/.ssh/id_rsa      # rw------- (solo propietario)
+chmod 700 directorio/        # rwx------
+chmod -R 755 /var/www/html/  # recursivo en directorios</div>
+          <div class="sec-badge">⚠ SSH falla si id_rsa tiene permisos 644 — debe ser 600</div>
+          <div class="info-badge">💡 Usa siempre el modo octal en scripts — es más predecible y portable</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">chown</div>
+          <div class="concept-title">chown y chgrp — Cambiar propietario</div>
+          <div class="concept-badge">usuario · grupo · -R</div>
+        </div>
+        <div class="concept-body">
+          <p><code>chown</code> cambia el propietario y/o grupo de un archivo. Solo root puede cambiar el propietario a otro usuario.</p>
+          <div class="code-block">chown usuario archivo.txt              # cambiar propietario
+chown usuario:grupo archivo.txt        # propietario y grupo
+chown :grupo archivo.txt               # solo el grupo
+chown -R www-data:www-data /var/www/   # recursivo
+
+chgrp grupo archivo.txt                # cambiar solo el grupo
+
+# Ejemplo real: servidor nginx
+ls -la /var/www/html/
+# -rw-r--r-- 1 root root 1234 /var/www/html/index.html
+# nginx corre como www-data y no puede escribir
+
+chown www-data:www-data /var/www/html/index.html
+# ahora nginx puede leer y escribir</div>
+          <div class="info-badge">💡 stat archivo.txt muestra propietario, grupo, permisos y fechas de forma detallada</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">SUID</div>
+          <div class="concept-title">SUID, SGID y Sticky bit</div>
+          <div class="concept-badge">bits especiales · privesc · /tmp</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>SUID (Set User ID)</strong> — el ejecutable corre con los permisos del propietario, no del usuario que lo ejecuta. La <code>s</code> aparece en la posición de ejecución del propietario.</p>
+          <div class="code-block">ls -la /usr/bin/passwd
+-rwsr-xr-x 1 root root 68208 /usr/bin/passwd
+#   ↑ s = SUID — se ejecuta como root
+
+# Buscar todos los binarios SUID del sistema
+find / -perm -u=s -type f 2>/dev/null
+
+# Establecer SUID
+chmod u+s mi-programa
+chmod 4755 mi-programa    # 4 = SUID</div>
+          <p style="margin-top:10px"><strong>Sticky bit</strong> — en directorios: aunque todos puedan escribir, cada usuario solo puede borrar sus propios archivos. La <code>t</code> aparece en la posición de ejecución de others.</p>
+          <div class="code-block">ls -la /tmp
+drwxrwxrwt 12 root root 4096 /tmp
+#         ↑ t = sticky bit
+
+chmod +t /directorio-compartido/
+chmod 1777 /directorio-compartido/  # 1 = sticky</div>
+          <div class="sec-badge">⚠ SUID = objetivo principal en privilege escalation — cualquier SUID inusual es sospechoso</div>
+          <div class="sec-badge">⚠ find / -perm -u=s — primer comando tras obtener acceso a un sistema</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">umask</div>
+          <div class="concept-title">umask — Permisos por defecto al crear</div>
+          <div class="concept-badge">filtro · 022 · archivos nuevos</div>
+        </div>
+        <div class="concept-body">
+          <p><code>umask</code> define qué permisos se <strong>eliminan</strong> automáticamente cuando se crea un archivo o directorio nuevo.</p>
+          <div class="code-block">umask              # ver umask actual
+# 0022
+
+# Cálculo:
+# Permisos máximos: 666 (archivos) y 777 (directorios)
+# Con umask 022:
+# Archivos:     666 - 022 = 644 (rw-r--r--)
+# Directorios:  777 - 022 = 755 (rwxr-xr-x)
+
+umask 027          # más restrictivo
+# Archivos: 640 · Directorios: 750
+
+# Cambiar umask en la sesión actual
+umask 077          # máxima privacidad: solo propietario</div>
+          <div class="info-badge">💡 El umask se configura en ~/.bashrc o /etc/profile para aplicarlo de forma permanente</div>
+          <div class="info-badge">💡 Servidores web usan umask 022 para que los archivos sean legibles por el proceso del servidor</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE — NIVEL INTERMEDIO</p>
+      <p><strong>Post 8: Usuarios y grupos en Linux</strong> — /etc/passwd, /etc/shadow, sudo, adduser, grupos y gestión de accesos en sistemas multiusuario.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+
+// ── ACCORDION ──
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+// ── PERMISSION CALCULATOR ──
+function calcPerms() {
+  const vals = { u: 0, g: 0, o: 0 };
+  document.querySelectorAll('.calc-check input').forEach(cb => {
+    if (cb.checked) vals[cb.dataset.ent] += parseInt(cb.dataset.val);
+  });
+
+  const toSym = v => (v >= 4 ? 'r' : '-') + (v % 4 >= 2 ? 'w' : '-') + (v % 2 === 1 ? 'x' : '-');
+  const octal = '' + vals.u + vals.g + vals.o;
+  const symbolic = '-' + toSym(vals.u) + toSym(vals.g) + toSym(vals.o);
+
+  document.getElementById('calcResult').textContent = 'chmod ' + octal;
+  document.getElementById('calcSymbolic').textContent = symbolic;
+}
+window.calcPerms = calcPerms;
+
+// ── QUIZ ──
+const questions = [
+  { q: "¿Qué significa el permiso 644 en un archivo?", opts: ["El propietario puede todo, los demás nada","El propietario puede leer y escribir; grupo y otros solo leer","Todos pueden leer, escribir y ejecutar","El propietario puede ejecutar, los demás no"], correct: 1, exp: "644 = 6(rw-) + 4(r--) + 4(r--). El propietario puede leer y escribir. El grupo y otros solo pueden leer. Es el permiso estándar para archivos de configuración y texto." },
+  { q: "¿Qué comando aplica permisos recursivamente a un directorio?", opts: ["chmod -f 755 dir/","chmod -r 755 dir/","chmod -R 755 dir/","chown -a 755 dir/"], correct: 2, exp: "La opción -R (mayúscula) aplica chmod recursivamente a todos los archivos y subdirectorios dentro del directorio especificado. Minúscula -r no es válida en chmod." },
+  { q: "¿Cuál es el permiso correcto para una clave privada SSH?", opts: ["644","755","600","700"], correct: 2, exp: "Una clave privada SSH debe tener permisos 600 (rw-------): solo el propietario puede leer y escribir. SSH rechaza claves con permisos más abiertos con el error 'UNPROTECTED PRIVATE KEY FILE'." },
+  { q: "¿Qué hace el SUID en un ejecutable?", opts: ["Permite que solo root lo ejecute","El ejecutable se ejecuta con los permisos del propietario del archivo, no del usuario que lo ejecuta","Bloquea la ejecución por usuarios externos","Permite la ejecución sin contraseña"], correct: 1, exp: "/usr/bin/passwd tiene SUID root para poder escribir en /etc/shadow (solo accesible por root). Cualquier usuario lo ejecuta, pero el proceso corre con permisos de root." },
+  { q: "¿Qué indica la 't' en drwxrwxrwt de /tmp?", opts: ["El directorio está cifrado","Solo root puede borrar archivos","Sticky bit: cada usuario solo puede borrar sus propios archivos","El directorio es temporal y se borra al reiniciar"], correct: 2, exp: "El sticky bit en un directorio permite que todos escriban pero restringe el borrado: solo el propietario de un archivo puede borrarlo. Es la protección que impide que un usuario borre archivos de otro en /tmp." },
+  { q: "¿Por qué find / -perm -u=s es relevante en pentesting?", opts: ["Lista todos los archivos del sistema","Encuentra binarios SUID que se ejecutan como root y pueden usarse para escalada de privilegios","Busca archivos con contraseñas","Muestra archivos recién modificados"], correct: 1, exp: "Los binarios SUID se ejecutan como su propietario (frecuentemente root). Si alguno tiene una vulnerabilidad o funcionalidad explotable, un atacante sin privilegios puede usarlo para obtener acceso como root." },
+  { q: "¿Qué hace chmod u=rwx,g=rx,o= archivo?", opts: ["Quita todos los permisos","Propietario: todo; grupo: leer y ejecutar; otros: sin permisos","Propietario: solo leer; grupo y otros: sin permisos","Añade ejecución a todos"], correct: 1, exp: "El operador = establece permisos exactos. u=rwx da rwx al propietario, g=rx da r-x al grupo, o= (vacío) quita todos los permisos a others. Equivale a chmod 750." },
+  { q: "¿Cuál es el efecto de umask 022 al crear un archivo?", opts: ["El archivo se crea con permisos 022","El archivo se crea con permisos 644 (666-022)","El archivo se crea sin ningún permiso","El archivo hereda los permisos del directorio padre"], correct: 1, exp: "umask 022 elimina los bits de escritura de grupo y otros. Los archivos se crean con permisos máximos de 666, menos la umask: 666-022=644 (rw-r--r--). Los directorios se crean con 777-022=755." },
+  { q: "¿Qué diferencia hay entre chmod 4755 y chmod 755?", opts: ["No hay diferencia práctica","4755 activa el SUID: el ejecutable corre con permisos del propietario","4755 da permisos de escritura extra","4755 es para directorios, 755 para archivos"], correct: 1, exp: "El dígito 4 delante activa el SUID. chmod 4755 establece rwsr-xr-x — la 's' en la posición de ejecución del propietario indica que el proceso corre con los permisos del dueño del archivo." },
+  { q: "¿Qué permite el permiso 'x' en un directorio vs en un archivo?", opts: ["En ambos casos significa ejecutar","En archivos: ejecutar como programa; en directorios: entrar con cd y acceder a archivos dentro","En directorios: listar con ls; en archivos: ejecutar","Son equivalentes en ambos casos"], correct: 1, exp: "En archivos, x permite ejecutar el archivo como programa. En directorios, x (execute/search bit) permite entrar con cd y acceder a archivos dentro. Sin x en un directorio, ni siquiera puedes leer un archivo aunque tengas permiso en el archivo." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Dominas los permisos de Linux.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Practica con chmod en tu terminal.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

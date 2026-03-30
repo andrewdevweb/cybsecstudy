@@ -1,0 +1,45 @@
+<svg viewBox="0 0 700 140" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="140" fill="#0a0a0f"/>
+  <defs>
+    <marker id="ga" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ff9f43"/></marker>
+  </defs>
+
+  <text x="350" y="20" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="3">// CHMOD — DOS MODOS</text>
+
+  <!-- Symbolic -->
+  <rect x="16" y="30" width="320" height="96" rx="3" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="16" y="30" width="320" height="5" fill="#ff9f43"/>
+  <text x="176" y="50" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">MODO SIMBÓLICO — intuitivo</text>
+
+  <text x="30" y="70" fill="#e8eaf0" font-size="10">chmod</text>
+  <text x="80" y="70" fill="#ff9f43" font-size="10">u</text>
+  <text x="92" y="70" fill="#6b6b8a" font-size="10">+</text>
+  <text x="104" y="70" fill="#00ff9f" font-size="10">x</text>
+  <text x="120" y="70" fill="#b0b0c8" font-size="10">script.sh</text>
+  <text x="30" y="84"  fill="#ff9f43" font-size="8">u/g/o/a</text>
+  <text x="82" y="84"  fill="#6b6b8a" font-size="8">+/-/=</text>
+  <text x="110" y="84" fill="#00ff9f" font-size="8">r/w/x</text>
+
+  <text x="30" y="104" fill="#6b6b8a" font-size="8">chmod u+x,g+r,o-w archivo</text>
+  <text x="30" y="116" fill="#6b6b8a" font-size="8">chmod a+r publico.txt</text>
+  <text x="30" y="126" fill="#3a3a5a" font-size="7">a = all = u+g+o</text>
+
+  <!-- Octal -->
+  <rect x="364" y="30" width="320" height="96" rx="3" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="364" y="30" width="320" height="5" fill="#4d96ff"/>
+  <text x="524" y="50" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">MODO OCTAL — preciso</text>
+
+  <text x="378" y="70" fill="#e8eaf0" font-size="10">chmod</text>
+  <text x="428" y="70" fill="#ff9f43" font-size="14" font-weight="700">7</text>
+  <text x="444" y="70" fill="#4d96ff" font-size="14" font-weight="700">5</text>
+  <text x="460" y="70" fill="#6bcb77" font-size="14" font-weight="700">5</text>
+  <text x="480" y="70" fill="#b0b0c8" font-size="10">archivo</text>
+
+  <text x="378" y="88"  fill="#ff9f43" font-size="8">7=rwx</text>
+  <text x="430" y="88"  fill="#4d96ff" font-size="8">5=r-x</text>
+  <text x="478" y="88"  fill="#6bcb77" font-size="8">5=r-x</text>
+
+  <text x="378" y="106" fill="#6b6b8a" font-size="8">chmod 644 config.txt   → rw-r--r--</text>
+  <text x="378" y="118" fill="#6b6b8a" font-size="8">chmod 600 id_rsa       → rw-------</text>
+  <text x="378" y="128" fill="#3a3a5a" font-size="7">chmod -R 755 dir/  → recursivo</text>
+</svg>

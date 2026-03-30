@@ -1,0 +1,343 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Introducción a CLI de Windows — CybSecStudy" description="CMD, PowerShell y Windows Terminal. Por qué importa la línea de comandos de Windows en ciberseguridad." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #4d96ff; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #4d96ff; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0c0c0c; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #4d96ff); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #c0c0c0; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .cmd-window { background: #0c0c0c; border: 1px solid #333; border-radius: 4px; overflow: hidden; margin: 16px 0; }
+    .cmd-bar { background: #000080; padding: 6px 12px; display: flex; align-items: center; }
+    .cmd-bar-title { font-size: 11px; color: #fff; flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; }
+    .cmd-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; }
+    .cmd-p { color: #c0c0c0; }
+    .cmd-c { color: #ffffff; }
+    .cmd-o { color: #c0c0c0; }
+    .cmd-h { color: #4d96ff; }
+    .cmd-w { color: #ff9f43; }
+    .cmd-r { color: #ff6b6b; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    .compare-col { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-col-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #1e1e2e; }
+    .compare-row { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 0; }
+    .compare-cmd { color: var(--cc); }
+    .compare-desc { color: #6b6b8a; font-size: 9px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #4d96ff; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #4d96ff; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .compare-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos Windows — CLI Básico · Post 1</div>
+      <h1>Introducción a la <span class="accent">CLI de Windows</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">CMD, PowerShell y Windows Terminal. Por qué la línea de comandos de Windows es tan relevante en ciberseguridad como la de Linux.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Muchos ataques reales en Windows se ejecutan con las herramientas que vienen instaladas por defecto. <strong>Living off the Land</strong> — vivir del terreno — es la técnica de usar solo comandos del sistema para no dejar rastro de herramientas externas.</p>
+      <p>Aprender CMD no es solo saber navegar carpetas. Es entender cómo piensa el sistema, y cómo piensan los que lo atacan.</p>
+    </div>
+
+    <div class="section-label">// La terminal de Windows</div>
+    <div class="cmd-window" style="margin-bottom:32px">
+      <div class="cmd-bar"><span class="cmd-bar-title">Símbolo del sistema</span></div>
+      <div class="cmd-body">
+        <div><span class="cmd-p">Microsoft Windows [Versión 10.0.19045]</span></div>
+        <div><span class="cmd-p">(c) Microsoft Corporation. Todos los derechos reservados.</span></div>
+        <div style="margin-top:8px"><span class="cmd-p">C:\Users\usuario&gt;</span><span class="cmd-c"> whoami</span></div>
+        <div class="cmd-o">desktop-abc\usuario</div>
+        <div style="margin-top:4px"><span class="cmd-p">C:\Users\usuario&gt;</span><span class="cmd-c"> whoami /priv</span></div>
+        <div class="cmd-o">PRIVILEGES INFORMATION</div>
+        <div class="cmd-h">SeShutdownPrivilege        Shut down the system         Disabled</div>
+        <div class="cmd-h">SeChangeNotifyPrivilege    Bypass traverse checking      Enabled</div>
+        <div style="margin-top:4px"><span class="cmd-p">C:\Users\usuario&gt;</span><span class="cmd-c"> net localgroup administrators</span></div>
+        <div class="cmd-w">Administrator  usuario</div>
+        <div style="color:#3a3a5a;font-size:11px;margin-top:4px">← enumeración post-explotación en 3 comandos</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Conceptos — clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">CMD</div>
+          <div class="concept-title">¿Qué es CMD y para qué sirve?</div>
+          <div class="concept-badge">cmd.exe · heredero MS-DOS</div>
+        </div>
+        <div class="concept-body">
+          <p><code>cmd.exe</code> es el intérprete de comandos de Windows. Heredero directo de MS-DOS (1981), presente en todos los Windows modernos. Trabaja con <strong>texto</strong> — recibe un comando, devuelve texto.</p>
+          <p>Cuatro formas de abrirlo:</p>
+          <div class="code-block">Win + R → "cmd" → Enter
+Barra búsqueda → "cmd" → Enter
+Win + X → Terminal o Símbolo del sistema
+Shift + clic derecho en carpeta → "Abrir ventana de comandos aquí"</div>
+          <p style="margin-top:10px">Para abrirlo <strong>como administrador</strong> (necesario para muchos comandos): buscar "cmd" → clic derecho → "Ejecutar como administrador". El prompt pasa de <code>C:\Users\usuario&gt;</code> a <code>C:\Windows\System32&gt;</code>.</p>
+          <div class="sec-badge">⚠ Prompt con C:\Windows\System32> = privilegios elevados</div>
+          <div class="info-badge">💡 CMD es case insensitive — DIR, dir y Dir son el mismo comando</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">PS</div>
+          <div class="concept-title">CMD vs PowerShell vs Windows Terminal</div>
+          <div class="concept-badge">tres herramientas · distintos propósitos</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>CMD</strong> — intérprete de texto simple. Compatible con todo. Siempre disponible. Limitado.</p>
+          <p><strong>PowerShell</strong> — shell avanzada basada en .NET (2006). Trabaja con <strong>objetos</strong>, no solo texto. Cmdlets con formato <code>Verbo-Sustantivo</code> (Get-Process, Stop-Service). Scripts .ps1 potentes.</p>
+          <p><strong>Windows Terminal</strong> — solo es el contenedor visual. No interpreta comandos — aloja CMD, PowerShell o WSL en pestañas. Como GNOME Terminal en Linux.</p>
+          <div class="code-block"># CMD
+dir C:\Windows
+
+# PowerShell - mismo resultado pero como objeto manipulable
+Get-ChildItem C:\Windows
+
+# PowerShell puede filtrar el objeto resultante
+Get-ChildItem C:\Windows | Where-Object { $_.Length -gt 1MB }</div>
+          <div class="info-badge">💡 Aprende CMD primero — muchos comandos CMD funcionan también en PowerShell</div>
+          <div class="sec-badge">⚠ PowerShell puede ser bloqueado por políticas; CMD casi nunca</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">NAV</div>
+          <div class="concept-title">Navegación básica — los primeros comandos</div>
+          <div class="concept-badge">cd · dir · cls · help</div>
+        </div>
+        <div class="concept-body">
+          <p>Los comandos de orientación — los primeros que ejecutas al abrir CMD:</p>
+          <div class="code-block">cd              :: muestra el directorio actual (sin argumentos)
+dir             :: lista contenido del directorio actual
+dir /a          :: incluye archivos y carpetas ocultos
+dir /s archivo  :: busca recursivamente en subdirectorios
+cls             :: limpia la pantalla
+exit            :: cierra la terminal
+help            :: lista comandos disponibles
+dir /?          :: ayuda del comando dir (como man en Linux)</div>
+          <p style="margin-top:10px">Navegación entre directorios:</p>
+          <div class="code-block">cd Documentos       :: entrar en Documentos
+cd ..               :: subir un nivel
+cd ..\..            :: subir dos niveles
+cd \                :: ir a la raíz de la unidad (C:\)
+cd /d D:\           :: cambiar a la unidad D:
+D:                  :: cambiar a D: (forma corta)</div>
+          <div class="compare-grid">
+            <div class="compare-col" style="--cc:#4d96ff">
+              <div class="compare-col-label" style="color:#4d96ff">CMD</div>
+              <div class="compare-row"><span class="compare-cmd">cd</span><span class="compare-desc">dir actual</span></div>
+              <div class="compare-row"><span class="compare-cmd">dir</span><span class="compare-desc">listar</span></div>
+              <div class="compare-row"><span class="compare-cmd">type</span><span class="compare-desc">ver archivo</span></div>
+              <div class="compare-row"><span class="compare-cmd">del</span><span class="compare-desc">borrar</span></div>
+              <div class="compare-row"><span class="compare-cmd">cls</span><span class="compare-desc">limpiar</span></div>
+            </div>
+            <div class="compare-col" style="--cc:#00ff9f">
+              <div class="compare-col-label" style="color:#00ff9f">Linux</div>
+              <div class="compare-row"><span class="compare-cmd" style="color:#00ff9f">pwd</span><span class="compare-desc">dir actual</span></div>
+              <div class="compare-row"><span class="compare-cmd" style="color:#00ff9f">ls</span><span class="compare-desc">listar</span></div>
+              <div class="compare-row"><span class="compare-cmd" style="color:#00ff9f">cat</span><span class="compare-desc">ver archivo</span></div>
+              <div class="compare-row"><span class="compare-cmd" style="color:#00ff9f">rm</span><span class="compare-desc">borrar</span></div>
+              <div class="compare-row"><span class="compare-cmd" style="color:#00ff9f">clear</span><span class="compare-desc">limpiar</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">SYS</div>
+          <div class="concept-title">Información del sistema</div>
+          <div class="concept-badge">whoami · hostname · systeminfo · ipconfig</div>
+        </div>
+        <div class="concept-body">
+          <p>Los primeros comandos que ejecuta cualquier analista o atacante al acceder a un sistema Windows:</p>
+          <div class="code-block">whoami                          :: usuario actual (dominio\usuario)
+whoami /priv                    :: privilegios del usuario
+whoami /groups                  :: grupos a los que pertenece
+hostname                        :: nombre del equipo
+ver                             :: versión de Windows
+systeminfo                      :: información completa del sistema
+systeminfo | findstr /B /C:"OS" :: solo las líneas de SO
+
+ipconfig                        :: configuración de red básica
+ipconfig /all                   :: configuración detallada (MAC, DNS...)
+ipconfig /displaydns            :: caché DNS local</div>
+          <div class="sec-badge">⚠ whoami /priv — primer paso para identificar vectores de escalada</div>
+          <div class="info-badge">💡 systeminfo revela: nombre del SO, versión, parches instalados, arquitectura</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">SEC</div>
+          <div class="concept-title">CMD en ciberseguridad — Living off the Land</div>
+          <div class="concept-badge">LotL · post-explotación · evasión</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>Living off the Land (LotL)</strong> es la técnica de usar exclusivamente herramientas del sistema operativo para operar — sin instalar nada externo que pueda ser detectado por antivirus.</p>
+          <p>Un atacante que gana acceso a un Windows puede hacer todo esto con CMD puro:</p>
+          <ul>
+            <li>Enumerar usuarios y grupos (<code>net user</code>, <code>net localgroup</code>)</li>
+            <li>Ver conexiones de red activas (<code>netstat -ano</code>)</li>
+            <li>Buscar archivos sensibles (<code>dir /s /b *.txt</code>)</li>
+            <li>Crear usuarios persistentes (<code>net user hacker Pass123 /add</code>)</li>
+            <li>Programar tareas de persistencia (<code>schtasks /create</code>)</li>
+            <li>Moverse por la red (<code>net use \\\\IP\\C$</code>)</li>
+          </ul>
+          <div class="code-block">::Secuencia típica de enumeración inicial
+whoami /all                     :: usuario + grupos + privilegios
+net user                        :: todos los usuarios
+net localgroup administrators   :: administradores locales
+systeminfo                      :: SO, parches, arquitectura
+ipconfig /all                   :: red
+netstat -ano                    :: conexiones activas</div>
+          <div class="sec-badge">⚠ Windows Event ID 4688 registra cada proceso creado — incluyendo CMD</div>
+          <div class="sec-badge">⚠ Sysmon puede capturar toda la actividad de CMD incluso sin antivirus</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE — CLI WINDOWS BÁSICO</p>
+      <p><strong>Post 2: Navegación y sistema de archivos en Windows</strong> — dir en profundidad, rutas absolutas y relativas, dir /s para buscar archivos, type y more para leer contenido.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "¿Cuál es la diferencia entre CMD y PowerShell?", opts: ["Son lo mismo con distinto nombre","CMD trabaja con texto; PowerShell trabaja con objetos .NET y tiene capacidades de scripting mucho más potentes","PowerShell es más antiguo que CMD","CMD solo funciona en Windows 10"], correct: 1, exp: "CMD hereda el modelo de texto de MS-DOS: recibe un comando, devuelve texto. PowerShell (2006) trabaja con objetos .NET — puedes manipular los resultados, filtrarlos, pasarlos a otras funciones. Son filosóficamente distintos." },
+  { q: "¿Qué es Windows Terminal?", opts: ["Un intérprete de comandos avanzado","El sucesor de PowerShell","Un emulador de terminal (contenedor visual) que puede alojar CMD, PowerShell o WSL en pestañas","Una versión de Linux para Windows"], correct: 2, exp: "Windows Terminal (2019) es solo el contenedor visual — la ventana. No interpreta comandos. Lo que hace es alojar CMD, PowerShell, WSL u otros intérpretes en pestañas. Es como GNOME Terminal en Linux." },
+  { q: "¿Qué muestra el comando 'cd' sin argumentos en Windows?", opts: ["Lista los archivos del directorio actual","Mueve al directorio raíz","Muestra la ruta completa del directorio de trabajo actual","Cierra la terminal"], correct: 2, exp: "En Windows, cd sin argumentos muestra el directorio actual (equivalente a pwd en Linux). Es la primera forma de orientarse al abrir CMD. En Linux, cd sin argumentos lleva al home." },
+  { q: "¿Por qué es importante 'whoami /priv' en ciberseguridad?", opts: ["Para ver el nombre del equipo","Para listar los archivos del usuario","Para conocer los privilegios del usuario actual e identificar vectores de escalada de privilegios","Para ver la versión de Windows"], correct: 2, exp: "whoami /priv lista todos los privilegios asignados al token del usuario actual. Ciertos privilegios como SeImpersonatePrivilege, SeDebugPrivilege o SeBackupPrivilege son explotables para escalar a SYSTEM." },
+  { q: "¿Qué significa 'Living off the Land' en ciberseguridad?", opts: ["Usar herramientas open source","Ejecutar ataques solo con herramientas nativas del sistema operativo para evitar detección","Atacar sistemas Linux desde Windows","Usar PowerShell exclusivamente"], correct: 1, exp: "Living off the Land (LotL) consiste en usar exclusivamente las herramientas ya presentes en el sistema operativo. Un atacante que usa solo CMD, PowerShell y utilidades del sistema es mucho más difícil de detectar que uno que descarga herramientas externas." },
+  { q: "¿Cuál es el equivalente en Windows CMD de 'ls -la' en Linux?", opts: ["list /all","dir /a","cd /show","show /hidden"], correct: 1, exp: "dir /a muestra todos los archivos del directorio incluyendo ocultos y del sistema. Sin /a, dir solo muestra los archivos visibles. Es el equivalente más próximo a ls -la de Linux." },
+  { q: "¿Qué diferencia de comportamiento tiene CMD respecto a Linux con los nombres de archivo?", opts: ["CMD solo acepta nombres en mayúsculas","CMD distingue mayúsculas de minúsculas igual que Linux","CMD es case insensitive — archivo.txt y ARCHIVO.TXT son el mismo","CMD no acepta espacios en nombres de archivo"], correct: 2, exp: "Windows/CMD es case insensitive — no distingue mayúsculas de minúsculas ni en comandos ni en nombres de archivo. En Linux, archivo.txt y Archivo.txt son archivos completamente distintos." },
+  { q: "¿Qué información útil da 'systeminfo' en un análisis de seguridad?", opts: ["Solo el nombre del usuario","Solo la dirección IP","Nombre del SO, versión, arquitectura, fecha de instalación, parches aplicados (hotfixes) y configuración de red","Solo el nombre del equipo"], correct: 2, exp: "systeminfo es uno de los comandos más completos de enumeración inicial. Revela versión exacta de Windows, arquitectura (32/64 bits), parches instalados (hotfixes), memoria RAM, configuración de red y dominio — todo en un solo comando." },
+  { q: "¿Cómo se obtiene ayuda sobre el comando 'dir' en CMD?", opts: ["man dir","help --dir","dir /?","info dir"], correct: 2, exp: "En CMD, la ayuda se obtiene con /? al final del comando: dir /? muestra todas las opciones disponibles. También funciona 'help dir'. En Linux se usaría 'man dir' o 'dir --help'." },
+  { q: "¿Qué registra Windows Event ID 4688?", opts: ["Cambios en el registro del sistema","Cada nuevo proceso creado — incluyendo cada ejecución de CMD","Conexiones de red entrantes","Cambios de contraseña de usuario"], correct: 1, exp: "El Event ID 4688 registra la creación de cualquier proceso, incluyendo cmd.exe, powershell.exe y cualquier utilidad del sistema. Los equipos de Blue Team lo usan para detectar actividad sospechosa y reconstruir la línea de tiempo de un ataque." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? '¡Perfecto! Base de CMD de Windows dominada.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Practica abriendo CMD en tu Windows.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

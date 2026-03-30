@@ -1,0 +1,119 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="50" fill="#1a1a2a" font-size="40" font-weight="700">CLI DE WINDOWS</text>
+  <text x="46" y="48" fill="#e8eaf0" font-size="40" font-weight="700">CLI DE WINDOWS</text>
+  <text x="48" y="66" fill="#4d96ff" font-size="9" letter-spacing="3">CMD · POWERSHELL · TERMINAL · COMANDOS BÁSICOS</text>
+  <line x1="48" y1="76" x2="430" y2="76" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: CMD window -->
+  <text x="48" y="96" fill="#6b6b8a" font-size="9" letter-spacing="2">// SÍMBOLO DEL SISTEMA</text>
+  <rect x="48" y="106" width="390" height="230" rx="3" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="106" width="390" height="22" rx="3 3 0 0" fill="#000080"/>
+  <text x="145" y="121" fill="#ffffff" font-size="9">Símbolo del sistema</text>
+  <rect x="398" y="109" width="12" height="12" fill="transparent" stroke="#4d96ff" stroke-width="0.5"/>
+  <text x="402" y="119" fill="#ffffff" font-size="8">✕</text>
+
+  <text x="62" y="148" fill="#c0c0c0" font-size="10">Microsoft Windows [Versión 10.0.19045]</text>
+  <text x="62" y="162" fill="#c0c0c0" font-size="10">(c) Microsoft Corporation</text>
+
+  <text x="62" y="182" fill="#c0c0c0" font-size="10">C:\Users\usuario&gt;</text>
+  <text x="192" y="182" fill="#ffffff" font-size="10"> whoami</text>
+  <text x="62" y="196" fill="#c0c0c0" font-size="10">desktop-abc\usuario</text>
+
+  <text x="62" y="216" fill="#c0c0c0" font-size="10">C:\Users\usuario&gt;</text>
+  <text x="192" y="216" fill="#ffffff" font-size="10"> hostname</text>
+  <text x="62" y="230" fill="#c0c0c0" font-size="10">DESKTOP-ABC</text>
+
+  <text x="62" y="250" fill="#c0c0c0" font-size="10">C:\Users\usuario&gt;</text>
+  <text x="192" y="250" fill="#ffffff" font-size="10"> dir /a</text>
+  <text x="62" y="264" fill="#4d96ff" font-size="9"> Directory of C:\Users\usuario</text>
+  <text x="62" y="276" fill="#c0c0c0" font-size="9">28/03/2026  10:00    &lt;DIR&gt;          Documents</text>
+  <text x="62" y="288" fill="#c0c0c0" font-size="9">28/03/2026  10:00    &lt;DIR&gt;          Desktop</text>
+  <text x="62" y="300" fill="#ff9f43" font-size="9">28/03/2026  09:00    &lt;DIR&gt;  &lt;HIDDEN&gt; AppData</text>
+
+  <text x="62" y="320" fill="#c0c0c0" font-size="10">C:\Users\usuario&gt;</text>
+  <rect x="190" y="310" width="8" height="13" fill="#c0c0c0" opacity="0.8"/>
+
+  <!-- comparison boxes -->
+  <text x="48" y="360" fill="#6b6b8a" font-size="9" letter-spacing="2">// CMD VS LINUX</text>
+  <rect x="48"  y="370" width="185" height="118" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="48"  y="370" width="185" height="4" fill="#4d96ff"/>
+  <text x="140" y="388" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">WINDOWS CMD</text>
+  <text x="62" y="406" fill="#6b6b8a" font-size="8">cd       → directorio actual</text>
+  <text x="62" y="418" fill="#6b6b8a" font-size="8">dir      → listar archivos</text>
+  <text x="62" y="430" fill="#6b6b8a" font-size="8">type     → ver contenido</text>
+  <text x="62" y="442" fill="#6b6b8a" font-size="8">del      → eliminar archivo</text>
+  <text x="62" y="454" fill="#6b6b8a" font-size="8">cls      → limpiar pantalla</text>
+  <text x="62" y="466" fill="#3a3a5a" font-size="7">C:\ruta\   · case insensitive</text>
+  <text x="62" y="478" fill="#3a3a5a" font-size="7">%VARIABLE% · cmd /?</text>
+
+  <rect x="253" y="370" width="185" height="118" rx="2" fill="#12121a" stroke="#00ff9f" stroke-width="1"/>
+  <rect x="253" y="370" width="185" height="4" fill="#00ff9f"/>
+  <text x="345" y="388" text-anchor="middle" fill="#00ff9f" font-size="10" font-weight="700">LINUX BASH</text>
+  <text x="267" y="406" fill="#6b6b8a" font-size="8">pwd      → directorio actual</text>
+  <text x="267" y="418" fill="#6b6b8a" font-size="8">ls       → listar archivos</text>
+  <text x="267" y="430" fill="#6b6b8a" font-size="8">cat      → ver contenido</text>
+  <text x="267" y="442" fill="#6b6b8a" font-size="8">rm       → eliminar archivo</text>
+  <text x="267" y="454" fill="#6b6b8a" font-size="8">clear    → limpiar pantalla</text>
+  <text x="267" y="466" fill="#3a3a5a" font-size="7">/ruta/   · case sensitive</text>
+  <text x="267" y="478" fill="#3a3a5a" font-size="7">$VARIABLE · man cmd</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: three tools -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// TRES HERRAMIENTAS</text>
+
+  <!-- CMD -->
+  <rect x="488" y="58" width="506" height="72" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="488" y="58" width="4" height="72" fill="#4d96ff"/>
+  <text x="502" y="76" fill="#4d96ff" font-size="12" font-weight="700">CMD.EXE — Símbolo del sistema</text>
+  <text x="502" y="92" fill="#6b6b8a" font-size="9">Intérprete heredero de MS-DOS · presente en todo Windows</text>
+  <text x="502" y="106" fill="#6b6b8a" font-size="9">trabaja con texto · scripts .bat · siempre disponible</text>
+  <text x="502" y="120" fill="#3a3a5a" font-size="8">Win+R → cmd · caso insensible · rutas con \</text>
+
+  <!-- PowerShell -->
+  <rect x="488" y="138" width="506" height="72" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <rect x="488" y="138" width="4" height="72" fill="#c77dff"/>
+  <text x="502" y="156" fill="#c77dff" font-size="12" font-weight="700">PowerShell — Shell avanzada</text>
+  <text x="502" y="172" fill="#6b6b8a" font-size="9">Basada en .NET · trabaja con objetos, no solo texto</text>
+  <text x="502" y="186" fill="#6b6b8a" font-size="9">scripts .ps1 · cmdlets (Get-Process, Set-Item...)</text>
+  <text x="502" y="200" fill="#3a3a5a" font-size="8">Win+X → PowerShell · #Requires -Version 5 · módulos</text>
+
+  <!-- Windows Terminal -->
+  <rect x="488" y="218" width="506" height="58" rx="2" fill="#12121a" stroke="#6b6b8a" stroke-width="1"/>
+  <rect x="488" y="218" width="4" height="58" fill="#6b6b8a"/>
+  <text x="502" y="236" fill="#e8eaf0" font-size="12" font-weight="700">Windows Terminal</text>
+  <text x="502" y="252" fill="#6b6b8a" font-size="9">Contenedor moderno que unifica CMD + PowerShell + WSL</text>
+  <text x="502" y="266" fill="#3a3a5a" font-size="8">no es un intérprete — es la ventana que los aloja</text>
+
+  <!-- prompt anatomy -->
+  <text x="488" y="302" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANATOMÍA DEL PROMPT</text>
+  <rect x="488" y="312" width="506" height="60" rx="2" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="502" y="334" fill="#4d96ff" font-size="14" font-weight="700">C:\</text>
+  <text x="540" y="334" fill="#c0c0c0" font-size="14" font-weight="700">Users\</text>
+  <text x="606" y="334" fill="#ff9f43" font-size="14" font-weight="700">usuario</text>
+  <text x="668" y="334" fill="#c0c0c0" font-size="14" font-weight="700">&gt;</text>
+  <text x="502" y="352" fill="#4d96ff" font-size="7">unidad</text>
+  <text x="540" y="352" fill="#6b6b8a" font-size="7">ruta</text>
+  <text x="606" y="352" fill="#ff9f43" font-size="7">directorio actual</text>
+  <text x="668" y="352" fill="#6b6b8a" font-size="7">prompt</text>
+
+  <!-- security note -->
+  <text x="488" y="396" fill="#6b6b8a" font-size="9" letter-spacing="2">// SEGURIDAD — POST-EXPLOTACIÓN</text>
+  <rect x="488" y="406" width="506" height="78" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="488" y="406" width="4" height="78" fill="#ff6b6b"/>
+  <text x="502" y="424" fill="#ff6b6b" font-size="9" font-weight="700">Comandos de enumeración post-acceso</text>
+  <text x="502" y="440" fill="#6b6b8a" font-size="8">whoami /priv            ver privilegios del usuario actual</text>
+  <text x="502" y="454" fill="#6b6b8a" font-size="8">net localgroup administrators  ver admins locales</text>
+  <text x="502" y="468" fill="#6b6b8a" font-size="8">systeminfo              fingerprinting completo del sistema</text>
+  <text x="502" y="478" fill="#3a3a5a" font-size="7">Living off the Land: usar solo herramientas del SO para no ser detectado</text>
+</svg>

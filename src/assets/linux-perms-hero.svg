@@ -1,0 +1,175 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,159,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <!-- TITLE -->
+  <text x="48" y="50" fill="#1a1a2a" font-size="38" font-weight="700">PERMISOS EN LINUX</text>
+  <text x="46" y="48" fill="#e8eaf0" font-size="38" font-weight="700">PERMISOS EN LINUX</text>
+  <text x="48" y="66" fill="#ff9f43" font-size="9" letter-spacing="3">rwx · chmod · chown · SUID · sticky bit</text>
+  <line x1="48" y1="76" x2="430" y2="76" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- LEFT: permission string anatomy -->
+  <text x="48" y="96" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANATOMÍA DE PERMISOS</text>
+
+  <!-- permission string -->
+  <rect x="48" y="106" width="390" height="52" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <!-- chars -->
+  <text x="64"  y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+  <text x="88"  y="138" fill="#ff9f43" font-size="20" font-weight="700">r</text>
+  <text x="108" y="138" fill="#ff9f43" font-size="20" font-weight="700">w</text>
+  <text x="128" y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+  <text x="158" y="138" fill="#4d96ff" font-size="20" font-weight="700">r</text>
+  <text x="178" y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+  <text x="198" y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+  <text x="228" y="138" fill="#6bcb77" font-size="20" font-weight="700">r</text>
+  <text x="248" y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+  <text x="268" y="138" fill="#6b6b8a" font-size="20" font-weight="700">-</text>
+
+  <!-- labels below -->
+  <text x="64"  y="155" fill="#3a3a5a" font-size="7">tipo</text>
+  <text x="88"  y="155" fill="#ff9f43" font-size="7">user</text>
+  <text x="158" y="155" fill="#4d96ff" font-size="7">group</text>
+  <text x="228" y="155" fill="#6bcb77" font-size="7">others</text>
+
+  <!-- three entity boxes -->
+  <rect x="48"  y="168" width="118" height="52" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="48"  y="168" width="118" height="4" fill="#ff9f43"/>
+  <text x="107" y="186" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">USER (u)</text>
+  <text x="107" y="200" text-anchor="middle" fill="#6b6b8a" font-size="8">propietario</text>
+  <text x="107" y="213" text-anchor="middle" fill="#3a3a5a" font-size="7">rw- = 6</text>
+
+  <rect x="174" y="168" width="118" height="52" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="174" y="168" width="118" height="4" fill="#4d96ff"/>
+  <text x="233" y="186" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">GROUP (g)</text>
+  <text x="233" y="200" text-anchor="middle" fill="#6b6b8a" font-size="8">grupo asignado</text>
+  <text x="233" y="213" text-anchor="middle" fill="#3a3a5a" font-size="7">r-- = 4</text>
+
+  <rect x="300" y="168" width="138" height="52" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="300" y="168" width="138" height="4" fill="#6bcb77"/>
+  <text x="369" y="186" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">OTHERS (o)</text>
+  <text x="369" y="200" text-anchor="middle" fill="#6b6b8a" font-size="8">todos los demás</text>
+  <text x="369" y="213" text-anchor="middle" fill="#3a3a5a" font-size="7">r-- = 4</text>
+
+  <!-- rwx values -->
+  <text x="48" y="244" fill="#6b6b8a" font-size="9" letter-spacing="2">// VALORES OCTALES</text>
+  <rect x="48"  y="254" width="118" height="36" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="107" y="270" text-anchor="middle" fill="#00ff9f" font-size="11" font-weight="700">r = 4</text>
+  <text x="107" y="283" text-anchor="middle" fill="#6b6b8a" font-size="8">lectura</text>
+
+  <rect x="174" y="254" width="118" height="36" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="233" y="270" text-anchor="middle" fill="#00ff9f" font-size="11" font-weight="700">w = 2</text>
+  <text x="233" y="283" text-anchor="middle" fill="#6b6b8a" font-size="8">escritura</text>
+
+  <rect x="300" y="254" width="138" height="36" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="369" y="270" text-anchor="middle" fill="#00ff9f" font-size="11" font-weight="700">x = 1</text>
+  <text x="369" y="283" text-anchor="middle" fill="#6b6b8a" font-size="8">ejecución</text>
+
+  <!-- chmod examples -->
+  <text x="48" y="316" fill="#6b6b8a" font-size="9" letter-spacing="2">// CHMOD OCTAL</text>
+  <rect x="48" y="326" width="390" height="92" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="62" y="346" fill="#6b6b8a" font-size="8">chmod</text>
+  <text x="106" y="346" fill="#ff9f43" font-size="11" font-weight="700">7</text>
+  <text x="120" y="346" fill="#4d96ff" font-size="11" font-weight="700">5</text>
+  <text x="134" y="346" fill="#6bcb77" font-size="11" font-weight="700">5</text>
+  <text x="152" y="346" fill="#b0b0c8" font-size="8">script.sh</text>
+  <text x="62" y="362" fill="#ff9f43" font-size="8">7 = 4+2+1 = rwx  propietario: todo</text>
+  <text x="62" y="374" fill="#4d96ff" font-size="8">5 = 4+0+1 = r-x  grupo: leer y ejecutar</text>
+  <text x="62" y="386" fill="#6bcb77" font-size="8">5 = 4+0+1 = r-x  otros: leer y ejecutar</text>
+  <line x1="56" y1="394" x2="430" y2="394" stroke="#1e1e2e" stroke-width="0.5"/>
+  <text x="62" y="408" fill="#6b6b8a" font-size="8">chmod</text>
+  <text x="106" y="408" fill="#ff9f43" font-size="11" font-weight="700">6</text>
+  <text x="120" y="408" fill="#4d96ff" font-size="11" font-weight="700">0</text>
+  <text x="134" y="408" fill="#6bcb77" font-size="11" font-weight="700">0</text>
+  <text x="152" y="408" fill="#b0b0c8" font-size="8">~/.ssh/id_rsa</text>
+  <text x="62" y="422" fill="#6b6b8a" font-size="8">600 = solo el propietario puede leer/escribir</text>
+
+  <!-- special bits -->
+  <rect x="48" y="436" width="390" height="60" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="48" y="436" width="4" height="60" fill="#ff6b6b"/>
+  <text x="62" y="454" fill="#ff6b6b" font-size="9" font-weight="700">SUID</text>
+  <text x="98"  y="454" fill="#6b6b8a" font-size="8">4xxx  rws  ejecuta como propietario (root)</text>
+  <text x="62" y="468" fill="#ffd93d" font-size="9" font-weight="700">SGID</text>
+  <text x="98"  y="468" fill="#6b6b8a" font-size="8">2xxx  rwS  ejecuta/hereda grupo</text>
+  <text x="62" y="482" fill="#4d96ff" font-size="9" font-weight="700">Sticky</text>
+  <text x="106" y="482" fill="#6b6b8a" font-size="8">1xxx   t   solo borras tus propios archivos (/tmp)</text>
+
+  <!-- RIGHT divider -->
+  <line x1="462" y1="30" x2="462" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- RIGHT: common permission table + real examples -->
+  <text x="488" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// PERMISOS MÁS USADOS</text>
+  <rect x="488" y="58" width="506" height="190" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="488" y="58" width="506" height="22" rx="2 2 0 0" fill="#1e1e2e"/>
+  <text x="510" y="73" fill="#6b6b8a" font-size="9" font-weight="700">OCTAL</text>
+  <text x="570" y="73" fill="#6b6b8a" font-size="9" font-weight="700">SIMBÓLICO</text>
+  <text x="680" y="73" fill="#6b6b8a" font-size="9" font-weight="700">USO TÍPICO</text>
+
+  <text x="510" y="96" fill="#ff9f43" font-size="10" font-weight="700">755</text>
+  <text x="570" y="96" fill="#b0b0c8" font-size="9">rwxr-xr-x</text>
+  <text x="680" y="96" fill="#6b6b8a" font-size="8">scripts y directorios públicos</text>
+  <line x1="496" y1="102" x2="986" y2="102" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="118" fill="#4d96ff" font-size="10" font-weight="700">644</text>
+  <text x="570" y="118" fill="#b0b0c8" font-size="9">rw-r--r--</text>
+  <text x="680" y="118" fill="#6b6b8a" font-size="8">archivos de texto y config</text>
+  <line x1="496" y1="124" x2="986" y2="124" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="140" fill="#00ff9f" font-size="10" font-weight="700">600</text>
+  <text x="570" y="140" fill="#b0b0c8" font-size="9">rw-------</text>
+  <text x="680" y="140" fill="#6b6b8a" font-size="8">claves SSH, archivos privados</text>
+  <line x1="496" y1="146" x2="986" y2="146" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="162" fill="#6bcb77" font-size="10" font-weight="700">700</text>
+  <text x="570" y="162" fill="#b0b0c8" font-size="9">rwx------</text>
+  <text x="680" y="162" fill="#6b6b8a" font-size="8">directorios privados</text>
+  <line x1="496" y1="168" x2="986" y2="168" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="184" fill="#6b6b8a" font-size="10" font-weight="700">664</text>
+  <text x="570" y="184" fill="#b0b0c8" font-size="9">rw-rw-r--</text>
+  <text x="680" y="184" fill="#6b6b8a" font-size="8">archivos compartidos en grupo</text>
+  <line x1="496" y1="190" x2="986" y2="190" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="206" fill="#ff6b6b" font-size="10" font-weight="700">777</text>
+  <text x="570" y="206" fill="#ff6b6b" font-size="9">rwxrwxrwx</text>
+  <text x="680" y="206" fill="#ff6b6b" font-size="8">⚠ peligroso — nunca en producción</text>
+  <line x1="496" y1="212" x2="986" y2="212" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="510" y="228" fill="#3a3a5a" font-size="10" font-weight="700">000</text>
+  <text x="570" y="228" fill="#3a3a5a" font-size="9">----------</text>
+  <text x="680" y="228" fill="#3a3a5a" font-size="8">sin acceso para nadie</text>
+
+  <!-- Real world examples -->
+  <text x="488" y="274" fill="#6b6b8a" font-size="9" letter-spacing="2">// EJEMPLOS REALES DEL SISTEMA</text>
+  <rect x="488" y="284" width="506" height="120" rx="2" fill="#0d0d14" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="502" y="304" fill="#4d96ff" font-size="9">-rw-r--r--  root root  /etc/passwd</text>
+  <text x="780" y="304" fill="#3a3a5a" font-size="8">lista usuarios — legible por todos</text>
+
+  <text x="502" y="320" fill="#ff6b6b" font-size="9">----------  root shadow  /etc/shadow</text>
+  <text x="780" y="320" fill="#3a3a5a" font-size="8">hashes — nadie puede leer</text>
+
+  <text x="502" y="336" fill="#ffd93d" font-size="9">-rwsr-xr-x  root root  /usr/bin/passwd</text>
+  <text x="780" y="336" fill="#3a3a5a" font-size="8">SUID root</text>
+
+  <text x="502" y="352" fill="#00ff9f" font-size="9">-rw-------  ubuntu ubuntu  ~/.ssh/id_rsa</text>
+  <text x="780" y="352" fill="#3a3a5a" font-size="8">clave privada SSH</text>
+
+  <text x="502" y="368" fill="#6bcb77" font-size="9">drwxrwxrwt  root root  /tmp</text>
+  <text x="780" y="368" fill="#3a3a5a" font-size="8">sticky bit activo</text>
+
+  <text x="502" y="384" fill="#6b6b8a" font-size="9">drwxr-xr-x  www-data  /var/www/html</text>
+  <text x="780" y="384" fill="#3a3a5a" font-size="8">servidor web</text>
+
+  <!-- Security relevance -->
+  <text x="488" y="424" fill="#6b6b8a" font-size="9" letter-spacing="2">// SEGURIDAD — ESCALADA DE PRIVILEGIOS</text>
+  <rect x="488" y="434" width="506" height="50" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="488" y="434" width="4" height="50" fill="#ff6b6b"/>
+  <text x="502" y="452" fill="#ff6b6b" font-size="9" font-weight="700">find / -perm -u=s -type f 2>/dev/null</text>
+  <text x="502" y="466" fill="#6b6b8a" font-size="8">buscar binarios SUID — primer paso en privilege escalation</text>
+  <text x="502" y="478" fill="#3a3a5a" font-size="7">cualquier SUID inusual fuera de /usr/bin puede ser explotable</text>
+</svg>
