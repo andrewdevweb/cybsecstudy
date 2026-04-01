@@ -1,0 +1,272 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Triada CID - CybSecStudy" description="Confidencialidad, Integridad y Disponibilidad explicadas de forma visual y aplicada." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 1</div>
+      <h1>La <span class="accent">Triada CID</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Confidencialidad, Integridad y Disponibilidad: tres preguntas simples para pensar mejor la seguridad real de cualquier sistema.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>La triada CID resume <strong>que debe proteger</strong> la seguridad de la informacion. No habla de una herramienta concreta, sino de tres objetivos esenciales.</p>
+      <p>Si uno falla, el sistema sigue teniendo un problema serio aunque los otros parezcan cubiertos.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/cid-pillars.svg" alt="Triada CID" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Pilares - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">C</div>
+          <div class="concept-title">Confidencialidad</div>
+          <div class="concept-badge">quien puede ver</div>
+        </div>
+        <div class="concept-body">
+          <p>Busca que solo las personas o sistemas autorizados puedan acceder a la informacion.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Ejemplos</div><div class="compare-desc">datos medicos, claves, secretos, correos internos</div></div>
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Riesgos</div><div class="compare-desc">fugas, buckets publicos, sniffing, credenciales robadas</div></div>
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Controles</div><div class="compare-desc">cifrado, MFA, ACLs, minimo privilegio</div></div>
+          </div>
+          <div class="info-badge">Ver datos sin permiso ya es un incidente de seguridad.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">I</div>
+          <div class="concept-title">Integridad</div>
+          <div class="concept-badge">dato fiable</div>
+        </div>
+        <div class="concept-body">
+          <p>Garantiza que la informacion no ha sido alterada de forma indebida y que sigue siendo correcta y confiable.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Ejemplos</div><div class="compare-desc">facturas, logs, binarios firmados, backups validos</div></div>
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Riesgos</div><div class="compare-desc">manipulacion, corrupcion, cambios no auditados, supply chain</div></div>
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Controles</div><div class="compare-desc">hashes, firmas, validacion, control de cambios</div></div>
+          </div>
+          <div class="sec-badge">Si no confias en el dato, tampoco puedes confiar en tus decisiones.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">D</div>
+          <div class="concept-title">Disponibilidad</div>
+          <div class="concept-badge">acceso cuando toca</div>
+        </div>
+        <div class="concept-body">
+          <p>Busca que los datos y servicios esten accesibles cuando se necesitan, incluso ante fallos o ataques.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#6bcb77"><div class="compare-title">Ejemplos</div><div class="compare-desc">web operativa, autenticacion activa, backups restaurables</div></div>
+            <div class="compare-item" style="--cc:#6bcb77"><div class="compare-title">Riesgos</div><div class="compare-desc">DDoS, ransomware, borrados, caidas electricas, saturacion</div></div>
+            <div class="compare-item" style="--cc:#6bcb77"><div class="compare-title">Controles</div><div class="compare-desc">HA, redundancia, backups, balanceadores, monitoreo</div></div>
+          </div>
+          <div class="info-badge">Un servicio caido tambien es un fallo de seguridad.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">CTRL</div>
+          <div class="concept-title">Controles por pilar</div>
+          <div class="concept-badge">medidas reales</div>
+        </div>
+        <div class="concept-body">
+          <p>La triada es realmente util cuando la conectas con controles concretos y operativos.</p>
+          <img src="/cid-controls.svg" alt="Controles por pilar CID" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <div class="code-block">Confidencialidad -> cifrado, MFA, IAM
+Integridad -> hashes, firmas, auditoria
+Disponibilidad -> HA, backups, redundancia</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">INC</div>
+          <div class="concept-title">Incidentes analizados con CID</div>
+          <div class="concept-badge">clasificar mejor</div>
+        </div>
+        <div class="concept-body">
+          <p>Muchos incidentes afectan a un solo pilar; otros, a varios a la vez. La triada ayuda a describir bien el impacto.</p>
+          <img src="/cid-incidents.svg" alt="Incidentes y triada CID" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <div class="code-block">Fuga de datos -> Confidencialidad
+Factura alterada -> Integridad
+Caida por DDoS -> Disponibilidad
+Ransomware con robo -> las tres</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">BAL</div>
+          <div class="concept-title">Equilibrios y tensiones</div>
+          <div class="concept-badge">trade-offs</div>
+        </div>
+        <div class="concept-body">
+          <p>La triada no son tres cajas separadas. Muchas decisiones refuerzan un pilar y tensionan otro.</p>
+          <ul>
+            <li>mas controles de acceso pueden reducir comodidad o disponibilidad operativa</li>
+            <li>mas validaciones y auditoria mejoran integridad, pero ralentizan cambios</li>
+            <li>mas redundancia mejora disponibilidad, pero aumenta complejidad</li>
+          </ul>
+          <div class="sec-badge">Seguridad real = equilibrio consciente entre los tres pilares.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> analisis de riesgos, clasificacion de activos o autenticacion y control de acceso.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que significa CID?", opts: ["Control, Inspeccion y Deteccion","Confidencialidad, Integridad y Disponibilidad","Cifrado, Identidad y Defensa","Conectividad, Integracion y Datos"], correct: 1, exp: "CID resume los tres objetivos clasicos de la seguridad de la informacion." },
+  { q: "Que pilar falla si datos internos quedan expuestos?", opts: ["Disponibilidad","Integridad","Confidencialidad","Todos"], correct: 2, exp: "Si personas no autorizadas pueden ver informacion, la confidencialidad ha fallado." },
+  { q: "Que pilar se centra en que el dato siga siendo correcto?", opts: ["Integridad","Disponibilidad","Confidencialidad","Autenticacion"], correct: 0, exp: "Integridad significa poder confiar en que el dato no ha sido alterado indebidamente." },
+  { q: "Que pilar afecta un DDoS principalmente?", opts: ["Confidencialidad","Disponibilidad","Integridad","Ninguno"], correct: 1, exp: "Un DDoS busca impedir el acceso legitimo al servicio, por tanto impacta en disponibilidad." },
+  { q: "Que control encaja mejor con integridad?", opts: ["Hashes y firmas","Balanceadores","MFA","Segmentacion"], correct: 0, exp: "Hashes y firmas ayudan a comprobar si un dato o binario ha cambiado." },
+  { q: "Que control encaja mejor con confidencialidad?", opts: ["Cifrado y control de acceso","Failover","Backups","Redundancia"], correct: 0, exp: "Cifrado y control de acceso limitan quien puede ver los datos." },
+  { q: "Que control encaja mejor con disponibilidad?", opts: ["Alta disponibilidad y backups","Checksums","ACLs","Firmas de codigo"], correct: 0, exp: "HA y backups buscan mantener o recuperar acceso al servicio y los datos." },
+  { q: "Por que un ransomware puede afectar a varios pilares?", opts: ["Porque solo cambia nombres","Porque puede robar datos, alterarlos o bloquear acceso","Porque solo afecta al disco","Porque solo daña la red"], correct: 1, exp: "Muchos ransomware modernos exfiltran, cifran y dejan servicios inoperativos." },
+  { q: "Que idea describe mejor la triada CID?", opts: ["Es solo teoria academica","Sirve para clasificar incidentes y decidir controles","Solo aplica a cloud","Ya no se usa"], correct: 1, exp: "CID sigue siendo una lente muy practica para pensar la seguridad." },
+  { q: "Que afirmacion refleja mejor la realidad?", opts: ["Los tres pilares son completamente independientes","Siempre hay que maximizar uno solo","Muchas decisiones mejoran un pilar y tensionan otro","Disponibilidad no forma parte de la seguridad"], correct: 2, exp: "La seguridad real exige equilibrio y asumir trade-offs entre pilares." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. La triada CID ha quedado clara.' : score >= 7 ? 'Muy bien. Repasa los pilares que confundiste.' : 'Revisa otra vez los ejemplos y controles.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

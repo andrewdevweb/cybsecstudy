@@ -29,6 +29,8 @@ const slugCatMap: Record<string, string> = {
   'comptypes':         'fundamentos',
   'virt':              'fundamentos',
   'cloud':             'fundamentos',
+  // Seguridad
+  'triada-cid':        'seguridad',
   // Windows
   'os-intro':          'windows',
   'windows-basics':    'windows',
@@ -56,6 +58,7 @@ function getPostCategory(post: any): string {
 
 const catMeta: Record<string, { label: string; color: string; desc: string }> = {
   fundamentos: { label: 'Fundamentos',  color: '#6bcb77', desc: 'Hardware, virtualización y cloud' },
+  seguridad:   { label: 'Seguridad',    color: '#ff6b6b', desc: 'Modelos, defensa, riesgo y fundamentos de ciberseguridad' },
   windows:     { label: 'Windows',      color: '#00bfff', desc: 'SO, CLI, CMD, PowerShell y administración' },
   linux:       { label: 'Linux & CLI',  color: '#ff9f43', desc: 'Terminal, sistema de archivos y comandos' },
   redes:       { label: 'Redes',        color: '#4d96ff', desc: 'Protocolos, DNS, firewalls y VPNs' },
