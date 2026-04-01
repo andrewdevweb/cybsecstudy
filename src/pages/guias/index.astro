@@ -178,7 +178,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Sistema operativo, CLI, CMD, PowerShell y administración.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">3 guías</span>
+          <span class="cat-count">5 guías</span>
           <span class="cat-levels">2 niveles</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -318,6 +318,22 @@ import Footer from '../../components/Footer.astro';
             <div class="guide-info">
               <div class="guide-title">CLI de Windows — Introducción</div>
               <div class="guide-desc">CMD, PowerShell, Windows Terminal y primeros comandos.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/windows-nav" class="guide-card" style="--pc:#00bfff">
+            <div class="guide-num">04</div>
+            <div class="guide-info">
+              <div class="guide-title">Navegación y Sistema de Archivos</div>
+              <div class="guide-desc">cd, dir, dir /a, rutas absolutas y relativas, y tree.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/windows-files" class="guide-card" style="--pc:#00bfff">
+            <div class="guide-num">05</div>
+            <div class="guide-info">
+              <div class="guide-title">Gestión de Archivos</div>
+              <div class="guide-desc">copy, move, del, mkdir, rmdir, ren y type en CMD.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
@@ -553,6 +569,8 @@ const allGuides = [
   { num:'01', href:'/guias/os-intro',          title:'Sistemas Operativos',           cat:'Windows',     color:'#00bfff', desc:'Kernel, User Space, GUI vs CLI y familias de SO.' },
   { num:'02', href:'/guias/windows-basics',    title:'Windows Básico',                cat:'Windows',     color:'#00bfff', desc:'Autenticación, registro y seguridad nativa.' },
   { num:'03', href:'/guias/windows-cmd-intro', title:'CLI de Windows — Introducción', cat:'Windows',     color:'#00bfff', desc:'CMD, PowerShell, Windows Terminal y primeros comandos.' },
+  { num:'04', href:'/guias/windows-nav',       title:'Navegación y Sistema de Archivos', cat:'Windows',  color:'#00bfff', desc:'cd, dir, dir /a, rutas absolutas y relativas, y tree.' },
+  { num:'05', href:'/guias/windows-files',     title:'Gestión de Archivos', cat:'Windows', color:'#00bfff', desc:'copy, move, del, mkdir, rmdir, ren y type en CMD.' },
   { num:'01', href:'/guias/linux-cli-intro',   title:'Introducción a Linux y la CLI', cat:'Linux & CLI', color:'#ff9f43', desc:'Filosofía Unix, CLI vs GUI, terminal.' },
   { num:'02', href:'/guias/linux-shell',       title:'Terminal, Consola y Shell',     cat:'Linux & CLI', color:'#ff9f43', desc:'Bash, zsh, $PATH y .bashrc.' },
   { num:'03', href:'/guias/linux-fs',          title:'Sistema de Archivos Linux',     cat:'Linux & CLI', color:'#ff9f43', desc:'FHS, /etc, /home, /var, rutas e inodes.' },

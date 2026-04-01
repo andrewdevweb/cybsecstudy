@@ -1,0 +1,370 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Navegacion y Sistema de Archivos Windows - CybSecStudy" description="Aprende cd, dir, dir /a, rutas absolutas y relativas, y tree para moverte por Windows con precision." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #4d96ff; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #4d96ff; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .cmd-window { background: #0c0c0c; border: 1px solid #333; border-radius: 4px; overflow: hidden; margin: 16px 0 32px; }
+    .cmd-bar { background: #000080; padding: 6px 12px; display: flex; align-items: center; }
+    .cmd-bar-title { font-size: 11px; color: #fff; flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; }
+    .cmd-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.85; }
+    .cmd-p { color: #c0c0c0; }
+    .cmd-c { color: #ffffff; }
+    .cmd-o { color: #c0c0c0; }
+    .cmd-h { color: #4d96ff; }
+    .cmd-w { color: #ff9f43; }
+    .cmd-g { color: #6bcb77; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 72px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #4d96ff); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    .route-card { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .route-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #1e1e2e; color: var(--cc); }
+    .route-row { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #b0b0c8; padding: 2px 0; }
+    .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .cmd-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 10px 14px; }
+    .cmd-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--cc); font-weight: 700; margin-bottom: 4px; }
+    .cmd-desc { font-size: 11px; color: #6b6b8a; line-height: 1.4; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #4d96ff; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #4d96ff; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .route-grid { grid-template-columns: 1fr; } .cmd-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos Windows - CLI Basico - Post 2 de 4</div>
+      <h1><span class="accent">Navegacion</span> y Sistema de Archivos</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Moverte por Windows con confianza significa dominar <strong style="color:#e8eaf0">cd</strong>, <strong style="color:#e8eaf0">dir</strong>, las rutas y el arbol de directorios real del sistema.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Si no sabes donde estas, no sabes que puedes tocar. En Windows eso significa entender <strong>unidades</strong>, <strong>rutas absolutas y relativas</strong>, y como listar contenido visible, oculto o recursivo.</p>
+      <p>Estos comandos son la base de administracion, soporte, forense y post-explotacion. Antes de copiar o borrar nada, hay que saber <strong>navegar</strong>.</p>
+    </div>
+
+    <div class="section-label">// Sesion tipica en CMD</div>
+    <div class="cmd-window">
+      <div class="cmd-bar"><span class="cmd-bar-title">Simbolo del sistema</span></div>
+      <div class="cmd-body">
+        <div><span class="cmd-p">C:\Users\analista&gt;</span><span class="cmd-c"> cd</span></div>
+        <div class="cmd-o">C:\Users\analista</div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Users\analista&gt;</span><span class="cmd-c"> dir /a</span></div>
+        <div class="cmd-h">31/03/2026  18:00    &lt;DIR&gt;          Desktop</div>
+        <div class="cmd-h">31/03/2026  18:00    &lt;DIR&gt;          Documents</div>
+        <div class="cmd-w">31/03/2026  18:00    &lt;DIR&gt;          AppData</div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Users\analista&gt;</span><span class="cmd-c"> cd Documents\Labs</span></div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Users\analista\Documents\Labs&gt;</span><span class="cmd-c"> tree /f</span></div>
+        <div class="cmd-g">C:\USERS\ANALISTA\DOCUMENTS\LABS</div>
+        <div class="cmd-o">+---evidencias</div>
+        <div class="cmd-o">|       hosts.txt</div>
+        <div class="cmd-o">+---scripts</div>
+        <div class="cmd-o">\---logs</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Conceptos - clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">dir</div>
+          <div class="concept-title">dir - ver que hay aqui</div>
+          <div class="concept-badge">/a · /b · /s · /o</div>
+        </div>
+        <div class="concept-body">
+          <p><code>dir</code> lista el contenido del directorio actual o de una ruta concreta. Es el equivalente mental de <code>ls</code> en Linux, pero con flags distintas y muy utiles para entorno Windows.</p>
+          <div class="code-block">dir
+dir C:\Windows
+dir /a
+dir /ad
+dir /b
+dir /s *.txt
+dir /o:-d</div>
+          <p style="margin-top:10px">Los modificadores clave:</p>
+          <ul>
+            <li><strong>/a</strong> - incluye archivos ocultos y de sistema</li>
+            <li><strong>/ad</strong> - muestra solo directorios</li>
+            <li><strong>/b</strong> - salida basica, ideal para scripts o copiar rutas</li>
+            <li><strong>/s</strong> - busca recursivamente por subdirectorios</li>
+            <li><strong>/o:-d</strong> - ordena por fecha descendente</li>
+          </ul>
+          <div class="info-badge">TIP: <code>dir /b /s *.log</code> devuelve rutas completas sin ruido extra.</div>
+          <div class="sec-badge">SEC: <code>dir /a</code> evita que te pierdas AppData, ProgramData y ficheros ocultos.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">cd</div>
+          <div class="concept-title">cd - moverte por el arbol</div>
+          <div class="concept-badge">.. · \ · /d</div>
+        </div>
+        <div class="concept-body">
+          <p><code>cd</code> cambia de directorio, pero en CMD tambien te permite comprobar donde estas si lo ejecutas sin argumentos.</p>
+          <div class="code-block">cd
+cd Desktop
+cd Documents\Labs
+cd ..
+cd ..\..
+cd \
+cd /d D:\Laboratorio</div>
+          <p style="margin-top:10px">Dos ideas que debes grabarte:</p>
+          <ul>
+            <li><strong>cd</strong> sin argumentos imprime la ruta actual</li>
+            <li><strong>cd /d</strong> cambia de unidad y directorio a la vez</li>
+          </ul>
+          <p>Si estas en <code>C:</code> y quieres ir a <code>D:\Temp</code>, <code>cd D:\Temp</code> no siempre hace lo que esperas. Usa <code>cd /d D:\Temp</code>.</p>
+          <div class="info-badge">TIP: <code>cd \</code> te manda a la raiz de la unidad actual de inmediato.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">RUTA</div>
+          <div class="concept-title">Rutas absolutas y relativas</div>
+          <div class="concept-badge">. · .. · %USERPROFILE%</div>
+        </div>
+        <div class="concept-body">
+          <p>Una <strong>ruta absoluta</strong> empieza desde la unidad raiz. Una <strong>ruta relativa</strong> depende del directorio donde te encuentras en ese momento.</p>
+          <div class="route-grid">
+            <div class="route-card" style="--cc:#6bcb77">
+              <div class="route-label">ABSOLUTA</div>
+              <div class="route-row">C:\Users\analista\Documents\labs</div>
+              <div class="route-row">C:\Windows\Temp</div>
+              <div class="route-row">D:\Backups\abril</div>
+            </div>
+            <div class="route-card" style="--cc:#ff9f43">
+              <div class="route-label">RELATIVA</div>
+              <div class="route-row">Documents</div>
+              <div class="route-row">..\Desktop</div>
+              <div class="route-row">.\scripts</div>
+            </div>
+          </div>
+          <div class="code-block">type .\README.txt
+cd ..\Desktop
+dir ..\Downloads
+cd %USERPROFILE%
+dir %APPDATA% /a</div>
+          <p style="margin-top:10px"><code>.</code> significa "directorio actual"; <code>..</code> significa "directorio padre". Las variables de entorno como <code>%USERPROFILE%</code> o <code>%APPDATA%</code> ayudan a saltar a rutas largas sin escribirlas completas.</p>
+          <div class="sec-badge">SEC: entender bien las rutas evita ejecutar scripts o borrar archivos en el directorio equivocado.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">tree</div>
+          <div class="concept-title">tree - ver la estructura completa</div>
+          <div class="concept-badge">/f · /a</div>
+        </div>
+        <div class="concept-body">
+          <p><code>tree</code> dibuja la estructura jerarquica de directorios. Es excelente para entender una carpeta desconocida antes de empezar a abrir archivos uno por uno.</p>
+          <div class="code-block">tree
+tree C:\Users\analista\Desktop
+tree /f
+tree /a
+tree C:\Labs /f</div>
+          <p style="margin-top:10px"><code>/f</code> incluye archivos; <code>/a</code> usa caracteres ASCII simples, utiles para copiar la salida a notas, tickets o documentacion.</p>
+          <div class="code-block">tree C:\Labs /f
+
+Folder PATH listing
+C:\LABS
++---evidencias
+|       hosts.txt
++---scripts
+|       enum.bat
+\---logs
+        access.log</div>
+          <div class="info-badge">TIP: si una estructura es confusa, <code>tree /f</code> te da el mapa antes de tocar nada.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">/a</div>
+          <div class="concept-title">Ocultos, sistema y carpetas clave</div>
+          <div class="concept-badge">/ah · /as · /ad</div>
+        </div>
+        <div class="concept-body">
+          <p>En Windows hay mucho contenido importante que no ves con un <code>dir</code> normal. Por eso <code>dir /a</code> es una costumbre que conviene desarrollar desde el principio.</p>
+          <div class="code-block">dir /a
+dir /ah
+dir /as
+dir C:\Users /ad
+dir C:\Users\analista\AppData /a
+dir C:\ProgramData /a</div>
+          <div class="cmd-grid">
+            <div class="cmd-item" style="--cc:#ffd93d"><div class="cmd-name">AppData</div><div class="cmd-desc">Configuraciones, caches y artefactos de usuario.</div></div>
+            <div class="cmd-item" style="--cc:#ffd93d"><div class="cmd-name">ProgramData</div><div class="cmd-desc">Datos compartidos por aplicaciones y servicios.</div></div>
+            <div class="cmd-item" style="--cc:#ffd93d"><div class="cmd-name">Temp</div><div class="cmd-desc">Archivos temporales, instaladores y residuos frecuentes.</div></div>
+            <div class="cmd-item" style="--cc:#ffd93d"><div class="cmd-name">Users</div><div class="cmd-desc">Perfiles, escritorios, documentos y descargas.</div></div>
+          </div>
+          <div class="sec-badge">SEC: mucho malware torpe y mucha persistencia simple viven en rutas de usuario o temporales.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">SEC</div>
+          <div class="concept-title">Navegacion orientada a ciberseguridad</div>
+          <div class="concept-badge">enumeracion · hallazgos</div>
+        </div>
+        <div class="concept-body">
+          <p>La navegacion no es solo orientacion: tambien es enumeracion. Una shell inicial en Windows suele empezar con preguntas como estas:</p>
+          <ul>
+            <li>que perfiles de usuario existen</li>
+            <li>que carpetas interesantes hay en Desktop, Documents o Downloads</li>
+            <li>donde se guardan logs, scripts o configuraciones</li>
+            <li>que archivos recientes o sospechosos aparecen en una ruta</li>
+          </ul>
+          <div class="code-block">dir C:\Users /ad
+dir C:\Users\Public /a
+dir %APPDATA% /s /b *.log
+dir C:\ /s /b unattend.xml
+dir /o:-d
+tree C:\Users\analista\Desktop /f</div>
+          <p style="margin-top:10px">Con solo <code>cd</code>, <code>dir</code> y <code>tree</code> ya puedes entender una maquina mejor que quien solo abre el explorador grafico y hace clic a ciegas.</p>
+          <div class="sec-badge">SEC: <code>dir /b /s *pass* *cred* *.config</code> es una busqueda basica, pero muy reveladora.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE - CLI WINDOWS BASICO</p>
+      <p><strong>Post 3: Gestion de archivos</strong> - copy, move, del, mkdir, rmdir, ren y type para copiar, mover, borrar, crear y leer desde CMD.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que hace dir /a en CMD?", opts: ["Ordena por fecha descendente","Incluye archivos ocultos y de sistema","Muestra solo directorios","Cambia al directorio actual"], correct: 1, exp: "dir /a amplia el listado para incluir elementos ocultos y de sistema. Es imprescindible para no perder partes importantes del arbol de archivos de Windows." },
+  { q: "Que muestra cd sin argumentos?", opts: ["Los archivos del directorio actual","La ruta del directorio actual","La raiz C:\\","La ayuda del comando"], correct: 1, exp: "En Windows CMD, cd sin argumentos imprime el directorio actual. Es el equivalente practico de pwd en Linux." },
+  { q: "Cual de estas es una ruta absoluta?", opts: ["..\\Desktop","Documents\\Labs","C:\\Users\\analista\\Desktop","%TEMP%"], correct: 2, exp: "Una ruta absoluta empieza desde la unidad raiz, como C:\\ o D:\\. No depende del directorio donde estes situado." },
+  { q: "Para que sirve cd /d D:\\Temp?", opts: ["Para mostrar D:\\Temp sin entrar","Para cambiar de unidad y directorio a la vez","Para borrar Temp","Para listar el contenido de D:\\Temp"], correct: 1, exp: "cd /d es la forma correcta de saltar a otra unidad y ruta en un solo paso. Sin /d, el cambio puede no comportarse como esperas." },
+  { q: "Que significa .. en una ruta relativa?", opts: ["El directorio actual","La raiz del disco","El directorio padre","Una variable de entorno"], correct: 2, exp: ".. representa el directorio padre. Por ejemplo, cd .. sube un nivel y cd ..\\.. sube dos." },
+  { q: "Que ventaja da dir /b /s *.txt?", opts: ["Muestra permisos NTFS","Devuelve rutas completas de archivos .txt de forma recursiva","Cambia a todas las carpetas .txt","Abre el bloc de notas"], correct: 1, exp: "La combinacion /b /s produce una salida basica y recursiva con rutas completas. Es muy util para localizar ficheros rapidamente." },
+  { q: "Que opcion de tree incluye archivos ademas de carpetas?", opts: ["/a","/d","/f","/r"], correct: 2, exp: "tree /f dibuja el arbol incluyendo archivos. Sin /f, normalmente ves solo carpetas." },
+  { q: "Que representa .\\README.txt?", opts: ["Un archivo en la raiz del disco","Un archivo en el directorio actual","Un archivo en el directorio padre","Un archivo oculto"], correct: 1, exp: ". significa directorio actual. .\\README.txt apunta al archivo README.txt dentro de la carpeta donde te encuentras." },
+  { q: "Por que AppData suele ser importante al navegar por Windows?", opts: ["Porque contiene el kernel","Porque guarda configuraciones, caches y artefactos de usuario","Porque es la unica carpeta que existe en C:\\","Porque reemplaza a Program Files"], correct: 1, exp: "AppData almacena configuraciones y datos de aplicaciones del usuario. En analisis y seguridad suele contener artefactos valiosos." },
+  { q: "Que comando te ayuda mas a entender de un vistazo la estructura de una carpeta desconocida?", opts: ["type","tree /f","echo %PATH%","cls"], correct: 1, exp: "tree /f dibuja la jerarquia completa e incluye archivos, por lo que ofrece un mapa visual muy rapido de una estructura nueva." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Navegas Windows con precision.' : score >= 7 ? 'Muy bien. Repasa los conceptos que fallaste.' : 'Practica varias veces con cd, dir y tree.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

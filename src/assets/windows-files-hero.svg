@@ -1,0 +1,88 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(77,150,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <text x="48" y="48" fill="#e8eaf0" font-size="40" font-weight="700">GESTION DE ARCHIVOS</text>
+  <text x="48" y="66" fill="#4d96ff" font-size="9" letter-spacing="3">COPY · MOVE · DEL · MKDIR · RMDIR · REN · TYPE</text>
+  <line x1="48" y1="78" x2="454" y2="78" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="48" y="102" fill="#6b6b8a" font-size="9" letter-spacing="2">// FLUJO DE TRABAJO EN CMD</text>
+  <rect x="48" y="112" width="420" height="218" rx="3" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="112" width="420" height="22" rx="3 3 0 0" fill="#000080"/>
+  <text x="190" y="127" fill="#ffffff" font-size="9">Simbolo del sistema</text>
+  <text x="64" y="158" fill="#c0c0c0" font-size="10">C:\Labs\caso03&gt;</text>
+  <text x="190" y="158" fill="#ffffff" font-size="10"> mkdir evidencias</text>
+  <text x="64" y="184" fill="#c0c0c0" font-size="10">C:\Labs\caso03&gt;</text>
+  <text x="190" y="184" fill="#ffffff" font-size="10"> copy hosts.txt evidencias\hosts.bak</text>
+  <text x="64" y="200" fill="#6bcb77" font-size="9">1 archivo(s) copiado(s).</text>
+  <text x="64" y="226" fill="#c0c0c0" font-size="10">C:\Labs\caso03&gt;</text>
+  <text x="190" y="226" fill="#ffffff" font-size="10"> move reporte.txt evidencias\</text>
+  <text x="64" y="242" fill="#6bcb77" font-size="9">1 archivo(s) movido(s).</text>
+  <text x="64" y="268" fill="#c0c0c0" font-size="10">C:\Labs\caso03&gt;</text>
+  <text x="190" y="268" fill="#ffffff" font-size="10"> ren loader.bat loader_old.bat</text>
+  <text x="64" y="294" fill="#c0c0c0" font-size="10">C:\Labs\caso03&gt;</text>
+  <text x="190" y="294" fill="#ffffff" font-size="10"> type evidencias\hosts.bak</text>
+  <text x="64" y="310" fill="#4d96ff" font-size="9">127.0.0.1 localhost</text>
+
+  <text x="48" y="362" fill="#6b6b8a" font-size="9" letter-spacing="2">// OPERACIONES CLAVE</text>
+  <rect x="48" y="374" width="420" height="112" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="48" y="374" width="420" height="4" fill="#4d96ff"/>
+  <text x="64" y="396" fill="#4d96ff" font-size="10" font-weight="700">copy</text>
+  <text x="142" y="396" fill="#6b6b8a" font-size="9">duplica y conserva el original</text>
+  <text x="64" y="416" fill="#4d96ff" font-size="10" font-weight="700">move</text>
+  <text x="142" y="416" fill="#6b6b8a" font-size="9">reubica archivos o carpetas</text>
+  <text x="64" y="436" fill="#4d96ff" font-size="10" font-weight="700">ren</text>
+  <text x="142" y="436" fill="#6b6b8a" font-size="9">cambia nombre sin mover de ruta</text>
+  <text x="64" y="456" fill="#4d96ff" font-size="10" font-weight="700">del / rmdir</text>
+  <text x="142" y="456" fill="#6b6b8a" font-size="9">borrado de archivos o directorios</text>
+  <text x="64" y="476" fill="#3a3a5a" font-size="8">Trabaja con criterio: respaldar, revisar y borrar solo al final.</text>
+
+  <line x1="500" y1="30" x2="500" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="526" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// COMANDOS Y USO</text>
+  <rect x="526" y="60" width="436" height="224" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+
+  <rect x="544" y="82" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#6bcb77" stroke-width="1"/>
+  <text x="560" y="101" fill="#6bcb77" font-size="11" font-weight="700">mkdir</text>
+  <text x="560" y="118" fill="#6b6b8a" font-size="9">crear carpetas de trabajo</text>
+
+  <rect x="742" y="82" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#4d96ff" stroke-width="1"/>
+  <text x="758" y="101" fill="#4d96ff" font-size="11" font-weight="700">copy</text>
+  <text x="758" y="118" fill="#6b6b8a" font-size="9">hacer copia antes de tocar</text>
+
+  <rect x="544" y="146" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#ff9f43" stroke-width="1"/>
+  <text x="560" y="165" fill="#ff9f43" font-size="11" font-weight="700">move</text>
+  <text x="560" y="182" fill="#6b6b8a" font-size="9">mover y reorganizar</text>
+
+  <rect x="742" y="146" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#c77dff" stroke-width="1"/>
+  <text x="758" y="165" fill="#c77dff" font-size="11" font-weight="700">ren</text>
+  <text x="758" y="182" fill="#6b6b8a" font-size="9">renombrar sin cambiar ubicacion</text>
+
+  <rect x="544" y="210" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="560" y="229" fill="#ff6b6b" font-size="11" font-weight="700">del</text>
+  <text x="560" y="246" fill="#6b6b8a" font-size="9">eliminar archivos</text>
+
+  <rect x="742" y="210" width="180" height="48" rx="2" fill="#0a0a0f" stroke="#ffd93d" stroke-width="1"/>
+  <text x="758" y="229" fill="#ffd93d" font-size="11" font-weight="700">rmdir</text>
+  <text x="758" y="246" fill="#6b6b8a" font-size="9">eliminar directorios</text>
+
+  <text x="544" y="274" fill="#00d1ff" font-size="11" font-weight="700">type</text>
+  <text x="602" y="274" fill="#6b6b8a" font-size="9">leer hosts, logs y scripts desde consola</text>
+
+  <text x="526" y="322" fill="#6b6b8a" font-size="9" letter-spacing="2">// PATRON SEGURO</text>
+  <rect x="526" y="334" width="436" height="152" rx="2" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="544" y="358" fill="#6bcb77" font-size="10" font-weight="700">1. Preparar</text>
+  <text x="624" y="358" fill="#c0c0c0" font-size="9">mkdir C:\Labs\caso03\evidencias</text>
+  <text x="544" y="386" fill="#4d96ff" font-size="10" font-weight="700">2. Respaldar</text>
+  <text x="624" y="386" fill="#c0c0c0" font-size="9">copy hosts.txt evidencias\hosts.bak</text>
+  <text x="544" y="414" fill="#00d1ff" font-size="10" font-weight="700">3. Revisar</text>
+  <text x="624" y="414" fill="#c0c0c0" font-size="9">type evidencias\hosts.bak</text>
+  <text x="544" y="442" fill="#ff6b6b" font-size="10" font-weight="700">4. Limpiar</text>
+  <text x="624" y="442" fill="#c0c0c0" font-size="9">dir *.tmp   luego del *.tmp</text>
+  <text x="544" y="470" fill="#3a3a5a" font-size="8">Primero estructura, luego copia, despues revision y solo al final borrado.</text>
+</svg>

@@ -33,6 +33,8 @@ const slugCatMap: Record<string, string> = {
   'os-intro':          'windows',
   'windows-basics':    'windows',
   'windows-cmd-intro': 'windows',
+  'windows-nav':       'windows',
+  'windows-files':     'windows',
   // Linux & CLI
   'linux-cli-intro':   'linux',
   'linux-shell':       'linux',
@@ -44,12 +46,12 @@ const slugCatMap: Record<string, string> = {
 };
 
 function getPostCategory(post: any): string {
-  // Try frontmatter first, then slug-based map
+  const slug = post.id.replace(/\.md$/, '').replace(/\.mdx$/, '');
+  const fromSlugMap = slugCatMap[slug];
+  if (fromSlugMap) return fromSlugMap;
   const fromFrontmatter = post.data?.category;
   if (fromFrontmatter) return fromFrontmatter;
-  // post.id is like "linux-files.md" or "linux-files" in v4
-  const slug = post.id.replace(/\.md$/, '').replace(/\.mdx$/, '');
-  return slugCatMap[slug] ?? 'fundamentos';
+  return 'fundamentos';
 }
 
 const catMeta: Record<string, { label: string; color: string; desc: string }> = {

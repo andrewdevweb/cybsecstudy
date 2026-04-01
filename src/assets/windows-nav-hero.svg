@@ -1,0 +1,85 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(77,150,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <text x="48" y="48" fill="#e8eaf0" font-size="40" font-weight="700">NAVEGACION WINDOWS</text>
+  <text x="48" y="66" fill="#4d96ff" font-size="9" letter-spacing="3">CD · DIR · TREE · RUTAS ABSOLUTAS Y RELATIVAS</text>
+  <line x1="48" y1="78" x2="456" y2="78" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="48" y="102" fill="#6b6b8a" font-size="9" letter-spacing="2">// SESION EN CMD</text>
+  <rect x="48" y="112" width="420" height="212" rx="3" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="48" y="112" width="420" height="22" rx="3 3 0 0" fill="#000080"/>
+  <text x="192" y="127" fill="#ffffff" font-size="9">Simbolo del sistema</text>
+
+  <text x="64" y="156" fill="#c0c0c0" font-size="10">C:\Users\analista&gt;</text>
+  <text x="206" y="156" fill="#ffffff" font-size="10"> cd</text>
+  <text x="64" y="172" fill="#4d96ff" font-size="10">C:\Users\analista</text>
+  <text x="64" y="198" fill="#c0c0c0" font-size="10">C:\Users\analista&gt;</text>
+  <text x="206" y="198" fill="#ffffff" font-size="10"> dir /a</text>
+  <text x="64" y="214" fill="#6bcb77" font-size="9">31/03/2026  18:00    &lt;DIR&gt;    Desktop</text>
+  <text x="64" y="228" fill="#6bcb77" font-size="9">31/03/2026  18:00    &lt;DIR&gt;    Documents</text>
+  <text x="64" y="242" fill="#ff9f43" font-size="9">31/03/2026  18:00    &lt;DIR&gt;    AppData</text>
+  <text x="64" y="268" fill="#c0c0c0" font-size="10">C:\Users\analista&gt;</text>
+  <text x="206" y="268" fill="#ffffff" font-size="10"> cd Documents\Labs</text>
+  <text x="64" y="286" fill="#c0c0c0" font-size="10">C:\Users\analista\Documents\Labs&gt;</text>
+  <text x="320" y="286" fill="#ffffff" font-size="10"> tree /f</text>
+  <rect x="64" y="294" width="8" height="14" fill="#c0c0c0" opacity="0.85"/>
+
+  <text x="48" y="358" fill="#6b6b8a" font-size="9" letter-spacing="2">// FLAGS RAPIDOS DE DIR</text>
+  <rect x="48" y="370" width="420" height="116" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="48" y="370" width="420" height="4" fill="#4d96ff"/>
+  <text x="64" y="392" fill="#4d96ff" font-size="10" font-weight="700">dir /a</text>
+  <text x="156" y="392" fill="#6b6b8a" font-size="9">mostrar ocultos y elementos del sistema</text>
+  <text x="64" y="412" fill="#4d96ff" font-size="10" font-weight="700">dir /ad</text>
+  <text x="156" y="412" fill="#6b6b8a" font-size="9">mostrar solo directorios</text>
+  <text x="64" y="432" fill="#4d96ff" font-size="10" font-weight="700">dir /b /s *.txt</text>
+  <text x="156" y="432" fill="#6b6b8a" font-size="9">rutas completas recursivas en formato basico</text>
+  <text x="64" y="452" fill="#4d96ff" font-size="10" font-weight="700">dir /o:-d</text>
+  <text x="156" y="452" fill="#6b6b8a" font-size="9">ordenar por archivos mas recientes primero</text>
+  <text x="64" y="472" fill="#3a3a5a" font-size="8">Navegar tambien es enumerar: entiende la ruta antes de tocar archivos.</text>
+
+  <line x1="500" y1="30" x2="500" y2="490" stroke="#1e1e2e" stroke-width="1"/>
+
+  <text x="526" y="48" fill="#6b6b8a" font-size="9" letter-spacing="2">// ANATOMIA DE LA RUTA</text>
+  <rect x="526" y="60" width="436" height="72" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="544" y="88" fill="#4d96ff" font-size="16" font-weight="700">C:\</text>
+  <text x="588" y="88" fill="#c0c0c0" font-size="16" font-weight="700">Users\analista\</text>
+  <text x="778" y="88" fill="#ff9f43" font-size="16" font-weight="700">Documents</text>
+  <text x="544" y="110" fill="#4d96ff" font-size="8">raiz de unidad</text>
+  <text x="646" y="110" fill="#6b6b8a" font-size="8">ruta</text>
+  <text x="780" y="110" fill="#ff9f43" font-size="8">carpeta actual</text>
+
+  <text x="526" y="162" fill="#6b6b8a" font-size="9" letter-spacing="2">// ABSOLUTA VS RELATIVA</text>
+  <rect x="526" y="174" width="208" height="128" rx="2" fill="#12121a" stroke="#6bcb77" stroke-width="1"/>
+  <rect x="754" y="174" width="208" height="128" rx="2" fill="#12121a" stroke="#ff9f43" stroke-width="1"/>
+  <text x="630" y="194" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">ABSOLUTA</text>
+  <text x="858" y="194" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">RELATIVA</text>
+  <text x="544" y="218" fill="#c0c0c0" font-size="9">C:\Windows\Temp</text>
+  <text x="544" y="238" fill="#c0c0c0" font-size="9">C:\Users\analista\Desktop</text>
+  <text x="544" y="258" fill="#c0c0c0" font-size="9">D:\Backups\April</text>
+  <text x="544" y="282" fill="#3a3a5a" font-size="8">funciona igual desde cualquier ubicacion</text>
+  <text x="772" y="218" fill="#c0c0c0" font-size="9">Documents</text>
+  <text x="772" y="238" fill="#c0c0c0" font-size="9">..\Desktop</text>
+  <text x="772" y="258" fill="#c0c0c0" font-size="9">.\scripts</text>
+  <text x="772" y="282" fill="#3a3a5a" font-size="8">depende del directorio actual</text>
+
+  <text x="526" y="332" fill="#6b6b8a" font-size="9" letter-spacing="2">// SALIDA DE TREE</text>
+  <rect x="526" y="344" width="436" height="142" rx="2" fill="#0c0c0c" stroke="#1e1e2e" stroke-width="1"/>
+  <text x="544" y="366" fill="#6bcb77" font-size="10">C:\LABS</text>
+  <text x="544" y="388" fill="#c0c0c0" font-size="10">+---evidencias</text>
+  <text x="564" y="404" fill="#c0c0c0" font-size="9">hosts.txt</text>
+  <text x="544" y="424" fill="#c0c0c0" font-size="10">+---scripts</text>
+  <text x="564" y="440" fill="#c0c0c0" font-size="9">enum.bat</text>
+  <text x="544" y="460" fill="#c0c0c0" font-size="10">\---logs</text>
+  <text x="564" y="476" fill="#c0c0c0" font-size="9">system.log</text>
+  <text x="744" y="388" fill="#4d96ff" font-size="10" font-weight="700">tree /f</text>
+  <text x="744" y="406" fill="#6b6b8a" font-size="9">incluye archivos</text>
+  <text x="744" y="434" fill="#4d96ff" font-size="10" font-weight="700">tree /a</text>
+  <text x="744" y="452" fill="#6b6b8a" font-size="9">salida amigable para ASCII</text>
+  <text x="744" y="476" fill="#3a3a5a" font-size="8">ideal para notas, tickets e informes</text>
+</svg>

@@ -1,0 +1,353 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Gestion de Archivos Windows - CybSecStudy" description="copy, move, del, mkdir, rmdir, ren y type en profundidad para trabajar con archivos desde CMD." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4d96ff; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #4d96ff; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #4d96ff; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .cmd-window { background: #0c0c0c; border: 1px solid #333; border-radius: 4px; overflow: hidden; margin: 16px 0 32px; }
+    .cmd-bar { background: #000080; padding: 6px 12px; display: flex; align-items: center; }
+    .cmd-bar-title { font-size: 11px; color: #fff; flex: 1; text-align: center; font-family: 'JetBrains Mono', monospace; }
+    .cmd-body { padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.85; }
+    .cmd-p { color: #c0c0c0; }
+    .cmd-c { color: #ffffff; }
+    .cmd-o { color: #c0c0c0; }
+    .cmd-h { color: #4d96ff; }
+    .cmd-w { color: #ff9f43; }
+    .cmd-r { color: #ff6b6b; }
+    .cmd-g { color: #6bcb77; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body code { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; background: rgba(255,255,255,0.04); border: 1px solid #1e1e2e; color: var(--cc); }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .concept-body strong { color: #e8eaf0; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #4d96ff); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .warn-block { background: #12121a; border: 1px solid #ff6b6b; border-left: 3px solid #ff6b6b; padding: 14px 18px; margin: 14px 0; }
+    .warn-strong { color: #ff6b6b; font-weight: 700; }
+    .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .cmd-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 10px 14px; }
+    .cmd-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--cc); font-weight: 700; margin-bottom: 4px; }
+    .cmd-desc { font-size: 11px; color: #6b6b8a; line-height: 1.4; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #4d96ff; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #4d96ff; color: #4d96ff; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #4d96ff; background: transparent; color: #4d96ff; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #4d96ff; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #4d96ff; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } .cmd-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Fundamentos Windows - CLI Basico - Post 3 de 4</div>
+      <h1>Gestion de <span class="accent">Archivos</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:560px">Crear, copiar, mover, renombrar, borrar y leer desde CMD. Aqui empieza el trabajo real sobre el sistema de archivos.</p>
+    </div>
+
+    <div class="intro-card">
+      <p><strong>copy</strong>, <strong>move</strong>, <strong>del</strong>, <strong>mkdir</strong>, <strong>rmdir</strong>, <strong>ren</strong> y <strong>type</strong> cubren gran parte del trabajo diario en Windows desde consola.</p>
+      <p>La diferencia entre alguien que "prueba comandos" y alguien que opera con seguridad esta en saber cuando cada uno copia, mueve, destruye o solo muestra informacion.</p>
+    </div>
+
+    <div class="section-label">// Sesion tipica en CMD</div>
+    <div class="cmd-window">
+      <div class="cmd-bar"><span class="cmd-bar-title">Simbolo del sistema</span></div>
+      <div class="cmd-body">
+        <div><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> mkdir evidencias</span></div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> copy hosts.txt evidencias\hosts.bak</span></div>
+        <div class="cmd-g">1 archivo(s) copiado(s).</div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> move reporte.txt evidencias\</span></div>
+        <div class="cmd-g">1 archivo(s) movido(s).</div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> ren loader.bat loader_old.bat</span></div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> type evidencias\hosts.bak</span></div>
+        <div class="cmd-o">127.0.0.1 localhost</div>
+        <div class="cmd-o">192.168.1.20 dc01.local</div>
+        <div style="margin-top:6px"><span class="cmd-p">C:\Labs\caso03&gt;</span><span class="cmd-c"> del *.tmp</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">// Comandos - clic para expandir</div>
+    <div class="concepts-list">
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">mkdir</div>
+          <div class="concept-title">mkdir - crear carpetas</div>
+          <div class="concept-badge">md · estructura</div>
+        </div>
+        <div class="concept-body">
+          <p><code>mkdir</code> crea directorios. Es el primer paso de casi cualquier flujo limpio de trabajo en consola.</p>
+          <div class="code-block">mkdir laboratorio
+mkdir C:\Temp\logs
+md evidencias
+mkdir C:\Labs\caso03\scripts</div>
+          <p style="margin-top:10px">Es ideal para separar <strong>evidencias</strong>, <strong>logs</strong>, <strong>scripts</strong> y <strong>resultados</strong>. Esa disciplina te ahorra caos despues.</p>
+          <div class="info-badge">TIP: crear estructura antes de copiar archivos evita mezclar artefactos.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">copy</div>
+          <div class="concept-title">copy - duplicar sin tocar el original</div>
+          <div class="concept-badge">backup · evidencias</div>
+        </div>
+        <div class="concept-body">
+          <p><code>copy</code> copia uno o varios archivos. El original permanece intacto, por eso es la opcion segura antes de modificar algo sensible.</p>
+          <div class="code-block">copy notas.txt backup.txt
+copy hosts.txt evidencias\hosts.bak
+copy *.log C:\Temp\logs\
+copy C:\Windows\win.ini C:\Temp\</div>
+          <p style="margin-top:10px">Patron profesional: <strong>copiar primero, tocar despues</strong>. En configuraciones, logs o evidencias, ese paso puede salvarte de romper el original.</p>
+          <div class="info-badge">TIP: usa copy para trabajar sobre una copia y no sobre el archivo original.</div>
+          <div class="sec-badge">SEC: copiar logs o configs a una carpeta de analisis evita alterar el origen.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">move</div>
+          <div class="concept-title">move - mover o cambiar de sitio</div>
+          <div class="concept-badge">reubicar · organizar</div>
+        </div>
+        <div class="concept-body">
+          <p><code>move</code> cambia la ubicacion de archivos o carpetas. A diferencia de <code>copy</code>, el archivo desaparece del origen.</p>
+          <div class="code-block">move archivo.txt C:\Temp\
+move reporte.txt evidencias\
+move *.log logs\
+move carpeta C:\Backups\</div>
+          <p style="margin-top:10px">Si querias conservar el original, no uses <code>move</code>. Ese es el error mas comun al empezar.</p>
+          <div class="info-badge">TIP: dir antes y despues de move te evita perder la pista de lo movido.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">ren</div>
+          <div class="concept-title">ren - cambiar el nombre</div>
+          <div class="concept-badge">sin mover · mismo lugar</div>
+        </div>
+        <div class="concept-body">
+          <p><code>ren</code> cambia el nombre de un archivo o directorio sin cambiar su ubicacion. Es mejor usarlo que <code>move</code> cuando tu intencion es solo renombrar.</p>
+          <div class="code-block">ren informe.txt informe_old.txt
+ren loader.bat loader_old.bat
+ren logs logs_2026
+ren *.txt *.bak</div>
+          <p style="margin-top:10px">Con comodines puede renombrar en masa, pero hay que usarlo con mucho cuidado. Un renombrado global mal pensado complica el trabajo rapidamente.</p>
+          <div class="sec-badge">SEC: renombrar scripts o payloads cambia su aspecto, no su contenido ni su riesgo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">del</div>
+          <div class="concept-title">del - borrar archivos</div>
+          <div class="concept-badge">/q · /f · /s</div>
+        </div>
+        <div class="concept-body">
+          <p><code>del</code> elimina archivos. Es un comando serio: cuando lo combinas con comodines o con <code>/s</code>, el alcance crece muy rapido.</p>
+          <div class="code-block">del archivo.txt
+del *.tmp
+del C:\Temp\*.log
+del /q archivo.txt
+del /f archivo.txt
+del /s *.log</div>
+          <div class="warn-block">
+            <p style="font-size:13px;color:#b0b0c8;margin:0 0 6px;line-height:1.7"><span class="warn-strong">Regla de oro:</span> antes de usar <code>del</code> con comodines, lista primero:</p>
+            <p style="font-size:13px;color:#b0b0c8;margin:0;line-height:1.7"><code>dir *.tmp</code> -> revisar -> <code>del *.tmp</code></p>
+          </div>
+          <div class="sec-badge">SEC: del aparece tanto en limpieza legitima como en borrado de huellas muy basico.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">rmdir</div>
+          <div class="concept-title">rmdir - borrar directorios</div>
+          <div class="concept-badge">rd · /s · /q</div>
+        </div>
+        <div class="concept-body">
+          <p><code>rmdir</code> borra directorios. Si la carpeta no esta vacia, necesitas opcion recursiva.</p>
+          <div class="code-block">rmdir carpeta_vacia
+rd carpeta_vacia
+rmdir /s carpeta
+rmdir /s /q carpeta</div>
+          <p style="margin-top:10px"><code>/s</code> elimina tambien el contenido. <code>/q</code> quita confirmaciones. Juntas son una combinacion muy potente y poco indulgente.</p>
+          <div class="sec-badge">SEC: rmdir /s /q sobre la ruta equivocada destruye una estructura entera en segundos.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">type</div>
+          <div class="concept-title">type - leer archivos de texto</div>
+          <div class="concept-badge">hosts · logs · .bat</div>
+        </div>
+        <div class="concept-body">
+          <p><code>type</code> imprime el contenido de un archivo de texto en la consola. Es perfecto para revisar rapidamente ficheros pequenos sin abrir una GUI.</p>
+          <div class="code-block">type notas.txt
+type script.bat
+type C:\Windows\System32\drivers\etc\hosts
+type logs\resultado.txt</div>
+          <p style="margin-top:10px">Es especialmente util con archivos como <code>hosts</code>, <code>.bat</code>, <code>.cmd</code>, listas de IPs o logs cortos.</p>
+          <div class="info-badge">TIP: type te deja inspeccionar un script o config al instante desde la misma shell.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">OPS</div>
+          <div class="concept-title">Patrones de trabajo reales</div>
+          <div class="concept-badge">backup · ordenar · limpiar</div>
+        </div>
+        <div class="concept-body">
+          <p>Un flujo sano en CMD suele seguir esta logica:</p>
+          <div class="code-block">mkdir C:\Labs\caso03\evidencias
+copy hosts.txt C:\Labs\caso03\evidencias\hosts.bak
+type C:\Labs\caso03\evidencias\hosts.bak
+move *.log C:\Labs\caso03\logs\
+ren loader.bat loader_old.bat
+dir *.tmp
+del *.tmp</div>
+          <div class="cmd-grid">
+            <div class="cmd-item" style="--cc:#6bcb77"><div class="cmd-name">Preparar</div><div class="cmd-desc">mkdir antes de operar.</div></div>
+            <div class="cmd-item" style="--cc:#6bcb77"><div class="cmd-name">Respaldar</div><div class="cmd-desc">copy antes de modificar.</div></div>
+            <div class="cmd-item" style="--cc:#6bcb77"><div class="cmd-name">Revisar</div><div class="cmd-desc">type y dir antes de borrar.</div></div>
+            <div class="cmd-item" style="--cc:#6bcb77"><div class="cmd-name">Eliminar</div><div class="cmd-desc">del y rmdir solo al final y con criterio.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE - CLI WINDOWS BASICO</p>
+      <p><strong>Post 4: Informacion del sistema</strong> - whoami, hostname, systeminfo, ipconfig y primeros comandos de enumeracion reales en Windows.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que diferencia esencial hay entre copy y move?", opts: ["copy borra el original y move no","copy conserva el original; move lo cambia de sitio","copy solo funciona con txt","move solo sirve para carpetas"], correct: 1, exp: "copy duplica y deja el original intacto. move cambia la ubicacion del archivo o carpeta, por lo que el original deja de estar donde estaba." },
+  { q: "Para que sirve ren?", opts: ["Para borrar carpetas","Para renombrar sin mover de ruta","Para copiar varios archivos","Para listar directorios"], correct: 1, exp: "ren cambia el nombre de un archivo o directorio sin moverlo a otra ubicacion." },
+  { q: "Que comando usarías para crear una carpeta llamada evidencias?", opts: ["del evidencias","type evidencias","mkdir evidencias","ren evidencias"], correct: 2, exp: "mkdir crea directorios. Es el primer paso para preparar una estructura ordenada de trabajo." },
+  { q: "Que deberias hacer antes de del *.tmp?", opts: ["rmdir *.tmp","dir *.tmp","type *.tmp","mkdir *.tmp"], correct: 1, exp: "Listar antes de borrar es una costumbre fundamental. Asi verificas exactamente que coincide con el comodin." },
+  { q: "Que comando borra un directorio completo con su contenido?", opts: ["del /s carpeta","rmdir /s carpeta","type carpeta","copy carpeta"], correct: 1, exp: "rmdir /s elimina un directorio junto con todo su contenido. Si ademas usas /q, lo hace sin preguntar." },
+  { q: "Para que sirve type?", opts: ["Mover archivos","Leer el contenido de un archivo de texto","Crear carpetas","Cambiar permisos"], correct: 1, exp: "type imprime el contenido de un archivo de texto en la consola. Es muy util para scripts, hosts, logs cortos o configs pequenas." },
+  { q: "Cual es el riesgo principal de rmdir /s /q?", opts: ["Que no hace nada","Que tarda demasiado","Que elimina una estructura entera sin confirmar","Que cambia los nombres de archivo"], correct: 2, exp: "La combinacion /s /q es potente y silenciosa: elimina directorios completos sin pedir confirmacion." },
+  { q: "Si quieres trabajar sobre una copia de un archivo sensible, que comando encaja mejor?", opts: ["copy","del","ren","rmdir"], correct: 0, exp: "copy te permite duplicar el archivo y operar sobre la copia, manteniendo intacto el original." },
+  { q: "Que comando encaja mejor para cambiar loader.bat a loader_old.bat sin moverlo?", opts: ["move loader.bat C:\\Temp\\loader_old.bat","ren loader.bat loader_old.bat","copy loader.bat loader_old.bat","type loader.bat"], correct: 1, exp: "ren expresa exactamente esa intencion: cambiar nombre sin cambiar de ruta." },
+  { q: "Que patron de trabajo es mas seguro?", opts: ["borrar primero y revisar despues","copiar primero, revisar, y borrar solo al final","mover todo a ciegas","renombrar todo en masa al principio"], correct: 1, exp: "En sistemas y seguridad, el patron sano es preparar, respaldar, revisar y solo despues borrar si estas seguro." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Ya operas archivos en Windows con criterio.' : score >= 7 ? 'Muy bien. Repasa los comandos que fallaste.' : 'Practica varios flujos reales con copy, move y del.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
