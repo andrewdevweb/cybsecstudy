@@ -13,21 +13,27 @@ function formatDate(date: Date) {
 
 // Map post IDs to categories — fallback when frontmatter category is missing
 const slugCatMap: Record<string, string> = {
+  // Redes
   'modelo-osi':        'redes',
   'packets-frames':    'redes',
   'ampliando-tu-red':  'redes',
   'ampliamos-tu-red':  'redes',
   'dns':               'redes',
+  // Web
   'http':              'web',
   'web':               'web',
   'infra':             'web',
   'clientserver':      'web',
+  // Fundamentos (hardware, SO base, virtualización, cloud)
   'computer':          'fundamentos',
   'comptypes':         'fundamentos',
-  'os-intro':          'fundamentos',
   'virt':              'fundamentos',
   'cloud':             'fundamentos',
-  'windows-basics':    'fundamentos',
+  // Windows
+  'os-intro':          'windows',
+  'windows-basics':    'windows',
+  'windows-cmd-intro': 'windows',
+  // Linux & CLI
   'linux-cli-intro':   'linux',
   'linux-shell':       'linux',
   'linux-fs':          'linux',
@@ -35,7 +41,6 @@ const slugCatMap: Record<string, string> = {
   'linux-files':       'linux',
   'linux-view':        'linux',
   'linux-perms':       'linux',
-  'windows-cmd-intro': 'fundamentos',
 };
 
 function getPostCategory(post: any): string {
@@ -48,10 +53,11 @@ function getPostCategory(post: any): string {
 }
 
 const catMeta: Record<string, { label: string; color: string; desc: string }> = {
-  fundamentos: { label: 'Fundamentos',  color: '#6bcb77', desc: 'Hardware, SO, virtualización y cloud' },
+  fundamentos: { label: 'Fundamentos',  color: '#6bcb77', desc: 'Hardware, virtualización y cloud' },
+  windows:     { label: 'Windows',      color: '#00bfff', desc: 'SO, CLI, CMD, PowerShell y administración' },
+  linux:       { label: 'Linux & CLI',  color: '#ff9f43', desc: 'Terminal, sistema de archivos y comandos' },
   redes:       { label: 'Redes',        color: '#4d96ff', desc: 'Protocolos, DNS, firewalls y VPNs' },
   web:         { label: 'Web',          color: '#ff6b9d', desc: 'HTTP, HTML, infraestructura web' },
-  linux:       { label: 'Linux & CLI',  color: '#ff9f43', desc: 'Terminal, sistema de archivos y comandos' },
 };
 
 const featured = allPosts[0];
