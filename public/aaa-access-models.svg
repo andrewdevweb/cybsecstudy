@@ -1,0 +1,33 @@
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="250" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// MODELOS DE ACCESO</text>
+
+  <rect x="20" y="50" width="200" height="160" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="20" y="50" width="200" height="5" fill="#4d96ff"/>
+  <text x="120" y="80" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">RBAC</text>
+  <text x="120" y="102" text-anchor="middle" fill="#6b6b8a" font-size="9">permisos segun rol</text>
+  <text x="40" y="132" fill="#6b6b8a" font-size="9">• admin</text>
+  <text x="40" y="150" fill="#6b6b8a" font-size="9">• analista</text>
+  <text x="40" y="168" fill="#6b6b8a" font-size="9">• lector</text>
+  <text x="40" y="190" fill="#3a3a5a" font-size="8">simple y comun en empresas</text>
+
+  <rect x="250" y="50" width="200" height="160" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <rect x="250" y="50" width="200" height="5" fill="#ff9f43"/>
+  <text x="350" y="80" text-anchor="middle" fill="#ff9f43" font-size="14" font-weight="700">ABAC</text>
+  <text x="350" y="102" text-anchor="middle" fill="#6b6b8a" font-size="9">permisos segun atributos</text>
+  <text x="270" y="132" fill="#6b6b8a" font-size="9">• departamento</text>
+  <text x="270" y="150" fill="#6b6b8a" font-size="9">• ubicacion</text>
+  <text x="270" y="168" fill="#6b6b8a" font-size="9">• horario o riesgo</text>
+  <text x="270" y="190" fill="#3a3a5a" font-size="8">mas flexible y contextual</text>
+
+  <rect x="480" y="50" width="200" height="160" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="480" y="50" width="200" height="5" fill="#6bcb77"/>
+  <text x="580" y="80" text-anchor="middle" fill="#6bcb77" font-size="14" font-weight="700">ACL</text>
+  <text x="580" y="102" text-anchor="middle" fill="#6b6b8a" font-size="9">permisos por recurso</text>
+  <text x="500" y="132" fill="#6b6b8a" font-size="9">• archivo A: leer</text>
+  <text x="500" y="150" fill="#6b6b8a" font-size="9">• carpeta B: escribir</text>
+  <text x="500" y="168" fill="#6b6b8a" font-size="9">• API C: denegar</text>
+  <text x="500" y="190" fill="#3a3a5a" font-size="8">muy comun en sistemas y ficheros</text>
+
+  <text x="350" y="236" text-anchor="middle" fill="#3a3a5a" font-size="8">Elegir bien el modelo de autorizacion reduce exceso de privilegios y errores de acceso.</text>
+</svg>

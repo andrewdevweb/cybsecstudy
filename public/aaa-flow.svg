@@ -1,0 +1,33 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// FLUJO AAA</text>
+
+  <rect x="20" y="56" width="120" height="120" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="80" y="88" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">IDENTIDAD</text>
+  <text x="80" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">usuario, servicio,</text>
+  <text x="80" y="128" text-anchor="middle" fill="#6b6b8a" font-size="9">app o dispositivo</text>
+
+  <rect x="180" y="56" width="140" height="120" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="250" y="88" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">AUTENTICACION</text>
+  <text x="250" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">valida credenciales</text>
+  <text x="250" y="128" text-anchor="middle" fill="#6b6b8a" font-size="9">y prueba identidad</text>
+
+  <rect x="360" y="56" width="140" height="120" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="430" y="88" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">AUTORIZACION</text>
+  <text x="430" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">decide acciones</text>
+  <text x="430" y="128" text-anchor="middle" fill="#6b6b8a" font-size="9">y permisos</text>
+
+  <rect x="540" y="56" width="140" height="120" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="610" y="88" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="700">ACCOUNTING</text>
+  <text x="610" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">registra eventos</text>
+  <text x="610" y="128" text-anchor="middle" fill="#6b6b8a" font-size="9">y trazabilidad</text>
+
+  <path d="M140 116 L180 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="176,111 186,116 176,121" fill="#3a3a5a"/>
+  <path d="M320 116 L360 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="356,111 366,116 356,121" fill="#3a3a5a"/>
+  <path d="M500 116 L540 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="536,111 546,116 536,121" fill="#3a3a5a"/>
+
+  <text x="350" y="214" text-anchor="middle" fill="#3a3a5a" font-size="8">AAA conecta identidad, decision de acceso y evidencia auditable.</text>
+</svg>

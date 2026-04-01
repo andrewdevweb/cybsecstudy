@@ -1,0 +1,315 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="AAA y Control de Acceso - CybSecStudy" description="Autenticacion, autorizacion y accounting explicados de forma visual, aplicada e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 2</div>
+      <h1><span class="accent">AAA</span> y Control de Acceso</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:620px">Autenticacion, autorizacion y accounting: el mapa mental que explica identidad, permisos, sesiones y trazabilidad.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>AAA responde a tres preguntas esenciales: <strong>quien eres</strong>, <strong>que puedes hacer</strong> y <strong>que queda registrado</strong>.</p>
+      <p>Si una de esas piezas falla, el control de acceso deja de ser fiable aunque el login parezca correcto.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/aaa-flow.svg" alt="Flujo AAA" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">ID</div>
+          <div class="concept-title">Identidad digital</div>
+          <div class="concept-badge">quien es el sujeto</div>
+        </div>
+        <div class="concept-body">
+          <p>La identidad es la entidad con la que el sistema trabaja: un usuario, una cuenta de servicio, una aplicacion o un dispositivo.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Identidad</div><div class="compare-desc">el sujeto al que se quiere reconocer</div></div>
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Credencial</div><div class="compare-desc">lo que usa para demostrarlo</div></div>
+            <div class="compare-item" style="--cc:#ff6b6b"><div class="compare-title">Sesion</div><div class="compare-desc">estado temporal tras validar acceso</div></div>
+          </div>
+          <div class="info-badge">Identidad, credencial y sesion no son lo mismo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">AUTHN</div>
+          <div class="concept-title">Autenticacion</div>
+          <div class="concept-badge">demostrar quien eres</div>
+        </div>
+        <div class="concept-body">
+          <p>La autenticacion verifica si la identidad declarada es real. Puede basarse en contraseñas, MFA, certificados, claves o passkeys.</p>
+          <ul>
+            <li>algo que sabes: password o PIN</li>
+            <li>algo que tienes: token, llave FIDO, app MFA</li>
+            <li>algo que eres: huella, rostro o biometria</li>
+          </ul>
+          <div class="code-block">usuario + password -> autenticacion basica
+password + MFA -> autenticacion reforzada
+certificado + politica -> autenticacion fuerte</div>
+          <div class="sec-badge">Autenticar bien no significa autorizar de mas.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">AUTHZ</div>
+          <div class="concept-title">Autorizacion</div>
+          <div class="concept-badge">que puedes hacer</div>
+        </div>
+        <div class="concept-body">
+          <p>La autorizacion decide si una accion concreta esta permitida sobre un recurso concreto. Es la parte que limita el alcance real del acceso.</p>
+          <img src="/aaa-access-models.svg" alt="Modelos de autorizacion" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>RBAC: acceso segun rol</li>
+            <li>ABAC: acceso segun atributos y contexto</li>
+            <li>ACL: permisos asociados a cada objeto</li>
+          </ul>
+          <div class="info-badge">Iniciar sesion no deberia implicar permiso total.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">ACC</div>
+          <div class="concept-title">Accounting y trazabilidad</div>
+          <div class="concept-badge">que hizo y cuando</div>
+        </div>
+        <div class="concept-body">
+          <p>Accounting registra eventos relevantes para auditoria, investigacion y cumplimiento. Es la parte que da visibilidad y responsabilidad.</p>
+          <img src="/aaa-traceability.svg" alt="Accounting y trazabilidad" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <div class="code-block">login correcto
+login fallido
+token emitido
+permiso denegado
+cambio de rol
+borrado de recurso</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">SES</div>
+          <div class="concept-title">Sesiones y tokens</div>
+          <div class="concept-badge">continuidad del acceso</div>
+        </div>
+        <div class="concept-body">
+          <p>Tras autenticarse, el sistema suele crear una sesion o emitir un token. Si esa pieza se roba o dura demasiado, el acceso queda comprometido.</p>
+          <ul>
+            <li>cookies de sesion</li>
+            <li>access tokens</li>
+            <li>refresh tokens</li>
+            <li>revocacion y expiracion</li>
+          </ul>
+          <div class="sec-badge">Una sesion mal gestionada convierte un login legitimo en un riesgo persistente.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">MOD</div>
+          <div class="concept-title">Modelos de permisos</div>
+          <div class="concept-badge">disenar bien acceso</div>
+        </div>
+        <div class="concept-body">
+          <p>El diseno del acceso importa tanto como la tecnologia usada. Un modelo pobre genera exceso de privilegios y errores de control.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#00d1ff"><div class="compare-title">Minimo privilegio</div><div class="compare-desc">solo lo necesario para la tarea</div></div>
+            <div class="compare-item" style="--cc:#00d1ff"><div class="compare-title">Negacion por defecto</div><div class="compare-desc">todo denegado salvo permiso explicito</div></div>
+            <div class="compare-item" style="--cc:#00d1ff"><div class="compare-title">Separacion de funciones</div><div class="compare-desc">evitar concentrar demasiado poder</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">FAIL</div>
+          <div class="concept-title">Fallos comunes</div>
+          <div class="concept-badge">errores reales</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>confundir autenticacion con autorizacion</li>
+            <li>roles demasiado amplios por comodidad</li>
+            <li>cuentas compartidas sin responsabilidad individual</li>
+            <li>logs insuficientes o imposibles de correlacionar</li>
+            <li>tokens sin revocacion ni expiracion razonable</li>
+            <li>permisos heredados que nunca se revisan</li>
+          </ul>
+          <div class="info-badge">Muchos incidentes graves empiezan por una autorizacion mal pensada, no por un bypass espectacular.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">ENV</div>
+          <div class="concept-title">AAA en entornos reales</div>
+          <div class="concept-badge">web, sistemas, cloud</div>
+        </div>
+        <div class="concept-body">
+          <p>AAA aparece en casi cualquier entorno tecnico serio.</p>
+          <div class="code-block">Web -> login, roles, sesiones, logs
+Windows/Linux -> cuentas, grupos, ACLs, auditoria
+Cloud -> IAM, roles, politicas, activity logs
+Redes -> VPN, NAC, privilegios, trazas</div>
+          <div class="sec-badge">AAA es transversal: cambia la tecnologia, no el principio.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> riesgo, amenazas y vulnerabilidades para entender que estas intentando proteger y frente a que.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que significa AAA en seguridad?", opts: ["Autenticacion, Autorizacion y Accounting","Analisis, Auditoria y Acceso","Acceso, Aprobacion y Almacenamiento","Autenticacion, Aislamiento y Auditoria"], correct: 0, exp: "AAA resume las tres piezas clasicas del control de acceso: autenticar, autorizar y registrar actividad." },
+  { q: "Que hace la autenticacion?", opts: ["Decide permisos","Registra actividad","Verifica la identidad","Cifra la sesion"], correct: 2, exp: "La autenticacion comprueba si el sujeto es quien dice ser." },
+  { q: "Que hace la autorizacion?", opts: ["Decide que acciones estan permitidas","Comprueba la contraseña","Emite un certificado","Cierra la sesion"], correct: 0, exp: "La autorizacion responde a la pregunta: que puede hacer esta identidad sobre este recurso." },
+  { q: "Que aporta accounting?", opts: ["Solo rendimiento","Trazabilidad y auditoria","Mas ancho de banda","Compresion de logs"], correct: 1, exp: "Accounting da contexto, evidencia y capacidad de investigacion." },
+  { q: "Cual es un factor de autenticacion del tipo algo que tienes?", opts: ["PIN","Huella","Token MFA","Nombre de usuario"], correct: 2, exp: "Un token o llave fisica pertenece al factor algo que tienes." },
+  { q: "Que afirmacion es correcta?", opts: ["Si un usuario se autentica, ya puede hacerlo todo","Autenticacion y autorizacion son lo mismo","Un usuario autenticado puede seguir sin tener permiso","Accounting sustituye a autorizacion"], correct: 2, exp: "Autenticarse no implica tener permiso para toda accion." },
+  { q: "Que modelo asigna acceso segun rol?", opts: ["ABAC","ACL","RBAC","MFA"], correct: 2, exp: "RBAC organiza permisos por roles como admin, analista o lector." },
+  { q: "Que riesgo se asocia mucho a sesiones y tokens?", opts: ["Robo o reutilizacion indebida","Caida electrica","Defragmentacion","Compresion"], correct: 0, exp: "Si un token se roba y sigue valido, puede dar acceso sin repetir el login." },
+  { q: "Que mala practica reduce la trazabilidad?", opts: ["Cuentas individuales","Logs de acceso","Cuentas compartidas","Revocacion de tokens"], correct: 2, exp: "Si varias personas usan la misma cuenta, ya no puedes atribuir acciones con fiabilidad." },
+  { q: "Que principio encaja mejor con una buena autorizacion?", opts: ["Maximo privilegio","Minimo privilegio","Permiso total por defecto","Sesiones infinitas"], correct: 1, exp: "Minimo privilegio reduce superficie de abuso y limita el impacto." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. AAA ha quedado muy claro.' : score >= 7 ? 'Muy bien. Repasa sesiones, permisos o accounting si fallaste ahi.' : 'Conviene repasar identidad, autenticacion y autorizacion antes de seguir.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
