@@ -1,0 +1,30 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// MAPA DE HARDENING</text>
+
+  <rect x="20" y="56" width="150" height="130" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="95" y="84" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">SISTEMAS</text>
+  <text x="40" y="114" fill="#6b6b8a" font-size="9">• features</text>
+  <text x="40" y="132" fill="#6b6b8a" font-size="9">• cuentas</text>
+  <text x="40" y="150" fill="#6b6b8a" font-size="9">• politicas</text>
+
+  <rect x="190" y="56" width="150" height="130" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="265" y="84" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">SERVICIOS</text>
+  <text x="210" y="114" fill="#6b6b8a" font-size="9">• demonios</text>
+  <text x="210" y="132" fill="#6b6b8a" font-size="9">• paneles</text>
+  <text x="210" y="150" fill="#6b6b8a" font-size="9">• listeners</text>
+
+  <rect x="360" y="56" width="150" height="130" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="435" y="84" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="700">PUERTOS</text>
+  <text x="380" y="114" fill="#6b6b8a" font-size="9">• cerrar</text>
+  <text x="380" y="132" fill="#6b6b8a" font-size="9">• restringir</text>
+  <text x="380" y="150" fill="#6b6b8a" font-size="9">• cifrar</text>
+
+  <rect x="530" y="56" width="150" height="130" rx="4" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="605" y="84" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">CONFIG</text>
+  <text x="550" y="114" fill="#6b6b8a" font-size="9">• defaults</text>
+  <text x="550" y="132" fill="#6b6b8a" font-size="9">• secretos</text>
+  <text x="550" y="150" fill="#6b6b8a" font-size="9">• debug</text>
+
+  <text x="350" y="224" text-anchor="middle" fill="#3a3a5a" font-size="8">Hardening = reducir exposicion innecesaria y reforzar configuraciones criticas.</text>
+</svg>

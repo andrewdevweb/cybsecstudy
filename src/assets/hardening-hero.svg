@@ -1,0 +1,46 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.04)" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="bar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#ff9f43"/>
+    </linearGradient>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <rect x="54" y="54" width="912" height="48" rx="6" fill="#12121a" stroke="#1e1e2e"/>
+  <rect x="54" y="54" width="210" height="48" rx="6" fill="url(#bar)"/>
+  <text x="74" y="84" fill="#000" font-size="18" font-weight="700">HARDENING</text>
+  <text x="286" y="84" fill="#6b6b8a" font-size="10" letter-spacing="2">ENDURECIMIENTO DE SISTEMAS, SERVICIOS Y CONFIGURACIONES</text>
+
+  <rect x="54" y="132" width="420" height="284" rx="10" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="82" y="176" fill="#e8eaf0" font-size="34" font-weight="700">Reducir</text>
+  <text x="82" y="216" fill="#ff6b6b" font-size="34" font-weight="700">exposicion</text>
+  <text x="82" y="256" fill="#e8eaf0" font-size="34" font-weight="700">innecesaria</text>
+  <text x="82" y="308" fill="#6b6b8a" font-size="12">Cerrar, desactivar, restringir y reforzar.</text>
+  <text x="82" y="332" fill="#6b6b8a" font-size="12">Menos superficie y menos defaults peligrosos.</text>
+
+  <rect x="514" y="132" width="452" height="132" rx="10" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="542" y="166" fill="#4d96ff" font-size="11" font-weight="700">AREAS</text>
+  <text x="542" y="196" fill="#6b6b8a" font-size="11">sistemas</text>
+  <text x="662" y="196" fill="#6b6b8a" font-size="11">servicios</text>
+  <text x="782" y="196" fill="#6b6b8a" font-size="11">puertos</text>
+  <text x="882" y="196" fill="#6b6b8a" font-size="11">config</text>
+  <line x1="540" y1="214" x2="938" y2="214" stroke="#1e1e2e"/>
+  <text x="542" y="242" fill="#3a3a5a" font-size="9">No es un producto. Es una disciplina de reduccion y refuerzo continuo.</text>
+
+  <rect x="514" y="284" width="216" height="132" rx="10" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="542" y="318" fill="#6bcb77" font-size="11" font-weight="700">ACCIONES</text>
+  <text x="542" y="346" fill="#6b6b8a" font-size="10">• quitar software sobrante</text>
+  <text x="542" y="366" fill="#6b6b8a" font-size="10">• cerrar puertos</text>
+  <text x="542" y="386" fill="#6b6b8a" font-size="10">• endurecer acceso admin</text>
+
+  <rect x="750" y="284" width="216" height="132" rx="10" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="778" y="318" fill="#ffd93d" font-size="11" font-weight="700">OBJETIVO</text>
+  <text x="778" y="346" fill="#6b6b8a" font-size="10">• menos superficie</text>
+  <text x="778" y="366" fill="#6b6b8a" font-size="10">• menos abuso posible</text>
+  <text x="778" y="386" fill="#6b6b8a" font-size="10">• menos defaults inseguros</text>
+</svg>
