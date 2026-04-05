@@ -1,0 +1,41 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <text x="48" y="48" fill="#e8eaf0" font-size="40" font-weight="700">PRINCIPIO DE MINIMO PRIVILEGIO</text>
+  <text x="48" y="68" fill="#ff6b6b" font-size="10" letter-spacing="3">MENOS PERMISOS · MENOS IMPACTO · MEJOR CONTENCION</text>
+  <line x1="48" y1="80" x2="700" y2="80" stroke="#1e1e2e" stroke-width="1"/>
+
+  <rect x="58" y="122" width="290" height="220" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="58" y="122" width="290" height="5" fill="#ff6b6b"/>
+  <text x="203" y="152" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="700">SOBREPRIVILEGIO</text>
+  <text x="203" y="178" text-anchor="middle" fill="#6b6b8a" font-size="9">mas acceso del necesario</text>
+  <text x="80" y="216" fill="#6b6b8a" font-size="9">• mas impacto si la cuenta cae</text>
+  <text x="80" y="234" fill="#6b6b8a" font-size="9">• mas daño por error humano</text>
+  <text x="80" y="252" fill="#6b6b8a" font-size="9">• mas movimiento lateral</text>
+  <text x="80" y="270" fill="#6b6b8a" font-size="9">• menos control real</text>
+
+  <rect x="380" y="122" width="290" height="220" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="380" y="122" width="290" height="5" fill="#4d96ff"/>
+  <text x="525" y="152" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">ACCESO AJUSTADO</text>
+  <text x="525" y="178" text-anchor="middle" fill="#6b6b8a" font-size="9">solo lo necesario</text>
+  <text x="402" y="216" fill="#6b6b8a" font-size="9">• menos alcance del compromiso</text>
+  <text x="402" y="234" fill="#6b6b8a" font-size="9">• mejor contencion</text>
+  <text x="402" y="252" fill="#6b6b8a" font-size="9">• autorizacion mas clara</text>
+  <text x="402" y="270" fill="#6b6b8a" font-size="9">• mejor trazabilidad</text>
+
+  <rect x="702" y="122" width="260" height="220" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="702" y="122" width="260" height="5" fill="#6bcb77"/>
+  <text x="832" y="152" text-anchor="middle" fill="#6bcb77" font-size="14" font-weight="700">JIT</text>
+  <text x="832" y="178" text-anchor="middle" fill="#6b6b8a" font-size="9">elevar solo cuando toca</text>
+  <text x="724" y="216" fill="#6b6b8a" font-size="9">• acceso temporal</text>
+  <text x="724" y="234" fill="#6b6b8a" font-size="9">• tarea concreta</text>
+  <text x="724" y="252" fill="#6b6b8a" font-size="9">• registro y caducidad</text>
+
+  <text x="48" y="440" fill="#6b6b8a" font-size="9" letter-spacing="2">// SI UNA CAPA FALLA, LOS PERMISOS REDUCIDOS LIMITAN EL DAÑO</text>
+</svg>

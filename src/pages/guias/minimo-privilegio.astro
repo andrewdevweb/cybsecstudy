@@ -1,0 +1,297 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Principio de Minimo Privilegio - CybSecStudy" description="Por que limitar permisos reduce el daño y mejora la seguridad, explicado de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 6</div>
+      <h1><span class="accent">Minimo</span> Privilegio</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:660px">Dar solo el acceso necesario para reducir daño, limitar errores y contener mejor cualquier compromiso.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>El minimo privilegio parte de una idea simple: <strong>si algo puede hacer menos, puede romper menos</strong>.</p>
+      <p>Limitar permisos no es una mania burocratica; es una forma muy directa de contener el impacto cuando alguien se equivoca o cuando un atacante consigue acceso.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/least-privilege-map.svg" alt="Minimo privilegio" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">IDEA</div>
+          <div class="concept-title">La idea central</div>
+          <div class="concept-badge">solo lo necesario</div>
+        </div>
+        <div class="concept-body">
+          <p>Una identidad, proceso o aplicacion solo debe tener los permisos estrictamente necesarios para su funcion actual.</p>
+          <div class="info-badge">No mas de lo necesario. No "por si acaso".</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">WHO</div>
+          <div class="concept-title">A quien aplica</div>
+          <div class="concept-badge">no solo usuarios</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>usuarios humanos</li>
+            <li>administradores</li>
+            <li>cuentas de servicio</li>
+            <li>aplicaciones</li>
+            <li>contenedores</li>
+            <li>tokens e identidades cloud</li>
+          </ul>
+          <div class="sec-badge">Muchas veces el mayor sobreprivilegio vive en cuentas tecnicas.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">GAIN</div>
+          <div class="concept-title">Por que mejora la seguridad</div>
+          <div class="concept-badge">menos alcance, menos daño</div>
+        </div>
+        <div class="concept-body">
+          <img src="/least-privilege-compare.svg" alt="Comparativa de privilegios" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>reduce impacto si la cuenta cae</li>
+            <li>limita errores humanos</li>
+            <li>dificulta movimiento lateral</li>
+            <li>mejora contencion</li>
+            <li>hace mas clara la autorizacion legitima</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">EXCESS</div>
+          <div class="concept-title">Sobreprivilegio</div>
+          <div class="concept-badge">cuando sobra acceso</div>
+        </div>
+        <div class="concept-body">
+          <p>Existe cuando una cuenta puede leer, modificar o administrar recursos que no necesita para su tarea real.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Ejemplo humano</div><div class="compare-desc">usuario con admin local sin necesidad</div></div>
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Ejemplo tecnico</div><div class="compare-desc">servicio con permisos de dominio para una tarea menor</div></div>
+          </div>
+          <div class="info-badge">El riesgo existe aunque nadie abuse todavia de ese permiso.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">JIT</div>
+          <div class="concept-title">Privilegios temporales</div>
+          <div class="concept-badge">elevar solo cuando toca</div>
+        </div>
+        <div class="concept-body">
+          <p>Una forma madura de aplicar minimo privilegio es no dejar permisos altos de forma permanente, sino concederlos solo para tareas concretas y con caducidad.</p>
+          <div class="code-block">solicitar elevacion
+aprobar tarea concreta
+registrar uso
+caducar acceso</div>
+          <div class="sec-badge">Menos tiempo con privilegios altos = menos exposicion continua.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">AAA</div>
+          <div class="concept-title">Relacion con AAA</div>
+          <div class="concept-badge">autorizacion con criterio</div>
+        </div>
+        <div class="concept-body">
+          <p>Minimo privilegio encaja directamente con la A de autorizacion: no basta con autenticar, hay que limitar muy bien que puede hacer cada identidad.</p>
+          <div class="info-badge">Una autorizacion amplia por defecto rompe este principio.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">DEPTH</div>
+          <div class="concept-title">Relacion con defensa en profundidad</div>
+          <div class="concept-badge">contener mejor</div>
+        </div>
+        <div class="concept-body">
+          <img src="/least-privilege-containment.svg" alt="Contencion con minimo privilegio" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <p>Si otra capa falla, los permisos reducidos ayudan a limitar el alcance del compromiso y el movimiento lateral.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">GOOD</div>
+          <div class="concept-title">Como aplicarlo bien</div>
+          <div class="concept-badge">sin bloquear por bloquear</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>deny by default</li>
+            <li>roles revisados y claros</li>
+            <li>separacion de funciones</li>
+            <li>cuentas individuales</li>
+            <li>revision de privilegios heredados</li>
+            <li>elevacion temporal cuando haga falta</li>
+          </ul>
+          <div class="sec-badge">No busca incomodar; busca ajustar acceso a necesidad legitima.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> hardening o gestion de vulnerabilidades para seguir bajando riesgo a traves de configuraciones y mantenimiento seguro.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que significa minimo privilegio?", opts: ["Dar acceso amplio para evitar tickets","Dar solo el acceso estrictamente necesario","Dar admin a todos y monitorizar","Quitar todos los permisos siempre"], correct: 1, exp: "Minimo privilegio significa ajustar permisos a la necesidad legitima real." },
+  { q: "A quien aplica este principio?", opts: ["Solo a usuarios humanos","Solo a administradores","A usuarios, servicios, apps y tokens","Solo a cloud"], correct: 2, exp: "Aplica a casi cualquier identidad o proceso con capacidad de actuar." },
+  { q: "Que ventaja principal aporta?", opts: ["Aumenta la superficie de ataque","Reduce impacto si una cuenta cae","Elimina la necesidad de MFA","Evita todos los errores humanos"], correct: 1, exp: "Con menos permisos, el daño potencial del compromiso es menor." },
+  { q: "Que es sobreprivilegio?", opts: ["Permisos ajustados","Acceso temporal controlado","Tener mas acceso del necesario","Rotar contraseñas"], correct: 2, exp: "El sobreprivilegio aparece cuando sobran permisos para la tarea real." },
+  { q: "Cual es un ejemplo de sobreprivilegio?", opts: ["Lectura cuando solo se necesita lectura","Admin local sin necesidad","Token con alcance limitado","Cuenta separada por funcion"], correct: 1, exp: "Dar admin local sin necesidad es un caso clasico." },
+  { q: "Que relacion tiene con defensa en profundidad?", opts: ["La sustituye por completo","No tiene ninguna","Ayuda a contener el daño si otra capa falla","Solo sirve para auditoria"], correct: 2, exp: "Permisos reducidos limitan el alcance cuando una barrera previa falla." },
+  { q: "Que practica refuerza mucho este principio?", opts: ["Privilegios permanentes","Acceso just-in-time o temporal","Cuentas compartidas","Permisos heredados sin revisar"], correct: 1, exp: "La elevacion temporal reduce exposicion continua a privilegios altos." },
+  { q: "Que error rompe trazabilidad y minimo privilegio?", opts: ["Cuentas individuales","Revision de roles","Cuentas compartidas","Caducidad de elevaciones"], correct: 2, exp: "Las cuentas compartidas difuminan responsabilidad y suelen acumular permisos." },
+  { q: "Que idea es correcta?", opts: ["Minimo privilegio busca bloquear por bloquear","Minimo privilegio ajusta acceso a necesidad real","Minimo privilegio solo importa en Linux","Minimo privilegio elimina todos los riesgos"], correct: 1, exp: "El objetivo no es incomodar, sino reducir acceso sobrante y daño potencial." },
+  { q: "Que mejora especialmente cuando los permisos son mas precisos?", opts: ["La confusion sobre quien puede hacer que","La contencion y claridad del control de acceso","La necesidad de segmentacion","El numero de credenciales maestras"], correct: 1, exp: "Permisos precisos mejoran contencion, revisiones y coherencia del acceso legitimo." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Minimo privilegio ha quedado muy claro.' : score >= 7 ? 'Muy bien. Repasa sobreprivilegio, JIT y contencion para afinar del todo.' : 'Conviene revisar otra vez por que limitar permisos reduce daño y mejora autorizacion.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

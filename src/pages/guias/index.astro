@@ -178,7 +178,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Conceptos base de ciberseguridad, modelos de defensa y analisis del riesgo.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">5 guías</span>
+          <span class="cat-count">6 guías</span>
           <span class="cat-levels">1 nivel</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -342,6 +342,14 @@ import Footer from '../../components/Footer.astro';
             <div class="guide-info">
               <div class="guide-title">Defensa en Profundidad</div>
               <div class="guide-desc">Capas de proteccion, deteccion, contencion y recuperacion.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/minimo-privilegio" class="guide-card" style="--pc:#ff6b6b">
+            <div class="guide-num">06</div>
+            <div class="guide-info">
+              <div class="guide-title">Principio de Minimo Privilegio</div>
+              <div class="guide-desc">Limitar permisos para reducir daño y mejorar contencion.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
@@ -639,6 +647,7 @@ const allGuides = [
   { num:'03', href:'/guias/riesgo-amenazas-vulnerabilidades',title:'Riesgo, Amenazas y Vulnerabilidades', cat:'Seguridad', color:'#ff6b6b', desc:'Activos, amenazas, vulnerabilidades, impacto y probabilidad.' },
   { num:'04', href:'/guias/superficie-ataque', title:'Superficie de Ataque',          cat:'Seguridad',   color:'#ff6b6b', desc:'Todo lo expuesto que un atacante puede descubrir o tocar.' },
   { num:'05', href:'/guias/defensa-en-profundidad', title:'Defensa en Profundidad',   cat:'Seguridad',   color:'#ff6b6b', desc:'Capas de controles preventivos, detectivos y correctivos.' },
+  { num:'06', href:'/guias/minimo-privilegio', title:'Principio de Minimo Privilegio', cat:'Seguridad',  color:'#ff6b6b', desc:'Dar solo el acceso necesario para reducir daño y alcance.' },
   { num:'01', href:'/guias/os-intro',          title:'Sistemas Operativos',           cat:'Windows',     color:'#00bfff', desc:'Kernel, User Space, GUI vs CLI y familias de SO.' },
   { num:'02', href:'/guias/windows-basics',    title:'Windows Básico',                cat:'Windows',     color:'#00bfff', desc:'Autenticación, registro y seguridad nativa.' },
   { num:'03', href:'/guias/windows-cmd-intro', title:'CLI de Windows — Introducción', cat:'Windows',     color:'#00bfff', desc:'CMD, PowerShell, Windows Terminal y primeros comandos.' },

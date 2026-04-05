@@ -1,0 +1,23 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// COMPARATIVA DE PRIVILEGIOS</text>
+
+  <rect x="40" y="56" width="260" height="146" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="170" y="84" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">DEMASIADO ACCESO</text>
+  <text x="64" y="112" fill="#6b6b8a" font-size="9">• lectura y escritura global</text>
+  <text x="64" y="130" fill="#6b6b8a" font-size="9">• admin local innecesario</text>
+  <text x="64" y="148" fill="#6b6b8a" font-size="9">• alcance a sistemas no requeridos</text>
+  <text x="64" y="166" fill="#6b6b8a" font-size="9">• mayor impacto si la cuenta cae</text>
+
+  <path d="M320 128 L390 128" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="384,123 394,128 384,133" fill="#3a3a5a"/>
+
+  <rect x="410" y="56" width="250" height="146" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="535" y="84" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="700">ACCESO AJUSTADO</text>
+  <text x="432" y="112" fill="#6b6b8a" font-size="9">• permisos concretos</text>
+  <text x="432" y="130" fill="#6b6b8a" font-size="9">• alcance reducido</text>
+  <text x="432" y="148" fill="#6b6b8a" font-size="9">• mejor contencion</text>
+  <text x="432" y="166" fill="#6b6b8a" font-size="9">• menor daño potencial</text>
+
+  <text x="350" y="228" text-anchor="middle" fill="#3a3a5a" font-size="8">Limitar permisos no evita todo, pero reduce mucho el alcance del problema.</text>
+</svg>
