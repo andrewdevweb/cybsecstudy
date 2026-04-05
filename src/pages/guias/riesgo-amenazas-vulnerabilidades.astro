@@ -1,0 +1,308 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Riesgo, Amenazas y Vulnerabilidades - CybSecStudy" description="Activos, amenazas, vulnerabilidades, impacto, probabilidad y riesgo explicados de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 3</div>
+      <h1><span class="accent">Riesgo</span>, Amenazas y Vulnerabilidades</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:650px">Activos, amenazas, vulnerabilidades, impacto y probabilidad: la base para priorizar seguridad con criterio en vez de por intuicion.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>El riesgo no aparece por arte de magia. Surge cuando un <strong>activo valioso</strong> puede verse afectado por una <strong>amenaza</strong> que aprovecha una <strong>vulnerabilidad</strong> y genera un <strong>impacto</strong>.</p>
+      <p>Entender bien esas piezas cambia por completo la manera de priorizar seguridad.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/risk-chain.svg" alt="Cadena de riesgo" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">ACT</div>
+          <div class="concept-title">Activos</div>
+          <div class="concept-badge">lo que tiene valor</div>
+        </div>
+        <div class="concept-body">
+          <p>Un activo es cualquier elemento valioso: datos, credenciales, sistemas, reputacion, procesos o disponibilidad de un servicio.</p>
+          <img src="/risk-assets.svg" alt="Mapa de activos" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>bases de datos</li>
+            <li>cuentas privilegiadas</li>
+            <li>backups</li>
+            <li>codigo fuente</li>
+            <li>procesos de negocio</li>
+          </ul>
+          <div class="info-badge">En ciberseguridad, los datos y accesos suelen valer mas que el hardware.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">AMZ</div>
+          <div class="concept-title">Amenazas</div>
+          <div class="concept-badge">lo que puede dañar</div>
+        </div>
+        <div class="concept-body">
+          <p>Una amenaza es un actor, evento o circunstancia que podria causar daño a un activo.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Humanas</div><div class="compare-desc">atacantes, insiders, errores de usuario</div></div>
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Tecnicas</div><div class="compare-desc">malware, supply chain, fallos de software</div></div>
+            <div class="compare-item" style="--cc:#4d96ff"><div class="compare-title">Fisicas u operativas</div><div class="compare-desc">incendio, corte electrico, fallo de proveedor</div></div>
+          </div>
+          <div class="sec-badge">La amenaza es la posibilidad de daño, no la debilidad en si.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">VULN</div>
+          <div class="concept-title">Vulnerabilidades</div>
+          <div class="concept-badge">el punto debil</div>
+        </div>
+        <div class="concept-body">
+          <p>La vulnerabilidad es la debilidad que una amenaza puede aprovechar para llegar al activo o dañarlo.</p>
+          <ul>
+            <li>software sin parchear</li>
+            <li>passwords reutilizados</li>
+            <li>MFA ausente</li>
+            <li>permisos excesivos</li>
+            <li>bucket publico</li>
+            <li>segmentacion insuficiente</li>
+          </ul>
+          <div class="info-badge">Amenaza y vulnerabilidad no son lo mismo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">IMP</div>
+          <div class="concept-title">Impacto</div>
+          <div class="concept-badge">cuanto doleria</div>
+        </div>
+        <div class="concept-body">
+          <p>El impacto representa la consecuencia si el incidente ocurre.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Economico</div><div class="compare-desc">perdidas, multas, tiempo y coste</div></div>
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Operativo</div><div class="compare-desc">parada de servicio o negocio</div></div>
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Reputacional</div><div class="compare-desc">perdida de confianza o imagen</div></div>
+          </div>
+          <div class="sec-badge">No todos los activos generan el mismo impacto si caen.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">PROB</div>
+          <div class="concept-title">Probabilidad</div>
+          <div class="concept-badge">que opciones reales hay</div>
+        </div>
+        <div class="concept-body">
+          <p>La probabilidad valora cuan posible es el escenario segun exposicion, facilidad de explotacion, controles y contexto.</p>
+          <div class="code-block">mas exposicion -> mas probabilidad
+mas controles -> menos probabilidad
+mas frecuencia -> mas prioridad</div>
+          <div class="info-badge">No es intuicion pura: se apoya en contexto real.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">RISK</div>
+          <div class="concept-title">Riesgo</div>
+          <div class="concept-badge">impacto + probabilidad</div>
+        </div>
+        <div class="concept-body">
+          <p>El riesgo combina el daño posible con la probabilidad real de sufrirlo. Por eso necesita contexto, no solo mirar una vulnerabilidad aislada.</p>
+          <img src="/risk-matrix.svg" alt="Matriz de riesgo" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <div class="sec-badge">No toda vulnerabilidad grave implica el mayor riesgo real.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">FLOW</div>
+          <div class="concept-title">Como analizar un escenario</div>
+          <div class="concept-badge">priorizar mejor</div>
+        </div>
+        <div class="concept-body">
+          <div class="code-block">1. identifica el activo
+2. define la amenaza
+3. detecta la vulnerabilidad
+4. estima impacto
+5. estima probabilidad
+6. prioriza el riesgo</div>
+          <div class="info-badge">Este orden ayuda a decidir que arreglar primero y por que.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">CTRL</div>
+          <div class="concept-title">Reducir riesgo</div>
+          <div class="concept-badge">mitigar o aceptar</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>reducir probabilidad con parches, MFA o hardening</li>
+            <li>reducir impacto con backups, HA o respuesta a incidentes</li>
+            <li>evitar, transferir o aceptar segun contexto</li>
+          </ul>
+          <div class="sec-badge">Gestionar riesgo no siempre es eliminar la vulnerabilidad.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> superficie de ataque o defensa en profundidad para conectar el riesgo con decisiones de proteccion concretas.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que es un activo en seguridad?", opts: ["Solo un servidor fisico","Cualquier elemento con valor","Solo una base de datos","Una amenaza interna"], correct: 1, exp: "Un activo es cualquier elemento valioso: datos, sistemas, accesos, procesos o reputacion." },
+  { q: "Que es una amenaza?", opts: ["Una debilidad explotable","Algo que puede causar daño","El impacto economico","Una cuenta con permisos"], correct: 1, exp: "La amenaza es el actor, evento o circunstancia que podria dañar el activo." },
+  { q: "Que es una vulnerabilidad?", opts: ["Una medida de impacto","Una debilidad aprovechable","Un control preventivo","Una sancion legal"], correct: 1, exp: "La vulnerabilidad es el punto debil que una amenaza puede aprovechar." },
+  { q: "Que representa el impacto?", opts: ["Lo facil que es explotar algo","La consecuencia del incidente","El numero de usuarios","La cantidad de logs"], correct: 1, exp: "Impacto mide cuanto doleria que el escenario ocurra." },
+  { q: "Que valora la probabilidad?", opts: ["La capacidad de recuperacion","La posibilidad real de que ocurra","El precio del activo","La calidad del backup"], correct: 1, exp: "Probabilidad estima cuan posible es el escenario segun contexto, exposicion y controles." },
+  { q: "Que combina el riesgo?", opts: ["Solo amenazas","Solo CVEs","Impacto y probabilidad en contexto","Numero de activos"], correct: 2, exp: "Riesgo no es una pieza aislada: combina daño posible y posibilidad real." },
+  { q: "Cual de estas es una vulnerabilidad?", opts: ["Phishing","Permisos excesivos","Ransomware","Corte electrico"], correct: 1, exp: "Permisos excesivos son una debilidad. Las otras opciones son amenazas o eventos." },
+  { q: "Cual de estas es una amenaza?", opts: ["Software sin parchear","MFA ausente","Atacante externo","Backups cifrados"], correct: 2, exp: "Un atacante externo es un actor que puede causar daño, por tanto una amenaza." },
+  { q: "Que reduce sobre todo la probabilidad?", opts: ["Parchear y endurecer","Multas regulatorias","Daño reputacional","Coste financiero"], correct: 0, exp: "Parches, MFA y hardening suelen reducir la posibilidad de explotacion." },
+  { q: "Que afirmacion es la mas correcta?", opts: ["Toda vulnerabilidad critica implica maximo riesgo","El riesgo siempre se calcula sin contexto","Una vulnerabilidad menor puede tener alto riesgo segun el activo","Activo y amenaza son lo mismo"], correct: 2, exp: "El contexto manda: activo, exposicion, controles e impacto cambian la prioridad real." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. El analisis de riesgo ha quedado muy claro.' : score >= 7 ? 'Muy bien. Repasa amenaza, vulnerabilidad e impacto si hubo dudas.' : 'Conviene revisar otra vez la relacion entre activo, amenaza, vulnerabilidad y riesgo.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

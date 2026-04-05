@@ -1,0 +1,35 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// CADENA DE RIESGO</text>
+
+  <rect x="20" y="56" width="110" height="120" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="75" y="88" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">ACTIVO</text>
+  <text x="75" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">algo valioso</text>
+
+  <rect x="160" y="56" width="110" height="120" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="215" y="88" text-anchor="middle" fill="#4d96ff" font-size="11" font-weight="700">AMENAZA</text>
+  <text x="215" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">puede causar daño</text>
+
+  <rect x="300" y="56" width="140" height="120" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="370" y="88" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="700">VULNERABILIDAD</text>
+  <text x="370" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">debilidad explotable</text>
+
+  <rect x="470" y="56" width="100" height="120" rx="4" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="520" y="88" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="700">IMPACTO</text>
+  <text x="520" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">daño posible</text>
+
+  <rect x="590" y="56" width="90" height="120" rx="4" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <text x="635" y="88" text-anchor="middle" fill="#c77dff" font-size="11" font-weight="700">RIESGO</text>
+  <text x="635" y="112" text-anchor="middle" fill="#6b6b8a" font-size="9">prioridad</text>
+
+  <path d="M130 116 L160 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="156,111 166,116 156,121" fill="#3a3a5a"/>
+  <path d="M270 116 L300 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="296,111 306,116 296,121" fill="#3a3a5a"/>
+  <path d="M440 116 L470 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="466,111 476,116 466,121" fill="#3a3a5a"/>
+  <path d="M570 116 L590 116" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="586,111 596,116 586,121" fill="#3a3a5a"/>
+
+  <text x="350" y="214" text-anchor="middle" fill="#3a3a5a" font-size="8">El riesgo no es una pieza aislada: nace del contexto completo.</text>
+</svg>

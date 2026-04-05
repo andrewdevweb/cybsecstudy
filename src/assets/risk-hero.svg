@@ -1,0 +1,50 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <text x="48" y="48" fill="#e8eaf0" font-size="40" font-weight="700">RIESGO, AMENAZAS Y VULNERABILIDADES</text>
+  <text x="48" y="68" fill="#ff6b6b" font-size="10" letter-spacing="3">ACTIVOS · IMPACTO · PROBABILIDAD · PRIORIZACION</text>
+  <line x1="48" y1="80" x2="700" y2="80" stroke="#1e1e2e" stroke-width="1"/>
+
+  <rect x="48" y="114" width="180" height="220" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="48" y="114" width="180" height="5" fill="#ff6b6b"/>
+  <text x="138" y="148" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="700">ACTIVO</text>
+  <text x="138" y="174" text-anchor="middle" fill="#6b6b8a" font-size="9">algo que tiene valor</text>
+  <text x="68" y="212" fill="#6b6b8a" font-size="9">• datos</text>
+  <text x="68" y="230" fill="#6b6b8a" font-size="9">• cuentas</text>
+  <text x="68" y="248" fill="#6b6b8a" font-size="9">• backups</text>
+  <text x="68" y="266" fill="#6b6b8a" font-size="9">• servicios</text>
+
+  <rect x="252" y="114" width="180" height="220" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="252" y="114" width="180" height="5" fill="#4d96ff"/>
+  <text x="342" y="148" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">AMENAZA</text>
+  <text x="342" y="174" text-anchor="middle" fill="#6b6b8a" font-size="9">algo que puede dañar</text>
+  <text x="272" y="212" fill="#6b6b8a" font-size="9">• atacante</text>
+  <text x="272" y="230" fill="#6b6b8a" font-size="9">• error humano</text>
+  <text x="272" y="248" fill="#6b6b8a" font-size="9">• malware</text>
+  <text x="272" y="266" fill="#6b6b8a" font-size="9">• fallo electrico</text>
+
+  <rect x="456" y="114" width="180" height="220" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="456" y="114" width="180" height="5" fill="#6bcb77"/>
+  <text x="546" y="148" text-anchor="middle" fill="#6bcb77" font-size="14" font-weight="700">VULNERABILIDAD</text>
+  <text x="546" y="174" text-anchor="middle" fill="#6b6b8a" font-size="9">debilidad explotable</text>
+  <text x="476" y="212" fill="#6b6b8a" font-size="9">• sin parche</text>
+  <text x="476" y="230" fill="#6b6b8a" font-size="9">• MFA ausente</text>
+  <text x="476" y="248" fill="#6b6b8a" font-size="9">• permisos excesivos</text>
+  <text x="476" y="266" fill="#6b6b8a" font-size="9">• exposicion publica</text>
+
+  <rect x="660" y="114" width="300" height="220" rx="4" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <rect x="660" y="114" width="300" height="5" fill="#ffd93d"/>
+  <text x="810" y="148" text-anchor="middle" fill="#ffd93d" font-size="14" font-weight="700">RIESGO</text>
+  <text x="810" y="174" text-anchor="middle" fill="#6b6b8a" font-size="9">impacto + probabilidad en contexto</text>
+  <text x="682" y="212" fill="#6b6b8a" font-size="9">• priorizar primero lo mas importante</text>
+  <text x="682" y="230" fill="#6b6b8a" font-size="9">• no toda vulnerabilidad implica el mismo riesgo</text>
+  <text x="682" y="248" fill="#6b6b8a" font-size="9">• el activo y la exposicion cambian la decision</text>
+
+  <text x="48" y="438" fill="#6b6b8a" font-size="9" letter-spacing="2">// EL RIESGO APARECE CUANDO UNA AMENAZA PUEDE APROVECHAR UNA VULNERABILIDAD Y DAÑAR UN ACTIVO</text>
+</svg>
