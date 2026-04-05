@@ -1,0 +1,52 @@
+<svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1020" height="510" fill="url(#grid)"/>
+
+  <text x="48" y="48" fill="#e8eaf0" font-size="42" font-weight="700">SUPERFICIE DE ATAQUE</text>
+  <text x="48" y="68" fill="#ff6b6b" font-size="10" letter-spacing="3">EXPOSICION · ACCESOS · APPS · IDENTIDADES · CLOUD</text>
+  <line x1="48" y1="80" x2="620" y2="80" stroke="#1e1e2e" stroke-width="1"/>
+
+  <rect x="48" y="112" width="210" height="240" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <rect x="48" y="112" width="210" height="5" fill="#ff6b6b"/>
+  <text x="153" y="142" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="700">EXTERNA</text>
+  <text x="153" y="170" text-anchor="middle" fill="#6b6b8a" font-size="9">visible desde internet</text>
+  <text x="68" y="210" fill="#6b6b8a" font-size="9">• dominios</text>
+  <text x="68" y="228" fill="#6b6b8a" font-size="9">• APIs</text>
+  <text x="68" y="246" fill="#6b6b8a" font-size="9">• VPNs</text>
+  <text x="68" y="264" fill="#6b6b8a" font-size="9">• correo</text>
+  <text x="68" y="282" fill="#6b6b8a" font-size="9">• buckets expuestos</text>
+
+  <rect x="288" y="112" width="210" height="240" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <rect x="288" y="112" width="210" height="5" fill="#4d96ff"/>
+  <text x="393" y="142" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">INTERNA</text>
+  <text x="393" y="170" text-anchor="middle" fill="#6b6b8a" font-size="9">tras acceso inicial</text>
+  <text x="308" y="210" fill="#6b6b8a" font-size="9">• shares internos</text>
+  <text x="308" y="228" fill="#6b6b8a" font-size="9">• RDP o SMB</text>
+  <text x="308" y="246" fill="#6b6b8a" font-size="9">• privilegios excesivos</text>
+  <text x="308" y="264" fill="#6b6b8a" font-size="9">• tokens y confianza lateral</text>
+
+  <rect x="528" y="112" width="210" height="240" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <rect x="528" y="112" width="210" height="5" fill="#6bcb77"/>
+  <text x="633" y="142" text-anchor="middle" fill="#6bcb77" font-size="14" font-weight="700">COMPONENTES</text>
+  <text x="633" y="170" text-anchor="middle" fill="#6b6b8a" font-size="9">identidades, apps y datos</text>
+  <text x="548" y="210" fill="#6b6b8a" font-size="9">• cuentas</text>
+  <text x="548" y="228" fill="#6b6b8a" font-size="9">• secretos</text>
+  <text x="548" y="246" fill="#6b6b8a" font-size="9">• almacenamiento</text>
+  <text x="548" y="264" fill="#6b6b8a" font-size="9">• integraciones</text>
+
+  <rect x="768" y="112" width="204" height="240" rx="4" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <rect x="768" y="112" width="204" height="5" fill="#ffd93d"/>
+  <text x="870" y="142" text-anchor="middle" fill="#ffd93d" font-size="14" font-weight="700">REDUCIR</text>
+  <text x="870" y="170" text-anchor="middle" fill="#6b6b8a" font-size="9">quitar y simplificar</text>
+  <text x="788" y="210" fill="#6b6b8a" font-size="9">• retirar legacy</text>
+  <text x="788" y="228" fill="#6b6b8a" font-size="9">• cerrar puertos</text>
+  <text x="788" y="246" fill="#6b6b8a" font-size="9">• minimo privilegio</text>
+  <text x="788" y="264" fill="#6b6b8a" font-size="9">• MFA y segmentacion</text>
+
+  <text x="48" y="438" fill="#6b6b8a" font-size="9" letter-spacing="2">// MENOS EXPUESTO · MENOS CAMINOS DE ATAQUE · MENOS RIESGO</text>
+</svg>

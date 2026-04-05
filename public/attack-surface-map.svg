@@ -1,0 +1,31 @@
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="250" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// MAPA DE SUPERFICIE DE ATAQUE</text>
+
+  <circle cx="350" cy="130" r="56" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="350" y="126" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="700">OBJETIVO</text>
+  <text x="350" y="144" text-anchor="middle" fill="#6b6b8a" font-size="8">entorno o sistema</text>
+
+  <circle cx="150" cy="74" r="44" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="150" y="78" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">WEB</text>
+
+  <circle cx="550" cy="74" r="44" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="550" y="78" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">IDENTIDAD</text>
+
+  <circle cx="120" cy="188" r="44" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="120" y="192" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">RED</text>
+
+  <circle cx="350" cy="206" r="44" fill="#12121a" stroke="#c77dff" stroke-width="1.5"/>
+  <text x="350" y="210" text-anchor="middle" fill="#c77dff" font-size="10" font-weight="700">DATOS</text>
+
+  <circle cx="580" cy="188" r="44" fill="#12121a" stroke="#00d1ff" stroke-width="1.5"/>
+  <text x="580" y="192" text-anchor="middle" fill="#00d1ff" font-size="10" font-weight="700">TERCEROS</text>
+
+  <line x1="194" y1="88" x2="298" y2="116" stroke="#3a3a5a"/>
+  <line x1="506" y1="88" x2="402" y2="116" stroke="#3a3a5a"/>
+  <line x1="161" y1="178" x2="299" y2="142" stroke="#3a3a5a"/>
+  <line x1="350" y1="162" x2="350" y2="150" stroke="#3a3a5a"/>
+  <line x1="539" y1="178" x2="401" y2="142" stroke="#3a3a5a"/>
+
+  <text x="350" y="240" text-anchor="middle" fill="#3a3a5a" font-size="8">La superficie de ataque conecta muchos puntos expuestos alrededor del mismo objetivo.</text>
+</svg>

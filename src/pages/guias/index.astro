@@ -178,7 +178,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Conceptos base de ciberseguridad, modelos de defensa y analisis del riesgo.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">3 guías</span>
+          <span class="cat-count">4 guías</span>
           <span class="cat-levels">1 nivel</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -326,6 +326,14 @@ import Footer from '../../components/Footer.astro';
             <div class="guide-info">
               <div class="guide-title">Riesgo, Amenazas y Vulnerabilidades</div>
               <div class="guide-desc">Activos, impacto, probabilidad y priorizacion del riesgo.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/superficie-ataque" class="guide-card" style="--pc:#ff6b6b">
+            <div class="guide-num">04</div>
+            <div class="guide-info">
+              <div class="guide-title">Superficie de Ataque</div>
+              <div class="guide-desc">Exposicion externa e interna, puntos de entrada y reduccion.</div>
             </div>
             <div class="guide-go">→</div>
           </a>
@@ -621,6 +629,7 @@ const allGuides = [
   { num:'01', href:'/guias/triada-cid',        title:'Tríada CID',                    cat:'Seguridad',   color:'#ff6b6b', desc:'Confidencialidad, Integridad y Disponibilidad aplicadas.' },
   { num:'02', href:'/guias/aaa-control-acceso',title:'AAA y Control de Acceso',       cat:'Seguridad',   color:'#ff6b6b', desc:'Autenticacion, autorizacion, accounting y trazabilidad.' },
   { num:'03', href:'/guias/riesgo-amenazas-vulnerabilidades',title:'Riesgo, Amenazas y Vulnerabilidades', cat:'Seguridad', color:'#ff6b6b', desc:'Activos, amenazas, vulnerabilidades, impacto y probabilidad.' },
+  { num:'04', href:'/guias/superficie-ataque', title:'Superficie de Ataque',          cat:'Seguridad',   color:'#ff6b6b', desc:'Todo lo expuesto que un atacante puede descubrir o tocar.' },
   { num:'01', href:'/guias/os-intro',          title:'Sistemas Operativos',           cat:'Windows',     color:'#00bfff', desc:'Kernel, User Space, GUI vs CLI y familias de SO.' },
   { num:'02', href:'/guias/windows-basics',    title:'Windows Básico',                cat:'Windows',     color:'#00bfff', desc:'Autenticación, registro y seguridad nativa.' },
   { num:'03', href:'/guias/windows-cmd-intro', title:'CLI de Windows — Introducción', cat:'Windows',     color:'#00bfff', desc:'CMD, PowerShell, Windows Terminal y primeros comandos.' },

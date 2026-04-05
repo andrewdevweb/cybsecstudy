@@ -1,0 +1,318 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Superficie de Ataque - CybSecStudy" description="Que es la superficie de ataque, como identificarla y como reducirla de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 4</div>
+      <h1><span class="accent">Superficie</span> de Ataque</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:650px">Todo lo que un atacante puede descubrir, alcanzar o tocar: servicios, identidades, aplicaciones, datos, cloud y relaciones de confianza.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>La superficie de ataque no es una vulnerabilidad concreta. Es el <strong>mapa completo de lo expuesto</strong> y de los puntos desde los que un atacante podria intentar entrar, abusar o moverse.</p>
+      <p>Cuanto mas grande, desordenada o innecesaria sea, mas oportunidades de error y compromiso aparecen.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/attack-surface-map.svg" alt="Mapa de superficie de ataque" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">MAP</div>
+          <div class="concept-title">Que es la superficie de ataque</div>
+          <div class="concept-badge">lo que puede tocarse</div>
+        </div>
+        <div class="concept-body">
+          <p>Es el conjunto de puntos, servicios, accesos, identidades y caminos que un atacante puede descubrir, alcanzar o intentar abusar.</p>
+          <ul>
+            <li>servicios expuestos</li>
+            <li>aplicaciones y APIs</li>
+            <li>usuarios y cuentas de servicio</li>
+            <li>almacenamientos y secretos</li>
+            <li>terceros e integraciones</li>
+          </ul>
+          <div class="info-badge">No es solo red: tambien incluye identidades, cloud, apps y procesos.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">EXT</div>
+          <div class="concept-title">Superficie externa</div>
+          <div class="concept-badge">visible desde fuera</div>
+        </div>
+        <div class="concept-body">
+          <p>Todo lo que un atacante puede alcanzar desde internet o sin estar dentro del entorno.</p>
+          <ul>
+            <li>dominios y subdominios</li>
+            <li>VPNs y portales de acceso remoto</li>
+            <li>apps y APIs publicas</li>
+            <li>correo corporativo</li>
+            <li>buckets o servicios cloud mal expuestos</li>
+          </ul>
+          <div class="sec-badge">Es la capa que mas se relaciona con acceso inicial.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">INT</div>
+          <div class="concept-title">Superficie interna</div>
+          <div class="concept-badge">tras el primer acceso</div>
+        </div>
+        <div class="concept-body">
+          <p>Es todo lo que puede explotarse una vez dentro de la organizacion o con una cuenta comprometida.</p>
+          <img src="/attack-surface-layers.svg" alt="Capas de exposicion" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>shares internos</li>
+            <li>RDP, SMB o servicios laterales</li>
+            <li>privilegios excesivos</li>
+            <li>trusts internos mal pensados</li>
+            <li>tokens reutilizables</li>
+          </ul>
+          <div class="info-badge">Muchos incidentes graves se vuelven criticos por la superficie interna.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">DIFF</div>
+          <div class="concept-title">Superficie vs vulnerabilidad</div>
+          <div class="concept-badge">no es lo mismo</div>
+        </div>
+        <div class="concept-body">
+          <p>La superficie es el conjunto de puntos expuestos. La vulnerabilidad es la debilidad concreta que puede existir en uno de esos puntos.</p>
+          <div class="compare-grid">
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Superficie</div><div class="compare-desc">panel de admin expuesto a internet</div></div>
+            <div class="compare-item" style="--cc:#ffd93d"><div class="compare-title">Vulnerabilidad</div><div class="compare-desc">autenticacion debil o software sin parchear en ese panel</div></div>
+          </div>
+          <div class="sec-badge">La superficie marca el mapa; la vulnerabilidad marca la rotura concreta.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">PARTS</div>
+          <div class="concept-title">Componentes tipicos</div>
+          <div class="concept-badge">donde mirar</div>
+        </div>
+        <div class="concept-body">
+          <div class="code-block">infraestructura expuesta
+identidades y accesos
+apps y APIs
+datos y almacenamiento
+terceros y supply chain</div>
+          <div class="info-badge">La superficie moderna es distribuida y heterogenea.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">GROW</div>
+          <div class="concept-title">Por que crece</div>
+          <div class="concept-badge">acumulacion silenciosa</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>subdominios olvidados</li>
+            <li>servicios legacy que nadie retira</li>
+            <li>permisos que se acumulan</li>
+            <li>pruebas publicadas por error</li>
+            <li>integraciones que nadie revisa</li>
+          </ul>
+          <div class="sec-badge">La superficie de ataque suele crecer por inercia, no por una sola gran decision.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">DISC</div>
+          <div class="concept-title">Descubrimiento e inventario</div>
+          <div class="concept-badge">ver antes de reducir</div>
+        </div>
+        <div class="concept-body">
+          <p>No se puede reducir lo que no se conoce. Toda gestion seria de superficie empieza por descubrir activos y exposicion real.</p>
+          <div class="code-block">que esta expuesto a internet
+que servicios siguen vivos
+que cuentas tienen privilegios altos
+que APIs aceptan entrada externa
+que terceros tienen acceso</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">CUT</div>
+          <div class="concept-title">Como reducirla</div>
+          <div class="concept-badge">quitar complejidad</div>
+        </div>
+        <div class="concept-body">
+          <p>Reducir superficie suele consistir en quitar exposicion innecesaria y simplificar.</p>
+          <img src="/attack-surface-reduction.svg" alt="Reduccion de superficie de ataque" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>cerrar puertos y servicios que no hacen falta</li>
+            <li>retirar activos olvidados</li>
+            <li>aplicar minimo privilegio</li>
+            <li>exigir MFA</li>
+            <li>segmentar mejor</li>
+            <li>limitar terceros y accesos persistentes</li>
+          </ul>
+          <div class="info-badge">Menos expuesto suele significar menos oportunidad y menos riesgo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> defensa en profundidad para ver como proteger de forma capas una superficie que no puede desaparecer por completo.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que es la superficie de ataque?", opts: ["Solo los puertos abiertos","Todo lo que un atacante puede descubrir, alcanzar o tocar","Solo las vulnerabilidades CVE","Solo la parte cloud"], correct: 1, exp: "La superficie de ataque es el mapa completo de puntos expuestos e interactuables." },
+  { q: "Cual de estos puede formar parte de la superficie de ataque?", opts: ["Solo servidores","Solo APIs","Solo usuarios","Servicios, identidades, APIs, datos y terceros"], correct: 3, exp: "La superficie moderna incluye muchos elementos, no solo infraestructura." },
+  { q: "Que describe mejor la superficie externa?", opts: ["Lo accesible desde fuera del entorno","Lo que ocurre despues del backup","Los permisos internos unicamente","Los logs del SIEM"], correct: 0, exp: "La superficie externa es lo que puede alcanzarse desde internet o fuera de la organizacion." },
+  { q: "Que describe mejor la superficie interna?", opts: ["Solo dominios publicos","Solo web expuesta","Lo que puede abusarse tras un acceso inicial","Solo correo corporativo"], correct: 2, exp: "La superficie interna se vuelve clave una vez dentro del entorno." },
+  { q: "Que afirmacion es correcta?", opts: ["Superficie de ataque y vulnerabilidad son exactamente lo mismo","La superficie es el mapa y la vulnerabilidad una debilidad concreta","La vulnerabilidad siempre incluye a todos los activos","La superficie no afecta al riesgo"], correct: 1, exp: "La superficie amplía el contexto; la vulnerabilidad concreta marca un fallo explotable." },
+  { q: "Cual es un ejemplo claro de crecimiento de superficie de ataque?", opts: ["Retirar servicios innecesarios","Cerrar subdominios olvidados","Mantener pruebas publicadas sin revisarlas","Aplicar MFA"], correct: 2, exp: "Los activos olvidados y pruebas expuestas son una fuente clasica de expansion de superficie." },
+  { q: "Que paso suele venir antes de reducir la superficie?", opts: ["Ignorar activos viejos","Descubrir e inventariar","Borrar todos los logs","Cambiar el logo"], correct: 1, exp: "No se puede reducir lo que no se conoce." },
+  { q: "Que accion reduce superficie de ataque?", opts: ["Abrir mas servicios por comodidad","Eliminar cuentas sin uso","Crear mas accesos permanentes","Mantener apps legacy expuestas"], correct: 1, exp: "Eliminar cuentas sin uso y retirar exposicion innecesaria reduce puntos atacables." },
+  { q: "Por que una gran superficie de ataque complica la defensa?", opts: ["Porque mejora el rendimiento","Porque crea mas puntos que proteger y auditar","Porque elimina la necesidad de segmentacion","Porque hace innecesario el hardening"], correct: 1, exp: "Mas superficie implica mas oportunidades, mas complejidad y mas errores potenciales." },
+  { q: "Que relacion tiene con el riesgo?", opts: ["No tiene ninguna","Suele aumentar la probabilidad al ampliar exposicion y caminos de ataque","Solo cambia el impacto legal","Solo afecta si hay ransomware"], correct: 1, exp: "Mas superficie suele significar mas oportunidades de entrada y mayor probabilidad de incidente." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. La superficie de ataque ha quedado clara.' : score >= 7 ? 'Muy bien. Repasa la diferencia entre superficie, vulnerabilidad y exposicion si quieres afinar mas.' : 'Conviene revisar otra vez superficie externa, interna y formas de reduccion.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
