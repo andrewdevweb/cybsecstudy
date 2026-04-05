@@ -1,0 +1,305 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Defensa en Profundidad - CybSecStudy" description="Proteger por capas en vez de confiar en una sola barrera, explicado de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff6b6b; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px) !important; letter-spacing: -2px !important; margin-bottom: 16px !important; }
+    .accent { color: #ff6b6b; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card p:last-child { margin: 0; }
+    .intro-card strong { color: #ff6b6b; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc) !important; }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 56px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 76px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.8 !important; margin-bottom: 10px; }
+    .concept-body p:last-child { margin-bottom: 0; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px !important; color: #b0b0c8 !important; line-height: 1.7 !important; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff6b6b); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,107,107,0.08); border: 1px solid #ff6b6b; color: #ff6b6b; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff6b6b; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card p { color: #b0b0c8; font-size: 14px; margin: 0 0 8px; }
+    .next-card strong { color: #ff6b6b; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff6b6b; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px !important; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .quiz-option.correct { border-color: #6bcb77 !important; background: rgba(107,203,119,0.08); color: #6bcb77 !important; }
+    .quiz-option.wrong { border-color: #ff6b6b !important; background: rgba(255,107,107,0.08); color: #ff6b6b !important; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff6b6b; background: transparent; color: #ff6b6b; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff6b6b; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff6b6b; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Seguridad - Fundamentos - Post 5</div>
+      <h1><span class="accent">Defensa</span> en Profundidad</h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:660px">Proteger por capas, asumir que los fallos existen y evitar que una sola rotura implique el colapso total del sistema.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>La defensa en profundidad parte de una idea muy sencilla: <strong>ningun control es perfecto</strong>.</p>
+      <p>Por eso un entorno sano combina capas que previenen, detectan, contienen y ayudan a recuperar, en vez de confiarlo todo a una sola barrera.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/defense-depth-layers.svg" alt="Capas de defensa" style="width:100%;margin-bottom:32px;border:none;border-radius:0" />
+
+    <div class="section-label">// Conceptos clave - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header">
+          <div class="concept-num">WHY</div>
+          <div class="concept-title">Por que existe</div>
+          <div class="concept-badge">fallos inevitables</div>
+        </div>
+        <div class="concept-body">
+          <p>Asume que habra errores, vulnerabilidades, malas configuraciones o intentos de evasion. La pregunta no es si algo fallara, sino que ocurrira despues.</p>
+          <div class="info-badge">Profundidad significa resistir aunque una capa caiga.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header">
+          <div class="concept-num">LAY</div>
+          <div class="concept-title">Capas tipicas</div>
+          <div class="concept-badge">gobierno a respuesta</div>
+        </div>
+        <div class="concept-body">
+          <img src="/defense-depth-controls.svg" alt="Controles por capa" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>politicas y gobierno</li>
+            <li>personas y procesos</li>
+            <li>identidad y acceso</li>
+            <li>endpoints y sistemas</li>
+            <li>red</li>
+            <li>apps y datos</li>
+            <li>monitorizacion y respuesta</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">PREV</div>
+          <div class="concept-title">Controles preventivos</div>
+          <div class="concept-badge">evitar o dificultar</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>MFA</li>
+            <li>parches</li>
+            <li>hardening</li>
+            <li>segmentacion</li>
+            <li>validacion de entradas</li>
+          </ul>
+          <div class="sec-badge">Su funcion principal es reducir la probabilidad de exito.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header">
+          <div class="concept-num">DET</div>
+          <div class="concept-title">Controles detectivos</div>
+          <div class="concept-badge">ver lo que ocurre</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>logs</li>
+            <li>alertas</li>
+            <li>EDR</li>
+            <li>IDS</li>
+            <li>correlacion en SIEM</li>
+          </ul>
+          <div class="info-badge">Si no ves el ataque, la profundidad pierde mucho valor operativo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header">
+          <div class="concept-num">CORR</div>
+          <div class="concept-title">Controles correctivos</div>
+          <div class="concept-badge">contener y recuperar</div>
+        </div>
+        <div class="concept-body">
+          <ul>
+            <li>backups</li>
+            <li>restauracion</li>
+            <li>respuesta a incidentes</li>
+            <li>failover</li>
+            <li>continuidad</li>
+          </ul>
+          <div class="sec-badge">La defensa profunda no solo previene; tambien prepara la recuperacion.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header">
+          <div class="concept-num">REAL</div>
+          <div class="concept-title">Ejemplo real</div>
+          <div class="concept-badge">credenciales robadas</div>
+        </div>
+        <div class="concept-body">
+          <div class="code-block">password comprometida
+-> MFA frena parte del acceso
+-> politica de acceso limita origen
+-> permisos bajos reducen impacto
+-> logs alertan
+-> segmentacion contiene movimiento</div>
+          <div class="info-badge">Una sola rotura no deberia bastar para comprometerlo todo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header">
+          <div class="concept-num">BAD</div>
+          <div class="concept-title">Errores comunes</div>
+          <div class="concept-badge">profundidad falsa</div>
+        </div>
+        <div class="concept-body">
+          <img src="/defense-depth-failure.svg" alt="Fallo de una sola barrera" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <ul>
+            <li>confiarlo todo a un firewall o EDR</li>
+            <li>comprar muchas herramientas sin coordinacion</li>
+            <li>olvidar deteccion y recuperacion</li>
+            <li>tener capas que fallan todas igual</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header">
+          <div class="concept-num">LINK</div>
+          <div class="concept-title">Relacion con otros conceptos</div>
+          <div class="concept-badge">riesgo y contencion</div>
+        </div>
+        <div class="concept-body">
+          <p>Funciona mejor cuando se combina con minimo privilegio, segmentacion, reduccion de superficie de ataque y buena visibilidad.</p>
+          <div class="sec-badge">Defensa en profundidad = capas coherentes, no capas aleatorias.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#ff6b6b;margin-bottom:8px">// SEGURIDAD - FUNDAMENTOS</p>
+      <p><strong>Siguiente sugerido:</strong> minimo privilegio para ver como una sola idea de autorizacion puede reforzar muchisimo la contencion.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente ></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+const questions = [
+  { q: "Que significa defensa en profundidad?", opts: ["Confiar todo a una tecnologia potente","Proteger por capas para que un fallo no implique colapso total","Tener solo un firewall fuerte","Eliminar todos los logs"], correct: 1, exp: "La idea central es superponer controles para resistir aunque una capa falle." },
+  { q: "Que asume este modelo?", opts: ["Que nunca habra errores","Que toda vulnerabilidad sera parcheada antes de explotarse","Que algun control puede fallar","Que la deteccion no importa"], correct: 2, exp: "La defensa en profundidad parte de un enfoque realista: algun control puede fallar." },
+  { q: "Cual de estos es un control preventivo?", opts: ["Backups","Logs","MFA","Playbook forense"], correct: 2, exp: "MFA es un control que busca evitar o dificultar el acceso no autorizado." },
+  { q: "Cual de estos es un control detectivo?", opts: ["Segmentacion","EDR y alertas","Failover","Backup offline"], correct: 1, exp: "EDR y alertas ayudan a descubrir actividad maliciosa o anomala." },
+  { q: "Cual de estos es un control correctivo?", opts: ["Parches","WAF","Backups y restauracion","ACLs"], correct: 2, exp: "Los controles correctivos ayudan a contener el daño y recuperar operacion." },
+  { q: "Que error rompe la profundidad real?", opts: ["Combinar capas distintas","Revisar permisos","Confiarlo todo a una sola barrera","Segmentar la red"], correct: 2, exp: "Si todo depende de un unico control, no hay defensa en profundidad real." },
+  { q: "Que afirmacion es correcta?", opts: ["Profundidad significa comprar muchas herramientas sin orden","Profundidad mezcla prevencion, deteccion y recuperacion","Profundidad solo aplica a redes","Profundidad evita totalmente los incidentes"], correct: 1, exp: "La clave esta en la combinacion coherente de distintos tipos de control." },
+  { q: "Como ayuda minimo privilegio a la defensa en profundidad?", opts: ["Elimina la necesidad de logs","Contiene el daño si una capa falla","Sustituye al hardening","Evita todos los ataques web"], correct: 1, exp: "Si un atacante entra, permisos reducidos ayudan a limitar el impacto." },
+  { q: "Por que la deteccion es importante en este modelo?", opts: ["Porque sustituye a la prevencion","Porque permite ver y responder cuando algo supera capas previas","Porque solo sirve para auditorias externas","Porque hace innecesarios los backups"], correct: 1, exp: "La defensa profunda necesita visibilidad para reaccionar si un control preventivo falla." },
+  { q: "Que refleja mejor una buena arquitectura de defensa en profundidad?", opts: ["Una sola capa muy fuerte","Capas coordinadas que previenen, detectan y recuperan","Muchos productos sin integracion","Solo medidas humanas"], correct: 1, exp: "Lo importante es la coherencia entre capas, no la cantidad aislada de tecnologia." }
+];
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = 'Correcto. ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = 'Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Defensa en profundidad ha quedado muy clara.' : score >= 7 ? 'Muy bien. Repasa tipos de controles y el sentido real de las capas.' : 'Conviene revisar otra vez prevencion, deteccion, recuperacion y el papel de cada capa.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

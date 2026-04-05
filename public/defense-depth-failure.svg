@@ -1,0 +1,21 @@
+<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="230" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// FALLO DE UNA SOLA BARRERA</text>
+
+  <rect x="40" y="60" width="250" height="120" rx="4" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="165" y="88" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">MALA IDEA</text>
+  <text x="62" y="116" fill="#6b6b8a" font-size="9">• todo depende del firewall</text>
+  <text x="62" y="134" fill="#6b6b8a" font-size="9">• sin deteccion real</text>
+  <text x="62" y="152" fill="#6b6b8a" font-size="9">• sin capacidad clara de recuperacion</text>
+
+  <path d="M310 120 L390 120" stroke="#3a3a5a" stroke-width="2"/>
+  <polygon points="384,115 394,120 384,125" fill="#3a3a5a"/>
+
+  <rect x="410" y="60" width="250" height="120" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="535" y="88" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="700">MEJOR IDEA</text>
+  <text x="432" y="116" fill="#6b6b8a" font-size="9">• prevencion + deteccion + respuesta</text>
+  <text x="432" y="134" fill="#6b6b8a" font-size="9">• privilegios reducidos</text>
+  <text x="432" y="152" fill="#6b6b8a" font-size="9">• contencion si una capa falla</text>
+
+  <text x="350" y="216" text-anchor="middle" fill="#3a3a5a" font-size="8">Profundidad no es una barrera mas fuerte; es una arquitectura mas resistente.</text>
+</svg>
