@@ -1,46 +1,156 @@
 <svg viewBox="0 0 1020 510" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
   <rect width="1020" height="510" fill="#0a0a0f"/>
+
+  <!-- grid -->
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.04)" stroke-width="1"/>
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,107,107,0.03)" stroke-width="1"/>
     </pattern>
-    <linearGradient id="bar" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ff6b6b"/>
-      <stop offset="100%" stop-color="#ff9f43"/>
-    </linearGradient>
+    <!-- diagonal hatch for accent -->
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(255,107,107,0.08)" stroke-width="2"/>
+    </pattern>
   </defs>
   <rect width="1020" height="510" fill="url(#grid)"/>
 
-  <rect x="54" y="54" width="912" height="48" rx="6" fill="#12121a" stroke="#1e1e2e"/>
-  <rect x="54" y="54" width="210" height="48" rx="6" fill="url(#bar)"/>
-  <text x="74" y="84" fill="#000" font-size="18" font-weight="700">HARDENING</text>
-  <text x="286" y="84" fill="#6b6b8a" font-size="10" letter-spacing="2">ENDURECIMIENTO DE SISTEMAS, SERVICIOS Y CONFIGURACIONES</text>
+  <!-- top accent line full width -->
+  <rect x="0" y="0" width="1020" height="2" fill="#ff6b6b" opacity="0.6"/>
 
-  <rect x="54" y="132" width="420" height="284" rx="10" fill="#12121a" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="82" y="176" fill="#e8eaf0" font-size="34" font-weight="700">Reducir</text>
-  <text x="82" y="216" fill="#ff6b6b" font-size="34" font-weight="700">exposicion</text>
-  <text x="82" y="256" fill="#e8eaf0" font-size="34" font-weight="700">innecesaria</text>
-  <text x="82" y="308" fill="#6b6b8a" font-size="12">Cerrar, desactivar, restringir y reforzar.</text>
-  <text x="82" y="332" fill="#6b6b8a" font-size="12">Menos superficie y menos defaults peligrosos.</text>
+  <!-- ── LEFT BLOCK ── -->
 
-  <rect x="514" y="132" width="452" height="132" rx="10" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
-  <text x="542" y="166" fill="#4d96ff" font-size="11" font-weight="700">AREAS</text>
-  <text x="542" y="196" fill="#6b6b8a" font-size="11">sistemas</text>
-  <text x="662" y="196" fill="#6b6b8a" font-size="11">servicios</text>
-  <text x="782" y="196" fill="#6b6b8a" font-size="11">puertos</text>
-  <text x="882" y="196" fill="#6b6b8a" font-size="11">config</text>
-  <line x1="540" y1="214" x2="938" y2="214" stroke="#1e1e2e"/>
-  <text x="542" y="242" fill="#3a3a5a" font-size="9">No es un producto. Es una disciplina de reduccion y refuerzo continuo.</text>
+  <!-- vertical accent bar -->
+  <rect x="48" y="48" width="3" height="414" fill="#ff6b6b"/>
 
-  <rect x="514" y="284" width="216" height="132" rx="10" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
-  <text x="542" y="318" fill="#6bcb77" font-size="11" font-weight="700">ACCIONES</text>
-  <text x="542" y="346" fill="#6b6b8a" font-size="10">• quitar software sobrante</text>
-  <text x="542" y="366" fill="#6b6b8a" font-size="10">• cerrar puertos</text>
-  <text x="542" y="386" fill="#6b6b8a" font-size="10">• endurecer acceso admin</text>
+  <!-- eyebrow -->
+  <text x="68" y="72" fill="#ff6b6b" font-size="9" letter-spacing="4" font-weight="700">HARDENING</text>
+  <line x1="68" y1="78" x2="300" y2="78" stroke="#ff6b6b" stroke-width="0.5" opacity="0.4"/>
 
-  <rect x="750" y="284" width="216" height="132" rx="10" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
-  <text x="778" y="318" fill="#ffd93d" font-size="11" font-weight="700">OBJETIVO</text>
-  <text x="778" y="346" fill="#6b6b8a" font-size="10">• menos superficie</text>
-  <text x="778" y="366" fill="#6b6b8a" font-size="10">• menos abuso posible</text>
-  <text x="778" y="386" fill="#6b6b8a" font-size="10">• menos defaults inseguros</text>
+  <!-- main headline -->
+  <text x="68" y="128" fill="#e8eaf0" font-size="54" font-weight="700" letter-spacing="-2">Reducir</text>
+  <text x="68" y="182" fill="#ff6b6b" font-size="54" font-weight="700" letter-spacing="-2">exposición</text>
+  <text x="68" y="236" fill="#e8eaf0" font-size="54" font-weight="700" letter-spacing="-2">innecesaria</text>
+
+  <!-- sub -->
+  <text x="68" y="276" fill="#6b6b8a" font-size="12" letter-spacing="0.5">Cerrar, desactivar, restringir y reforzar.</text>
+  <text x="68" y="294" fill="#6b6b8a" font-size="12" letter-spacing="0.5">Menos superficie. Menos defaults peligrosos.</text>
+
+  <!-- definition pill -->
+  <rect x="68" y="316" width="358" height="34" rx="2" fill="#12121a" stroke="#1e1e2e" stroke-width="1"/>
+  <rect x="68" y="316" width="3" height="34" fill="#ff6b6b"/>
+  <text x="82" y="337" fill="#3a3a5a" font-size="9" letter-spacing="1">No es un producto.</text>
+  <text x="192" y="337" fill="#6b6b8a" font-size="9" letter-spacing="1">Es una disciplina continua de refuerzo.</text>
+
+  <!-- bottom stat row -->
+  <rect x="68"  y="368" width="100" height="56" rx="2" fill="#12121a" stroke="#1e1e2e"/>
+  <text x="118" y="392" text-anchor="middle" fill="#ff6b6b" font-size="22" font-weight="700">∞</text>
+  <text x="118" y="414" text-anchor="middle" fill="#3a3a5a" font-size="8" letter-spacing="1">proceso</text>
+
+  <rect x="176" y="368" width="100" height="56" rx="2" fill="#12121a" stroke="#1e1e2e"/>
+  <text x="226" y="392" text-anchor="middle" fill="#ffd93d" font-size="20" font-weight="700">↓</text>
+  <text x="226" y="414" text-anchor="middle" fill="#3a3a5a" font-size="8" letter-spacing="1">superficie</text>
+
+  <rect x="284" y="368" width="100" height="56" rx="2" fill="#12121a" stroke="#1e1e2e"/>
+  <text x="334" y="392" text-anchor="middle" fill="#6bcb77" font-size="20" font-weight="700">⊘</text>
+  <text x="334" y="414" text-anchor="middle" fill="#3a3a5a" font-size="8" letter-spacing="1">defaults</text>
+
+  <!-- ── DIVIDER ── -->
+  <line x1="472" y1="48" x2="472" y2="462" stroke="#1e1e2e" stroke-width="1"/>
+
+  <!-- ── RIGHT BLOCK ── -->
+
+  <!-- RIGHT header -->
+  <text x="500" y="72" fill="#6b6b8a" font-size="9" letter-spacing="3">// ÁREAS DE APLICACIÓN</text>
+
+  <!-- area cards — row 1 -->
+  <!-- Sistemas -->
+  <rect x="500" y="84" width="236" height="76" rx="2" fill="#12121a" stroke="#ff6b6b" stroke-width="1"/>
+  <rect x="500" y="84" width="236" height="3" fill="#ff6b6b"/>
+  <text x="514" y="106" fill="#ff6b6b" font-size="10" font-weight="700" letter-spacing="1">SISTEMAS</text>
+  <text x="514" y="122" fill="#6b6b8a" font-size="9">Kernel, paquetes, usuarios</text>
+  <text x="514" y="136" fill="#6b6b8a" font-size="9">y permisos del SO.</text>
+  <text x="722" y="152" text-anchor="end" fill="#3a3a5a" font-size="8">01</text>
+
+  <!-- Servicios -->
+  <rect x="748" y="84" width="224" height="76" rx="2" fill="#12121a" stroke="#4d96ff" stroke-width="1"/>
+  <rect x="748" y="84" width="224" height="3" fill="#4d96ff"/>
+  <text x="762" y="106" fill="#4d96ff" font-size="10" font-weight="700" letter-spacing="1">SERVICIOS</text>
+  <text x="762" y="122" fill="#6b6b8a" font-size="9">SSH, web, bases de datos</text>
+  <text x="762" y="136" fill="#6b6b8a" font-size="9">y daemons expuestos.</text>
+  <text x="964" y="152" text-anchor="end" fill="#3a3a5a" font-size="8">02</text>
+
+  <!-- area cards — row 2 -->
+  <!-- Puertos / Red -->
+  <rect x="500" y="172" width="236" height="76" rx="2" fill="#12121a" stroke="#c77dff" stroke-width="1"/>
+  <rect x="500" y="172" width="236" height="3" fill="#c77dff"/>
+  <text x="514" y="194" fill="#c77dff" font-size="10" font-weight="700" letter-spacing="1">RED Y PUERTOS</text>
+  <text x="514" y="210" fill="#6b6b8a" font-size="9">Firewall, puertos abiertos</text>
+  <text x="514" y="224" fill="#6b6b8a" font-size="9">y reglas de red.</text>
+  <text x="722" y="240" text-anchor="end" fill="#3a3a5a" font-size="8">03</text>
+
+  <!-- Configuración -->
+  <rect x="748" y="172" width="224" height="76" rx="2" fill="#12121a" stroke="#ffd93d" stroke-width="1"/>
+  <rect x="748" y="172" width="224" height="3" fill="#ffd93d"/>
+  <text x="762" y="194" fill="#ffd93d" font-size="10" font-weight="700" letter-spacing="1">CONFIGURACIÓN</text>
+  <text x="762" y="210" fill="#6b6b8a" font-size="9">Políticas, contraseñas</text>
+  <text x="762" y="224" fill="#6b6b8a" font-size="9">y parámetros del sistema.</text>
+  <text x="964" y="240" text-anchor="end" fill="#3a3a5a" font-size="8">04</text>
+
+  <!-- ── ACCIONES + OBJETIVO ── -->
+  <text x="500" y="274" fill="#6b6b8a" font-size="9" letter-spacing="3">// ACCIONES → OBJETIVO</text>
+
+  <!-- Acciones list -->
+  <rect x="500" y="286" width="224" height="154" rx="2" fill="#0d0d14" stroke="#1e1e2e"/>
+  <rect x="500" y="286" width="3" height="154" fill="#6bcb77"/>
+
+  <text x="516" y="310" fill="#6bcb77" font-size="9" font-weight="700" letter-spacing="2">ACCIONES</text>
+  <line x1="514" y1="318" x2="716" y2="318" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="516" y="336" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="336" fill="#b0b0c8" font-size="9">Quitar software sobrante</text>
+  <text x="516" y="352" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="352" fill="#b0b0c8" font-size="9">Cerrar puertos no usados</text>
+  <text x="516" y="368" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="368" fill="#b0b0c8" font-size="9">Endurecer acceso admin</text>
+  <text x="516" y="384" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="384" fill="#b0b0c8" font-size="9">Aplicar mínimo privilegio</text>
+  <text x="516" y="400" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="400" fill="#b0b0c8" font-size="9">Cifrar comunicaciones</text>
+  <text x="516" y="416" fill="#3a3a5a" font-size="9">▸</text>
+  <text x="528" y="416" fill="#b0b0c8" font-size="9">Activar logging y alertas</text>
+
+  <!-- arrow connector -->
+  <line x1="726" y1="363" x2="742" y2="363" stroke="#ff6b6b" stroke-width="1"/>
+  <polygon points="742,359 750,363 742,367" fill="#ff6b6b"/>
+
+  <!-- Objetivo list -->
+  <rect x="752" y="286" width="220" height="154" rx="2" fill="#0d0d14" stroke="#1e1e2e"/>
+  <rect x="752" y="286" width="3" height="154" fill="#ffd93d"/>
+
+  <text x="768" y="310" fill="#ffd93d" font-size="9" font-weight="700" letter-spacing="2">OBJETIVO</text>
+  <line x1="766" y1="318" x2="964" y2="318" stroke="#1e1e2e" stroke-width="0.5"/>
+
+  <text x="768" y="336" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="336" fill="#b0b0c8" font-size="9">Mínima superficie de ataque</text>
+  <text x="768" y="352" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="352" fill="#b0b0c8" font-size="9">Sin defaults inseguros</text>
+  <text x="768" y="368" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="368" fill="#b0b0c8" font-size="9">Menor abuso posible</text>
+  <text x="768" y="384" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="384" fill="#b0b0c8" font-size="9">Cumplimiento normativo</text>
+  <text x="768" y="400" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="400" fill="#b0b0c8" font-size="9">Detección más temprana</text>
+  <text x="768" y="416" fill="#3a3a5a" font-size="9">◈</text>
+  <text x="780" y="416" fill="#b0b0c8" font-size="9">Sistemas predecibles</text>
+
+  <!-- ── BOTTOM STRIP ── -->
+  <rect x="500" y="452" width="472" height="20" rx="1" fill="#12121a" stroke="#1e1e2e"/>
+  <text x="512" y="465" fill="#ff6b6b" font-size="8" font-weight="700">CIS Benchmarks</text>
+  <text x="608" y="465" fill="#3a3a5a" font-size="8">·</text>
+  <text x="618" y="465" fill="#6b6b8a" font-size="8">DISA STIGs</text>
+  <text x="672" y="465" fill="#3a3a5a" font-size="8">·</text>
+  <text x="682" y="465" fill="#6b6b8a" font-size="8">NIST SP 800-123</text>
+  <text x="770" y="465" fill="#3a3a5a" font-size="8">·</text>
+  <text x="780" y="465" fill="#6b6b8a" font-size="8">ISO 27001</text>
+  <text x="836" y="465" fill="#3a3a5a" font-size="8">·</text>
+  <text x="846" y="465" fill="#6b6b8a" font-size="8">Zero Trust</text>
 </svg>

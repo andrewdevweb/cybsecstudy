@@ -1,0 +1,269 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Propiedad de Archivos en Linux - CybSecStudy" description="chown, chgrp, grupos y multiusuario explicados de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff9f43; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #ff9f43; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff9f43; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card strong { color: #ff9f43; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 64px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 84px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff9f43); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,159,67,0.06); border: 1px solid #ff9f43; color: #ff9f43; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff9f43; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff9f43; color: #ff9f43; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff9f43; background: transparent; color: #ff9f43; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff9f43; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff9f43; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux & CLI — Nivel Intermedio · Post 8</div>
+      <h1>Propiedad de Archivos en <span class="accent">Linux</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:600px">chown, chgrp, grupos y logica multiusuario: la pieza que hace que el modelo de permisos tenga sentido real.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>Los permisos de Linux siempre se aplican sobre un <strong>propietario</strong> y un <strong>grupo</strong>.</p>
+      <p>Sin entender esa propiedad, es imposible comprender bien por que un archivo puede leerlo una persona y otra no, o por que un servicio debe correr con una cuenta concreta y no con cualquier otra.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/linux-ownership-map.svg" alt="Mapa de propiedad de archivos" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Conceptos — clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header"><div class="concept-num">OWN</div><div class="concept-title">Propietario y grupo</div><div class="concept-badge">dos campos clave</div></div>
+        <div class="concept-body">
+          <p>Cuando haces <code>ls -l</code>, Linux muestra el propietario y el grupo asociados al recurso.</p>
+          <div class="code-block">ls -l informe.txt
+-rw-r----- 1 alice analistas 842 Apr 6 10:00 informe.txt
+
+# propietario = alice
+# grupo = analistas</div>
+          <div class="info-badge">El bloque user aplica al propietario y el bloque group al grupo del archivo.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header"><div class="concept-num">MULTI</div><div class="concept-title">Linux como sistema multiusuario</div><div class="concept-badge">convivencia ordenada</div></div>
+        <div class="concept-body">
+          <img src="/linux-multiuser-groups.svg" alt="Usuarios y grupos" style="width:100%;margin:10px 0;border:none;border-radius:0"/>
+          <p>La propiedad permite separar usuarios, procesos y servicios dentro del mismo sistema sin dar acceso indiscriminado a todo.</p>
+          <ul>
+            <li>cada archivo tiene dueño</li>
+            <li>los grupos facilitan compartir sin abrir de mas</li>
+            <li>la seguridad del sistema depende de esa estructura</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header"><div class="concept-num">CHOWN</div><div class="concept-title">chown — cambiar propietario</div><div class="concept-badge">usuario y grupo</div></div>
+        <div class="concept-body">
+          <div class="code-block">chown usuario archivo
+chown usuario:grupo archivo
+chown :grupo archivo
+chown -R usuario:grupo directorio/</div>
+          <p>Lo normal es que solo <code>root</code> pueda reasignar propietarios a otros usuarios.</p>
+          <div class="sec-badge">Con <code>-R</code> puedes cambiar mucho de golpe. Muy util, pero muy peligroso si no revisas antes.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header"><div class="concept-num">CHGRP</div><div class="concept-title">chgrp — cambiar grupo</div><div class="concept-badge">solo grupo</div></div>
+        <div class="concept-body">
+          <p><code>chgrp</code> sirve para cambiar el grupo de un archivo sin tocar el propietario.</p>
+          <div class="code-block">chgrp developers app.log
+chgrp -R www-data /var/www/html/</div>
+          <div class="info-badge">Equivale muchas veces a <code>chown :grupo archivo</code>, pero deja mas clara la intencion.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header"><div class="concept-num">ID</div><div class="concept-title">Grupos primarios y suplementarios</div><div class="concept-badge">acceso heredado</div></div>
+        <div class="concept-body">
+          <div class="code-block">id
+groups
+id juan
+
+uid=1001(juan) gid=1001(juan) groups=1001(juan),27(sudo),1002(developers)</div>
+          <p>Un usuario puede no ser propietario de un archivo y aun asi tener acceso por pertenecer al grupo correcto.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header"><div class="concept-num">SGID</div><div class="concept-title">Herencia de grupo en directorios</div><div class="concept-badge">trabajo colaborativo</div></div>
+        <div class="concept-body">
+          <p>Con SGID en un directorio, los archivos nuevos heredan el grupo del directorio en lugar del grupo primario del usuario.</p>
+          <div class="code-block">mkdir proyecto
+chown root:developers proyecto
+chmod 2775 proyecto</div>
+          <div class="sec-badge">Es muy util para carpetas compartidas entre equipos.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header"><div class="concept-num">REAL</div><div class="concept-title">Casos reales y seguridad</div><div class="concept-badge">servicios y datos</div></div>
+        <div class="concept-body">
+          <img src="/linux-ownership-flow.svg" alt="Flujo de cambio de propiedad" style="width:100%;margin:10px 0;border:none;border-radius:0"/>
+          <ul>
+            <li><code>www-data</code> en un servidor web</li>
+            <li>grupos de trabajo colaborativo</li>
+            <li>claves privadas con propietario incorrecto</li>
+            <li>cambios recursivos con <code>chown -R</code> mal planteados</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header"><div class="concept-num">MIST</div><div class="concept-title">Errores comunes</div><div class="concept-badge">confusiones tipicas</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>confundir permisos con propiedad</li>
+            <li>ignorar grupos suplementarios</li>
+            <li>usar <code>chown -R</code> sin revisar impacto</li>
+            <li>compartir acceso subiendo permisos en vez de usar grupos</li>
+            <li>asignar servicios a propietarios demasiado privilegiados</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE — NIVEL INTERMEDIO</p>
+      <p><strong>Post 9: Entrada y salida estandar</strong> — STDIN, STDOUT y STDERR para entender como fluye la informacion en la terminal.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "Que muestra el segundo y tercer campo importante de ls -l?", opts: ["tipo y tamaño","propietario y grupo","fecha y permisos","enlace y ruta"], correct: 1, exp: "Tras el bloque de permisos, ls -l muestra propietario y grupo." },
+  { q: "Que cambia chown usuario:grupo archivo?", opts: ["Solo permisos","Solo el grupo","Propietario y grupo","Solo el tamaño"], correct: 2, exp: "chown usuario:grupo cambia ambas cosas a la vez." },
+  { q: "Para que sirve chgrp?", opts: ["Cambiar propietario","Cambiar solo el grupo","Cambiar permisos","Crear grupos"], correct: 1, exp: "chgrp modifica el grupo del archivo sin tocar el propietario." },
+  { q: "Que permite saber el comando id?", opts: ["Solo el nombre del archivo","uid, gid y grupos del usuario","solo permisos del directorio","IP del host"], correct: 1, exp: "id muestra uid, gid y grupos a los que pertenece el usuario." },
+  { q: "Que significa que un usuario tenga grupos suplementarios?", opts: ["Que no puede acceder a nada","Que puede heredar permisos por pertenecer a otros grupos","Que siempre es root","Que no tiene grupo primario"], correct: 1, exp: "Los grupos suplementarios permiten acceso adicional via el bloque group." },
+  { q: "Que efecto tiene SGID en un directorio?", opts: ["Borra archivos automaticamente","Hace que nuevos archivos hereden el grupo del directorio","Da permisos de root","Hace el directorio invisible"], correct: 1, exp: "SGID en directorios es muy util para trabajo compartido." },
+  { q: "Que error es comun con chown -R?", opts: ["Usarlo demasiado poco","Cambiar masivamente propietarios sin revisar impacto","No cambiar nunca el grupo","No poder usarlo con root"], correct: 1, exp: "Un cambio recursivo mal pensado puede romper servicios o crear sobreprivilegio." },
+  { q: "Que afirmacion es correcta?", opts: ["Permisos y propiedad son exactamente lo mismo","La propiedad determina a quien se aplican los bloques user y group","El grupo no importa en Linux","others siempre manda"], correct: 1, exp: "Sin propiedad, el modelo de permisos no sabria a quien aplicar cada regla." },
+  { q: "Cual es un caso real tipico?", opts: ["Asignar archivos web a www-data","Cambiar todo a 777","Eliminar todos los grupos","Usar solo root para todo"], correct: 0, exp: "Servicios como nginx o apache suelen trabajar con cuentas concretas como www-data." },
+  { q: "Por que es importante en ciberseguridad?", opts: ["Porque cambia el color de ls","Porque afecta quien puede leer, modificar o compartir recursos criticos","Porque sustituye a chmod","Porque solo importa en escritorios"], correct: 1, exp: "Una propiedad mal diseñada puede abrir acceso indebido o amplificar el daño de un compromiso." }
+];
+
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Dominas la propiedad de archivos en Linux.' : score >= 7 ? 'Muy bien. Repasa grupos suplementarios o SGID si quieres afinar mas.' : 'Conviene revisar otra vez propietario, grupo y chown/chgrp.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

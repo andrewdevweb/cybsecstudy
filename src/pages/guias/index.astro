@@ -178,7 +178,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Conceptos base de ciberseguridad, modelos de defensa y analisis del riesgo.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">7 guías</span>
+          <span class="cat-count">8 guías</span>
           <span class="cat-levels">2 niveles</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -503,6 +503,14 @@ import Footer from '../../components/Footer.astro';
             </div>
             <div class="guide-go">→</div>
           </a>
+          <a href="/guias/linux-ownership" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">08</div>
+            <div class="guide-info">
+              <div class="guide-title">Propiedad de Archivos</div>
+              <div class="guide-desc">chown, chgrp, grupos y logica multiusuario en Linux.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
         </div>
       </div>
     </div>
@@ -675,6 +683,7 @@ const allGuides = [
   { num:'05', href:'/guias/linux-files',       title:'Gestión de Archivos',           cat:'Linux & CLI', color:'#ff9f43', desc:'cp, mv, rm, touch y mkdir.' },
   { num:'06', href:'/guias/linux-view',        title:'Ver Contenido de Archivos',     cat:'Linux & CLI', color:'#ff9f43', desc:'cat, less, head, tail y grep.' },
   { num:'07', href:'/guias/linux-perms',       title:'Permisos en Linux',             cat:'Linux & CLI', color:'#ff9f43', desc:'rwx, chmod, chown, SUID y sticky bit.' },
+  { num:'08', href:'/guias/linux-ownership',   title:'Propiedad de Archivos',         cat:'Linux & CLI', color:'#ff9f43', desc:'chown, chgrp, grupos y multiusuario.' },
   { num:'01', href:'/guias/modelo-osi',        title:'Modelo OSI',                    cat:'Redes',       color:'#4d96ff', desc:'Las 7 capas con protocolos y quiz.' },
   { num:'02', href:'/guias/packets-frames',    title:'Packets & Frames',              cat:'Redes',       color:'#4d96ff', desc:'TCP, UDP, Three-Way Handshake y puertos.' },
   { num:'03', href:'/guias/dns',               title:'DNS',                           cat:'Redes',       color:'#4d96ff', desc:'Jerarquía de dominios, registros y resolución.' },

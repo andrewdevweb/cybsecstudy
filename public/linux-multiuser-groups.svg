@@ -1,0 +1,22 @@
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="250" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// USUARIOS Y GRUPOS</text>
+
+  <rect x="40" y="60" width="120" height="48" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <text x="100" y="89" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700">juan</text>
+
+  <rect x="40" y="140" width="120" height="48" rx="4" fill="#12121a" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="100" y="169" text-anchor="middle" fill="#ffd93d" font-size="10" font-weight="700">maria</text>
+
+  <rect x="280" y="100" width="140" height="48" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="350" y="129" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700">developers</text>
+
+  <rect x="520" y="100" width="140" height="48" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="590" y="129" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700">app.log</text>
+
+  <line x1="160" y1="84" x2="280" y2="116" stroke="#3a3a5a"/>
+  <line x1="160" y1="164" x2="280" y2="132" stroke="#3a3a5a"/>
+  <line x1="420" y1="124" x2="520" y2="124" stroke="#3a3a5a"/>
+
+  <text x="350" y="236" text-anchor="middle" fill="#3a3a5a" font-size="8">Un grupo permite compartir acceso sin abrir permisos a todo el sistema.</text>
+</svg>

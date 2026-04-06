@@ -1,0 +1,24 @@
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="240" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// MAPA DE PROPIEDAD</text>
+
+  <rect x="20" y="56" width="200" height="130" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <text x="120" y="84" text-anchor="middle" fill="#ff9f43" font-size="12" font-weight="700">PROPIETARIO</text>
+  <text x="120" y="108" text-anchor="middle" fill="#6b6b8a" font-size="9">user del archivo</text>
+  <text x="40" y="138" fill="#6b6b8a" font-size="9">• recibe permisos user</text>
+  <text x="40" y="156" fill="#6b6b8a" font-size="9">• suele ser quien crea</text>
+
+  <rect x="250" y="56" width="200" height="130" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="350" y="84" text-anchor="middle" fill="#4d96ff" font-size="12" font-weight="700">GRUPO</text>
+  <text x="350" y="108" text-anchor="middle" fill="#6b6b8a" font-size="9">acceso compartido</text>
+  <text x="270" y="138" fill="#6b6b8a" font-size="9">• recibe permisos group</text>
+  <text x="270" y="156" fill="#6b6b8a" font-size="9">• facilita multiusuario</text>
+
+  <rect x="480" y="56" width="200" height="130" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="580" y="84" text-anchor="middle" fill="#6bcb77" font-size="12" font-weight="700">OTHERS</text>
+  <text x="580" y="108" text-anchor="middle" fill="#6b6b8a" font-size="9">resto del sistema</text>
+  <text x="500" y="138" fill="#6b6b8a" font-size="9">• no dueño</text>
+  <text x="500" y="156" fill="#6b6b8a" font-size="9">• no miembro del grupo</text>
+
+  <text x="350" y="224" text-anchor="middle" fill="#3a3a5a" font-size="8">La propiedad decide a quien se aplican los bloques de permisos.</text>
+</svg>
