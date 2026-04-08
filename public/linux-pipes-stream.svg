@@ -1,0 +1,21 @@
+<svg viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="980" height="420" fill="#0a0a0f"/>
+  <text x="40" y="42" fill="#e8eaf0" font-size="28" font-weight="700">PIPE BASICO</text>
+  <text x="40" y="64" fill="#ff9f43" font-size="10" letter-spacing="3">STDOUT DEL PRIMERO · STDIN DEL SEGUNDO</text>
+  <line x1="40" y1="78" x2="560" y2="78" stroke="#1e1e2e"/>
+
+  <rect x="72" y="150" width="220" height="108" rx="10" fill="#12121a" stroke="#ff9f43"/>
+  <text x="182" y="192" text-anchor="middle" fill="#ff9f43" font-size="16" font-weight="700">comando 1</text>
+  <text x="182" y="218" text-anchor="middle" fill="#6b6b8a" font-size="10">produce salida normal</text>
+
+  <rect x="688" y="150" width="220" height="108" rx="10" fill="#12121a" stroke="#4d96ff"/>
+  <text x="798" y="192" text-anchor="middle" fill="#4d96ff" font-size="16" font-weight="700">comando 2</text>
+  <text x="798" y="218" text-anchor="middle" fill="#6b6b8a" font-size="10">recibe entrada y sigue trabajando</text>
+
+  <path d="M 292 204 C 410 204, 528 204, 688 204" fill="none" stroke="#6bcb77" stroke-width="5"/>
+  <text x="492" y="184" text-anchor="middle" fill="#6bcb77" font-size="20" font-weight="700">|</text>
+  <polygon points="688,204 672,196 672,212" fill="#6bcb77"/>
+
+  <text x="40" y="350" fill="#6b6b8a" font-size="10">no se crea un archivo intermedio</text>
+  <text x="40" y="372" fill="#6b6b8a" font-size="10">la informacion pasa directamente de un proceso al siguiente</text>
+</svg>

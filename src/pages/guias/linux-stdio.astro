@@ -1,0 +1,249 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Entrada y Salida Estandar en Linux - CybSecStudy" description="STDIN, STDOUT y STDERR explicados de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff9f43; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #ff9f43; }
+    .intro-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #ff9f43; padding: 20px 24px; margin-bottom: 40px; }
+    .intro-card p { color: #b0b0c8; line-height: 1.8; font-size: 15px; margin: 0 0 8px; }
+    .intro-card strong { color: #ff9f43; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 64px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 84px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '▸ '; color: var(--cc); }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 12px 0; }
+    .compare-item { background: #0a0a0f; border: 1px solid #1e1e2e; padding: 12px 14px; }
+    .compare-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--cc); margin-bottom: 6px; }
+    .compare-desc { font-size: 11px; color: #6b6b8a; line-height: 1.5; }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff9f43); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .info-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(255,159,67,0.06); border: 1px solid #ff9f43; color: #ff9f43; margin-top: 8px; margin-right: 6px; }
+    .sec-badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; background: rgba(77,150,255,0.06); border: 1px solid #4d96ff; color: #4d96ff; margin-top: 8px; margin-right: 6px; }
+    .next-card { background: #12121a; border: 1px solid #1e1e2e; border-left: 3px solid #4d96ff; padding: 20px 24px; margin-bottom: 48px; }
+    .next-card strong { color: #4d96ff; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff9f43; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff9f43; color: #ff9f43; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff9f43; background: transparent; color: #ff9f43; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff9f43; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff9f43; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux & CLI — Nivel Intermedio · Post 9</div>
+      <h1>Entrada y Salida <span class="accent">Estandar</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:610px">STDIN, STDOUT y STDERR: los tres flujos que explican como leen y escriben los programas en Linux.</p>
+    </div>
+
+    <div class="intro-card">
+      <p>La terminal parece simple, pero por debajo los programas trabajan con tres canales muy claros: <strong>entrada</strong>, <strong>salida normal</strong> y <strong>salida de error</strong>.</p>
+      <p>Entender esos flujos hace que redirecciones, pipes y scripting dejen de parecer magia y pasen a tener una logica muy natural.</p>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <img src="/linux-stdio-map.svg" alt="Mapa de STDIN STDOUT STDERR" style="width:100%;margin-bottom:24px;border:none;border-radius:0"/>
+
+    <div class="section-label">// Conceptos — clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header"><div class="concept-num">IN</div><div class="concept-title">STDIN</div><div class="concept-badge">entrada estandar</div></div>
+        <div class="concept-body">
+          <p>Es la entrada del programa. En una terminal interactiva, normalmente viene del teclado.</p>
+          <div class="code-block">cat
+hola
+hola</div>
+          <div class="info-badge">cat lee de STDIN y reproduce lo recibido por STDOUT.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header"><div class="concept-num">OUT</div><div class="concept-title">STDOUT</div><div class="concept-badge">salida normal</div></div>
+        <div class="concept-body">
+          <p>Es la salida normal del programa. En modo interactivo suele verse en pantalla.</p>
+          <div class="code-block">pwd
+/home/juan</div>
+          <div class="sec-badge">La salida correcta de un comando suele ir por STDOUT.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header"><div class="concept-num">ERR</div><div class="concept-title">STDERR</div><div class="concept-badge">errores separados</div></div>
+        <div class="concept-body">
+          <img src="/linux-stdio-streams.svg" alt="Los tres flujos" style="width:100%;margin:10px 0;border:none;border-radius:0"/>
+          <p>Es el canal reservado para errores y mensajes de diagnostico.</p>
+          <div class="code-block">ls archivo-que-no-existe
+ls: cannot access 'archivo-que-no-existe': No such file or directory</div>
+          <div class="info-badge">Aunque lo veas en pantalla, no es lo mismo que STDOUT.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header"><div class="concept-num">FD</div><div class="concept-title">Descriptores 0, 1 y 2</div><div class="concept-badge">la numeracion base</div></div>
+        <div class="concept-body">
+          <img src="/linux-stdio-fd.svg" alt="Descriptores 0 1 2" style="width:100%;margin:10px 0;border:none;border-radius:0"/>
+          <ul>
+            <li>0 = STDIN</li>
+            <li>1 = STDOUT</li>
+            <li>2 = STDERR</li>
+          </ul>
+          <div class="sec-badge">Estos numeros explican luego la sintaxis de redirecciones como > o 2>.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header"><div class="concept-num">WHY</div><div class="concept-title">Por que separar salida y errores</div><div class="concept-badge">limpieza y automatizacion</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>permite guardar resultados sin mezclar errores</li>
+            <li>facilita automatizacion</li>
+            <li>mejora depuracion</li>
+            <li>hace scripts mas robustos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header"><div class="concept-num">TERM</div><div class="concept-title">La terminal como intermediaria</div><div class="concept-badge">teclado y pantalla</div></div>
+        <div class="concept-body">
+          <p>Por defecto, la terminal conecta el teclado con STDIN y la pantalla con STDOUT y STDERR.</p>
+          <div class="info-badge">Mismo destino visual no significa mismo canal.</div>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header"><div class="concept-num">MIST</div><div class="concept-title">Errores comunes</div><div class="concept-badge">confusiones tipicas</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>pensar que todo lo que ves en pantalla es el mismo flujo</li>
+            <li>reducir STDIN solo al teclado</li>
+            <li>memorizar 0 1 2 sin entender que representan</li>
+            <li>saltar a redirecciones sin dominar antes los flujos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE — NIVEL INTERMEDIO</p>
+      <p><strong>Post 10: Redirecciones</strong> — cómo mandar entrada y salida a archivos con <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;</code> y <code>2&gt;</code>.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente →</button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "Que significa STDIN?", opts: ["Salida de error","Entrada estandar","Salida normal","Descriptor 3"], correct: 1, exp: "STDIN es la entrada del programa." },
+  { q: "Que suele usar un programa como STDIN en una terminal interactiva?", opts: ["La impresora","El teclado","Un archivo temporal","La red siempre"], correct: 1, exp: "Por defecto, la entrada viene del teclado." },
+  { q: "Que significa STDOUT?", opts: ["Entrada secundaria","Salida normal","Error del sistema","Salida cifrada"], correct: 1, exp: "STDOUT es la salida normal del programa." },
+  { q: "Que canal se usa para mensajes de error?", opts: ["STDIN","STDOUT","STDERR","FD 7"], correct: 2, exp: "STDERR esta separado precisamente para errores y diagnostico." },
+  { q: "Que comando ilustra bien un programa leyendo de STDIN?", opts: ["pwd","cat","uname -a","whoami"], correct: 1, exp: "cat puede leer de la entrada estandar y devolver lo recibido." },
+  { q: "Que descriptor corresponde a STDIN?", opts: ["0","1","2","9"], correct: 0, exp: "0 es STDIN, 1 es STDOUT y 2 es STDERR." },
+  { q: "Que descriptor corresponde a STDERR?", opts: ["0","1","2","3"], correct: 2, exp: "STDERR se representa con el descriptor 2." },
+  { q: "Por que es util separar STDOUT y STDERR?", opts: ["Porque asi Linux ocupa menos memoria","Porque permite tratar resultados y errores por separado","Porque evita usar teclado","Porque todos los programas lo exigen"], correct: 1, exp: "Separarlos mejora automatizacion, depuracion y composicion." },
+  { q: "Que afirmacion es correcta?", opts: ["Todo lo que sale en pantalla es siempre STDOUT","STDOUT y STDERR pueden verse en pantalla y seguir siendo distintos","STDERR no se ve nunca","STDIN solo existe en bash"], correct: 1, exp: "Compartir destino visual no significa compartir canal." },
+  { q: "Que tema se entiende mejor despues de dominar STDIN STDOUT STDERR?", opts: ["Fondos de pantalla","Redirecciones y pipes","Particiones GPT","Permisos ACL"], correct: 1, exp: "Estos flujos son la base conceptual de redirecciones y pipes." }
+];
+
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) { score++; btns[i].classList.add('correct'); fb.className = 'quiz-feedback correct show'; fb.textContent = '✓ Correcto! ' + q.exp; }
+  else { btns[i].classList.add('wrong'); fb.className = 'quiz-feedback wrong show'; fb.textContent = '✗ Incorrecto. ' + q.exp; }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? '🏆' : score >= 7 ? '📚' : '💪') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Dominas STDIN, STDOUT y STDERR.' : score >= 7 ? 'Muy bien. Repasa los descriptores 0, 1 y 2 si quieres afinar del todo.' : 'Conviene revisar otra vez la diferencia entre salida normal y salida de error.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

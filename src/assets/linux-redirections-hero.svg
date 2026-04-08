@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 520" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f" style="fill:rgb(10, 10, 15);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <defs>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+
+    <!-- Flecha verde (stdin) -->
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L10 6L1 11" fill="none" stroke="#6bcb77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+
+    <!-- Flecha naranja (stdout) -->
+    <marker id="arrow-orange" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L10 6L1 11" fill="none" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+
+    <!-- Flecha roja (stderr) -->
+    <marker id="arrow-red" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L10 6L1 11" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+
+    <!-- Flecha gris (usuarios->ordenados vía glow path) -->
+    <marker id="arrow-gray" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L10 6L1 11" fill="none" stroke="#9eafc2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Ambient glows -->
+  <circle cx="790" cy="130" r="90" fill="#ff9f43" opacity="0.12" filter="url(#soft)" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.12;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="300" cy="380" r="120" fill="#4d96ff" opacity="0.1" filter="url(#soft)" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Header -->
+  <text x="48" y="58" fill="#e8eaf0" font-size="38" font-weight="700" style="fill:rgb(232, 234, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:38px;font-weight:700;text-anchor:start;dominant-baseline:auto">REDIRECCIONES EN LINUX</text>
+  <text x="48" y="82" fill="#ff9f43" font-size="11" letter-spacing="3" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">STDIN · STDOUT · STDERR · &gt; · &gt;&gt; · &lt; · 2&gt;</text>
+  <line x1="48" y1="96" x2="760" y2="96" stroke="#1e1e2e" style="fill:rgb(0, 0, 0);stroke:rgb(30, 30, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Terminal window -->
+  <rect x="60" y="138" width="390" height="250" rx="10" fill="#12121a" stroke="#1e1e2e" style="fill:rgb(18, 18, 26);stroke:rgb(30, 30, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="60" y="138" width="390" height="36" rx="10" fill="#151522" style="fill:rgb(21, 21, 34);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="86" cy="156" r="5" fill="#ff6b6b" style="fill:rgb(255, 107, 107);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="104" cy="156" r="5" fill="#ffd93d" style="fill:rgb(255, 217, 61);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="122" cy="156" r="5" fill="#6bcb77" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="146" y="160" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">terminal</text>
+  <text x="88" y="214" fill="#ff9f43" font-size="12" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">sort &lt; usuarios.txt &gt; ordenados.txt 2&gt; errores.log</text>
+  <text x="88" y="250" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">STDIN   desde archivo</text>
+  <text x="88" y="274" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">STDOUT  a archivo final</text>
+  <text x="88" y="298" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">STDERR  separado en log</text>
+  <text x="88" y="338" fill="#4d96ff" font-size="10" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">la shell no cambia el comando: cambia el camino de los datos</text>
+
+  <!-- Boxes -->
+  <rect x="564" y="144" width="140" height="78" rx="8" fill="#12121a" stroke="#6bcb77" style="fill:rgb(18, 18, 26);stroke:rgb(107, 203, 119);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="634" y="175" text-anchor="middle" fill="#6bcb77" font-size="12" font-weight="700" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:auto">usuarios.txt</text>
+  <text x="634" y="196" text-anchor="middle" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">fuente de entrada</text>
+
+  <rect x="792" y="230" width="160" height="78" rx="8" fill="#12121a" stroke="#ff9f43" style="fill:rgb(18, 18, 26);stroke:rgb(255, 159, 67);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="872" y="261" text-anchor="middle" fill="#ff9f43" font-size="12" font-weight="700" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:auto">ordenados.txt</text>
+  <text x="872" y="282" text-anchor="middle" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">salida normal</text>
+
+  <rect x="560" y="326" width="144" height="78" rx="8" fill="#12121a" stroke="#ff6b6b" style="fill:rgb(18, 18, 26);stroke:rgb(255, 107, 107);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="632" y="357" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="700" style="fill:rgb(255, 107, 107);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:auto">errores.log</text>
+  <text x="632" y="378" text-anchor="middle" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">salida de error</text>
+
+  <!-- ─── FLECHAS MEJORADAS ─── -->
+
+  <!-- 1. STDIN: terminal → usuarios.txt (verde, curva suave) -->
+  <path d="M 450 210 C 490 210, 520 183, 564 183" fill="none" stroke="#6bcb77" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-green)" style="fill:none;stroke:rgb(107, 203, 119);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- 2. STDOUT: usuarios.txt → ordenados.txt (gris suave, arco elegante) -->
+  <path d="M 704 183 C 745 183, 760 210, 792 260" fill="none" stroke="#9eafc2" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)" style="fill:none;stroke:rgb(158, 175, 194);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- 3. STDERR: terminal → errores.log (rojo, curva baja) -->
+  <path d="M 450 340 C 490 340, 515 365, 560 365" fill="none" stroke="#ff6b6b" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-red)" style="fill:none;stroke:rgb(255, 107, 107);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- 4. errores.log → ordenados.txt (rojo, arco hacia arriba y derecha) -->
+  <path d="M 704 355 C 750 355, 772 310, 792 288" fill="none" stroke="#ff6b6b" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#arrow-red)" style="fill:none;stroke:rgb(255, 107, 107);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-dasharray:6px, 3px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Footer -->
+  <text x="48" y="454" fill="#6b6b8a" font-size="9" letter-spacing="2" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">// REDIRIGIR ES REASIGNAR FLUJOS, NO APRENDER SIMBOLOS A CIEGAS</text>
+</svg>

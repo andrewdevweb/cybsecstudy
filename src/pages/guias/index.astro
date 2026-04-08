@@ -178,7 +178,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Conceptos base de ciberseguridad, modelos de defensa y analisis del riesgo.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">8 guías</span>
+          <span class="cat-count">9 guías</span>
           <span class="cat-levels">2 niveles</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -206,7 +206,7 @@ import Footer from '../../components/Footer.astro';
           <div class="cat-sub">Terminal, shell, sistema de archivos y comandos esenciales.</div>
         </div>
         <div class="cat-card-bottom">
-          <span class="cat-count">7 guías</span>
+          <span class="cat-count">11 guías</span>
           <span class="cat-levels">2 niveles</span>
           <span class="cat-arrow">→</span>
         </div>
@@ -511,6 +511,30 @@ import Footer from '../../components/Footer.astro';
             </div>
             <div class="guide-go">→</div>
           </a>
+          <a href="/guias/linux-stdio" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">09</div>
+            <div class="guide-info">
+              <div class="guide-title">Entrada y Salida Estándar</div>
+              <div class="guide-desc">STDIN, STDOUT, STDERR y descriptores 0, 1 y 2.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/linux-redirections" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">10</div>
+            <div class="guide-info">
+              <div class="guide-title">Redirecciones</div>
+              <div class="guide-desc">&gt;, &gt;&gt;, &lt; y 2&gt; para mover entrada, salida y errores.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
+          <a href="/guias/linux-pipes" class="guide-card" style="--pc:#ff9f43">
+            <div class="guide-num">11</div>
+            <div class="guide-info">
+              <div class="guide-title">Pipes</div>
+              <div class="guide-desc">El operador | y la filosofia Unix para componer herramientas.</div>
+            </div>
+            <div class="guide-go">→</div>
+          </a>
         </div>
       </div>
     </div>
@@ -684,6 +708,9 @@ const allGuides = [
   { num:'06', href:'/guias/linux-view',        title:'Ver Contenido de Archivos',     cat:'Linux & CLI', color:'#ff9f43', desc:'cat, less, head, tail y grep.' },
   { num:'07', href:'/guias/linux-perms',       title:'Permisos en Linux',             cat:'Linux & CLI', color:'#ff9f43', desc:'rwx, chmod, chown, SUID y sticky bit.' },
   { num:'08', href:'/guias/linux-ownership',   title:'Propiedad de Archivos',         cat:'Linux & CLI', color:'#ff9f43', desc:'chown, chgrp, grupos y multiusuario.' },
+  { num:'09', href:'/guias/linux-stdio',       title:'Entrada y Salida Estándar',     cat:'Linux & CLI', color:'#ff9f43', desc:'STDIN, STDOUT, STDERR y descriptores 0, 1 y 2.' },
+  { num:'10', href:'/guias/linux-redirections',title:'Redirecciones',                  cat:'Linux & CLI', color:'#ff9f43', desc:'>, >>, < y 2> para mover entrada, salida y errores.' },
+  { num:'11', href:'/guias/linux-pipes',       title:'Pipes',                          cat:'Linux & CLI', color:'#ff9f43', desc:'El operador | y la filosofia Unix para componer herramientas.' },
   { num:'01', href:'/guias/modelo-osi',        title:'Modelo OSI',                    cat:'Redes',       color:'#4d96ff', desc:'Las 7 capas con protocolos y quiz.' },
   { num:'02', href:'/guias/packets-frames',    title:'Packets & Frames',              cat:'Redes',       color:'#4d96ff', desc:'TCP, UDP, Three-Way Handshake y puertos.' },
   { num:'03', href:'/guias/dns',               title:'DNS',                           cat:'Redes',       color:'#4d96ff', desc:'Jerarquía de dominios, registros y resolución.' },

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="700" height="220" fill="#0a0a0f"/>
+  <text x="24" y="28" fill="#6b6b8a" font-size="10" letter-spacing="2">// DESCRIPTORES 0 1 2</text>
+
+  <rect x="60" y="70" width="160" height="86" rx="4" fill="#12121a" stroke="#ff9f43" stroke-width="1.5"/>
+  <text x="140" y="105" text-anchor="middle" fill="#ff9f43" font-size="18" font-weight="700">0</text>
+  <text x="140" y="126" text-anchor="middle" fill="#6b6b8a" font-size="9">STDIN</text>
+
+  <rect x="270" y="70" width="160" height="86" rx="4" fill="#12121a" stroke="#4d96ff" stroke-width="1.5"/>
+  <text x="350" y="105" text-anchor="middle" fill="#4d96ff" font-size="18" font-weight="700">1</text>
+  <text x="350" y="126" text-anchor="middle" fill="#6b6b8a" font-size="9">STDOUT</text>
+
+  <rect x="480" y="70" width="160" height="86" rx="4" fill="#12121a" stroke="#6bcb77" stroke-width="1.5"/>
+  <text x="560" y="105" text-anchor="middle" fill="#6bcb77" font-size="18" font-weight="700">2</text>
+  <text x="560" y="126" text-anchor="middle" fill="#6b6b8a" font-size="9">STDERR</text>
+
+  <text x="350" y="204" text-anchor="middle" fill="#3a3a5a" font-size="8">Estos numeros son la base conceptual de redirecciones y pipes.</text>
+</svg>

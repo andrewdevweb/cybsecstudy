@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 520" font-family="'JetBrains Mono', monospace">
+  <rect width="1020" height="510" fill="#0a0a0f" style="fill:rgb(10, 10, 15);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.025)"/>
+    </pattern>
+    <linearGradient id="pipe1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="100%" stop-color="#4d96ff"/>
+    </linearGradient>
+    <linearGradient id="pipe2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4d96ff"/>
+      <stop offset="100%" stop-color="#6bcb77"/>
+    </linearGradient>
+    <linearGradient id="fadeL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff9f43" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ff9f43" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6bcb77" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#6bcb77" stop-opacity="0"/>
+    </linearGradient>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M1 2L9 5L1 8" fill="none" stroke="#4d96ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M1 2L9 5L1 8" fill="none" stroke="#6bcb77" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Background texture -->
+  <rect width="1020" height="510" fill="url(#dots)" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Ambient glows -->
+  <ellipse cx="162" cy="230" rx="130" ry="80" fill="#ff9f43" opacity="0.05" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.05;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <ellipse cx="510" cy="230" rx="130" ry="80" fill="#4d96ff" opacity="0.05" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.05;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <ellipse cx="858" cy="230" rx="130" ry="80" fill="#6bcb77" opacity="0.05" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.05;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Side fade decorations -->
+  <rect x="0" y="130" width="72" height="210" fill="url(#fadeL)" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="948" y="130" width="72" height="210" fill="url(#fadeR)" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- ── HEADER ── -->
+  <text x="48" y="52" fill="#e8eaf0" font-size="40" font-weight="700" letter-spacing="-1" style="fill:rgb(232, 234, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:40px;font-weight:700;text-anchor:start;dominant-baseline:auto">PIPES EN LINUX</text>
+  <text x="48" y="74" fill="#ff9f43" font-size="10" letter-spacing="3.5" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">| · COMPOSICIÓN UNIX · STDOUT→STDIN · HERRAMIENTAS MODULARES</text>
+  <line x1="48" y1="88" x2="820" y2="88" stroke="#1e1e2e" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(30, 30, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- ── PIPELINE LABEL ── -->
+  <text x="510" y="130" text-anchor="middle" fill="#2a2a40" font-size="10" letter-spacing="4" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">PIPELINE</text>
+
+  <!-- ── COMMAND LINE mockup ── -->
+  <rect x="48" y="140" width="924" height="32" rx="6" fill="#0d0d18" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(13, 13, 24);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="68" cy="156" r="4" fill="#ff6b6b" opacity="0.7" style="fill:rgb(255, 107, 107);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="84" cy="156" r="4" fill="#ffd93d" opacity="0.7" style="fill:rgb(255, 217, 61);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="100" cy="156" r="4" fill="#6bcb77" opacity="0.7" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="120" y="161" fill="#3a3a5a" font-size="11" style="fill:rgb(58, 58, 90);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">$</text>
+  <text x="134" y="161" fill="#ff9f43" font-size="11" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">ps aux</text>
+  <text x="196" y="161" fill="#6b6b8a" font-size="11" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">|</text>
+  <text x="210" y="161" fill="#4d96ff" font-size="11" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">grep ssh</text>
+  <text x="280" y="161" fill="#6b6b8a" font-size="11" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">|</text>
+  <text x="294" y="161" fill="#6bcb77" font-size="11" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">less</text>
+  <rect x="330" y="149" width="7" height="14" rx="1" fill="#e8eaf0" opacity="0.6" style="fill:rgb(232, 234, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.6;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- ── CARD 1: ps aux ── -->
+  <rect x="48" y="196" width="264" height="152" rx="10" fill="#0e0e18" stroke="#ff9f43" stroke-width="1.5" style="fill:rgb(14, 14, 24);stroke:rgb(255, 159, 67);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="48" y="196" width="264" height="5" rx="3" fill="#ff9f43" opacity="0.5" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.5;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- badge -->
+  <rect x="64" y="213" width="42" height="18" rx="4" fill="#ff9f43" opacity="0.12" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.12;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="85" y="225" text-anchor="middle" fill="#ff9f43" font-size="10" font-weight="700" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:auto">cmd</text>
+  <!-- step number -->
+  <text x="290" y="226" text-anchor="middle" fill="#ff9f43" opacity="0.2" font-size="28" font-weight="700" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.2;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:28px;font-weight:700;text-anchor:middle;dominant-baseline:auto">1</text>
+
+  <text x="180" y="264" text-anchor="middle" fill="#ff9f43" font-size="19" font-weight="700" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:19px;font-weight:700;text-anchor:middle;dominant-baseline:auto">ps aux</text>
+  <text x="180" y="284" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">GENERADOR</text>
+
+  <line x1="64" y1="300" x2="296" y2="300" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="64" y="322" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ lista todos los procesos activos</text>
+  <text x="64" y="338" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ produce STDOUT hacia el pipe</text>
+
+  <!-- ── PIPE 1 ── -->
+  <!-- tube body -->
+  <rect x="312" y="211" width="100" height="14" rx="3" fill="#111120" style="fill:rgb(17, 17, 32);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="312" y="211" width="100" height="14" rx="3" fill="url(#pipe1)" opacity="0.8" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.8;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- tube sheen -->
+  <rect x="312" y="211" width="100" height="5" rx="2" fill="rgba(255,255,255,0.06)" style="fill:rgba(255, 255, 255, 0.06);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- pipe symbol -->
+  <rect x="355" y="203" width="14" height="30" rx="3" fill="#0a0a0f" style="fill:rgb(10, 10, 15);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="362" y="223" text-anchor="middle" fill="#ff9f43" font-size="16" font-weight="700" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:700;text-anchor:middle;dominant-baseline:auto">|</text>
+  <!-- arrow -->
+  <path d="M 408 218 L 418 218" fill="none" stroke="#4d96ff" stroke-width="2" marker-end="url(#arr-blue)" style="fill:none;stroke:rgb(77, 150, 255);color:rgb(0, 0, 0);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- label above -->
+  <text x="362" y="200" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">STDOUT→STDIN</text>
+
+  <!-- ── CARD 2: grep ssh ── -->
+  <rect x="420" y="196" width="180" height="152" rx="10" fill="#0e0e18" stroke="#4d96ff" stroke-width="1.5" style="fill:rgb(14, 14, 24);stroke:rgb(77, 150, 255);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="420" y="196" width="180" height="5" rx="3" fill="#4d96ff" opacity="0.5" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.5;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="436" y="213" width="42" height="18" rx="4" fill="#4d96ff" opacity="0.12" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.12;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="457" y="225" text-anchor="middle" fill="#4d96ff" font-size="10" font-weight="700" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:auto">cmd</text>
+  <text x="574" y="226" text-anchor="middle" fill="#4d96ff" opacity="0.2" font-size="28" font-weight="700" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.2;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:28px;font-weight:700;text-anchor:middle;dominant-baseline:auto">2</text>
+
+  <text x="510" y="264" text-anchor="middle" fill="#4d96ff" font-size="19" font-weight="700" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:19px;font-weight:700;text-anchor:middle;dominant-baseline:auto">grep ssh</text>
+  <text x="510" y="284" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">FILTRO</text>
+
+  <line x1="436" y1="300" x2="584" y2="300" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="436" y="322" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ filtra líneas con "ssh"</text>
+  <text x="436" y="338" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ reduce el volumen de datos</text>
+
+  <!-- ── PIPE 2 ── -->
+  <rect x="600" y="211" width="100" height="14" rx="3" fill="#111120" style="fill:rgb(17, 17, 32);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="600" y="211" width="100" height="14" rx="3" fill="url(#pipe2)" opacity="0.8" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.8;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="600" y="211" width="100" height="5" rx="2" fill="rgba(255,255,255,0.06)" style="fill:rgba(255, 255, 255, 0.06);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="643" y="203" width="14" height="30" rx="3" fill="#0a0a0f" style="fill:rgb(10, 10, 15);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="650" y="223" text-anchor="middle" fill="#4d96ff" font-size="16" font-weight="700" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:700;text-anchor:middle;dominant-baseline:auto">|</text>
+  <path d="M 696 218 L 706 218" fill="none" stroke="#6bcb77" stroke-width="2" marker-end="url(#arr-green)" style="fill:none;stroke:rgb(107, 203, 119);color:rgb(0, 0, 0);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="650" y="200" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">STDOUT→STDIN</text>
+
+  <!-- ── CARD 3: less ── -->
+  <rect x="708" y="196" width="264" height="152" rx="10" fill="#0e0e18" stroke="#6bcb77" stroke-width="1.5" style="fill:rgb(14, 14, 24);stroke:rgb(107, 203, 119);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="708" y="196" width="264" height="5" rx="3" fill="#6bcb77" opacity="0.5" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.5;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect x="724" y="213" width="42" height="18" rx="4" fill="#6bcb77" opacity="0.12" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.12;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="745" y="225" text-anchor="middle" fill="#6bcb77" font-size="10" font-weight="700" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:auto">cmd</text>
+  <text x="946" y="226" text-anchor="middle" fill="#6bcb77" opacity="0.2" font-size="28" font-weight="700" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.2;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:28px;font-weight:700;text-anchor:middle;dominant-baseline:auto">3</text>
+
+  <text x="840" y="264" text-anchor="middle" fill="#6bcb77" font-size="19" font-weight="700" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:19px;font-weight:700;text-anchor:middle;dominant-baseline:auto">less</text>
+  <text x="840" y="284" text-anchor="middle" fill="#6b6b8a" font-size="9" letter-spacing="1" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">CONSUMIDOR</text>
+
+  <line x1="724" y1="300" x2="956" y2="300" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="724" y="322" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ recibe la salida filtrada</text>
+  <text x="724" y="338" fill="#6b6b8a" font-size="9" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:start;dominant-baseline:auto">↳ presenta de forma navegable</text>
+
+  <!-- ── DATA FLOW LABEL (below pipeline) ── -->
+  <text x="510" y="382" text-anchor="middle" fill="#2a2a3e" font-size="9" letter-spacing="3" style="fill:rgb(42, 42, 62);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">FLUJO DE DATOS</text>
+  <line x1="180" y1="390" x2="390" y2="390" stroke="#1a1a2e" stroke-width="1" stroke-dasharray="3 3" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="630" y1="390" x2="840" y2="390" stroke="#1a1a2e" stroke-width="1" stroke-dasharray="3 3" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="510" y="394" text-anchor="middle" fill="#1e1e2e" font-size="9" style="fill:rgb(30, 30, 46);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">────────────────────────</text>
+
+  <!-- ── FOOTER CALLOUTS ── -->
+  <rect x="48" y="408" width="924" height="66" rx="6" fill="#0d0d18" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(13, 13, 24);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <rect x="64" y="420" width="6" height="6" rx="1" fill="#ff9f43" style="fill:rgb(255, 159, 67);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="78" y="429" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">una herramienta genera</text>
+
+  <rect x="64" y="438" width="6" height="6" rx="1" fill="#4d96ff" style="fill:rgb(77, 150, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="78" y="447" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">otra reduce o transforma</text>
+
+  <rect x="64" y="456" width="6" height="6" rx="1" fill="#6bcb77" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="78" y="465" fill="#6b6b8a" font-size="10" style="fill:rgb(107, 107, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">otra presenta</text>
+
+  <line x1="370" y1="416" x2="370" y2="466" stroke="#1a1a2e" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(26, 26, 46);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="390" y="432" fill="#e8eaf0" font-size="11" font-weight="700" style="fill:rgb(232, 234, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:700;text-anchor:start;dominant-baseline:auto">el pipe conecta STDOUT de un proceso</text>
+  <text x="390" y="450" fill="#e8eaf0" font-size="11" font-weight="700" style="fill:rgb(232, 234, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:11px;font-weight:700;text-anchor:start;dominant-baseline:auto">con el STDIN del siguiente.</text>
+  <text x="390" y="466" fill="#6bcb77" font-size="10" style="fill:rgb(107, 203, 119);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;JetBrains Mono&quot;, monospace;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">el poder no está en un comando gigante, sino en la composición.</text>
+</svg>

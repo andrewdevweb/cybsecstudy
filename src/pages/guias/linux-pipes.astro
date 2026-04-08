@@ -1,0 +1,282 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Pipes en Linux - CybSecStudy" description="El operador | y la filosofia Unix explicados de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff9f43; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #ff9f43; }
+    .hero-panel { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 16px; margin-bottom: 34px; }
+    .intro-card, .unix-card, .next-card { background: #12121a; border: 1px solid #1e1e2e; padding: 22px 24px; }
+    .intro-card { border-left: 3px solid #ff9f43; }
+    .unix-card { border-left: 3px solid #6bcb77; }
+    .intro-card p, .unix-card p, .next-card p { color: #b0b0c8; line-height: 1.8; font-size: 14px; margin: 0 0 10px; }
+    .intro-card strong { color: #ff9f43; }
+    .unix-card strong, .next-card strong { color: #6bcb77; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .visuals { display: grid; gap: 14px; margin-bottom: 40px; }
+    .pattern-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 42px; }
+    .pattern { background: #12121a; border: 1px solid #1e1e2e; padding: 16px; }
+    .pattern-mark { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--cc); margin-bottom: 10px; }
+    .pattern-title { font-weight: 800; color: #e8eaf0; margin-bottom: 8px; }
+    .pattern p { font-size: 13px; color: #6b6b8a; line-height: 1.6; margin: 0; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 44px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 64px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 84px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin: 0 0 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '| '; color: var(--cc); }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff9f43); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .note { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; margin-top: 8px; border: 1px solid var(--cc); color: var(--cc); }
+    .next-card { border-left: 3px solid #4d96ff; margin-bottom: 48px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff9f43; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff9f43; color: #ff9f43; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff9f43; background: transparent; color: #ff9f43; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff9f43; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff9f43; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 820px) { .hero-panel { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux & CLI - Nivel Intermedio · Post 11</div>
+      <h1>Pipes y la filosofia <span class="accent">Unix</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:640px">El operador <code>|</code> convierte la shell en un entorno de composicion: salida de un proceso, entrada del siguiente.</p>
+    </div>
+
+    <div class="hero-panel">
+      <div class="intro-card">
+        <p>Un pipe conecta <strong>programas con programas</strong>. No guarda datos en un archivo: hace que una herramienta alimente a otra.</p>
+        <p>Ese gesto pequeno refleja una idea enorme de Unix: herramientas pequenas, claras y combinables.</p>
+      </div>
+      <div class="unix-card">
+        <p><strong>Mentalidad correcta:</strong> no busques siempre un comando gigante.</p>
+        <p>Piensa mejor en una cadena de pasos: obtener, filtrar, ordenar, contar, resumir. El pipe es el pegamento de esa forma de trabajar.</p>
+      </div>
+    </div>
+
+    <div class="section-label">// Flujo visual</div>
+    <div class="visuals">
+      <img src="/linux-pipes-stream.svg" alt="Flujo basico de pipes" style="width:100%;border:none;border-radius:0" />
+      <img src="/linux-pipes-unix.svg" alt="Filosofia Unix y composicion" style="width:100%;border:none;border-radius:0" />
+    </div>
+
+    <div class="section-label">// Patrones mentales</div>
+    <div class="pattern-grid">
+      <div class="pattern" style="--cc:#ff9f43">
+        <div class="pattern-mark">FUENTE</div>
+        <div class="pattern-title">Un comando produce datos</div>
+        <p><code>ls</code>, <code>ps</code>, <code>cat</code> o <code>history</code> generan una salida inicial.</p>
+      </div>
+      <div class="pattern" style="--cc:#4d96ff">
+        <div class="pattern-mark">FILTRO</div>
+        <div class="pattern-title">Otro comando los reduce</div>
+        <p><code>grep</code>, <code>head</code>, <code>tail</code> o <code>sort</code> afinan el resultado.</p>
+      </div>
+      <div class="pattern" style="--cc:#6bcb77">
+        <div class="pattern-mark">SALIDA</div>
+        <div class="pattern-title">El pipeline produce algo util</div>
+        <p>Puede acabar en pantalla, en un contador o en una redireccion final si luego quieres guardarlo.</p>
+      </div>
+      <div class="pattern" style="--cc:#c77dff">
+        <div class="pattern-mark">IDEA</div>
+        <div class="pattern-title">Composicion modular</div>
+        <p>No una herramienta enorme, sino varias piezas pequenas trabajando juntas.</p>
+      </div>
+    </div>
+
+    <div class="section-label">// Conceptos - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header"><div class="concept-num">|</div><div class="concept-title">Que hace un pipe</div><div class="concept-badge">STDOUT -> STDIN</div></div>
+        <div class="concept-body">
+          <p>El operador <code>|</code> toma la salida normal del primer comando y la entrega como entrada al segundo.</p>
+          <div class="code-block">comando1 | comando2</div>
+          <span class="note">No va a un archivo. Va a otro proceso.</span>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header"><div class="concept-num">FLOW</div><div class="concept-title">De programa a programa</div><div class="concept-badge">composicion</div></div>
+        <div class="concept-body">
+          <div class="code-block">ls /etc | less
+history | tail</div>
+          <ul>
+            <li>uno genera salida</li>
+            <li>otro la consume</li>
+            <li>la terminal se vuelve modular</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header"><div class="concept-num">UNIX</div><div class="concept-title">La filosofia detras</div><div class="concept-badge">haz una cosa bien</div></div>
+        <div class="concept-body">
+          <img src="/linux-pipes-unix.svg" alt="Composicion Unix" style="width:100%;margin:10px 0;border:none;border-radius:0" />
+          <p>Unix premia herramientas pequenas y combinables. El pipe es la pieza que permite esa colaboracion entre programas.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header"><div class="concept-num">VS</div><div class="concept-title">Pipe vs redireccion</div><div class="concept-badge">programa o archivo</div></div>
+        <div class="concept-body">
+          <div class="code-block">ls /etc > listado.txt
+ls /etc | less</div>
+          <ul>
+            <li><code>&gt;</code> envia la salida a un archivo</li>
+            <li><code>|</code> envia la salida a otro comando</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header"><div class="concept-num">CHAIN</div><div class="concept-title">Pipelines mas largos</div><div class="concept-badge">varias etapas</div></div>
+        <div class="concept-body">
+          <div class="code-block">cat access.log | grep 404 | wc -l
+ps aux | grep ssh</div>
+          <p>Cada etapa hace una sola tarea. Juntas producen una salida mucho mas util.</p>
+          <img src="/linux-pipes-patterns.svg" alt="Patrones de pipes" style="width:100%;margin-top:10px;border:none;border-radius:0" />
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#00d1ff">
+        <div class="concept-header"><div class="concept-num">OPS</div><div class="concept-title">Errores comunes</div><div class="concept-badge">lo que suele confundir</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>confundir <code>|</code> con <code>&gt;</code></li>
+            <li>pensar que solo separa comandos visualmente</li>
+            <li>encadenar herramientas sin entender que hace cada una</li>
+            <li>esperar que todo pase por el pipe cuando hay mensajes por STDERR</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE - NIVEL INTERMEDIO</p>
+      <p><strong>Post 12: Variables de entorno</strong> - el siguiente paso es entender el contexto donde viven esos procesos: entorno, <code>PATH</code>, exportacion y herencia.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente -></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "Que hace el operador | ?", opts: ["Guarda la salida en un archivo", "Conecta la salida de un comando con la entrada del siguiente", "Borra errores", "Cambia permisos"], correct: 1, exp: "Ese es el sentido central del pipe: STDOUT del primero pasa a STDIN del segundo." },
+  { q: "Que diferencia mejor un pipe de una redireccion?", opts: ["El pipe conecta procesos y la redireccion suele conectar con archivos", "No hay diferencia real", "La redireccion siempre filtra", "El pipe solo cuenta lineas"], correct: 0, exp: "Ese contraste es justo la base del tema: programa a programa frente a programa a archivo." },
+  { q: "Que refleja mejor la filosofia Unix?", opts: ["Herramientas gigantescas que lo hagan todo", "Herramientas pequenas y combinables", "Evitar la terminal", "No reutilizar comandos"], correct: 1, exp: "Unix premia composicion, claridad y modularidad." },
+  { q: "Que hace bien este pipeline: ps aux | grep ssh ?", opts: ["Cambia el usuario ssh", "Filtra procesos relacionados con ssh", "Borra el historial", "Ordena el disco"], correct: 1, exp: "ps lista procesos y grep deja solo las lineas relevantes." },
+  { q: "Cual es una cadena razonable para contar errores 404?", opts: ["cat access.log | grep 404 | wc -l", "grep access.log | 404 | wc", "wc -l | grep 404", "cat | access.log | 404"], correct: 0, exp: "Primero lees, luego filtras y al final cuentas." },
+  { q: "Que afirmacion es correcta sobre los pipes?", opts: ["Son solo separadores visuales", "Hacen colaboracion real entre procesos", "Siempre escriben en disco", "Solo sirven con ls"], correct: 1, exp: "Un pipe es una conexion funcional, no decorativa." },
+  { q: "Que hace history | tail ?", opts: ["Muestra el final del historial", "Borra comandos antiguos", "Exporta variables", "Mueve un archivo"], correct: 0, exp: "history genera muchas lineas y tail deja solo la parte final." },
+  { q: "Por que es util dividir un problema en varias etapas con pipes?", opts: ["Porque asi usas mas CPU", "Porque puedes reutilizar herramientas simples", "Porque reemplaza todos los scripts", "Porque elimina STDERR siempre"], correct: 1, exp: "La modularidad es una de las mayores ventajas del enfoque Unix." },
+  { q: "Que suele ser un error comun?", opts: ["Entender cada etapa", "Distinguir pipe y redireccion", "Encadenar comandos sin saber que hace cada uno", "Filtrar salidas largas"], correct: 2, exp: "Cuando no entiendes cada paso, el pipeline se vuelve fragil y opaco." },
+  { q: "Que tema encaja mejor despues de pipes en esta ruta?", opts: ["Variables de entorno", "Particiones GPT", "BIOS", "Bluetooth"], correct: 0, exp: "El siguiente paso es entender el entorno donde viven y heredan contexto esos procesos." }
+];
+
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = 'Correcto. ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = 'Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Ya entiendes los pipes como composicion Unix.' : score >= 7 ? 'Muy bien. Ya tienes una base solida para encadenar comandos con sentido.' : 'Conviene repasar la diferencia entre pipes, redirecciones y etapas de un pipeline.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>

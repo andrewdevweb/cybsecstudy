@@ -1,0 +1,29 @@
+<svg viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', monospace">
+  <rect width="980" height="420" fill="#0a0a0f"/>
+  <text x="40" y="42" fill="#e8eaf0" font-size="28" font-weight="700">FILOSOFIA UNIX</text>
+  <text x="40" y="64" fill="#6bcb77" font-size="10" letter-spacing="3">PIEZAS PEQUENAS · CADA UNA HACE ALGO BIEN</text>
+  <line x1="40" y1="78" x2="600" y2="78" stroke="#1e1e2e"/>
+
+  <rect x="54" y="150" width="180" height="96" rx="10" fill="#12121a" stroke="#ff9f43"/>
+  <text x="144" y="188" text-anchor="middle" fill="#ff9f43" font-size="14" font-weight="700">obtener</text>
+  <text x="144" y="212" text-anchor="middle" fill="#6b6b8a" font-size="10">listar o leer datos</text>
+
+  <rect x="286" y="150" width="180" height="96" rx="10" fill="#12121a" stroke="#4d96ff"/>
+  <text x="376" y="188" text-anchor="middle" fill="#4d96ff" font-size="14" font-weight="700">filtrar</text>
+  <text x="376" y="212" text-anchor="middle" fill="#6b6b8a" font-size="10">quedarte con lo util</text>
+
+  <rect x="518" y="150" width="180" height="96" rx="10" fill="#12121a" stroke="#ffd93d"/>
+  <text x="608" y="188" text-anchor="middle" fill="#ffd93d" font-size="14" font-weight="700">transformar</text>
+  <text x="608" y="212" text-anchor="middle" fill="#6b6b8a" font-size="10">ordenar o resumir</text>
+
+  <rect x="750" y="150" width="180" height="96" rx="10" fill="#12121a" stroke="#c77dff"/>
+  <text x="840" y="188" text-anchor="middle" fill="#c77dff" font-size="14" font-weight="700">presentar</text>
+  <text x="840" y="212" text-anchor="middle" fill="#6b6b8a" font-size="10">mostrar o contar</text>
+
+  <text x="222" y="204" fill="#6bcb77" font-size="18" font-weight="700">|</text>
+  <text x="454" y="204" fill="#6bcb77" font-size="18" font-weight="700">|</text>
+  <text x="686" y="204" fill="#6bcb77" font-size="18" font-weight="700">|</text>
+
+  <text x="40" y="336" fill="#6b6b8a" font-size="10">una solucion compleja puede surgir de varias herramientas sencillas</text>
+  <text x="40" y="360" fill="#6bcb77" font-size="10">esa es la intuicion profunda que hace especiales a los pipes</text>
+</svg>

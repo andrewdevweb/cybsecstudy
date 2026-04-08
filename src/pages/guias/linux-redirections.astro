@@ -1,0 +1,291 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <BaseHead title="Redirecciones en Linux - CybSecStudy" description=">, >>, < y 2> explicados de forma visual e interactiva." />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    .guide-header { padding: 40px 0 32px; border-bottom: 1px solid #1e1e2e; margin-bottom: 32px; }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff9f43; margin-bottom: 16px; }
+    h1 { font-size: clamp(28px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 16px; }
+    .accent { color: #ff9f43; }
+    .intro-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; margin-bottom: 34px; }
+    .intro-card, .signal-card, .next-card { background: #12121a; border: 1px solid #1e1e2e; padding: 22px 24px; }
+    .intro-card { border-left: 3px solid #ff9f43; }
+    .signal-card { border-left: 3px solid #4d96ff; }
+    .intro-card p, .signal-card p, .next-card p { color: #b0b0c8; line-height: 1.8; font-size: 14px; margin: 0 0 10px; }
+    .intro-card strong { color: #ff9f43; }
+    .signal-card strong, .next-card strong { color: #4d96ff; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #6b6b8a; text-transform: uppercase; margin-bottom: 16px; }
+    .visual-stack { display: grid; gap: 14px; margin-bottom: 40px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 42px; }
+    .mini-card { background: #12121a; border: 1px solid #1e1e2e; padding: 16px; }
+    .mini-card .symbol { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--cc); margin-bottom: 10px; }
+    .mini-card .title { font-weight: 800; color: #e8eaf0; margin-bottom: 8px; }
+    .mini-card p { font-size: 13px; color: #6b6b8a; line-height: 1.6; margin: 0; }
+    .concepts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 44px; }
+    .concept { background: #12121a; border: 1px solid #1e1e2e; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+    .concept:hover { border-color: var(--cc); transform: translateX(4px); }
+    .concept.active { border-color: var(--cc); }
+    .concept-header { display: flex; align-items: center; }
+    .concept-num { width: 64px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--cc); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; color: #000; flex-shrink: 0; }
+    .concept-title { padding: 0 20px; font-weight: 800; font-size: 15px; color: var(--cc); }
+    .concept-badge { margin-left: auto; margin-right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--cc); color: var(--cc); opacity: 0.6; white-space: nowrap; }
+    .concept-body { display: none !important; padding: 20px 20px 20px 84px; border-top: 1px solid #1e1e2e; }
+    .concept.active .concept-body { display: block !important; }
+    .concept-body p { font-size: 13px; color: #b0b0c8; line-height: 1.8; margin-bottom: 10px; }
+    .concept-body ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; margin: 0 0 10px; }
+    .concept-body li { font-size: 13px; color: #b0b0c8; line-height: 1.7; }
+    .concept-body li::before { content: '> '; color: var(--cc); }
+    .code-block { background: #0a0a0f; border: 1px solid #1e1e2e; border-left: 2px solid var(--cc, #ff9f43); padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #b0b0c8; line-height: 1.9; margin-top: 10px; white-space: pre; overflow-x: auto; }
+    .note { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; margin-top: 8px; border: 1px solid var(--cc); color: var(--cc); }
+    .next-card { border-left: 3px solid #4d96ff; margin-bottom: 48px; }
+    .progress-bar { height: 2px; background: #1e1e2e; margin-bottom: 24px; }
+    .progress-fill { height: 100%; background: #ff9f43; transition: width 0.4s ease; }
+    .quiz-card { background: #12121a; border: 1px solid #1e1e2e; padding: 28px; margin-bottom: 20px; }
+    .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; color: #e8eaf0; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .quiz-option { background: transparent; border: 1px solid #1e1e2e; color: #b0b0c8; padding: 12px 16px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; text-align: left; transition: all 0.2s; }
+    .quiz-option:hover { border-color: #ff9f43; color: #ff9f43; }
+    .quiz-option.correct { border-color: #6bcb77; background: rgba(107,203,119,0.08); color: #6bcb77; }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.08); color: #ff6b6b; }
+    .quiz-feedback { display: none; font-size: 13px; padding: 10px 14px; border-left: 3px solid; margin-top: 10px; line-height: 1.6; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { border-color: #6bcb77; color: #6bcb77; background: rgba(107,203,119,0.05); }
+    .quiz-feedback.wrong { border-color: #ff6b6b; color: #b0b0c8; background: rgba(255,107,107,0.05); }
+    .quiz-nav { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+    .btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 10px 20px; border: 1px solid #ff9f43; background: transparent; color: #ff9f43; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .btn:hover { background: #ff9f43; color: #000; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #ff9f43; }
+    .score { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6b6b8a; margin-left: auto; }
+    @media (max-width: 820px) { .intro-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .quiz-options { grid-template-columns: 1fr; } .concept-badge { display: none; } }
+  </style>
+</head>
+<body>
+  <Header />
+  <main>
+    <div class="guide-header">
+      <div class="guide-tag">// Linux & CLI - Nivel Intermedio · Post 10</div>
+      <h1>Redirecciones en <span class="accent">Linux</span></h1>
+      <p style="color:#6b6b8a;font-size:15px;max-width:640px">Mueve la entrada, la salida normal y los errores como un operador real de terminal: <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;</code> y <code>2&gt;</code>.</p>
+    </div>
+
+    <div class="intro-grid">
+      <div class="intro-card">
+        <p>Redirigir no es decorar un comando: es <strong>cambiar el camino de los datos</strong>.</p>
+        <p>Cuando entiendes que un programa lee por <strong>STDIN</strong> y escribe por <strong>STDOUT</strong> o <strong>STDERR</strong>, los simbolos dejan de ser raros y pasan a tener logica.</p>
+      </div>
+      <div class="signal-card">
+        <p><strong>Idea operativa:</strong> las redirecciones conectan programas con archivos.</p>
+        <p>Los pipes vendran despues para conectar programas con otros programas. Esa diferencia importa mucho en Linux.</p>
+      </div>
+    </div>
+
+    <div class="section-label">// Mapa visual</div>
+    <div class="visual-stack">
+      <img src="/linux-redirections-map.svg" alt="Mapa visual de redirecciones" style="width:100%;border:none;border-radius:0" />
+      <img src="/linux-redirections-flow.svg" alt="Flujo de entrada salida y errores" style="width:100%;border:none;border-radius:0" />
+    </div>
+
+    <div class="section-label">// Atajos mentales</div>
+    <div class="cards-grid">
+      <div class="mini-card" style="--cc:#ff9f43">
+        <div class="symbol">&gt;</div>
+        <div class="title">Sobrescribe STDOUT</div>
+        <p>Guarda la salida normal en un archivo nuevo o reemplaza el contenido existente.</p>
+      </div>
+      <div class="mini-card" style="--cc:#4d96ff">
+        <div class="symbol">&gt;&gt;</div>
+        <div class="title">Anade al final</div>
+        <p>Ideal para logs y registros que no quieres perder en cada ejecucion.</p>
+      </div>
+      <div class="mini-card" style="--cc:#6bcb77">
+        <div class="symbol">&lt;</div>
+        <div class="title">Cambia STDIN</div>
+        <p>Hace que el programa lea desde un archivo en vez de esperar al teclado.</p>
+      </div>
+      <div class="mini-card" style="--cc:#ff6b6b">
+        <div class="symbol">2&gt;</div>
+        <div class="title">Separa errores</div>
+        <p>Permite capturar mensajes de error sin mezclar ruido con resultados utiles.</p>
+      </div>
+    </div>
+
+    <div class="section-label">// Conceptos - clic para expandir</div>
+    <div class="concepts-list">
+      <div class="concept" style="--cc:#ff9f43">
+        <div class="concept-header"><div class="concept-num">&gt;</div><div class="concept-title">Salida normal a archivo</div><div class="concept-badge">STDOUT -> archivo</div></div>
+        <div class="concept-body">
+          <p><code>&gt;</code> manda la salida normal del comando a un archivo y sobrescribe su contenido si ya existia.</p>
+          <div class="code-block">echo "hola" > salida.txt
+pwd > ruta.txt</div>
+          <span class="note">Usalo cuando quieras un resultado limpio desde cero.</span>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#4d96ff">
+        <div class="concept-header"><div class="concept-num">&gt;&gt;</div><div class="concept-title">Append sin borrar</div><div class="concept-badge">acumular salida</div></div>
+        <div class="concept-body">
+          <p><code>&gt;&gt;</code> redirige <code>STDOUT</code> igual que <code>&gt;</code>, pero agrega al final del archivo.</p>
+          <div class="code-block">date >> actividad.log
+echo "backup completado" >> actividad.log</div>
+          <ul>
+            <li>util para historicos</li>
+            <li>comodo en scripts sencillos</li>
+            <li>evita perder ejecuciones previas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#6bcb77">
+        <div class="concept-header"><div class="concept-num">&lt;</div><div class="concept-title">Entrada desde archivo</div><div class="concept-badge">STDIN &lt;- archivo</div></div>
+        <div class="concept-body">
+          <p><code>&lt;</code> hace que la entrada del programa venga de un archivo.</p>
+          <div class="code-block">sort &lt; nombres.txt
+wc -l &lt; usuarios.txt</div>
+          <span class="note">Piensalo como "este archivo alimenta al comando".</span>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ff6b6b">
+        <div class="concept-header"><div class="concept-num">2&gt;</div><div class="concept-title">Errores por separado</div><div class="concept-badge">STDERR -> archivo</div></div>
+        <div class="concept-body">
+          <p><code>2&gt;</code> redirige el descriptor <code>2</code>, que corresponde a <code>STDERR</code>.</p>
+          <div class="code-block">ls archivo-que-no-existe 2&gt; errores.log
+find /root -name "*.conf" 2&gt; permisos.log</div>
+          <ul>
+            <li>la salida correcta no se toca</li>
+            <li>los mensajes de error dejan de contaminar la pantalla</li>
+            <li>muy util al automatizar y depurar</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#ffd93d">
+        <div class="concept-header"><div class="concept-num">0 1 2</div><div class="concept-title">Descriptores detras de la sintaxis</div><div class="concept-badge">modelo mental</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>0 = STDIN</li>
+            <li>1 = STDOUT</li>
+            <li>2 = STDERR</li>
+          </ul>
+          <p>La sintaxis tiene sentido porque esos numeros representan canales reales del proceso.</p>
+        </div>
+      </div>
+
+      <div class="concept" style="--cc:#c77dff">
+        <div class="concept-header"><div class="concept-num">OPS</div><div class="concept-title">Errores comunes</div><div class="concept-badge">lo que suele fallar</div></div>
+        <div class="concept-body">
+          <ul>
+            <li>usar <code>&gt;</code> cuando querias conservar un log</li>
+            <li>pensar que <code>&gt;</code> guarda tambien los errores</li>
+            <li>confundir <code>&lt;</code> con "mostrar contenido"</li>
+            <li>memorizar simbolos sin imaginar el flujo</li>
+          </ul>
+          <img src="/linux-redirections-cheatsheet.svg" alt="Chuleta de redirecciones" style="width:100%;margin-top:10px;border:none;border-radius:0" />
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#4d96ff;margin-bottom:8px">// SIGUIENTE - NIVEL INTERMEDIO</p>
+      <p><strong>Post 11: Pipes</strong> - despues de conectar comandos con archivos, toca conectar programas entre si con la filosofia Unix en accion.</p>
+    </div>
+
+    <div class="section-label">// Quiz</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="btn" id="nextBtn" disabled>Siguiente -></button>
+        <span class="score" id="scoreLabel">0 / 0 correctas</span>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</body>
+</html>
+
+<script>
+// @ts-nocheck
+document.querySelectorAll('.concept').forEach(el => {
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('active');
+    document.querySelectorAll('.concept').forEach(x => x.classList.remove('active'));
+    if (!was) el.classList.add('active');
+  });
+});
+
+const questions = [
+  { q: "Que hace el operador > en Linux?", opts: ["Sobrescribe STDOUT en un archivo", "Lee STDIN desde un archivo", "Redirige STDERR", "Crea un pipe"], correct: 0, exp: "El operador > envia la salida normal a un archivo y lo sobrescribe si ya existe." },
+  { q: "Que diferencia hay entre > y >>?", opts: [">> cifra la salida", ">> anade al final en lugar de sobrescribir", "No hay diferencia real", ">> solo sirve para errores"], correct: 1, exp: ">> agrega contenido al final del archivo, mientras > reemplaza lo que hubiese." },
+  { q: "Que cambia el operador < ?", opts: ["El color del prompt", "El destino de STDERR", "El origen de STDIN", "El propietario del archivo"], correct: 2, exp: "Con < el programa lee desde un archivo en lugar de desde el teclado." },
+  { q: "Que flujo controla 2> ?", opts: ["STDIN", "STDOUT", "STDERR", "FD 9"], correct: 2, exp: "2> actua sobre el descriptor 2, que corresponde a STDERR." },
+  { q: "Cual es el descriptor de STDOUT?", opts: ["0", "1", "2", "3"], correct: 1, exp: "STDOUT se representa con el descriptor 1." },
+  { q: "Que ocurre si usas > sobre un archivo existente?", opts: ["Se anade contenido", "Se comprime", "Se sobrescribe", "Se convierte en directorio"], correct: 2, exp: "Ese es el riesgo principal de >: reemplaza el contenido anterior." },
+  { q: "Que comando alimenta un programa con un archivo como entrada?", opts: ["sort < nombres.txt", "sort > nombres.txt", "sort 2> nombres.txt", "sort >> nombres.txt"], correct: 0, exp: "Con < el archivo pasa a ser la entrada del programa." },
+  { q: "Para que sirve bien >> en tareas reales?", opts: ["Para borrar errores", "Para acumular logs o historicos", "Para cambiar permisos", "Para abrir un shell"], correct: 1, exp: ">> es ideal cuando quieres conservar resultados previos y seguir agregando informacion." },
+  { q: "Que afirmacion es correcta sobre >?", opts: ["Tambien captura STDERR siempre", "Solo afecta a STDOUT", "Solo funciona con cat", "No crea archivos"], correct: 1, exp: "La salida de error sigue un flujo distinto salvo que la redirijas aparte." },
+  { q: "Que idea resume mejor las redirecciones?", opts: ["Son trucos de bash sin logica", "Son formas de mover flujos de datos", "Solo sirven para examenes", "Sustituyen a los permisos"], correct: 1, exp: "Las redirecciones cambian origen y destino de entrada, salida y errores." }
+];
+
+let current = 0, score = 0, answered = false;
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quizQuestion').textContent = (current + 1) + '. ' + q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
+  answered = false;
+  updateScore();
+}
+function answerQ(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if (i === q.correct) {
+    score++;
+    btns[i].classList.add('correct');
+    fb.className = 'quiz-feedback correct show';
+    fb.textContent = 'Correcto. ' + q.exp;
+  } else {
+    btns[i].classList.add('wrong');
+    fb.className = 'quiz-feedback wrong show';
+    fb.textContent = 'Incorrecto. ' + q.exp;
+  }
+  document.getElementById('nextBtn').disabled = false;
+  updateScore();
+}
+function updateScore() { document.getElementById('scoreLabel').textContent = score + ' / ' + questions.length + ' correctas'; }
+document.getElementById('nextBtn').onclick = () => {
+  current++;
+  if (current < questions.length) { renderQ(); }
+  else {
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:24px 0"><div style="font-size:44px;margin-bottom:14px">' + (score >= 9 ? 'A+' : score >= 7 ? 'OK' : 'REP') + '</div><div style="font-size:26px;font-weight:800;margin-bottom:8px;color:#e8eaf0">Resultado: ' + score + '/' + questions.length + '</div><div style="color:#6b6b8a;margin-bottom:22px;font-size:14px">' + (score === 10 ? 'Perfecto. Ya piensas las redirecciones como flujos.' : score >= 7 ? 'Muy bien. Repasa sobre todo cuando usar > y cuando usar >>.' : 'Conviene revisar otra vez la diferencia entre STDOUT, STDERR y STDIN.') + '</div><button class="btn" onclick="location.reload()">Reintentar Quiz</button></div>';
+  }
+};
+renderQ();
+</script>
