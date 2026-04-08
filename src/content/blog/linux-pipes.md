@@ -1,6 +1,6 @@
 ---
-title: 'Pipes en Linux - | y la filosofia Unix'
-description: 'Como conectar programas entre si con pipes, reutilizar salida estandar y pensar la terminal como un sistema modular.'
+title: 'Pipes en Linux - | y la filosofía Unix'
+description: 'Cómo conectar programas entre sí con pipes, reutilizar la salida estándar y pensar la terminal como un sistema modular.'
 pubDate: 'Apr 08 2026 19:10:00'
 heroImage: '../../assets/linux-pipes-hero.svg'
 category: 'linux'
@@ -8,11 +8,11 @@ category: 'linux'
 
 Si las redirecciones sirven para mover datos entre **programas y archivos**, los pipes sirven para mover datos entre **programas y programas**.
 
-Ese pequeno simbolo `|` es una de las ideas mas elegantes de Unix: en lugar de construir herramientas gigantescas que lo hagan todo, conectas herramientas pequenas que hacen bien una sola cosa.
+Ese pequeño símbolo `|` es una de las ideas más elegantes de Unix: en lugar de construir herramientas gigantescas que lo hagan todo, conectas herramientas pequeñas que hacen bien una sola cosa.
 
 Un pipe toma la `STDOUT` de un comando y la convierte en `STDIN` del siguiente.
 
-![Flujo basico de pipes](/linux-pipes-stream.svg)
+![Flujo básico de pipes](/linux-pipes-stream.svg)
 
 ---
 
@@ -30,13 +30,13 @@ ocurre esto:
 - esa salida no se queda en pantalla
 - se entrega como entrada al `comando2`
 
-No se trata de una copia visual de texto. Se trata de una **conexion funcional** entre procesos.
+No se trata de una copia visual de texto. Se trata de una **conexión funcional** entre procesos.
 
-Por eso los pipes son tan potentes en automatizacion, analisis de logs, administracion de sistemas y filosofia Unix.
+Por eso los pipes son tan potentes en automatización, análisis de logs, administración de sistemas y filosofía Unix.
 
 ---
 
-## La filosofia Unix detras del pipe
+## La filosofía Unix detrás del pipe
 
 Unix no fue pensado como un entorno de programas gigantescos y cerrados. Fue pensado como un ecosistema de herramientas simples y combinables.
 
@@ -52,18 +52,18 @@ Y el pipe las une.
 
 ### Mentalidad correcta
 
-No preguntes "que comando hace exactamente todo esto?".
+No preguntes "qué comando hace exactamente todo esto?".
 
 Pregunta mejor:
 
-- que comando obtiene los datos
-- que comando los filtra
-- que comando los ordena
-- que comando los resume
+- qué comando obtiene los datos
+- qué comando los filtra
+- qué comando los ordena
+- qué comando los resume
 
 Eso es pensar en Unix de verdad.
 
-![Composicion Unix](/linux-pipes-unix.svg)
+![Composición Unix](/linux-pipes-unix.svg)
 
 ---
 
@@ -79,7 +79,7 @@ ps aux | grep ssh
 history | tail
 ```
 
-### Que hace cada uno
+### Qué hace cada uno
 
 - `ls /etc | less` permite paginar un listado largo
 - `ps aux | grep ssh` filtra procesos relacionados con `ssh`
@@ -89,12 +89,12 @@ history | tail
 
 ## Diferencia entre pipes y redirecciones
 
-Es facil confundirlos al principio, pero cumplen roles distintos:
+Es fácil confundirlos al principio, pero cumplen roles distintos:
 
-- redireccion -> programa con archivo
+- redirección -> programa con archivo
 - pipe -> programa con programa
 
-### Ejemplo de redireccion
+### Ejemplo de redirección
 
 ```bash
 ls /etc > listado.txt
@@ -122,22 +122,22 @@ La potencia real aparece cuando enlazas varios comandos:
 cat auth.log | grep failed | sort | uniq
 ```
 
-Aqui cada etapa tiene una funcion concreta:
+Aquí cada etapa tiene una función concreta:
 
 - `cat` entrega el contenido
-- `grep` filtra lineas relevantes
+- `grep` filtra líneas relevantes
 - `sort` ordena
 - `uniq` elimina repetidos consecutivos
 
-La cadena completa hace algo complejo sin necesidad de una herramienta monolitica.
+La cadena completa hace algo complejo sin necesidad de una herramienta monolítica.
 
-### Ejemplo mas natural para conteo
+### Ejemplo más natural para conteo
 
 ```bash
 cat access.log | grep 404 | wc -l
 ```
 
-Eso permite contar cuantas lineas contienen `404`.
+Eso permite contar cuántas líneas contienen `404`.
 
 ![Patrones de uso con pipes](/linux-pipes-patterns.svg)
 
@@ -145,7 +145,7 @@ Eso permite contar cuantas lineas contienen `404`.
 
 ## Casos reales donde los pipes brillan
 
-En la practica, los pipes aparecen por todas partes:
+En la práctica, los pipes aparecen por todas partes:
 
 - revisar procesos
 - filtrar logs
@@ -154,25 +154,25 @@ En la practica, los pipes aparecen por todas partes:
 - transformar salida para otro comando
 - construir scripts cortos pero potentes
 
-En ciberseguridad son especialmente utiles para:
+En ciberseguridad son especialmente útiles para:
 
 - buscar actividad sospechosa
 - acotar salidas masivas
-- encadenar enumeracion y filtrado
+- encadenar enumeración y filtrado
 - reducir ruido antes de guardar resultados
 
 ---
 
-## Por que son tan potentes
+## Por qué son tan potentes
 
 Los pipes hacen que una shell deje de ser solo un sitio donde lanzar comandos aislados.
 
-La convierten en un **entorno de composicion**.
+La convierten en un **entorno de composición**.
 
 Eso tiene varias ventajas:
 
 - reutilizas herramientas ya existentes
-- escribes menos codigo
+- escribes menos código
 - separas tareas en pasos claros
 - puedes depurar cada etapa por separado
 - construyes soluciones flexibles
@@ -184,15 +184,15 @@ En vez de pedirle a una sola herramienta que haga todo, dejas que varias colabor
 ## Errores comunes
 
 **1. Pensar que el pipe es solo un separador visual**  
-No separa por estetica: conecta `STDOUT` con `STDIN`.
+No separa por estética: conecta `STDOUT` con `STDIN`.
 
 **2. Confundir `|` con `>`**  
 Uno conecta procesos. El otro manda salida a un archivo.
 
-**3. Encadenar comandos sin entender que hace cada etapa**  
+**3. Encadenar comandos sin entender qué hace cada etapa**  
 Eso suele producir pipelines que funcionan "de milagro" pero no se entienden.
 
-**4. Usar herramientas enormes para tareas pequenas**  
+**4. Usar herramientas enormes para tareas pequeñas**  
 Muchas veces un pipe entre dos o tres comandos simples resuelve mejor el problema.
 
 **5. Olvidar que un pipe normalmente usa la salida normal**  
@@ -200,7 +200,7 @@ Si un comando escribe errores por `STDERR`, esos errores no pasan por el pipe sa
 
 ---
 
-## Ejemplos mentales utiles
+## Ejemplos mentales útiles
 
 ### Filtrar una lista larga
 
@@ -226,16 +226,16 @@ dmesg | tail
 cat access.log | grep 500 | wc -l
 ```
 
-No hace falta memorizar pipelines gigantes. Lo importante es reconocer el patron.
+No hace falta memorizar pipelines gigantes. Lo importante es reconocer el patrón.
 
 ---
 
-## Relacion con lo siguiente
+## Relación con lo siguiente
 
-Despues de dominar pipes, el siguiente paso natural es entender mejor el entorno donde esos comandos viven y se encadenan:
+Después de dominar pipes, el siguiente paso natural es entender mejor el entorno donde esos comandos viven y se encadenan:
 
 - variables
-- entorno de ejecucion
+- entorno de ejecución
 - `PATH`
 - herencia entre procesos
 
@@ -247,8 +247,8 @@ Eso conecta muy bien con el siguiente post de la ruta: **Variables de entorno**.
 
 - `|` conecta la salida normal de un comando con la entrada del siguiente
 - un pipe une procesos, no archivos
-- es una pieza central de la filosofia Unix
+- es una pieza central de la filosofía Unix
 - permite construir soluciones modulares, claras y reutilizables
-- es clave en logs, automatizacion, filtrado y administracion
+- es clave en logs, automatización, filtrado y administración
 
-En la guia interactiva asociada veras pipes paso a paso, comparativas visuales, patrones de uso y un quiz de 10 preguntas.
+En la guía interactiva asociada verás pipes paso a paso, comparativas visuales, patrones de uso y un quiz de 10 preguntas.

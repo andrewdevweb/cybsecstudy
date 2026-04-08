@@ -1,14 +1,14 @@
 ---
 title: 'Redirecciones en Linux - >, >>, < y 2>'
-description: 'Como mover la entrada, la salida y los errores en Linux usando redirecciones de shell de forma clara y segura.'
+description: 'Cómo mover la entrada, la salida y los errores en Linux usando redirecciones de shell de forma clara y segura.'
 pubDate: 'Apr 08 2026 18:25:00'
 heroImage: '../../assets/linux-redirections-hero.svg'
 category: 'linux'
 ---
 
-Las redirecciones son una de las ideas mas potentes de la terminal de Linux. No anaden "magia" al sistema: simplemente cambian de donde viene la entrada de un programa y hacia donde van su salida normal o sus errores.
+Las redirecciones son una de las ideas más potentes de la terminal de Linux. No añaden "magia" al sistema: simplemente cambian de dónde viene la entrada de un programa y hacia dónde van su salida normal o sus errores.
 
-Si entiendes bien `STDIN`, `STDOUT` y `STDERR`, las redirecciones dejan de ser simbolos raros y pasan a ser algo muy natural: **mover flujos de datos**.
+Si entiendes bien `STDIN`, `STDOUT` y `STDERR`, las redirecciones dejan de ser símbolos raros y pasan a ser algo muy natural: **mover flujos de datos**.
 
 ![Mapa visual de redirecciones](/linux-redirections-map.svg)
 
@@ -20,22 +20,22 @@ Por defecto, en una terminal interactiva:
 
 - `STDIN` viene del teclado
 - `STDOUT` se muestra en pantalla
-- `STDERR` tambien se muestra en pantalla
+- `STDERR` también se muestra en pantalla
 
 Con las redirecciones puedes cambiar ese comportamiento:
 
 - leer desde un archivo en vez de desde el teclado
 - guardar la salida en un archivo
 - separar los errores en otro archivo
-- anadir resultados a un log sin sobrescribir lo anterior
+- añadir resultados a un log sin sobrescribir lo anterior
 
-Esto es muy importante en administracion, scripting, analisis de logs y automatizacion.
+Esto es muy importante en administración, scripting, análisis de logs y automatización.
 
 ---
 
 ## `>` - redirigir salida y sobrescribir
 
-El operador `>` envia `STDOUT` a un archivo.
+El operador `>` envía `STDOUT` a un archivo.
 
 Si el archivo no existe, se crea. Si ya existe, **se sobrescribe**.
 
@@ -53,13 +53,13 @@ En todos estos casos, el resultado normal del comando no se queda en pantalla: s
 
 `>` trabaja con la salida normal, no con los errores.
 
-Si el comando falla, el mensaje de error seguira saliendo por pantalla salvo que redirijas `STDERR` por separado.
+Si el comando falla, el mensaje de error seguirá saliendo por pantalla salvo que redirijas `STDERR` por separado.
 
 ---
 
-## `>>` - anadir salida sin borrar lo anterior
+## `>>` - añadir salida sin borrar lo anterior
 
-El operador `>>` tambien redirige `STDOUT`, pero en lugar de reemplazar el contenido del archivo, **lo anade al final**.
+El operador `>>` también redirige `STDOUT`, pero en lugar de reemplazar el contenido del archivo, **lo añade al final**.
 
 ### Ejemplos
 
@@ -69,16 +69,16 @@ echo "backup completado" >> actividad.log
 whoami >> auditoria.txt
 ```
 
-Es muy util para construir logs, historicos de ejecucion o registros sencillos.
+Es muy útil para construir logs, históricos de ejecución o registros sencillos.
 
-### Cuanto usar `>` y cuanto `>>`
+### Cuándo usar `>` y cuándo `>>`
 
 - usa `>` cuando quieres un archivo nuevo o limpio
-- usa `>>` cuando quieres conservar lo que ya habia
+- usa `>>` cuando quieres conservar lo que ya había
 
-Esta diferencia parece pequena, pero evita muchos errores tontos al trabajar con logs.
+Esta diferencia parece pequeña, pero evita muchos errores tontos al trabajar con logs.
 
-![Flujo de redireccion de streams](/linux-redirections-flow.svg)
+![Flujo de redirección de streams](/linux-redirections-flow.svg)
 
 ---
 
@@ -96,17 +96,17 @@ wc -l < usuarios.txt
 cat < mensaje.txt
 ```
 
-Eso significa que el archivo se comporta como si fuese la entrada que un usuario iria escribiendo.
+Eso significa que el archivo se comporta como si fuese la entrada que un usuario iría escribiendo.
 
-### Por que importa
+### Por qué importa
 
-`<` hace que muchas herramientas que esperan entrada puedan trabajar de forma no interactiva, algo muy util en scripts y automatizacion.
+`<` hace que muchas herramientas que esperan entrada puedan trabajar de forma no interactiva, algo muy útil en scripts y automatización.
 
 ---
 
 ## `2>` - redirigir errores
 
-El operador `2>` redirige `STDERR`, es decir, la salida de error estandar.
+El operador `2>` redirige `STDERR`, es decir, la salida de error estándar.
 
 ### Ejemplos
 
@@ -115,9 +115,9 @@ ls archivo-que-no-existe 2> errores.log
 find /root -name "*.conf" 2> permisos-denegados.log
 ```
 
-Si el comando genera errores, iran al archivo indicado. La salida normal sigue su camino habitual salvo que tambien la redirijas.
+Si el comando genera errores, irán al archivo indicado. La salida normal sigue su camino habitual salvo que también la redirijas.
 
-### Relacion con los descriptores
+### Relación con los descriptores
 
 - `0` = `STDIN`
 - `1` = `STDOUT`
@@ -127,7 +127,7 @@ Por eso `2>` afecta al flujo de error y no al de salida normal.
 
 ---
 
-## Comportamientos tipicos que debes visualizar
+## Comportamientos típicos que debes visualizar
 
 ### Caso 1 - solo salida normal
 
@@ -136,7 +136,7 @@ echo "ok" > resultado.txt
 ```
 
 - `STDOUT` va a `resultado.txt`
-- `STDERR` seguiria yendo a pantalla si apareciera algun error
+- `STDERR` seguiría yendo a pantalla si apareciera algún error
 
 ### Caso 2 - solo errores
 
@@ -163,46 +163,46 @@ date >> actividad.log
 ```
 
 - el archivo conserva su contenido previo
-- la nueva linea se agrega al final
+- la nueva línea se agrega al final
 
 ---
 
 ## Redirecciones en tareas reales
 
-En la practica, las redirecciones aparecen continuamente:
+En la práctica, las redirecciones aparecen continuamente:
 
-- guardar resultados de enumeracion
+- guardar resultados de enumeración
 - generar listados para revisarlos luego
 - capturar errores de permisos durante un `find`
 - alimentar un comando con datos preexistentes
-- escribir logs simples de ejecucion en scripts
+- escribir logs simples de ejecución en scripts
 
-En ciberseguridad y administracion esto es especialmente util porque permite **separar datos utiles de ruido**, algo clave cuando analizas mucha salida de terminal.
+En ciberseguridad y administración esto es especialmente útil porque permite **separar datos útiles de ruido**, algo clave cuando analizas mucha salida de terminal.
 
 ---
 
 ## Errores comunes
 
-**1. Usar `>` cuando querias conservar el archivo**  
+**1. Usar `>` cuando querías conservar el archivo**  
 Sobrescribe el contenido anterior. Si lo que quieres es acumular resultados, necesitas `>>`.
 
-**2. Pensar que `>` guarda tambien los errores**  
+**2. Pensar que `>` guarda también los errores**  
 No. `>` afecta a `STDOUT`. Los errores siguen en `STDERR`.
 
-**3. Ver `2>` como una excepcion arbitraria**  
+**3. Ver `2>` como una excepción arbitraria**  
 No es arbitrario: el `2` representa el descriptor de error.
 
 **4. Olvidar que `<` cambia la entrada**  
-No imprime el archivo por si solo; hace que el programa lea desde el.
+No imprime el archivo por sí solo; hace que el programa lea desde él.
 
-**5. Aprender simbolos sin imaginar el flujo**  
+**5. Aprender símbolos sin imaginar el flujo**  
 Cuando visualizas origen y destino, todo encaja mejor.
 
-![Chuleta rapida de redirecciones](/linux-redirections-cheatsheet.svg)
+![Chuleta rápida de redirecciones](/linux-redirections-cheatsheet.svg)
 
 ---
 
-## Relacion con el siguiente tema
+## Relación con el siguiente tema
 
 Las redirecciones mueven flujos entre **programas y archivos**.
 
@@ -211,17 +211,17 @@ El siguiente paso natural son los **pipes**, donde la salida de un programa alim
 - redirecciones -> programa <-> archivo
 - pipes -> programa <-> programa
 
-Entender bien esta diferencia te ayudara mucho a pensar en la filosofia Unix.
+Entender bien esta diferencia te ayudará mucho a pensar en la filosofía Unix.
 
 ---
 
 ## Resumen
 
 - `>` redirige `STDOUT` y sobrescribe
-- `>>` redirige `STDOUT` y anade al final
+- `>>` redirige `STDOUT` y añade al final
 - `<` redirige `STDIN`
 - `2>` redirige `STDERR`
 - las redirecciones no son magia, sino control del flujo de datos
-- dominarlas mejora scripting, automatizacion, administracion y analisis
+- dominarlas mejora scripting, automatización, administración y análisis
 
-En la guia interactiva asociada veremos estos operadores de forma visual, con escenarios, comparativas y un quiz de 10 preguntas.
+En la guía interactiva asociada veremos estos operadores de forma visual, con escenarios, comparativas y un quiz de 10 preguntas.

@@ -1,20 +1,20 @@
 ---
-title: 'Entrada y salida estandar en Linux - STDIN, STDOUT y STDERR'
-description: 'Como fluye la informacion en la terminal de Linux: entrada estandar, salida estandar, errores y descriptores de archivo.'
+title: 'Entrada y salida estándar en Linux - STDIN, STDOUT y STDERR'
+description: 'Cómo fluye la información en la terminal de Linux: entrada estándar, salida estándar, errores y descriptores de archivo.'
 pubDate: 'Apr 08 2026 10:20:00'
 heroImage: '../../assets/linux-stdio-hero.svg'
 category: 'linux'
 ---
 
-La terminal parece muy simple desde fuera: escribes un comando, pulsas Enter y aparece algo en pantalla. Pero por debajo ocurre un modelo muy elegante que explica como los programas reciben datos y como los devuelven.
+La terminal parece muy simple desde fuera: escribes un comando, pulsas Enter y aparece algo en pantalla. Pero por debajo existe un modelo muy elegante que explica cómo los programas reciben datos y cómo los devuelven.
 
-Ese modelo se basa en tres canales estandar:
+Ese modelo se basa en tres canales estándar:
 
-- **STDIN** - entrada estandar
-- **STDOUT** - salida estandar
-- **STDERR** - salida de error estandar
+- **STDIN** - entrada estándar
+- **STDOUT** - salida estándar
+- **STDERR** - salida de error estándar
 
-Entenderlos es clave para comprender de verdad la filosofia Unix y para manejar bien redirecciones, pipes, scripting y automatizacion.
+Entenderlos es clave para comprender de verdad la filosofía Unix y para manejar bien redirecciones, pipes, scripting y automatización.
 
 ![Mapa de STDIN STDOUT STDERR](/linux-stdio-map.svg)
 
@@ -28,22 +28,22 @@ Cuando un programa se ejecuta en Linux, normalmente trabaja con tres flujos de d
 - uno para **emitir salida normal**
 - uno para **emitir errores**
 
-Eso significa que el programa no necesita “inventar” un mecanismo nuevo cada vez para leer o escribir. Usa esos canales estandar.
+Eso significa que el programa no necesita inventar un mecanismo nuevo cada vez para leer o escribir. Usa esos canales estándar.
 
-Esta decision de diseño es una de las razones por las que la terminal de Linux es tan composable.
+Esta decisión de diseño es una de las razones por las que la terminal de Linux es tan componible.
 
 ---
 
-## STDIN - entrada estandar
+## STDIN - entrada estándar
 
-`STDIN` es la entrada estandar del programa.
+`STDIN` es la entrada estándar del programa.
 
 Normalmente, en una terminal interactiva, `STDIN` viene del teclado.
 
 ### Ejemplos
 
 - cuando escribes texto en `cat`
-- cuando una herramienta te pide confirmacion
+- cuando una herramienta te pide confirmación
 - cuando un script lee datos introducidos por el usuario
 
 Ejemplo simple:
@@ -54,11 +54,11 @@ hola
 hola
 ```
 
-`cat` esta leyendo de `STDIN` y reproduciendo lo que recibe.
+`cat` está leyendo de `STDIN` y reproduciendo lo que recibe.
 
 ---
 
-## STDOUT - salida estandar
+## STDOUT - salida estándar
 
 `STDOUT` es la salida normal del programa.
 
@@ -82,11 +82,11 @@ Ese resultado ha salido por `STDOUT`.
 
 ---
 
-## STDERR - salida de error estandar
+## STDERR - salida de error estándar
 
-`STDERR` es un canal separado para errores y mensajes de diagnostico.
+`STDERR` es un canal separado para errores y mensajes de diagnóstico.
 
-Aunque tambien suele verse en pantalla, no es lo mismo que `STDOUT`.
+Aunque también suele verse en pantalla, no es lo mismo que `STDOUT`.
 
 ### Ejemplo
 
@@ -97,7 +97,7 @@ ls: cannot access 'archivo-que-no-existe': No such file or directory
 
 Ese mensaje no sale por `STDOUT`, sino por `STDERR`.
 
-Esta separacion es muy importante porque permite tratar la salida normal y los errores de forma distinta.
+Esta separación es muy importante porque permite tratar la salida normal y los errores de forma distinta.
 
 ![Los tres flujos](/linux-stdio-streams.svg)
 
@@ -105,41 +105,41 @@ Esta separacion es muy importante porque permite tratar la salida normal y los e
 
 ## Los descriptores de archivo 0, 1 y 2
 
-En Linux, estos tres canales se identifican con numeros llamados **descriptores de archivo**:
+En Linux, estos tres canales se identifican con números llamados **descriptores de archivo**:
 
 - `0` -> `STDIN`
 - `1` -> `STDOUT`
 - `2` -> `STDERR`
 
-Esos numeros se vuelven muy importantes cuando empieces a usar redirecciones:
+Esos números se vuelven muy importantes cuando empiezas a usar redirecciones:
 
 - `<` trabaja con `STDIN`
 - `>` trabaja con `STDOUT`
 - `2>` trabaja con `STDERR`
 
-No hace falta memorizarlo como algo aislado. Tiene sentido si lo conectas con el flujo real de datos.
+No hace falta memorizarlos como algo aislado. Tienen sentido si los conectas con el flujo real de datos.
 
 ---
 
-## Por que separar STDOUT y STDERR
+## Por qué separar STDOUT y STDERR
 
-Podria parecer que bastaria con una sola salida, pero separarlas tiene muchas ventajas:
+Podría parecer que bastaría con una sola salida, pero separarlas tiene muchas ventajas:
 
-### 1. Automatizacion mas limpia
+### 1. Automatización más limpia
 
-Puedes guardar resultados utiles sin mezclar errores.
+Puedes guardar resultados útiles sin mezclar errores.
 
-### 2. Depuracion mejor
+### 2. Depuración mejor
 
 Los errores se pueden observar, redirigir o filtrar aparte.
 
-### 3. Scripts mas robustos
+### 3. Scripts más robustos
 
-Un programa puede producir datos validos por `STDOUT` y avisos por `STDERR` sin mezclar ambos.
+Un programa puede producir datos válidos por `STDOUT` y avisos por `STDERR` sin mezclar ambos.
 
-### 4. Filosofia Unix
+### 4. Filosofía Unix
 
-Las herramientas se vuelven mas reutilizables cuando su salida normal esta separada de su ruido diagnostico.
+Las herramientas se vuelven más reutilizables cuando su salida normal está separada de su ruido de diagnóstico.
 
 ---
 
@@ -162,7 +162,7 @@ ls /ruta/inexistente
 ```
 
 - `STDIN`: no necesita
-- `STDOUT`: nada util
+- `STDOUT`: nada útil
 - `STDERR`: mensaje de error
 
 ### Comando interactivo
@@ -179,17 +179,17 @@ cat
 
 ## La terminal como intermediaria
 
-La terminal actua como el entorno visual donde esos flujos se conectan al usuario.
+La terminal actúa como el entorno visual donde esos flujos se conectan al usuario.
 
 Normalmente:
 
 - el teclado alimenta `STDIN`
 - la pantalla muestra `STDOUT`
-- la pantalla tambien muestra `STDERR`
+- la pantalla también muestra `STDERR`
 
 Pero eso no significa que sean el mismo canal. Solo coincide el destino visual por defecto.
 
-Este detalle es esencial para comprender lo que pasara despues con:
+Este detalle es esencial para comprender lo que pasará después con:
 
 - redirecciones
 - pipes
@@ -200,17 +200,17 @@ Este detalle es esencial para comprender lo que pasara despues con:
 
 ---
 
-## Relevancia en scripting y administracion
+## Relevancia en scripting y administración
 
-En administracion de sistemas, entender `STDIN`, `STDOUT` y `STDERR` permite:
+En administración de sistemas, entender `STDIN`, `STDOUT` y `STDERR` permite:
 
-- construir scripts mas limpios
+- construir scripts más limpios
 - separar errores de resultados
-- automatizar tareas con menos ambiguedad
+- automatizar tareas con menos ambigüedad
 - depurar mejor
-- conectar programas entre si
+- conectar programas entre sí
 
-Sin esta idea, muchas redirecciones parecen “magia”. Con esta idea, pasan a ser simplemente flujo de datos.
+Sin esta idea, muchas redirecciones parecen magia. Con esta idea, pasan a ser simplemente flujo de datos.
 
 ---
 
@@ -223,7 +223,7 @@ Sin esta idea, muchas redirecciones parecen “magia”. Con esta idea, pasan a 
 El teclado es solo la fuente por defecto en modo interactivo.
 
 **3. Memorizar 0, 1 y 2 sin entenderlos**  
-Los numeros tienen sentido porque representan canales reales.
+Los números tienen sentido porque representan canales reales.
 
 **4. Saltar a redirecciones sin entender primero los flujos**  
 Eso hace que luego la sintaxis parezca arbitraria.
@@ -232,12 +232,12 @@ Eso hace que luego la sintaxis parezca arbitraria.
 
 ## Resumen
 
-- Linux usa tres flujos estandar: `STDIN`, `STDOUT` y `STDERR`
+- Linux usa tres flujos estándar: `STDIN`, `STDOUT` y `STDERR`
 - `STDIN` es la entrada del programa
 - `STDOUT` es la salida normal
 - `STDERR` es la salida de error
 - se representan con los descriptores `0`, `1` y `2`
-- la separacion entre salida normal y errores es fundamental en Unix
+- la separación entre salida normal y errores es fundamental en Unix
 - este concepto es la base de redirecciones, pipes y scripting
 
-En la guia interactiva asociada veremos estos tres flujos de forma visual, con ejemplos y un quiz de 10 preguntas.
+En la guía interactiva asociada veremos estos tres flujos de forma visual, con ejemplos y un quiz de 10 preguntas.
